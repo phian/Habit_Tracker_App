@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/ui/main_screen.dart';
+import 'package:habit_tracker/ui/manage_screen.dart';
 
 void main() => runApp(MaterialApp(
       home: IntroScreen(),
@@ -20,7 +21,7 @@ class _IntroScreenState extends State<IntroScreen> {
       Duration(seconds: 2),
       () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => MainScreen(),
+          builder: (context) => ManageScreen(),
         ));
       },
     );

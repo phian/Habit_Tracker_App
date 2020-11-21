@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/ui/ui_subfile/main_screen_trees.dart';
 import 'package:intl/intl.dart';
 
 class MainScreen extends StatefulWidget {
@@ -55,92 +56,7 @@ class _MainScreenState extends State<MainScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            Stack(
-              children: [
-                _cloudIcon(
-                  10.0,
-                  MediaQuery.of(context).size.width * 0.3,
-                  50.0,
-                ),
-                _cloudIcon(
-                  MediaQuery.of(context).size.height * 0.18,
-                  MediaQuery.of(context).size.width * 0.8,
-                  80.0,
-                ),
-                _cloudIcon(
-                  30.0,
-                  0,
-                  40.0,
-                  MediaQuery.of(context).size.width * 0.3,
-                ),
-                _treeIcon(
-                  "images/tree1.png",
-                  MediaQuery.of(context).size.height * 0.3,
-                  30.0,
-                  70.0,
-                ),
-                _treeIcon(
-                  "images/grass.png",
-                  MediaQuery.of(context).size.height * 0.35,
-                  80.0,
-                  40.0,
-                ),
-                _treeIcon(
-                  "images/tree1.png",
-                  MediaQuery.of(context).size.height * 0.4,
-                  MediaQuery.of(context).size.width * 0.8,
-                  70.0,
-                ),
-                _treeIcon(
-                  "images/grass.png",
-                  MediaQuery.of(context).size.height * 0.45,
-                  MediaQuery.of(context).size.width * 0.9,
-                  40.0,
-                ),
-                _treeIcon(
-                  "images/grass.png",
-                  MediaQuery.of(context).size.height * 0.45,
-                  MediaQuery.of(context).size.width * 0.75,
-                  40.0,
-                ),
-                _treeIcon(
-                  "images/tree1.png",
-                  MediaQuery.of(context).size.height * 0.7,
-                  MediaQuery.of(context).size.width * 0.1,
-                  70.0,
-                ),
-                _treeIcon(
-                  "images/grass.png",
-                  MediaQuery.of(context).size.height * 0.75,
-                  MediaQuery.of(context).size.width * 0.15,
-                  40.0,
-                ),
-                _treeIcon(
-                  "images/grass.png",
-                  MediaQuery.of(context).size.height * 0.74,
-                  MediaQuery.of(context).size.width * 0.24,
-                  40.0,
-                ),
-                _treeIcon(
-                  "images/grass.png",
-                  MediaQuery.of(context).size.height * 0.73,
-                  MediaQuery.of(context).size.width * 0.05,
-                  40.0,
-                ),
-                _treeIcon(
-                  "images/tree1.png",
-                  MediaQuery.of(context).size.height * 0.75,
-                  MediaQuery.of(context).size.width * 0.8,
-                  70.0,
-                ),
-                _treeIcon(
-                  "images/grass.png",
-                  MediaQuery.of(context).size.height * 0.8,
-                  MediaQuery.of(context).size.width * 0.75,
-                  40.0,
-                ),
-              ],
-            ),
+            MainScreenTreesAndCloud(),
             Column(
               children: [
                 Row(
@@ -404,40 +320,5 @@ class _MainScreenState extends State<MainScreen> {
         selectedIndex = index;
       });
     }
-  }
-
-  Widget _cloudIcon(double marginTop, double marginLeft, double iconSize,
-      [double marginRight]) {
-    return Container(
-      alignment: Alignment.topCenter,
-      margin: marginRight == null
-          ? EdgeInsets.only(top: marginTop, left: marginLeft)
-          : EdgeInsets.only(
-              top: marginTop,
-              right: marginRight,
-            ),
-      child: Icon(
-        Icons.cloud,
-        color: Colors.white,
-        size: iconSize,
-      ),
-    );
-  }
-
-  Widget _treeIcon(
-      String imagePath, double marginTop, double marginLeft, double imageSize,
-      [double marginRight]) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: marginTop,
-        left: marginLeft,
-        right: marginRight != null ? marginRight : 0.0,
-      ),
-      child: Image.asset(
-        imagePath,
-        width: imageSize,
-        height: imageSize,
-      ),
-    );
   }
 }

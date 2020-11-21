@@ -34,14 +34,7 @@ class _ManageScreenState extends State<ManageScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.green,
-        body: PageView.builder(
-          onPageChanged: _changePage,
-          controller: _pageController,
-          itemCount: _screens.length,
-          itemBuilder: (BuildContext context, int index) {
-            return _screens.elementAt(_currentIndex);
-          },
-        ),
+        body: _screens.elementAt(_currentIndex),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {},
@@ -62,27 +55,25 @@ class _ManageScreenState extends State<ManageScreen> {
               children: <Widget>[
                 IconButton(
                     icon: Icon(
-                      Icons.home,
+                      Icons.list_alt,
                       color: _currentIndex == 0 ? Colors.red : Colors.grey,
+                      size: 30.0,
                     ),
                     onPressed: () {
                       setState(() {
-                        if (_currentIndex != 0) {
-                          _currentIndex = 0;
-                          _onItemTapped(_currentIndex);
-                        }
+                        _currentIndex = 0;
                       });
                     }),
                 IconButton(
                     icon: Icon(
-                      Icons.search,
+                      Icons.bar_chart,
                       color: _currentIndex == 1 ? Colors.red : Colors.grey,
+                      size: 30.0,
                     ),
                     onPressed: () {
-                      if (_currentIndex != 1) {
+                      setState(() {
                         _currentIndex = 1;
-                        _onItemTapped(_currentIndex);
-                      }
+                      });
                     }),
               ],
             ),
@@ -96,15 +87,5 @@ class _ManageScreenState extends State<ManageScreen> {
     setState(() {
       if (value != _currentIndex) _currentIndex = value;
     });
-  }
-
-  void _onItemTapped(int index) {
-    //bottomNavigationBar and PageView association
-    //bottomNavigationBar and PageView association
-    _pageController.animateToPage(
-      index,
-      duration: Duration(milliseconds: 500),
-      curve: Curves.ease,
-    );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/ui/main_screen.dart';
 import 'package:habit_tracker/ui/processes_screen.dart';
+import 'package:liquid_ui/liquid_ui.dart';
+import 'package:shrink_sidemenu/shrink_sidemenu.dart';
+
+import 'main_screen.dart';
 
 class ManageScreen extends StatefulWidget {
   ManageScreen({Key key}) : super(key: key);
@@ -14,14 +17,11 @@ class _ManageScreenState extends State<ManageScreen> {
   var _currentIndex;
   var _screens;
 
-  var _pageController;
-
   @override
   void initState() {
     super.initState();
 
     _currentIndex = 0;
-    _pageController = PageController(initialPage: 0);
 
     _screens = [
       MainScreen(),
@@ -34,7 +34,7 @@ class _ManageScreenState extends State<ManageScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.green,
-        body: _screens.elementAt(_currentIndex),
+        body: _screens[_currentIndex],
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {},
@@ -81,11 +81,5 @@ class _ManageScreenState extends State<ManageScreen> {
         ),
       ),
     );
-  }
-
-  void _changePage(int value) {
-    setState(() {
-      if (value != _currentIndex) _currentIndex = value;
-    });
   }
 }

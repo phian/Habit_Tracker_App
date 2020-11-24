@@ -31,6 +31,8 @@ dependencies:
   intl: ^0.16.1
   morpheus: ^1.2.2+1
   line_icons: ^0.2.0
+  shrink_sidemenu: ^1.0.0+3
+  liquid_ui: ^1.0.0+9
 
   
 

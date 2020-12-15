@@ -51,40 +51,40 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return SideMenu(
       key: _sideMenuKey,
-      inverse: true,
+      inverse: false,
       type: SideMenuType.slideNRotate,
       menu: buildMenu(),
       child: Scaffold(
-        backgroundColor: Color(0xFF50B47B),
+        backgroundColor: Color(0xFF368B8B),
         appBar: PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width, 62.0),
           child: AppBar(
-            actions: [
-              Container(
-                margin: EdgeInsets.only(right: 20.0),
-                alignment: Alignment.center,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.menu_rounded,
-                    size: 35.0,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    final _state = _sideMenuKey.currentState;
-                    if (_state.isOpened)
-                      _state.closeSideMenu();
-                    else
-                      _state.openSideMenu();
-                  },
+            leading: Container(
+              alignment: Alignment.center,
+              child: IconButton(
+                icon: Icon(
+                  Icons.menu_rounded,
+                  size: 35.0,
+                  color: Colors.black,
                 ),
+                onPressed: () {
+                  final _state = _sideMenuKey.currentState;
+                  if (_state.isOpened)
+                    _state.closeSideMenu();
+                  else
+                    _state.openSideMenu();
+                },
               ),
-            ],
-            title: Text(
-              "Today",
-              style: TextStyle(
-                fontSize: 35.0,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+            ),
+            title: Container(
+              child: Text(
+                "Today",
+                style: TextStyle(
+                  fontSize: 35.0,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "RobotoSlab",
+                ),
               ),
             ),
             backgroundColor: Colors.transparent,
@@ -162,6 +162,7 @@ class _MainScreenState extends State<MainScreen> {
                       style: TextStyle(
                         fontSize: 35.0,
                         fontWeight: FontWeight.bold,
+                        fontFamily: "RobotoSlab",
                       ),
                     ),
                   ),
@@ -207,6 +208,7 @@ class _MainScreenState extends State<MainScreen> {
                                     "All tree are grown up. Let's plan another tree",
                                     style: TextStyle(
                                       fontSize: 20.0,
+                                      fontFamily: "RobotoSlab",
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -240,7 +242,11 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           Text(
             dateName,
-            style: TextStyle(fontSize: 20.0, color: textColor),
+            style: TextStyle(
+              fontSize: 20.0,
+              color: textColor,
+              fontFamily: "RobotoSlab",
+            ),
           ),
           Text(
             date,

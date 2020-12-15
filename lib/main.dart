@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/ui/main_screen.dart';
 import 'package:habit_tracker/ui/manage_screen.dart';
 
 void main() => runApp(MaterialApp(

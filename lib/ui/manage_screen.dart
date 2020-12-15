@@ -1,8 +1,9 @@
+import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/ui/habit_categories_screen.dart';
 import 'package:habit_tracker/ui/processes_screen.dart';
-import 'package:liquid_ui/liquid_ui.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'main_screen.dart';
 
@@ -37,7 +38,15 @@ class _ManageScreenState extends State<ManageScreen> {
         body: _screens[_currentIndex],
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              PageTransition(
+                type: PageTransitionType.fade,
+                duration: Duration(milliseconds: 500),
+                child: HabitCategoriesScreen(),
+              ),
+            );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(

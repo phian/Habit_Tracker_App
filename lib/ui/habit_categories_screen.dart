@@ -1,5 +1,6 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/ui/create_habit_screen.dart';
 import 'package:habit_tracker/ui/manage_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -11,31 +12,26 @@ class HabitCategoriesScreen extends StatefulWidget {
 }
 
 class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
-  AnimateIconController controller;
+  AnimateIconController _controller;
 
-  List<String> habitCategoryTitles;
-  List<String> habitCategorySubTitles;
-  List<String> habitCategoryImagePaths;
-  List<Widget> habitCategoryCards;
-
-  List<Widget> createYourOwnCards;
+  List<String> _habitCategoryTitles;
+  List<String> _habitCategorySubTitles;
+  List<String> _habitCategoryImagePaths;
+  List<Widget> _habitCategoryCards;
 
   @override
   void initState() {
     super.initState();
     initCategoriesCardInfo();
     generateHitCateGoryCards();
-    generateCreateYourOwnCards();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(0xFF368B8B),
-        appBar: habitCategoriesAppBar(),
-        body: habitCateGoriesBody(),
-      ),
+    return Scaffold(
+      backgroundColor: Color(0xFF368B8B),
+      appBar: habitCategoriesAppBar(),
+      body: habitCateGoriesBody(),
     );
   }
 
@@ -51,7 +47,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
             startIcon: Icons.arrow_back,
             endIcon: Icons.menu_rounded,
             size: 35.0,
-            controller: controller,
+            controller: _controller,
             startTooltip: '',
             endTooltip: '',
             onStartIconPress: () {
@@ -131,11 +127,11 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
           SizedBox(
             height: 20.0,
           ),
-          createYourOwnCards[0],
+          createYourOwnCard(
+              Icons.calendar_today_rounded, Color(0xFF4949f4), "Regular habit"),
           SizedBox(
             height: 20.0,
           ),
-          createYourOwnCards[1],
           SizedBox(
             height: 30.0,
           ),
@@ -152,14 +148,23 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
             height: 30.0,
           ),
           ...List.generate(
-              habitCategoryTitles.length,
+              _habitCategoryTitles.length,
               (index) => Container(
                     margin: index == 0
                         ? null
                         : EdgeInsets.only(
                             top: 15.0,
                           ),
-                    child: habitCategoryCards[index],
+                    child: Material(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Color(0xFF95d5b2),
+                      child: InkWell(
+                        highlightColor: Colors.transparent,
+                        borderRadius: BorderRadius.circular(20.0),
+                        onTap: () {},
+                        child: _habitCategoryCards[index],
+                      ),
+                    ),
                   )),
         ],
       ),
@@ -167,7 +172,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
   }
 
   void initCategoriesCardInfo() {
-    habitCategoryTitles = [
+    _habitCategoryTitles = [
       "Trending habits",
       "Staying at home",
       "Preventive care",
@@ -188,7 +193,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
       "Remove bad habits"
     ];
 
-    habitCategorySubTitles = [
+    _habitCategorySubTitles = [
       "Take a step in a right direction",
       "Use this time to do something new",
       "Protect yourself and others",
@@ -209,7 +214,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
       "Make your life better",
     ];
 
-    habitCategoryImagePaths = [
+    _habitCategoryImagePaths = [
       "images/trending_habits.png",
       "images/at_home.png",
       "images/preventive_care.png",
@@ -230,60 +235,58 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
       "images/bad_habit.png",
     ];
 
-    habitCategoryCards = new List<Widget>();
-    createYourOwnCards = new List<Widget>();
+    _habitCategoryCards = new List<Widget>();
   }
 
   Widget createYourOwnCard(IconData icon, Color iconColor, String title) {
-    return Container(
-      padding: EdgeInsets.only(left: 30.0),
-      height: 80.0,
-      decoration: BoxDecoration(
-          color: Color(0xFF252D42),
-          borderRadius: BorderRadius.circular(
-            20.0,
-          )),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            color: iconColor,
-            size: 35.0,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 15.0, top: 2.0),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 22.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontFamily: "RobotoSlab",
+    return Material(
+      borderRadius: BorderRadius.circular(20.0),
+      color: Color(0xFF95d5b2),
+      child: InkWell(
+        highlightColor: Colors.transparent,
+        borderRadius: BorderRadius.circular(20.0),
+        onTap: () {
+          Navigator.of(context).push(
+            PageTransition(
+              type: PageTransitionType.fade,
+              duration: Duration(milliseconds: 500),
+              child: CreateHabitScreen(
+                title: "New Habit",
               ),
             ),
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.only(left: 30.0),
+          height: 80.0,
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                color: iconColor,
+                size: 35.0,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15.0, top: 2.0),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    color: Color(0xFF252D42),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "RobotoSlab",
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
-  void generateCreateYourOwnCards() {
-    for (int i = 0; i < 2; i++) {
-      i == 0
-          ? createYourOwnCards.add(createYourOwnCard(
-              Icons.calendar_today_rounded, Color(0xFF178EFA), "Regular habit"))
-          : createYourOwnCards.add(createYourOwnCard(
-              Icons.today_rounded, Color(0xFFFE6F4C), "One-time task"));
-    }
-  }
-
   Widget habitCateGoryCard(String title, String subtitle, String imagePath) {
     return Container(
-      decoration: BoxDecoration(
-          color: Color(0xFF252D42),
-          borderRadius: BorderRadius.circular(
-            20.0,
-          )),
       height: 150.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -298,7 +301,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                   title,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color(0xFF252D42),
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,
                     fontFamily: "RobotoSlab",
@@ -312,7 +315,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                   subtitle,
                   maxLines: 2,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color(0xFF6c757d),
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold,
                     fontFamily: "RobotoSlab",
@@ -336,9 +339,9 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
   }
 
   void generateHitCateGoryCards() {
-    for (int i = 0; i < habitCategoryTitles.length; i++) {
-      habitCategoryCards.add(habitCateGoryCard(habitCategoryTitles[i],
-          habitCategorySubTitles[i], habitCategoryImagePaths[i]));
+    for (int i = 0; i < _habitCategoryTitles.length; i++) {
+      _habitCategoryCards.add(habitCateGoryCard(_habitCategoryTitles[i],
+          _habitCategorySubTitles[i], _habitCategoryImagePaths[i]));
     }
   }
 }

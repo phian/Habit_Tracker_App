@@ -121,7 +121,7 @@ class DatabaseHelper {
     // suggested topic
     await db.execute('''
     CREATE TABLE $tabSuggestedTopic (
-      $maChuDe INTEGER PRIMARY KEY,
+      $maChuDe INTEGER PRIMARY KEY AUTOINCREMENT,
       $tenChuDeGoiY TEXT,
       $moTa TEXT
     )

@@ -1,8 +1,10 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/ui/create_habit_screen.dart';
-import 'package:habit_tracker/ui/manage_screen.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
+
+import 'create_habit_screen.dart';
+import 'manage_screen.dart';
 
 class HabitCategoriesScreen extends StatefulWidget {
   HabitCategoriesScreen({Key key}) : super(key: key);
@@ -54,12 +56,10 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
               Future.delayed(
                 Duration(milliseconds: 200),
                 () {
-                  Navigator.of(context).push(
-                    PageTransition(
-                      type: PageTransitionType.fade,
-                      duration: Duration(milliseconds: 500),
-                      child: ManageScreen(),
-                    ),
+                  Get.to(
+                    ManageScreen(),
+                    duration: Duration(milliseconds: 500),
+                    transition: Transition.fadeIn,
                   );
                 },
               );
@@ -246,14 +246,10 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
         highlightColor: Colors.transparent,
         borderRadius: BorderRadius.circular(20.0),
         onTap: () {
-          Navigator.of(context).push(
-            PageTransition(
-              type: PageTransitionType.fade,
-              duration: Duration(milliseconds: 500),
-              child: CreateHabitScreen(
-                title: "New Habit",
-              ),
-            ),
+          Get.to(
+            CreateHabitScreen(),
+            duration: Duration(milliseconds: 500),
+            transition: Transition.fadeIn,
           );
         },
         child: Container(

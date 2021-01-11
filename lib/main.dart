@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/ui/manage_screen.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/view/manage_screen.dart';
 
-void main() => runApp(MaterialApp(
+void main() => runApp(GetMaterialApp(
+      theme: ThemeData.dark(),
       home: IntroScreen(),
       debugShowCheckedModeBanner: false,
     ));
@@ -17,11 +19,9 @@ class _IntroScreenState extends State<IntroScreen> {
     super.initState();
 
     Future.delayed(
-      Duration(seconds: 2),
+      Duration(milliseconds: 1500),
       () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => ManageScreen(),
-        ));
+        Get.offAll(ManageScreen());
       },
     );
   }

@@ -35,7 +35,10 @@ dependencies:
   liquid_ui: ^1.0.0+9
   page_transition: ^1.1.7+3
   animate_icons: ^1.0.0
-
+  get:
+  flutter_iconpicker: ^2.2.2
+  mk_drop_down_menu: ^1.1.0
+  select_form_field: ^1.1.0
   
 
 dev_dependencies:

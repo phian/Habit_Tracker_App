@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/ui/ui_subfile/main_screen_trees.dart';
+import 'package:habit_tracker/view/view_subfile/main_screen_trees.dart';
 import 'package:intl/intl.dart';
 import 'package:liquid_ui/liquid_ui.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
@@ -101,54 +101,15 @@ class _MainScreenState extends State<MainScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        GestureDetector(
-                          child: calendarCards[0],
-                          onTap: () {
-                            print("0 tapped");
-                            changeCalendarBorderColor(0);
-                          },
-                        ),
-                        GestureDetector(
-                          child: calendarCards[1],
-                          onTap: () {
-                            print("1 tapped");
-                            changeCalendarBorderColor(1);
-                          },
-                        ),
-                        GestureDetector(
-                          child: calendarCards[2],
-                          onTap: () {
-                            print("2 tapped");
-                            changeCalendarBorderColor(2);
-                          },
-                        ),
-                        GestureDetector(
-                          child: calendarCards[3],
-                          onTap: () {
-                            print("3 tapped");
-                            changeCalendarBorderColor(3);
-                          },
-                        ),
-                        GestureDetector(
-                          child: calendarCards[4],
-                          onTap: () {
-                            print("4 tapped");
-                            changeCalendarBorderColor(4);
-                          },
-                        ),
-                        GestureDetector(
-                          child: calendarCards[5],
-                          onTap: () {
-                            print("5 tapped");
-                            changeCalendarBorderColor(5);
-                          },
-                        ),
-                        GestureDetector(
-                          child: calendarCards[6],
-                          onTap: () {
-                            print("6 tapped");
-                            changeCalendarBorderColor(6);
-                          },
+                        ...List.generate(
+                          7,
+                          (index) => GestureDetector(
+                            child: calendarCards[index],
+                            onTap: () {
+                              print("$index tapped");
+                              changeCalendarBorderColor(index);
+                            },
+                          ),
                         ),
                       ],
                     ),

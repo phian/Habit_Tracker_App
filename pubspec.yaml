@@ -39,6 +39,7 @@ dependencies:
   flutter_iconpicker: ^2.2.2
   mk_drop_down_menu: ^1.1.0
   select_form_field: ^1.1.0
+  cool_alert: ^1.0.3
   
 
 dev_dependencies:

@@ -1,10 +1,15 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:get/get.dart';
 
 TextEditingController habitNameController = new TextEditingController();
+TextEditingController goalAmountController = new TextEditingController();
 ScrollController screenScrollController = new ScrollController();
 AnimateIconController aniController = new AnimateIconController();
 CreateHabitScreenController createHabitScreenController =
@@ -71,3 +76,23 @@ final List<Map<String, dynamic>> unitTypes = [
 ];
 
 BuildContext createHabitScreenContext;
+
+class CustomRangeTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue.text == '')
+      return TextEditingValue();
+    else if (int.parse(newValue.text) < 1)
+      return TextEditingValue().copyWith(text: '0');
+
+    if (newValue.text.length > 3)
+      return TextEditingValue().copyWith(
+        text: newValue.text.substring(0, 3),
+      );
+    else
+      return newValue;
+  }
+}

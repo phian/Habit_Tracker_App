@@ -21,9 +21,11 @@ class CreateHabitScreenController extends GetxController {
       Habit(
         ten: habitNameController.text,
         icon: habitIcon.value.codePoint,
-        mau: fillColor.value.toString(),
+        mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
         batMucTieu: selectedIndex.value,
-        soLan: int.parse(goalAmountController.text),
+        soLan: goalAmountController.text == ''
+            ? 0
+            : int.parse(goalAmountController.text),
         donVi: selectedUnitType.value,
         loaiLap: repeatTypeChoice.value,
         ngayTrongTuan: getDailyList(),
@@ -141,7 +143,8 @@ class CreateHabitScreenController extends GetxController {
     if (weekDateList[7]) return a = '2,3,4,5,6,7,8';
     for (int i = 0; i < 7; i++) {
       if (weekDateList[i]) {
-        a += (i + 2).toString() + ',';
+        a += (i + 2).toString();
+        if (i < 6) a += ',';
       }
     }
     return a;
@@ -160,7 +163,8 @@ class CreateHabitScreenController extends GetxController {
     if (notiTimeChoice[3]) return a = '1,2,3';
     for (int i = 0; i < 3; i++) {
       if (notiTimeChoice[i]) {
-        a += i.toString() + ',';
+        a += i.toString();
+        if (i < 2) a += ',';
       }
     }
     return a;

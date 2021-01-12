@@ -10,6 +10,7 @@ import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/view/habit_categories_screen.dart';
 import 'package:select_form_field/select_form_field.dart';
 import './view_variables/create_habit_screen_variables.dart';
+import 'manage_screen.dart';
 import 'view_variables/create_habit_screen_variables.dart';
 
 class CreateHabitScreen extends StatelessWidget {
@@ -147,8 +148,10 @@ class CreateHabitScreen extends StatelessWidget {
 
   /// [Hàm để lưu data vào databaee]
   void _saveHabitData() {
-    if (createHabitScreenController.goalAmountController.text == '' ||
-        int.parse(createHabitScreenController.goalAmountController.text) == 0) {
+    if ((createHabitScreenController.goalAmountController.text == '' ||
+            int.parse(createHabitScreenController.goalAmountController.text) ==
+                0) &&
+        createHabitScreenController.selectedIndex.value == 0) {
       CoolAlert.show(
         context: createHabitScreenContext,
         type: CoolAlertType.error,
@@ -156,8 +159,10 @@ class CreateHabitScreen extends StatelessWidget {
         title: "Forgot to set a goal?",
         text: "Check your goal for this habit",
       );
-    } else
+    } else {
       createHabitScreenController.addHabit();
+      Get.to(ManageScreen());
+    }
   }
 
   //====================================================//

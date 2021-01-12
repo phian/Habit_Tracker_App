@@ -31,7 +31,7 @@ class AllHabitsScreen extends StatelessWidget {
 
   Widget listAllHabit() {
     return ListView.separated(
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: 20, bottom: 20),
       itemCount: allHabitController.listAllHabit.length,
       separatorBuilder: (BuildContext context, int index) =>
           SizedBox(height: 10),
@@ -50,7 +50,12 @@ class AllHabitsScreen extends StatelessWidget {
                   IconData(allHabitController.listAllHabit[index].icon,
                       fontFamily: 'MaterialIcons'),
                   size: 50,
-                  color: Colors.blue,
+                  color: Color(
+                    int.parse(
+                      allHabitController.listAllHabit[index].mau,
+                      radix: 16,
+                    ),
+                  ),
                 ),
               ),
               Text(

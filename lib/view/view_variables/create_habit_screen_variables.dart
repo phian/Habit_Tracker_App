@@ -8,8 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:get/get.dart';
 
-TextEditingController habitNameController = new TextEditingController();
-TextEditingController goalAmountController = new TextEditingController();
 ScrollController screenScrollController = new ScrollController();
 AnimateIconController aniController = new AnimateIconController();
 CreateHabitScreenController createHabitScreenController =

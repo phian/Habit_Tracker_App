@@ -81,8 +81,8 @@ class DatabaseHelper {
       $loaiLap INTEGER,
       $ngayTrongTuan TEXT,
       $soLanTrongTuan INTEGER,
-      $buoi INTEGER,
-      $trangThai INTEGER
+      $buoi TEXT,
+      $trangThai INTEGER DEFAULT 0
     )
     ''');
 
@@ -282,12 +282,13 @@ class DatabaseHelper {
     print('taodb');
   }
 
-  Future<int> insertHabit(Habit habit) async {
+  Future<void> insertHabit(Habit habit) async {
     Database db = await instance.database;
     var res = await db.insert(tabHabit, habit.toMap());
     return res;
   }
 
+<<<<<<< HEAD
   // Hàm để lấy thông tin từ bảng Sugget Topic
   Future<List<Map<String, dynamic>>> getSuggestTopicMap() async {
     Database habitTrackerDb = await this.database;
@@ -305,5 +306,11 @@ class DatabaseHelper {
     );
 
     return queryResult;
+=======
+  Future<List<Map<String, dynamic>>> selectAllHabit() async {
+    Database db = await instance.database;
+    var res = await db.query(tabHabit, orderBy: '$ma DESC');
+    return res;
+>>>>>>> 85f1cf965e58826697fc80be505741920697de88
   }
 }

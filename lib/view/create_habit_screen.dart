@@ -6,12 +6,16 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/view/habit_categories_screen.dart';
 import 'package:select_form_field/select_form_field.dart';
 import './view_variables/create_habit_screen_variables.dart';
+import 'manage_screen.dart';
+import 'view_variables/create_habit_screen_variables.dart';
 
 class CreateHabitScreen extends StatelessWidget {
-  // double _scrollDistance;
+  static Habit habit;
+
   @override
   Widget build(BuildContext context) {
     createHabitScreenContext = context;
@@ -144,6 +148,7 @@ class CreateHabitScreen extends StatelessWidget {
 
   /// [Hàm để lưu data vào databaee]
   void _saveHabitData() {
+<<<<<<< HEAD
     if (createHabitScreenController.selectedIndex.value == 0) {
       if (goalAmountController.text == '' ||
           int.parse(goalAmountController.text) == 0) {
@@ -155,6 +160,22 @@ class CreateHabitScreen extends StatelessWidget {
           text: "Check your goal for this habit",
         );
       }
+=======
+    if ((createHabitScreenController.goalAmountController.text == '' ||
+            int.parse(createHabitScreenController.goalAmountController.text) ==
+                0) &&
+        createHabitScreenController.selectedIndex.value == 0) {
+      CoolAlert.show(
+        context: createHabitScreenContext,
+        type: CoolAlertType.error,
+        animType: CoolAlertAnimType.slideInUp,
+        title: "Forgot to set a goal?",
+        text: "Check your goal for this habit",
+      );
+    } else {
+      createHabitScreenController.addHabit();
+      Get.to(ManageScreen());
+>>>>>>> 85f1cf965e58826697fc80be505741920697de88
     }
   }
 
@@ -170,7 +191,7 @@ class CreateHabitScreen extends StatelessWidget {
             // Tên habit
             Obx(
               () => TextField(
-                controller: habitNameController,
+                controller: createHabitScreenController.habitNameController,
                 cursorColor: createHabitScreenController.fillColor.value,
                 style: TextStyle(
                   fontSize: 22.0,
@@ -273,7 +294,8 @@ class CreateHabitScreen extends StatelessWidget {
                         /// [Nếu người dùng off goal thì sẽ reset lại text trong TextField]
                         if (createHabitScreenController.selectedIndex.value ==
                             1) {
-                          goalAmountController.text = '';
+                          createHabitScreenController
+                              .goalAmountController.text = '';
                         }
                       },
                       child: Obx(
@@ -316,7 +338,8 @@ class CreateHabitScreen extends StatelessWidget {
                         width: Get.width * 0.44,
                         height: 60.0,
                         child: TextField(
-                          controller: goalAmountController,
+                          controller:
+                              createHabitScreenController.goalAmountController,
                           style: TextStyle(fontSize: 20.0),
                           keyboardType: TextInputType.number,
                           maxLength: 3,
@@ -840,10 +863,8 @@ class CreateHabitScreen extends StatelessWidget {
 
     createHabitScreenController.changeHabitIcon(icon);
 
-    if (icon != null) {
-      debugPrint('Picked Icon:  $icon');
-      debugPrint('Icon code point: ${icon.codePoint}');
-    }
+    ///debugPrint('Picked Icon:  $icon');
+    debugPrint('Icon code point: ${icon.codePoint}');
   }
 
   /// [Widget icon và color]

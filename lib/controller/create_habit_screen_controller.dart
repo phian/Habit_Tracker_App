@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/all_habit_controller.dart';
+import 'package:habit_tracker/database/database_helper.dart';
+import 'package:habit_tracker/model/habit.dart';
 
 class CreateHabitScreenController extends GetxController {
   var selectedIndex = 1.obs;
@@ -8,6 +11,32 @@ class CreateHabitScreenController extends GetxController {
   var isGetReminder = true.obs;
   var fillColor = Color(0xFFF53566).obs;
   var habitIcon = Icons.star.obs;
+
+  AllHabitController allHabitController = Get.put(AllHabitController());
+  TextEditingController habitNameController = TextEditingController();
+  TextEditingController goalAmountController = TextEditingController();
+
+  void addHabit() async {
+    await DatabaseHelper.instance.insertHabit(
+      Habit(
+        ten: habitNameController.text,
+        icon: habitIcon.value.codePoint,
+        mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
+        batMucTieu: selectedIndex.value,
+        soLan: goalAmountController.text == ''
+            ? 0
+            : int.parse(goalAmountController.text),
+        donVi: selectedUnitType.value,
+        loaiLap: repeatTypeChoice.value,
+        ngayTrongTuan: getDailyList(),
+        soLanTrongTuan: getWeeklyList(),
+        buoi: getNotiTimeChoice(),
+        trangThai: 0,
+      ),
+    );
+    allHabitController.getAllHabit();
+    print('ok');
+  }
 
   var weekDateList = [
     false,
@@ -107,6 +136,38 @@ class CreateHabitScreenController extends GetxController {
 
       weekDateList[7] = true;
     }
+  }
+
+  String getDailyList() {
+    String a = '';
+    if (weekDateList[7]) return a = '2,3,4,5,6,7,8';
+    for (int i = 0; i < 7; i++) {
+      if (weekDateList[i]) {
+        a += (i + 2).toString();
+        if (i < 6) a += ',';
+      }
+    }
+    return a;
+  }
+
+  int getWeeklyList() {
+    int a;
+    for (int i = 0; i < 7; i++) {
+      if (weeklyChoiceList[i]) a = i;
+    }
+    return a;
+  }
+
+  String getNotiTimeChoice() {
+    String a = '';
+    if (notiTimeChoice[3]) return a = '1,2,3';
+    for (int i = 0; i < 3; i++) {
+      if (notiTimeChoice[i]) {
+        a += i.toString();
+        if (i < 2) a += ',';
+      }
+    }
+    return a;
   }
 
   resetWeekDateChoice() {

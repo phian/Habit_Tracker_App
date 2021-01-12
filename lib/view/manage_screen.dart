@@ -54,7 +54,7 @@ class ManageScreen extends StatelessWidget {
         icon: Icon(
           icon,
           color: _controller.currentIndex.value == index
-              ? Colors.red
+              ? Colors.blue
               : Colors.grey,
           size: 30.0,
         ),

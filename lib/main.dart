@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/view/manage_screen.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/src/factory_impl.dart' show databaseFactory;
+export 'package:sqflite/src/factory_impl.dart' show databaseFactory;
 
 void main() => runApp(GetMaterialApp(
       theme: ThemeData.dark(),
@@ -14,9 +20,15 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+  // Biến để khởi tạo database
+  DatabaseHelper _habitTrackerDatabaseHelper;
+
   @override
   void initState() {
     super.initState();
+
+    _habitTrackerDatabaseHelper = DatabaseHelper.instance;
+    _habitTrackerDatabaseHelper.database;
 
     Future.delayed(
       Duration(milliseconds: 1500),

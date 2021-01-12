@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/controller/all_habit_controller.dart';
 
 class AllHabitsScreen extends StatelessWidget {
+  AllHabitController allHabitController = Get.put(AllHabitController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +24,7 @@ class AllHabitsScreen extends StatelessWidget {
       ),
       body: Container(
         color: Color(0xff292929),
-        child: listAllHabit(),
+        child: Obx(() => listAllHabit()),
       ),
     );
   }
@@ -28,7 +32,7 @@ class AllHabitsScreen extends StatelessWidget {
   Widget listAllHabit() {
     return ListView.separated(
       padding: EdgeInsets.only(top: 20),
-      itemCount: 2,
+      itemCount: allHabitController.listAllHabit.length,
       separatorBuilder: (BuildContext context, int index) =>
           SizedBox(height: 10),
       itemBuilder: (BuildContext context, int index) {
@@ -43,13 +47,14 @@ class AllHabitsScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(20),
                 child: Icon(
-                  IconData(58726, fontFamily: 'MaterialIcons'),
+                  IconData(allHabitController.listAllHabit[index].icon,
+                      fontFamily: 'MaterialIcons'),
                   size: 50,
                   color: Colors.blue,
                 ),
               ),
               Text(
-                'Study online',
+                allHabitController.listAllHabit[index].ten,
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w100,

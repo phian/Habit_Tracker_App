@@ -1,6 +1,7 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/view/habit_category_list_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'create_habit_screen.dart';
@@ -161,7 +162,14 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                       child: InkWell(
                         highlightColor: Colors.transparent,
                         borderRadius: BorderRadius.circular(20.0),
-                        onTap: () {},
+                        onTap: () {
+                          if (index != 17) {
+                            Get.to(
+                              HabitCategoryListScreen(),
+                              transition: Transition.fadeIn,
+                            );
+                          }
+                        },
                         child: _habitCategoryCards[index],
                       ),
                     ),

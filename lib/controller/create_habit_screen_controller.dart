@@ -17,16 +17,23 @@ class CreateHabitScreenController extends GetxController {
   TextEditingController goalAmountController = TextEditingController();
 
   void addHabit() async {
-    await DatabaseHelper.instance.insertHabit(Habit(
-      ten: habitNameController.text,
-      icon: habitIcon.value.codePoint,
-      mau: fillColor.value.toString(),
-      batMucTieu: selectedIndex.value == 1 ? true : false,
-      soLan: int.parse(goalAmountController.text),
-      donVi: selectedUnitType.value,
-      loaiLap: repeatTypeChoice.value,
-    ));
-    allHabitController.allHabit.insert(0, Habit());
+    await DatabaseHelper.instance.insertHabit(
+      Habit(
+        ten: habitNameController.text,
+        icon: habitIcon.value.codePoint,
+        mau: fillColor.value.toString(),
+        batMucTieu: selectedIndex.value,
+        soLan: int.parse(goalAmountController.text),
+        donVi: selectedUnitType.value,
+        loaiLap: repeatTypeChoice.value,
+        ngayTrongTuan: getDailyList(),
+        soLanTrongTuan: getWeeklyList(),
+        buoi: getNotiTimeChoice(),
+        trangThai: 0,
+      ),
+    );
+    allHabitController.getAllHabit();
+    print('ok');
   }
 
   var weekDateList = [
@@ -60,6 +67,11 @@ class CreateHabitScreenController extends GetxController {
   changeSelectedIndex(RxInt index) {
     selectedIndex.value =
         selectedIndex.value == index.value ? selectedIndex.value : index.value;
+
+    // Nếu off thì reset thành giá trị mặc định
+    if (index.value == 1) {
+      selectedUnitType = "of times".obs;
+    }
   }
 
   changeSelectedUnitType(RxString unitType) {
@@ -91,9 +103,11 @@ class CreateHabitScreenController extends GetxController {
 
       // Kiếm tra xem ng dùng có bỏ chọn hết các ngày hay không
       bool isEveryday = true;
+      int count = 0;
       for (int i = 0; i < 7; i++) {
         if (weekDateList[i]) {
           isEveryday = false;
+          count++;
         }
       }
 
@@ -101,16 +115,55 @@ class CreateHabitScreenController extends GetxController {
       if (isEveryday) {
         weekDateList[7] = true;
       } else {
+        if (count == 7) {
+          weekDateList[7] = true;
+
+          // Nếu index = 7 thì reset toàn bộ các ô còn lại
+          for (int i = 0; i < 7; i++) {
+            weekDateList[i] = false;
+          }
+          return;
+        }
         weekDateList[7] = false;
       }
     } else {
-      // Nếu index = 7
+      // Nếu index = 7 thì reset toàn bộ các ô còn lại
       for (int i = 0; i < 7; i++) {
         weekDateList[i] = false;
       }
 
       weekDateList[7] = true;
     }
+  }
+
+  String getDailyList() {
+    String a = '';
+    if (weekDateList[7]) return a = '2,3,4,5,6,7,8';
+    for (int i = 0; i < 7; i++) {
+      if (weekDateList[i]) {
+        a += (i + 2).toString() + ',';
+      }
+    }
+    return a;
+  }
+
+  int getWeeklyList() {
+    int a;
+    for (int i = 0; i < 7; i++) {
+      if (weeklyChoiceList[i]) a = i;
+    }
+    return a;
+  }
+
+  String getNotiTimeChoice() {
+    String a = '';
+    if (notiTimeChoice[3]) return a = '1,2,3';
+    for (int i = 0; i < 3; i++) {
+      if (notiTimeChoice[i]) {
+        a += i.toString() + ',';
+      }
+    }
+    return a;
   }
 
   resetWeekDateChoice() {
@@ -144,7 +197,7 @@ class CreateHabitScreenController extends GetxController {
         weeklyChoiceList[6] = true;
       } else {
         weeklyChoiceList[6] = false;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
           if (i != index) {
             weeklyChoiceList[i] = false;
           }
@@ -177,29 +230,34 @@ class CreateHabitScreenController extends GetxController {
     if (index != 3) {
       notiTimeChoice[index] = !notiTimeChoice[index];
 
-      // Reset các giá trị khác giá trị đang chọn về false
-      for (int i = 0; i < 3; i++) {
-        if (i != index) {
-          notiTimeChoice[i] = false;
-        }
-      }
-
       // Kiếm tra xem ng dùng có chọn khác anytime hay ko
       bool isAnytime = true;
+      int count = 0;
       for (int i = 0; i < 3; i++) {
         if (notiTimeChoice[i]) {
           isAnytime = false;
+          count++;
         }
       }
 
       if (isAnytime) {
         notiTimeChoice[3] = true;
       } else {
+        if (count == 3) {
+          notiTimeChoice[3] = true;
+
+          // Reset các ô chọn morning, afternoon và evening
+          for (int i = 0; i < 3; i++) {
+            notiTimeChoice[i] = false;
+          }
+          return;
+        }
         notiTimeChoice[3] = false;
       }
     } else {
       notiTimeChoice[3] = true;
 
+      // Reset các ô chọn morning, afternoon và evening
       for (int i = 0; i < 3; i++) {
         notiTimeChoice[i] = false;
       }

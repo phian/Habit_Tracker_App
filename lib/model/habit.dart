@@ -3,14 +3,14 @@ class Habit {
   String ten;
   int icon;
   String mau;
-  bool batMucTieu;
+  int batMucTieu;
   int soLan;
   String donVi;
   int loaiLap;
   String ngayTrongTuan;
   int soLanTrongTuan;
-  int buoi;
-  bool trangThai;
+  String buoi;
+  int trangThai;
 
   Habit({
     this.ma,
@@ -28,18 +28,19 @@ class Habit {
   });
 
   Map<String, dynamic> toMap() {
-    return {
-      'ten': ten,
-      'icon': icon,
-      'mau': mau,
-      'bat_muc_tieu': batMucTieu ? 1 : 0,
-      'so_lan': soLan,
-      'don_vi': donVi,
-      'loai_lap': loaiLap,
-      'ngay_trong_tuan': ngayTrongTuan,
-      'so_lan_trong_tuan': soLanTrongTuan,
-      'buoi': buoi,
-      'trang_thai': trangThai ? 1 : 0,
-    };
+    var map = Map<String, dynamic>();
+    if (ma != null) map['ma'] = ma;
+    map['ten'] = ten;
+    map['icon'] = icon;
+    map['mau'] = mau;
+    map['bat_muc_tieu'] = batMucTieu;
+    map['so_lan'] = soLan;
+    map['don_vi'] = donVi;
+    map['loai_lap'] = loaiLap;
+    map['ngay_trong_tuan'] = ngayTrongTuan;
+    map['so_lan_trong_tuan'] = soLanTrongTuan;
+    map['buoi'] = buoi;
+    map['trang_thai'] = trangThai;
+    return map;
   }
 }

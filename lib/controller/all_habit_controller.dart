@@ -3,12 +3,19 @@ import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/model/habit.dart';
 
 class AllHabitController extends GetxController {
-  var allHabit = List<Habit>().obs;
+  var listAllHabit = List<Habit>().obs;
 
-  void getAllHabit() {
-    DatabaseHelper.instance.selectAllHabit().then((value) {
+  @override
+  void onInit() {
+    getAllHabit();
+    super.onInit();
+  }
+
+  void getAllHabit() async {
+    listAllHabit.clear();
+    await DatabaseHelper.instance.selectAllHabit().then((value) {
       value.forEach((element) {
-        allHabit.add(
+        listAllHabit.add(
           Habit(
             ma: element['ma'],
             ten: element['ten'],

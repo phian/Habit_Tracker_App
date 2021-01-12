@@ -42,7 +42,7 @@ final List<Map<String, dynamic>> unitTypes = [
     'textStyle': TextStyle(fontSize: 20.0),
   },
   {
-    'value': 'glass',
+    'value': 'glasses',
     'icon': Container(
       padding: EdgeInsets.only(right: 25.0),
       child: Icon(Icons.local_drink),
@@ -62,6 +62,14 @@ final List<Map<String, dynamic>> unitTypes = [
     'icon': Container(
       padding: EdgeInsets.only(right: 25.0),
       child: Icon(CupertinoIcons.book),
+    ),
+    'textStyle': TextStyle(fontSize: 20.0),
+  },
+  {
+    'value': 'hours',
+    'icon': Container(
+      padding: EdgeInsets.only(right: 25.0),
+      child: Icon(Icons.access_time),
     ),
     'textStyle': TextStyle(fontSize: 20.0),
   },

@@ -17,7 +17,7 @@ class CreateHabitScreen extends StatelessWidget {
     createHabitScreenContext = context;
 
     return Scaffold(
-      backgroundColor: Color(0xFF368B8B),
+      backgroundColor: Color(0xFF1E212A),
       // resizeToAvoidBottomInset: false,
       body: _createHabitScreenBody(),
     );
@@ -42,7 +42,7 @@ class CreateHabitScreen extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: Get.size.height * 0.25,
       collapsedHeight: Get.size.height * 0.075,
-      backgroundColor: Color(0xDD226D6D),
+      backgroundColor: Color(0xFF2F313E),
       pinned: true,
       flexibleSpace: Stack(
         children: [
@@ -267,6 +267,12 @@ class CreateHabitScreen extends StatelessWidget {
                       onTap: () {
                         createHabitScreenController
                             .changeSelectedIndex(RxInt(index));
+
+                        /// [Nếu người dùng off goal thì sẽ reset lại text trong TextField]
+                        if (createHabitScreenController.selectedIndex.value ==
+                            1) {
+                          goalAmountController.text = '';
+                        }
                       },
                       child: Obx(
                         () => Container(
@@ -314,7 +320,7 @@ class CreateHabitScreen extends StatelessWidget {
                           maxLength: 3,
                           maxLengthEnforced: true,
                           inputFormatters: [
-                            WhitelistingTextInputFormatter.digitsOnly,
+                            FilteringTextInputFormatter.digitsOnly,
                             CustomRangeTextInputFormatter(),
                           ],
                           decoration: InputDecoration(
@@ -761,31 +767,26 @@ class CreateHabitScreen extends StatelessWidget {
               color: Colors.black,
             ),
             SizedBox(height: 5.0),
-            InkWell(
-              onTap: () {
-                createHabitScreenController.changeIsGetReminder();
-              },
-              borderRadius: BorderRadius.circular(5.0),
-              child: Container(
-                width: Get.width,
-                height: 50.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Get reminders",
-                      style: TextStyle(fontSize: 20.0),
+            Container(
+              width: Get.width,
+              height: 50.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Get reminders",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  Obx(
+                    () => Switch(
+                      activeColor: createHabitScreenController.fillColor.value,
+                      value: createHabitScreenController.isGetReminder.value,
+                      onChanged: (value) {
+                        createHabitScreenController.changeIsGetReminder();
+                      },
                     ),
-                    Obx(
-                      () => Switch(
-                        value: createHabitScreenController.isGetReminder.value,
-                        onChanged: (value) {
-                          createHabitScreenController.changeIsGetReminder();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -837,7 +838,10 @@ class CreateHabitScreen extends StatelessWidget {
 
     createHabitScreenController.changeHabitIcon(icon);
 
-    debugPrint('Picked Icon:  $icon');
+    if (icon != null) {
+      debugPrint('Picked Icon:  $icon');
+      debugPrint('Icon code point: ${icon.codePoint}');
+    }
   }
 
   /// [Widget icon và color]

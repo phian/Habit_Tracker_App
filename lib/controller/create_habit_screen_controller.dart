@@ -42,6 +42,11 @@ class CreateHabitScreenController extends GetxController {
   changeSelectedIndex(RxInt index) {
     selectedIndex.value =
         selectedIndex.value == index.value ? selectedIndex.value : index.value;
+
+    // Nếu off thì reset thành giá trị mặc định
+    if (index.value == 1) {
+      selectedUnitType = "of times".obs;
+    }
   }
 
   changeSelectedUnitType(RxString unitType) {
@@ -73,9 +78,11 @@ class CreateHabitScreenController extends GetxController {
 
       // Kiếm tra xem ng dùng có bỏ chọn hết các ngày hay không
       bool isEveryday = true;
+      int count = 0;
       for (int i = 0; i < 7; i++) {
         if (weekDateList[i]) {
           isEveryday = false;
+          count++;
         }
       }
 
@@ -83,10 +90,19 @@ class CreateHabitScreenController extends GetxController {
       if (isEveryday) {
         weekDateList[7] = true;
       } else {
+        if (count == 7) {
+          weekDateList[7] = true;
+
+          // Nếu index = 7 thì reset toàn bộ các ô còn lại
+          for (int i = 0; i < 7; i++) {
+            weekDateList[i] = false;
+          }
+          return;
+        }
         weekDateList[7] = false;
       }
     } else {
-      // Nếu index = 7
+      // Nếu index = 7 thì reset toàn bộ các ô còn lại
       for (int i = 0; i < 7; i++) {
         weekDateList[i] = false;
       }
@@ -126,7 +142,7 @@ class CreateHabitScreenController extends GetxController {
         weeklyChoiceList[6] = true;
       } else {
         weeklyChoiceList[6] = false;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
           if (i != index) {
             weeklyChoiceList[i] = false;
           }
@@ -159,29 +175,34 @@ class CreateHabitScreenController extends GetxController {
     if (index != 3) {
       notiTimeChoice[index] = !notiTimeChoice[index];
 
-      // Reset các giá trị khác giá trị đang chọn về false
-      for (int i = 0; i < 3; i++) {
-        if (i != index) {
-          notiTimeChoice[i] = false;
-        }
-      }
-
       // Kiếm tra xem ng dùng có chọn khác anytime hay ko
       bool isAnytime = true;
+      int count = 0;
       for (int i = 0; i < 3; i++) {
         if (notiTimeChoice[i]) {
           isAnytime = false;
+          count++;
         }
       }
 
       if (isAnytime) {
         notiTimeChoice[3] = true;
       } else {
+        if (count == 3) {
+          notiTimeChoice[3] = true;
+
+          // Reset các ô chọn morning, afternoon và evening
+          for (int i = 0; i < 3; i++) {
+            notiTimeChoice[i] = false;
+          }
+          return;
+        }
         notiTimeChoice[3] = false;
       }
     } else {
       notiTimeChoice[3] = true;
 
+      // Reset các ô chọn morning, afternoon và evening
       for (int i = 0; i < 3; i++) {
         notiTimeChoice[i] = false;
       }

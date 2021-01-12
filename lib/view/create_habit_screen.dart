@@ -6,12 +6,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/view/habit_categories_screen.dart';
 import 'package:select_form_field/select_form_field.dart';
 import './view_variables/create_habit_screen_variables.dart';
 
 class CreateHabitScreen extends StatelessWidget {
-  // double _scrollDistance;
+  static Habit habit;
+
   @override
   Widget build(BuildContext context) {
     createHabitScreenContext = context;
@@ -144,8 +146,8 @@ class CreateHabitScreen extends StatelessWidget {
 
   /// [Hàm để lưu data vào databaee]
   void _saveHabitData() {
-    if (goalAmountController.text == '' ||
-        int.parse(goalAmountController.text) == 0) {
+    if (createHabitScreenController.goalAmountController.text == '' ||
+        int.parse(createHabitScreenController.goalAmountController.text) == 0) {
       CoolAlert.show(
         context: createHabitScreenContext,
         type: CoolAlertType.error,
@@ -168,7 +170,7 @@ class CreateHabitScreen extends StatelessWidget {
             // Tên habit
             Obx(
               () => TextField(
-                controller: habitNameController,
+                controller: createHabitScreenController.habitNameController,
                 cursorColor: createHabitScreenController.fillColor.value,
                 style: TextStyle(
                   fontSize: 22.0,
@@ -308,13 +310,14 @@ class CreateHabitScreen extends StatelessWidget {
                         width: Get.width * 0.44,
                         height: 60.0,
                         child: TextField(
-                          controller: goalAmountController,
+                          controller:
+                              createHabitScreenController.goalAmountController,
                           style: TextStyle(fontSize: 20.0),
                           keyboardType: TextInputType.number,
                           maxLength: 3,
                           maxLengthEnforced: true,
                           inputFormatters: [
-                            WhitelistingTextInputFormatter.digitsOnly,
+                            //WhitelistingTextInputFormatter.digitsOnly,
                             CustomRangeTextInputFormatter(),
                           ],
                           decoration: InputDecoration(
@@ -837,7 +840,8 @@ class CreateHabitScreen extends StatelessWidget {
 
     createHabitScreenController.changeHabitIcon(icon);
 
-    debugPrint('Picked Icon:  $icon');
+    ///debugPrint('Picked Icon:  $icon');
+    debugPrint('Icon code point: ${icon.codePoint}');
   }
 
   /// [Widget icon và color]

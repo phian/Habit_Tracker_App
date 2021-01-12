@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/all_habit_controller.dart';
+import 'package:habit_tracker/database/database_helper.dart';
+import 'package:habit_tracker/model/habit.dart';
 
 class CreateHabitScreenController extends GetxController {
   var selectedIndex = 1.obs;
-  var habitRepeatChoosingdRepeatType = 0.obs;
-  var repeatChoicesTypeHeaderTextIndex = 0.obs;
   var selectedUnitType = "of times".obs;
   var repeatTypeChoice = 0.obs;
   var isGetReminder = true.obs;
   var fillColor = Color(0xFFF53566).obs;
   var habitIcon = Icons.star.obs;
+
+  AllHabitController allHabitController = Get.put(AllHabitController());
+  TextEditingController habitNameController = TextEditingController();
+  TextEditingController goalAmountController = TextEditingController();
+
+  void addHabit() async {
+    await DatabaseHelper.instance.insertHabit(Habit(
+      ten: habitNameController.text,
+      icon: habitIcon.value.codePoint,
+      mau: fillColor.value.toString(),
+      batMucTieu: selectedIndex.value == 1 ? true : false,
+      soLan: int.parse(goalAmountController.text),
+      donVi: selectedUnitType.value,
+      loaiLap: repeatTypeChoice.value,
+    ));
+    allHabitController.allHabit.insert(0, Habit());
+  }
 
   var weekDateList = [
     false,

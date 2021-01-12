@@ -148,12 +148,17 @@ class DatabaseHelper {
 
     // insert data suggested topic, suggested habit
     //await db.execute('');
-    print('taodb');
   }
 
   Future<int> insertHabit(Habit habit) async {
     Database db = await instance.database;
     var res = await db.insert(tabHabit, habit.toMap());
+    return res;
+  }
+
+  Future<List<Map<String, dynamic>>> selectAllHabit() async {
+    Database db = await instance.database;
+    var res = await db.query(tabHabit, orderBy: "$ma ASC");
     return res;
   }
 }

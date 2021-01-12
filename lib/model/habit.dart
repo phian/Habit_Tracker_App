@@ -1,7 +1,7 @@
 class Habit {
   int ma;
   String ten;
-  String icon;
+  int icon;
   String mau;
   bool batMucTieu;
   int soLan;
@@ -29,7 +29,6 @@ class Habit {
 
   Map<String, dynamic> toMap() {
     return {
-      'ma': ma,
       'ten': ten,
       'icon': icon,
       'mau': mau,

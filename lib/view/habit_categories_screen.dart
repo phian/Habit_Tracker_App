@@ -1,8 +1,9 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/database/database_helper.dart';
+import 'package:habit_tracker/model/suggest_topic.dart';
 import 'package:habit_tracker/view/habit_category_list_screen.dart';
-import 'package:page_transition/page_transition.dart';
 
 import 'create_habit_screen.dart';
 import 'manage_screen.dart';
@@ -16,32 +17,33 @@ class HabitCategoriesScreen extends StatefulWidget {
 
 class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
   AnimateIconController _controller;
-
-  List<String> _habitCategoryTitles;
-  List<String> _habitCategorySubTitles;
-  List<String> _habitCategoryImagePaths;
   List<Widget> _habitCategoryCards;
+
+  List<SuggestedTopic> _suggestTopicList;
+  DatabaseHelper _databaseHelper;
 
   @override
   void initState() {
     super.initState();
-    initCategoriesCardInfo();
-    generateHitCateGoryCards();
+    _suggestTopicList = [];
+    _databaseHelper = DatabaseHelper.instance;
+
+    _initCategoriesCardInfo();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF368B8B),
-      appBar: habitCategoriesAppBar(),
-      body: habitCateGoriesBody(),
+      backgroundColor: Color(0xFF1E212A),
+      appBar: _habitCategoriesAppBar(),
+      body: _habitCateGoriesBody(),
     );
   }
 
 //====================================================================//
 
   // Appbar
-  Widget habitCategoriesAppBar() {
+  Widget _habitCategoriesAppBar() {
     return AppBar(
       leading: Container(
         transform: Matrix4.translationValues(-3.0, -4.0, 0.0),
@@ -90,7 +92,6 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
             fontSize: 30.0,
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontFamily: "RobotoSlab",
           ),
         ),
       ),
@@ -101,7 +102,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
   //====================================================================//
 
   // Body
-  Widget habitCateGoriesBody() {
+  Widget _habitCateGoriesBody() {
     return Container(
       height: MediaQuery.of(context).size.height,
       alignment: Alignment.center,
@@ -122,13 +123,12 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
               color: Colors.white,
               fontSize: 25.0,
               fontWeight: FontWeight.bold,
-              fontFamily: "RobotoSlab",
             ),
           ),
           SizedBox(
             height: 20.0,
           ),
-          createYourOwnCard(
+          _createYourOwnCard(
               Icons.calendar_today_rounded, Color(0xFF4949f4), "Regular habit"),
           SizedBox(
             height: 20.0,
@@ -142,35 +142,40 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
               fontSize: 25.0,
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontFamily: "RobotoSlab",
             ),
           ),
           SizedBox(
             height: 30.0,
           ),
           ...List.generate(
-              _habitCategoryTitles.length,
-              (index) => Container(
-                    margin: index == 0
-                        ? null
-                        : EdgeInsets.only(
-                            top: 15.0,
-                          ),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: Color(0xFF95d5b2),
-                      child: InkWell(
-                        highlightColor: Colors.transparent,
+              _suggestTopicList.length,
+              (index) => Hero(
+                    tag: _suggestTopicList[index].tenChuDeGoiY,
+                    child: Container(
+                      margin: index == 0
+                          ? null
+                          : EdgeInsets.only(
+                              top: 15.0,
+                            ),
+                      child: Material(
                         borderRadius: BorderRadius.circular(20.0),
-                        onTap: () {
-                          if (index != 17) {
-                            Get.to(
-                              HabitCategoryListScreen(),
-                              transition: Transition.fadeIn,
-                            );
-                          }
-                        },
-                        child: _habitCategoryCards[index],
+                        color: Color(0xFF2F313E),
+                        child: InkWell(
+                          highlightColor: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20.0),
+                          onTap: () {
+                            if (index != 17) {
+                              Get.to(
+                                HabitCategoryListScreen(
+                                  tag: _suggestTopicList[index].tenChuDeGoiY,
+                                  topicId: _suggestTopicList[index].maChuDe,
+                                  imagePath: _suggestTopicList[index].hinhChuDe,
+                                ),
+                              );
+                            }
+                          },
+                          child: _habitCategoryCards[index],
+                        ),
                       ),
                     ),
                   )),
@@ -179,77 +184,10 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
     );
   }
 
-  void initCategoriesCardInfo() {
-    _habitCategoryTitles = [
-      "Trending habits",
-      "Staying at home",
-      "Preventive care",
-      "Must-have habits",
-      "Morning routine",
-      "Nighttime rituals",
-      "Getting stuff done",
-      "Healthy body",
-      "Stress relief",
-      "Mindful-self care",
-      "Learn and explore",
-      "Staying fit",
-      "Personal finance",
-      "Loved ones",
-      "Around the house",
-      "Tracking the diet",
-      "Live with hobbies",
-      "Remove bad habits"
-    ];
-
-    _habitCategorySubTitles = [
-      "Take a step in a right direction",
-      "Use this time to do something new",
-      "Protect yourself and others",
-      "Small efforts, big results",
-      "Get started on a productive day",
-      "Sleep tight for better health",
-      "Boost your every day productivity",
-      "The foundation of your health well-being",
-      "Release tension and increase and increase calm",
-      "Take care with daily activities",
-      "Expand your knowledge",
-      "Feel strong and increase enrgy",
-      "Take control of your budget",
-      "Nature inportant relationships",
-      "Clean your space and your mind",
-      "Keep your tidy body",
-      "Spend this time to do what you like",
-      "Make your life better",
-    ];
-
-    _habitCategoryImagePaths = [
-      "images/trending_habits.png",
-      "images/at_home.png",
-      "images/preventive_care.png",
-      "images/must_have_habit.png",
-      "images/morning_routine.png",
-      "images/nighttime_rituals.png",
-      "images/getting_stuff_done.png",
-      "images/healthy_body.png",
-      "images/stress_relief.png",
-      "images/self_care.png",
-      "images/learn_and_explore.png",
-      "images/staying_fit.png",
-      "images/personal_finance.png",
-      "images/loved_ones.png",
-      "images/around_the_house.png",
-      "images/tracking_the_diet.png",
-      "images/live_with_hobbies.png",
-      "images/bad_habit.png",
-    ];
-
-    _habitCategoryCards = new List<Widget>();
-  }
-
-  Widget createYourOwnCard(IconData icon, Color iconColor, String title) {
+  Widget _createYourOwnCard(IconData icon, Color iconColor, String title) {
     return Material(
       borderRadius: BorderRadius.circular(20.0),
-      color: Color(0xFF95d5b2),
+      color: Color(0xFF2F313E),
       child: InkWell(
         highlightColor: Colors.transparent,
         borderRadius: BorderRadius.circular(20.0),
@@ -276,9 +214,8 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                   title,
                   style: TextStyle(
                     fontSize: 22.0,
-                    color: Color(0xFF252D42),
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontFamily: "RobotoSlab",
                   ),
                 ),
               ),
@@ -289,7 +226,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
     );
   }
 
-  Widget habitCateGoryCard(String title, String subtitle, String imagePath) {
+  Widget _habitCateGoryCard(String title, String subtitle, String imagePath) {
     return Container(
       height: 150.0,
       child: Row(
@@ -305,10 +242,9 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                   title,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: Color(0xFF252D42),
+                    color: Colors.white,
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,
-                    fontFamily: "RobotoSlab",
                   ),
                 ),
               ),
@@ -319,10 +255,9 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                   subtitle,
                   maxLines: 2,
                   style: TextStyle(
-                    color: Color(0xFF6c757d),
+                    color: Color(0xFF9A9DA4),
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold,
-                    fontFamily: "RobotoSlab",
                   ),
                 ),
               ),
@@ -342,10 +277,25 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
     );
   }
 
-  void generateHitCateGoryCards() {
-    for (int i = 0; i < _habitCategoryTitles.length; i++) {
-      _habitCategoryCards.add(habitCateGoryCard(_habitCategoryTitles[i],
-          _habitCategorySubTitles[i], _habitCategoryImagePaths[i]));
-    }
+  // Hàm get dữ liệu từ database
+  Future<Null> _initCategoriesCardInfo() async {
+    await _databaseHelper.getSuggestTopicMap().then((value) {
+      _suggestTopicList = [];
+      _habitCategoryCards = [];
+
+      for (int i = 0; i < value.length; i++) {
+        _suggestTopicList.add(SuggestedTopic(
+          maChuDe: value[i]['ma_chu_de'],
+          tenChuDeGoiY: value[i]['ten_chu_de_goi_y'],
+          moTa: value[i]['mo_ta'],
+          hinhChuDe: value[i]['hinh_chu_de'],
+        ));
+
+        _habitCategoryCards.add(_habitCateGoryCard(value[i]['ten_chu_de_goi_y'],
+            value[i]['mo_ta'], value[i]['hinh_chu_de']));
+      }
+
+      setState(() {});
+    });
   }
 }

@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 
 class CreateHabitScreenController extends GetxController {
   var selectedIndex = 1.obs;
-  var habitRepeatChoosingdRepeatType = 0.obs;
-  var repeatChoicesTypeHeaderTextIndex = 0.obs;
   var selectedUnitType = "of times".obs;
   var repeatTypeChoice = 0.obs;
   var isGetReminder = true.obs;

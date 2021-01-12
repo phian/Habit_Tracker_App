@@ -143,7 +143,7 @@ class DatabaseHelper {
       $loaiLap INTEGER,
       $ngayTrongTuan TEXT,
       $soLanTrongTuan INTEGER,
-      $buoi INTEGER,
+      $buoi TEXT,
       PRIMARY KEY ($maChuDe, $ten),
       FOREIGN KEY($maChuDe) REFERENCES $tabSuggestedTopic ($maChuDe)
     )
@@ -286,5 +286,24 @@ class DatabaseHelper {
     Database db = await instance.database;
     var res = await db.insert(tabHabit, habit.toMap());
     return res;
+  }
+
+  // Hàm để lấy thông tin từ bảng Sugget Topic
+  Future<List<Map<String, dynamic>>> getSuggestTopicMap() async {
+    Database habitTrackerDb = await this.database;
+    var queryResult = habitTrackerDb.query(tabSuggestedTopic);
+
+    return queryResult;
+  }
+
+  // Hàm lấy thông tin từ bảng Suggest Habit
+  Future<List<Map<String, dynamic>>> getSussgestHabitMap(int habitTopic) async {
+    Database habitTrackerDb = await this.database;
+    var queryResult = habitTrackerDb.query(
+      tabSuggestedHabit,
+      where: "$maChuDe = $habitTopic",
+    );
+
+    return queryResult;
   }
 }

@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/view/manage_screen.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/src/factory_impl.dart' show databaseFactory;
-export 'package:sqflite/src/factory_impl.dart' show databaseFactory;
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 void main() => runApp(GetMaterialApp(
       theme: ThemeData.dark(),

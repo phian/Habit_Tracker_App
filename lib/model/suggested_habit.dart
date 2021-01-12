@@ -1,7 +1,8 @@
 class SuggestedHabit {
   int maChuDe;
   String ten;
-  String icon;
+  String moTa;
+  int icon;
   String mau;
   bool batMucTieu;
   int soLan;
@@ -9,11 +10,12 @@ class SuggestedHabit {
   int loaiLap;
   String ngayTrongTuan;
   int soLanTrongTuan;
-  int buoi;
+  String buoi;
 
   SuggestedHabit({
     this.maChuDe,
     this.ten,
+    this.moTa,
     this.icon,
     this.mau,
     this.batMucTieu,

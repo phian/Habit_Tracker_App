@@ -144,15 +144,17 @@ class CreateHabitScreen extends StatelessWidget {
 
   /// [Hàm để lưu data vào databaee]
   void _saveHabitData() {
-    if (goalAmountController.text == '' ||
-        int.parse(goalAmountController.text) == 0) {
-      CoolAlert.show(
-        context: createHabitScreenContext,
-        type: CoolAlertType.error,
-        animType: CoolAlertAnimType.slideInUp,
-        title: "Forgot to set a goal?",
-        text: "Check your goal for this habit",
-      );
+    if (createHabitScreenController.selectedIndex.value == 0) {
+      if (goalAmountController.text == '' ||
+          int.parse(goalAmountController.text) == 0) {
+        CoolAlert.show(
+          context: createHabitScreenContext,
+          type: CoolAlertType.error,
+          animType: CoolAlertAnimType.slideInUp,
+          title: "Forgot to set a goal?",
+          text: "Check your goal for this habit",
+        );
+      }
     }
   }
 

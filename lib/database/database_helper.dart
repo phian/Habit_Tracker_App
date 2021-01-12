@@ -170,11 +170,11 @@ class DatabaseHelper {
         ('Around the house', 'Clean your space and your mind', 'images/around_the_house.png'),
         ('Tracking the diet', 'Keep your tidy body', 'images/tracking_the_diet.png'),
         ('Live with hobbies', 'Spend this time to do what you like', 'images/live_with_hobbies.png'),
-        ('Remove bad habits', 'Make your life better', 'images/bad_habit.png'),
+        ('Remove bad habits', 'Make your life better', 'images/bad_habit.png')
          ''');
 
     // insert data suggested habit
-    await db.execute('''INSERT INTO $tabSuggestedTopic 
+    await db.execute('''INSERT INTO $tabSuggestedHabit 
     ($maChuDe, $ten, $moTa, $icon, $mau, $batMucTieu, $soLan, $donVi, $loaiLap, $ngayTrongTuan, $soLanTrongTuan, $buoi)
     VALUES
     ('1', 'Study online', 'A world of new discoveries awaits', '58998', '0xFF933DFF', '2', '0', 'of times', '1', '2,3,4,5,6,7,8', '0', '1,2,3'),
@@ -276,7 +276,7 @@ class DatabaseHelper {
     ('17', 'Play guitar', 'Relax with music and reduce stress', '59543', '0xFFFABB37', '2', '0', 'of times', '1', '2,3,4,5,6,7,8', '0', '1,2,3'),
     ('17', 'Take a photo', 'Keep beautiful momment', '58927', '0xFF933DFF', '2', '0', 'of times', '1', '2,3,4,5,6,7,8', '0', '1,2,3'),
     ('17', 'Paint or draw', 'Feel those creative juices flow', '58903', '0xFFFABB37', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '1', '1,2,3'),
-    ('17', 'Dancing, 'Move your body to the music', '59739', '0xFF11C480', '2', '0', 'of times', '1', '2,3,4,5,6,7,8', '0', '1,2,3'),
+    ('17', 'Dancing', 'Move your body to the music', '59739', '0xFF11C480', '2', '0', 'of times', '1', '2,3,4,5,6,7,8', '0', '1,2,3')
     ''');
 
     print('taodb');

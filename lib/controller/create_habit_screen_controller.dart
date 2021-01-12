@@ -16,6 +16,19 @@ class CreateHabitScreenController extends GetxController {
   TextEditingController habitNameController = TextEditingController();
   TextEditingController goalAmountController = TextEditingController();
 
+  @override
+  void onClose() {
+    habitNameController.clear();
+    goalAmountController.clear();
+    selectedIndex = 1.obs;
+    selectedUnitType = "of times".obs;
+    repeatTypeChoice = 0.obs;
+    isGetReminder = true.obs;
+    fillColor = Color(0xFFF53566).obs;
+    habitIcon = Icons.star.obs;
+    super.onClose();
+  }
+
   void addHabit() async {
     await DatabaseHelper.instance.insertHabit(
       Habit(

@@ -80,11 +80,8 @@ class CreateHabitScreen extends StatelessWidget {
               Future.delayed(
                 Duration(milliseconds: 200),
                 () {
-                  Get.to(
-                    HabitCategoriesScreen(),
-                    duration: Duration(milliseconds: 500),
-                    transition: Transition.fadeIn,
-                  );
+                  Get.back();
+                  createHabitScreenController.onClose();
                 },
               );
 
@@ -98,13 +95,7 @@ class CreateHabitScreen extends StatelessWidget {
             clockwise: true,
           ),
         ),
-        onTap: () {
-          Get.to(
-            HabitCategoriesScreen(),
-            duration: Duration(milliseconds: 500),
-            transition: Transition.fadeIn,
-          );
-        },
+        onTap: () {},
       ),
       actions: [
         Container(
@@ -162,6 +153,7 @@ class CreateHabitScreen extends StatelessWidget {
     } else {
       createHabitScreenController.addHabit();
       Get.to(ManageScreen());
+      createHabitScreenController.onClose();
     }
   }
 

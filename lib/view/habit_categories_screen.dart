@@ -59,11 +59,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
               Future.delayed(
                 Duration(milliseconds: 200),
                 () {
-                  Get.to(
-                    ManageScreen(),
-                    duration: Duration(milliseconds: 500),
-                    transition: Transition.fadeIn,
-                  );
+                  Get.back();
                 },
               );
 

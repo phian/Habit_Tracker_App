@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/model/habit.dart';
-import 'package:habit_tracker/view/habit_categories_screen.dart';
+import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:select_form_field/select_form_field.dart';
 import './view_variables/create_habit_screen_variables.dart';
 import 'manage_screen.dart';
@@ -15,11 +15,41 @@ import 'view_variables/create_habit_screen_variables.dart';
 
 class CreateHabitScreen extends StatelessWidget {
   static Habit habit;
+  SuggestedHabit suggestedHabit;
+  TextEditingController habitNameController;
 
   @override
   Widget build(BuildContext context) {
     createHabitScreenContext = context;
-
+    suggestedHabit = Get.arguments;
+    // có tham số thì gán
+    if (suggestedHabit != null) {
+      // ten
+      habitNameController = TextEditingController(text: suggestedHabit.ten);
+      // icon
+      createHabitScreenController.habitIcon.value =
+          IconData(suggestedHabit.icon, fontFamily: 'MaterialIcons');
+      // mau
+      createHabitScreenController.fillColor.value =
+          Color(int.parse(suggestedHabit.mau));
+      // bat muc tieu
+      createHabitScreenController.selectedIndex.value =
+          suggestedHabit.batMucTieu == true ? 1 : 0;
+      // so lan
+      createHabitScreenController.goalAmountController.text =
+          suggestedHabit.soLan.toString();
+      // don vi
+      createHabitScreenController.selectedUnitType.value = suggestedHabit.donVi;
+      // loai lap
+      createHabitScreenController.repeatTypeChoice.value =
+          suggestedHabit.loaiLap;
+      // ngay trong tuan
+      createHabitScreenController.setDailyList(suggestedHabit.ngayTrongTuan);
+      // so lan trong tuan
+      createHabitScreenController.setWeeklyList(suggestedHabit.soLanTrongTuan);
+      // buoi
+      createHabitScreenController.setNotiTimeChoice(suggestedHabit.buoi);
+    }
     return Scaffold(
       backgroundColor: Color(0xFF1E212A),
       // resizeToAvoidBottomInset: false,
@@ -151,7 +181,7 @@ class CreateHabitScreen extends StatelessWidget {
         text: "Check your goal for this habit",
       );
     } else {
-      createHabitScreenController.addHabit();
+      createHabitScreenController.addHabit(habitNameController.text);
       Get.to(ManageScreen());
       createHabitScreenController.onClose();
     }
@@ -169,7 +199,7 @@ class CreateHabitScreen extends StatelessWidget {
             // Tên habit
             Obx(
               () => TextField(
-                controller: createHabitScreenController.habitNameController,
+                controller: habitNameController,
                 cursorColor: createHabitScreenController.fillColor.value,
                 style: TextStyle(
                   fontSize: 22.0,
@@ -841,8 +871,8 @@ class CreateHabitScreen extends StatelessWidget {
 
     createHabitScreenController.changeHabitIcon(icon);
 
-    ///debugPrint('Picked Icon:  $icon');
     debugPrint('Icon code point: ${icon.codePoint}');
+    debugPrint(suggestedHabit == null ? "null" : "not null");
   }
 
   /// [Widget icon và color]

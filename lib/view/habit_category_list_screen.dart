@@ -81,7 +81,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
             moTa: value[i]['mo_ta'],
             icon: value[i]['icon'],
             mau: value[i]['mau'],
-            batMucTieu: value[i]['bat_muc_tieu'] == 0 ? true : false,
+            batMucTieu: value[i]['bat_muc_tieu'] == 1 ? false : true,
             soLan: value[i]['so_lan'],
             donVi: value[i]['don_vi'],
             loaiLap: value[i]['loai_lap'],

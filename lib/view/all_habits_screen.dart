@@ -66,6 +66,9 @@ class AllHabitsScreen extends StatelessWidget {
     return ListView.separated(
       padding: EdgeInsets.only(top: 20, bottom: 20),
       itemCount: allHabitController.listAllHabit.length,
+      physics: AlwaysScrollableScrollPhysics(
+        parent: BouncingScrollPhysics(),
+      ),
       separatorBuilder: (BuildContext context, int index) =>
           SizedBox(height: 10),
       itemBuilder: (BuildContext context, int index) {

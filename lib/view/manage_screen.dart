@@ -22,7 +22,7 @@ class ManageScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        color: Color(0xFF1B1B1B),
+        color: Colors.black12,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(

@@ -16,7 +16,7 @@ import 'view_variables/create_habit_screen_variables.dart';
 class CreateHabitScreen extends StatelessWidget {
   static Habit habit;
   static SuggestedHabit suggestedHabit;
-  static TextEditingController habitNameController;
+  static TextEditingController habitNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +203,7 @@ class CreateHabitScreen extends StatelessWidget {
                 cursorColor: createHabitScreenController.fillColor.value,
                 style: TextStyle(
                   fontSize: 22.0,
-                  color: Colors.white54,
+                  color: Colors.white,
                 ),
                 onChanged: (value) {},
                 decoration: InputDecoration(

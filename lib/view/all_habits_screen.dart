@@ -15,7 +15,6 @@ class AllHabitsScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w600,
-            fontFamily: 'RobotoSlab',
           ),
         ),
         centerTitle: true,
@@ -58,12 +57,17 @@ class AllHabitsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(
-                allHabitController.listAllHabit[index].ten,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'RobotoSlab',
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Text(
+                    allHabitController.listAllHabit[index].ten,
+                    style: TextStyle(
+                      fontSize: 22,
+                      //fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 2,
+                  ),
                 ),
               ),
             ],

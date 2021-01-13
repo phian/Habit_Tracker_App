@@ -312,4 +312,10 @@ class DatabaseHelper {
     var res = await db.query(tabHabit, orderBy: '$ma DESC');
     return res;
   }
+
+  Future<int> updateHabit(Habit habit) async {
+    Database db = await instance.database;
+    return await db.update(tabHabit, habit.toMap(),
+        where: '$ma = ?', whereArgs: [habit.ma]);
+  }
 }

@@ -11,8 +11,6 @@ class CreateHabitScreenController extends GetxController {
   var isGetReminder = true.obs;
   var fillColor = Color(0xFFF53566).obs;
   var habitIcon = Icons.star.obs;
-  var habitName = null.obs;
-  var suggestedHabit = null.obs;
 
   AllHabitController allHabitController = Get.put(AllHabitController());
 
@@ -27,7 +25,6 @@ class CreateHabitScreenController extends GetxController {
     isGetReminder = true.obs;
     fillColor = Color(0xFFF53566).obs;
     habitIcon = Icons.star.obs;
-    habitName = null.obs;
     resetWeekDateChoice();
     resetWeeklyListChoice();
     resetNotiTimeChoice();
@@ -37,6 +34,27 @@ class CreateHabitScreenController extends GetxController {
   void addHabit(String name) async {
     await DatabaseHelper.instance.insertHabit(
       Habit(
+        ten: name,
+        icon: habitIcon.value.codePoint,
+        mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
+        batMucTieu: selectedIndex.value,
+        soLan: goalAmountController.text == ''
+            ? 0
+            : int.parse(goalAmountController.text),
+        donVi: selectedUnitType.value,
+        loaiLap: repeatTypeChoice.value,
+        ngayTrongTuan: getDailyList(),
+        soLanTrongTuan: getWeeklyList(),
+        buoi: getNotiTimeChoice(),
+      ),
+    );
+    allHabitController.getAllHabit();
+  }
+
+  void editHabit(String name, int id) async {
+    await DatabaseHelper.instance.updateHabit(
+      Habit(
+        ma: id,
         ten: name,
         icon: habitIcon.value.codePoint,
         mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
@@ -129,7 +147,6 @@ class CreateHabitScreenController extends GetxController {
           count++;
         }
       }
-
       // Nếu có thì set option everyday thành true và ngược lại
       if (isEveryday) {
         weekDateList[7] = true;

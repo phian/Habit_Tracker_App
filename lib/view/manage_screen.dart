@@ -10,9 +10,10 @@ class ManageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF368B8B),
+      backgroundColor: Color(0xFF1E212A),
       body: Obx(() => _controller.screens[_controller.currentIndex.value]),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
         child: Icon(Icons.add),
         onPressed: () {
           Get.to(HabitCategoriesScreen(), transition: Transition.fadeIn);

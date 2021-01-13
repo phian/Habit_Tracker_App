@@ -250,7 +250,7 @@ class DatabaseHelper {
     ('12', 'Go for a run', 'Break a sweat and relieve stress', '59070', '0xFF11C480', '1', '6', 'km', '2', '2,3,4,5,6,7,8', '2', '1,2,3'),
 
     ('13', 'Create shoping list', 'Save time and money', '59870', '0xFFFABB37', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '1', '1,2,3'),
-    ('13', 'Reduce restaurant dining', 'Cook something at home', '59785', '0xF53566', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '4', '1,2,3'),
+    ('13', 'Reduce restaurant dining', 'Cook something at home', '59785', '0xFFF53566', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '4', '1,2,3'),
     ('13', 'Make a donation', 'Share your good fortune', '59612', '0xFF1C8EFE', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '4', '1,2,3'),
     ('13', 'Plan spending', 'Prevent impulsive purchases', '59632', '0xFFFE7352', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '1', '1,2,3'),
     ('13', 'Track expenses', 'Keep a balanced budget', '59517', '0xFFFABB37', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '1', '1,2,3'),
@@ -288,7 +288,6 @@ class DatabaseHelper {
     return res;
   }
 
-<<<<<<< HEAD
   // Hàm để lấy thông tin từ bảng Sugget Topic
   Future<List<Map<String, dynamic>>> getSuggestTopicMap() async {
     Database habitTrackerDb = await this.database;
@@ -306,11 +305,11 @@ class DatabaseHelper {
     );
 
     return queryResult;
-=======
+  }
+
   Future<List<Map<String, dynamic>>> selectAllHabit() async {
     Database db = await instance.database;
     var res = await db.query(tabHabit, orderBy: '$ma DESC');
     return res;
->>>>>>> 85f1cf965e58826697fc80be505741920697de88
   }
 }

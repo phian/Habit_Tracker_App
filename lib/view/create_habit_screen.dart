@@ -80,6 +80,7 @@ class CreateHabitScreen extends StatelessWidget {
               Future.delayed(
                 Duration(milliseconds: 200),
                 () {
+                  createHabitScreenController.resetController();
                   Get.to(
                     HabitCategoriesScreen(),
                     duration: Duration(milliseconds: 500),
@@ -148,19 +149,6 @@ class CreateHabitScreen extends StatelessWidget {
 
   /// [Hàm để lưu data vào databaee]
   void _saveHabitData() {
-<<<<<<< HEAD
-    if (createHabitScreenController.selectedIndex.value == 0) {
-      if (goalAmountController.text == '' ||
-          int.parse(goalAmountController.text) == 0) {
-        CoolAlert.show(
-          context: createHabitScreenContext,
-          type: CoolAlertType.error,
-          animType: CoolAlertAnimType.slideInUp,
-          title: "Forgot to set a goal?",
-          text: "Check your goal for this habit",
-        );
-      }
-=======
     if ((createHabitScreenController.goalAmountController.text == '' ||
             int.parse(createHabitScreenController.goalAmountController.text) ==
                 0) &&
@@ -175,7 +163,6 @@ class CreateHabitScreen extends StatelessWidget {
     } else {
       createHabitScreenController.addHabit();
       Get.to(ManageScreen());
->>>>>>> 85f1cf965e58826697fc80be505741920697de88
     }
   }
 

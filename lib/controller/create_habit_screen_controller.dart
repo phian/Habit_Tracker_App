@@ -274,4 +274,23 @@ class CreateHabitScreenController extends GetxController {
       fillColor.value = color;
     }
   }
+
+  // Reset createHabitController
+  resetController() {
+    resetWeekDateChoice();
+    resetWeeklyListChoice();
+    notiTimeChoice = [
+      true,
+      false,
+      false,
+      false,
+    ].obs;
+
+    selectedIndex = 1.obs;
+    selectedUnitType = "of times".obs;
+    repeatTypeChoice = 0.obs;
+    isGetReminder = true.obs;
+    fillColor = Color(0xFFF53566).obs;
+    habitIcon = Icons.star.obs;
+  }
 }

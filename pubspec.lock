@@ -118,6 +118,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_date_picker_timeline:
+    dependency: "direct main"
+    description:
+      name: flutter_date_picker_timeline
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
   flutter_iconpicker:
     dependency: "direct main"
     description:
@@ -235,6 +242,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0-nullsafety.1"
+  scroll_snap_list:
+    dependency: "direct main"
+    description:
+      name: scroll_snap_list
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0"
+  scroll_to_index:
+    dependency: transitive
+    description:
+      name: scroll_to_index
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   select_form_field:
     dependency: "direct main"
     description:
@@ -242,6 +263,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  shamsi_date:
+    dependency: transitive
+    description:
+      name: shamsi_date
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.1"
   shrink_sidemenu:
     dependency: "direct main"
     description:
@@ -317,6 +345,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19-nullsafety.2"
+  timeline_list:
+    dependency: "direct main"
+    description:
+      name: timeline_list
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   typed_data:
     dependency: transitive
     description:

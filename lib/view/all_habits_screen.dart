@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 
+import 'edit_habit.dart';
+
 class AllHabitsScreen extends StatelessWidget {
   AllHabitController allHabitController = Get.put(AllHabitController());
 
@@ -15,7 +17,6 @@ class AllHabitsScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w600,
-            fontFamily: 'RobotoSlab',
           ),
         ),
         centerTitle: true,
@@ -36,38 +37,61 @@ class AllHabitsScreen extends StatelessWidget {
       separatorBuilder: (BuildContext context, int index) =>
           SizedBox(height: 10),
       itemBuilder: (BuildContext context, int index) {
-        return Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-              color: Color(0xff333333),
-              borderRadius: BorderRadius.circular(15)),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: Icon(
-                  IconData(allHabitController.listAllHabit[index].icon,
-                      fontFamily: 'MaterialIcons'),
-                  size: 50,
-                  color: Color(
-                    int.parse(
-                      allHabitController.listAllHabit[index].mau,
-                      radix: 16,
+        return GestureDetector(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+                color: Color(0xff333333),
+                borderRadius: BorderRadius.circular(15)),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Icon(
+                    IconData(allHabitController.listAllHabit[index].icon,
+                        fontFamily: 'MaterialIcons'),
+                    size: 50,
+                    color: Color(
+                      int.parse(
+                        allHabitController.listAllHabit[index].mau,
+                        radix: 16,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Text(
-                allHabitController.listAllHabit[index].ten,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'RobotoSlab',
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      allHabitController.listAllHabit[index].ten,
+                      style: TextStyle(
+                        fontSize: 22,
+                        //fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          onTap: () {
+            print(allHabitController.listAllHabit[index].ma);
+            print(allHabitController.listAllHabit[index].ten);
+            print(allHabitController.listAllHabit[index].mau);
+            print(allHabitController.listAllHabit[index].icon);
+            print(allHabitController.listAllHabit[index].batMucTieu);
+            print(allHabitController.listAllHabit[index].soLan);
+            print(allHabitController.listAllHabit[index].donVi);
+            print(allHabitController.listAllHabit[index].loaiLap);
+            print(allHabitController.listAllHabit[index].ngayTrongTuan);
+            print(allHabitController.listAllHabit[index].soLanTrongTuan);
+            print(allHabitController.listAllHabit[index].buoi);
+            print(allHabitController.listAllHabit[index].trangThai);
+            Get.to(EditHabitScreen(),
+                arguments: allHabitController.listAllHabit[index]);
+          },
         );
       },
     );

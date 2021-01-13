@@ -40,7 +40,7 @@ class Habit {
     map['ngay_trong_tuan'] = ngayTrongTuan;
     map['so_lan_trong_tuan'] = soLanTrongTuan;
     map['buoi'] = buoi;
-    map['trang_thai'] = trangThai;
+    if (trangThai != null) map['trang_thai'] = trangThai;
     return map;
   }
 }

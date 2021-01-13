@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
+import 'package:habit_tracker/view/create_habit_screen.dart';
 
 import 'habit_categories_screen.dart';
 
@@ -80,7 +81,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
             moTa: value[i]['mo_ta'],
             icon: value[i]['icon'],
             mau: value[i]['mau'],
-            batMucTieu: value[i]['bat_muc_tieu'] == 0 ? true : false,
+            batMucTieu: value[i]['bat_muc_tieu'] == 1 ? false : true,
             soLan: value[i]['so_lan'],
             donVi: value[i]['don_vi'],
             loaiLap: value[i]['loai_lap'],
@@ -96,6 +97,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
             value[i]['ten'],
             value[i]['mo_ta'],
             int.parse(value[i]['mau']),
+            i,
           ),
         );
       }
@@ -154,11 +156,12 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
               Future.delayed(
                 Duration(milliseconds: 200),
                 () {
-                  Get.to(
-                    HabitCategoriesScreen(),
-                    duration: Duration(milliseconds: 500),
-                    transition: Transition.fadeIn,
-                  );
+                  Get.back();
+                  // Get.to(
+                  //   HabitCategoriesScreen(),
+                  //   duration: Duration(milliseconds: 500),
+                  //   transition: Transition.fadeIn,
+                  // );
                 },
               );
 
@@ -221,7 +224,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
   }
 
   Widget _suggestHabitCard(
-      int iconCode, String title, String subTitle, int color) {
+      int iconCode, String title, String subTitle, int color, int index) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
@@ -233,7 +236,9 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
             color: Colors.white24,
           ),
         ),
-        onTap: () {},
+        onTap: () {
+          Get.to(CreateHabitScreen(), arguments: _suggestedHabitList[index]);
+        },
         leading: Container(
           child: Icon(
             IconData(iconCode, fontFamily: 'MaterialIcons'),

@@ -13,13 +13,49 @@ class CreateHabitScreenController extends GetxController {
   var habitIcon = Icons.star.obs;
 
   AllHabitController allHabitController = Get.put(AllHabitController());
-  TextEditingController habitNameController = TextEditingController();
+
   TextEditingController goalAmountController = TextEditingController();
 
-  void addHabit() async {
+  @override
+  void onClose() {
+    goalAmountController.clear();
+    selectedIndex = 1.obs;
+    selectedUnitType = "of times".obs;
+    repeatTypeChoice = 0.obs;
+    isGetReminder = true.obs;
+    fillColor = Color(0xFFF53566).obs;
+    habitIcon = Icons.star.obs;
+    resetWeekDateChoice();
+    resetWeeklyListChoice();
+    resetNotiTimeChoice();
+    super.onClose();
+  }
+
+  void addHabit(String name) async {
     await DatabaseHelper.instance.insertHabit(
       Habit(
-        ten: habitNameController.text,
+        ten: name,
+        icon: habitIcon.value.codePoint,
+        mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
+        batMucTieu: selectedIndex.value,
+        soLan: goalAmountController.text == ''
+            ? 0
+            : int.parse(goalAmountController.text),
+        donVi: selectedUnitType.value,
+        loaiLap: repeatTypeChoice.value,
+        ngayTrongTuan: getDailyList(),
+        soLanTrongTuan: getWeeklyList(),
+        buoi: getNotiTimeChoice(),
+      ),
+    );
+    allHabitController.getAllHabit();
+  }
+
+  void editHabit(String name, int id) async {
+    await DatabaseHelper.instance.updateHabit(
+      Habit(
+        ma: id,
+        ten: name,
         icon: habitIcon.value.codePoint,
         mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
         batMucTieu: selectedIndex.value,
@@ -35,7 +71,6 @@ class CreateHabitScreenController extends GetxController {
       ),
     );
     allHabitController.getAllHabit();
-    print('ok');
   }
 
   var weekDateList = [
@@ -60,10 +95,10 @@ class CreateHabitScreenController extends GetxController {
   ].obs;
 
   var notiTimeChoice = [
+    false,
+    false,
+    false,
     true,
-    false,
-    false,
-    false,
   ].obs;
 
   changeSelectedIndex(RxInt index) {
@@ -112,7 +147,6 @@ class CreateHabitScreenController extends GetxController {
           count++;
         }
       }
-
       // Nếu có thì set option everyday thành true và ngược lại
       if (isEveryday) {
         weekDateList[7] = true;
@@ -150,12 +184,63 @@ class CreateHabitScreenController extends GetxController {
     return a;
   }
 
+  setDailyList(String a) {
+    List<String> b = a.split(',');
+    int count = 0;
+    // bật các thứ có trong chuỗi
+    for (int i = 0; i < b.length; i++) {
+      switch (b[i]) {
+        case '2':
+          weekDateList[0] = true;
+          count++;
+          break;
+        case '3':
+          weekDateList[1] = true;
+          count++;
+          break;
+        case '4':
+          weekDateList[2] = true;
+          count++;
+          break;
+        case '5':
+          weekDateList[3] = true;
+          count++;
+          break;
+        case '6':
+          weekDateList[4] = true;
+          count++;
+          break;
+        case '7':
+          weekDateList[5] = true;
+          count++;
+          break;
+        case '8':
+          weekDateList[6] = true;
+          count++;
+          break;
+      }
+    }
+
+    if (count < 7)
+      weekDateList[7] = false;
+    else {
+      resetWeekDateChoice();
+    }
+  }
+
   int getWeeklyList() {
     int a;
     for (int i = 0; i < 7; i++) {
       if (weeklyChoiceList[i]) a = i;
     }
     return a;
+  }
+
+  setWeeklyList(int a) {
+    if (a != 6) {
+      weeklyChoiceList[a] = true;
+      weeklyChoiceList[6] = false;
+    }
   }
 
   String getNotiTimeChoice() {
@@ -170,12 +255,46 @@ class CreateHabitScreenController extends GetxController {
     return a;
   }
 
+  setNotiTimeChoice(String a) {
+    var b = a.split(',');
+    var count = 0;
+    for (int i = 0; i < b.length; i++) {
+      switch (b[i]) {
+        case '1':
+          notiTimeChoice[0] = true;
+          count++;
+          break;
+        case '2':
+          notiTimeChoice[1] = true;
+          count++;
+          break;
+        case '3':
+          notiTimeChoice[2] = true;
+          count++;
+          break;
+      }
+    }
+    if (count < 3)
+      notiTimeChoice[3] = false;
+    else
+      resetNotiTimeChoice();
+  }
+
   resetWeekDateChoice() {
     weekDateList = [
       false,
       false,
       false,
       false,
+      false,
+      false,
+      false,
+      true,
+    ].obs;
+  }
+
+  resetNotiTimeChoice() {
+    notiTimeChoice = [
       false,
       false,
       false,

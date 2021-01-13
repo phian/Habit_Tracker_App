@@ -1,32 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
+import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import 'edit_habit.dart';
+import 'notification_screen.dart';
 
 class AllHabitsScreen extends StatelessWidget {
   AllHabitController allHabitController = Get.put(AllHabitController());
+  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Container(),
-        title: Text(
-          'All habit',
+    return SideMenu(
+      background: Color(0xFF2F313E),
+      key: _sideMenuKey,
+      inverse: false,
+      type: SideMenuType.slideNRotate,
+      menu: _buildMenu(),
+      child: Scaffold(
+        backgroundColor: Color(0xFF1E212A),
+        appBar: _allHabitScreenAppBar(),
+        body: Container(
+          child: Obx(() => listAllHabit()),
+        ),
+      ),
+    );
+  }
+
+  Widget _allHabitScreenAppBar() {
+    return AppBar(
+      centerTitle: true,
+      leading: Container(
+        alignment: Alignment.center,
+        child: IconButton(
+          icon: Icon(
+            Icons.menu_rounded,
+            size: 30.0,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            final _state = _sideMenuKey.currentState;
+            if (_state.isOpened)
+              _state.closeSideMenu();
+            else
+              _state.openSideMenu();
+          },
+        ),
+      ),
+      title: Container(
+        child: Text(
+          "All habit",
           style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.w600,
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
-        backgroundColor: Color(0xff1B1B1B),
-        elevation: 0,
       ),
-      body: Container(
-        color: Color(0xff292929),
-        child: Obx(() => listAllHabit()),
-      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
     );
   }
 
@@ -94,6 +126,105 @@ class AllHabitsScreen extends StatelessWidget {
           },
         );
       },
+    );
+  }
+
+  Widget _buildMenu() {
+    return Container(
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(
+          parent: BouncingScrollPhysics(),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 50.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 30.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 35.0,
+                    child: Icon(
+                      Icons.account_circle,
+                      size: 60.0,
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+                  // LText(
+                  //   "\l.lead{Hello},\n\l.lead.bold{User}",
+                  //   baseStyle: TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 20.0,
+                  //   ),
+                  // ),
+                  Text(
+                    "Hello, User",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  _menuListTile(
+                    Icons.access_time,
+                    "Notification",
+                    Color(0xFF11C480),
+                  ),
+                  SizedBox(height: 20.0),
+                  _menuListTile(
+                    Icons.settings,
+                    "General",
+                    Color(0xFF933DFF),
+                  ),
+                  SizedBox(height: 20.0),
+                  _menuListTile(
+                    Icons.login,
+                    "Login",
+                    Color(0xFFFABB37),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _menuListTile(IconData icon, String title, Color iconColor) {
+    return Container(
+      transform: Matrix4.translationValues(-15.0, .0, .0),
+      width: 250.0,
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        onTap: () {
+          if (icon == Icons.access_time) {
+            Get.to(
+              NotificationScreen(),
+              transition: Transition.fadeIn,
+            );
+          }
+        },
+        leading: Icon(
+          icon,
+          size: 30.0,
+          color: iconColor,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+          ),
+        ),
+        trailing: Icon(Icons.keyboard_arrow_right),
+      ),
     );
   }
 }

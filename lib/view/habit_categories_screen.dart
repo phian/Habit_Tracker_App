@@ -46,12 +46,12 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
   Widget _habitCategoriesAppBar() {
     return AppBar(
       leading: Container(
-        transform: Matrix4.translationValues(-3.0, -4.0, 0.0),
+        transform: Matrix4.translationValues(-3.0, -3.2, 0.0),
         child: IconButton(
           icon: AnimateIcons(
             startIcon: Icons.arrow_back,
             endIcon: Icons.menu_rounded,
-            size: 35.0,
+            size: 30.0,
             controller: _controller,
             startTooltip: '',
             endTooltip: '',

@@ -157,11 +157,6 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
                 Duration(milliseconds: 200),
                 () {
                   Get.back();
-                  // Get.to(
-                  //   HabitCategoriesScreen(),
-                  //   duration: Duration(milliseconds: 500),
-                  //   transition: Transition.fadeIn,
-                  // );
                 },
               );
 

@@ -102,7 +102,7 @@ class CreateHabitScreen extends StatelessWidget {
           child: AnimateIcons(
             startIcon: Icons.close,
             endIcon: Icons.arrow_back,
-            size: 25.0,
+            size: 30.0,
             controller: aniController,
             startTooltip: '',
             endTooltip: '',
@@ -110,17 +110,8 @@ class CreateHabitScreen extends StatelessWidget {
               Future.delayed(
                 Duration(milliseconds: 200),
                 () {
-<<<<<<< HEAD
-                  createHabitScreenController.resetController();
-                  Get.to(
-                    HabitCategoriesScreen(),
-                    duration: Duration(milliseconds: 500),
-                    transition: Transition.fadeIn,
-                  );
-=======
                   Get.back();
                   createHabitScreenController.onClose();
->>>>>>> 6fa67d9f6ecfd24165faacdd6476aca08412568e
                 },
               );
 
@@ -192,10 +183,7 @@ class CreateHabitScreen extends StatelessWidget {
     } else {
       createHabitScreenController.addHabit(habitNameController.text);
       Get.to(ManageScreen());
-<<<<<<< HEAD
-=======
       createHabitScreenController.onClose();
->>>>>>> 6fa67d9f6ecfd24165faacdd6476aca08412568e
     }
   }
 
@@ -883,7 +871,7 @@ class CreateHabitScreen extends StatelessWidget {
 
     createHabitScreenController.changeHabitIcon(icon);
 
-    debugPrint('Icon code point: ${icon.codePoint}');
+    if (icon != null) debugPrint('Icon code point: ${icon.codePoint}');
     debugPrint(suggestedHabit == null ? "null" : "not null");
   }
 

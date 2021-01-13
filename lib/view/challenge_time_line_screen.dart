@@ -112,15 +112,17 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
 
   // Widget chứa body của màn hình
   Widget _challengeTimelineScreenBody() {
-    return CustomScrollView(
-      physics: BouncingScrollPhysics(
-        parent: AlwaysScrollableScrollPhysics(),
+    return Material(
+      child: CustomScrollView(
+        physics: BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        controller: challengeTimelineController,
+        slivers: [
+          _challengeTimelineScreenAppBar(),
+          _challengeTimelineScreennBody(),
+        ],
       ),
-      controller: challengeTimelineController,
-      slivers: [
-        _challengeTimelineScreenAppBar(),
-        _challengeTimelineScreennBody(),
-      ],
     );
   }
 
@@ -239,7 +241,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
           child: AnimateIcons(
             startIcon: Icons.arrow_back,
             endIcon: Icons.menu,
-            size: 25.0,
+            size: 30.0,
             controller: aniController,
             startTooltip: '',
             endTooltip: '',
@@ -248,11 +250,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                 Duration(milliseconds: 200),
                 () {
                   Future.delayed(Duration(milliseconds: 200), () {
-                    Get.to(
-                      ManageScreen(),
-                      duration: Duration(milliseconds: 500),
-                      transition: Transition.fadeIn,
-                    );
+                    Get.back();
                   });
                 },
               );
@@ -296,6 +294,8 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
             padding: EdgeInsets.only(bottom: 20.0, top: 15.0),
             child: Timeline(
               position: TimelinePosition.Left,
+              lineColor: Colors.white12,
+              lineWidth: 0.7,
               physics: AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
               ),

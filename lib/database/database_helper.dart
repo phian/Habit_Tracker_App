@@ -249,19 +249,11 @@ class DatabaseHelper {
     ('12', 'Go for a walk', 'Strengthen your body and improve your mood', '59073', '0xFF11C480', '1', '3', 'km', '0', '2,3,4,5,6,7,8', '6', '1,2,3'),
     ('12', 'Go for a run', 'Break a sweat and relieve stress', '59070', '0xFF11C480', '1', '6', 'km', '1', '2,3,4,5,6,7,8', '1', '1,2,3'),
 
-<<<<<<< HEAD
-    ('13', 'Create shoping list', 'Save time and money', '59870', '0xFFFABB37', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '1', '1,2,3'),
-    ('13', 'Reduce restaurant dining', 'Cook something at home', '59785', '0xFFF53566', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '4', '1,2,3'),
-    ('13', 'Make a donation', 'Share your good fortune', '59612', '0xFF1C8EFE', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '4', '1,2,3'),
-    ('13', 'Plan spending', 'Prevent impulsive purchases', '59632', '0xFFFE7352', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '1', '1,2,3'),
-    ('13', 'Track expenses', 'Keep a balanced budget', '59517', '0xFFFABB37', '2', '0', 'of times', '2', '2,3,4,5,6,7,8', '1', '1,2,3'),
-=======
     ('13', 'Create shoping list', 'Save time and money', '59870', '0xFFFABB37', '2', '0', 'of times', '1', '2,3,4,5,6,7,8', '0', '1,2,3'),
     ('13', 'Reduce restaurant dining', 'Cook something at home', '59785', '0xF53566', '2', '0', 'of times', '1', '2,3,4,5,6,7,8', '3', '1,2,3'),
     ('13', 'Make a donation', 'Share your good fortune', '59612', '0xFF1C8EFE', '2', '0', 'of times', '1', '2,3,4,5,6,7,8', '3', '1,2,3'),
     ('13', 'Plan spending', 'Prevent impulsive purchases', '59632', '0xFFFE7352', '2', '0', 'of times', '1', '2,3,4,5,6,7,8', '0', '1,2,3'),
     ('13', 'Track expenses', 'Keep a balanced budget', '59517', '0xFFFABB37', '2', '0', 'of times', '1', '2,3,4,5,6,7,8', '0', '1,2,3'),
->>>>>>> 6fa67d9f6ecfd24165faacdd6476aca08412568e
     
     ('14', 'Cuddle', 'Embrace your tender side', '59637', '0xFF1C8EFE', '1', '15', 'time', '1', '2,3,4,5,6,7,8', '2', '1,2,3'),
     ('14', 'Hug and kiss', 'Showing love and affection is easy', '59169', '0xFFF53566', '1', '30', 'time', '0', '2,3,4,5,6,7,8', '6', '1,2,3'),
@@ -319,14 +311,11 @@ class DatabaseHelper {
     Database db = await instance.database;
     var res = await db.query(tabHabit, orderBy: '$ma DESC');
     return res;
-<<<<<<< HEAD
-=======
   }
 
   Future<int> updateHabit(Habit habit) async {
     Database db = await instance.database;
     return await db.update(tabHabit, habit.toMap(),
         where: '$ma = ?', whereArgs: [habit.ma]);
->>>>>>> 6fa67d9f6ecfd24165faacdd6476aca08412568e
   }
 }

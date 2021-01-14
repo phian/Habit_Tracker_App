@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/view/manage_screen.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() => runApp(GetMaterialApp(
-      theme: ThemeData.dark(),
-      home: IntroScreen(),
-      debugShowCheckedModeBanner: false,
-    ));
+void main() => initializeDateFormatting().then(
+      (_) => runApp(
+        GetMaterialApp(
+          theme: ThemeData.dark(),
+          home: IntroScreen(),
+          debugShowCheckedModeBanner: false,
+        ),
+      ),
+    );
 
 class IntroScreen extends StatefulWidget {
   @override

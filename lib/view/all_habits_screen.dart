@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
+import 'package:habit_tracker/view/habit_statistic_screen.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import 'edit_habit.dart';
@@ -22,12 +23,15 @@ class AllHabitsScreen extends StatelessWidget {
         backgroundColor: Color(0xFF1E212A),
         appBar: _allHabitScreenAppBar(),
         body: Container(
-          child: Obx(() => listAllHabit()),
+          child: allHabitController.listAllHabit.length == 0
+              ? _noneHabitDisplayWidget()
+              : _listAllHabit(),
         ),
       ),
     );
   }
 
+  /// [App Bar]
   Widget _allHabitScreenAppBar() {
     return AppBar(
       centerTitle: true,
@@ -62,76 +66,93 @@ class AllHabitsScreen extends StatelessWidget {
     );
   }
 
-  Widget listAllHabit() {
-    return ListView.separated(
-      padding: EdgeInsets.only(top: 20, bottom: 20),
-      itemCount: allHabitController.listAllHabit.length,
-      physics: AlwaysScrollableScrollPhysics(
-        parent: BouncingScrollPhysics(),
-      ),
-      separatorBuilder: (BuildContext context, int index) =>
-          SizedBox(height: 10),
-      itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-                color: Color(0xff333333),
-                borderRadius: BorderRadius.circular(15)),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Icon(
-                    IconData(allHabitController.listAllHabit[index].icon,
-                        fontFamily: 'MaterialIcons'),
-                    size: 50,
-                    color: Color(
-                      int.parse(
-                        allHabitController.listAllHabit[index].mau,
-                        radix: 16,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Text(
-                      allHabitController.listAllHabit[index].ten,
-                      style: TextStyle(
-                        fontSize: 22,
-                        //fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: 2,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+  /// [Habit list]
+  Widget _listAllHabit() {
+    return Stack(
+      children: [
+        Container(
+          alignment: Alignment.bottomCenter,
+          child: Image.asset(
+            "images/jungle_leaf.png",
+            color: Color(0xFF2F313E),
           ),
-          onTap: () {
-            print(allHabitController.listAllHabit[index].ma);
-            print(allHabitController.listAllHabit[index].ten);
-            print(allHabitController.listAllHabit[index].mau);
-            print(allHabitController.listAllHabit[index].icon);
-            print(allHabitController.listAllHabit[index].batMucTieu);
-            print(allHabitController.listAllHabit[index].soLan);
-            print(allHabitController.listAllHabit[index].donVi);
-            print(allHabitController.listAllHabit[index].loaiLap);
-            print(allHabitController.listAllHabit[index].ngayTrongTuan);
-            print(allHabitController.listAllHabit[index].soLanTrongTuan);
-            print(allHabitController.listAllHabit[index].buoi);
-            print(allHabitController.listAllHabit[index].trangThai);
-            Get.to(EditHabitScreen(),
-                arguments: allHabitController.listAllHabit[index]);
+        ),
+        ListView.separated(
+          padding: EdgeInsets.only(top: 20, bottom: 20),
+          itemCount: allHabitController.listAllHabit.length,
+          physics: AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
+          separatorBuilder: (BuildContext context, int index) =>
+              SizedBox(height: 10),
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                    color: Color(0xff333333),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Icon(
+                        IconData(allHabitController.listAllHabit[index].icon,
+                            fontFamily: 'MaterialIcons'),
+                        size: 50,
+                        color: Color(
+                          int.parse(
+                            allHabitController.listAllHabit[index].mau,
+                            radix: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Text(
+                          allHabitController.listAllHabit[index].ten,
+                          style: TextStyle(
+                            fontSize: 22,
+                            //fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              onTap: () {
+                print(allHabitController.listAllHabit[index].ma);
+                print(allHabitController.listAllHabit[index].ten);
+                print(allHabitController.listAllHabit[index].mau);
+                print(allHabitController.listAllHabit[index].icon);
+                print(allHabitController.listAllHabit[index].batMucTieu);
+                print(allHabitController.listAllHabit[index].soLan);
+                print(allHabitController.listAllHabit[index].donVi);
+                print(allHabitController.listAllHabit[index].loaiLap);
+                print(allHabitController.listAllHabit[index].ngayTrongTuan);
+                print(allHabitController.listAllHabit[index].soLanTrongTuan);
+                print(allHabitController.listAllHabit[index].buoi);
+                print(allHabitController.listAllHabit[index].trangThai);
+
+                Get.to(
+                  HabitStatisticScreen(),
+                  transition: Transition.fadeIn,
+                  arguments: allHabitController.listAllHabit[index],
+                );
+              },
+            );
           },
-        );
-      },
+        ),
+      ],
     );
   }
 
+  /// [Side menu]
   Widget _buildMenu() {
     return Container(
       child: SingleChildScrollView(
@@ -198,6 +219,7 @@ class AllHabitsScreen extends StatelessWidget {
     );
   }
 
+  /// [Widget cho Side menu]
   Widget _menuListTile(IconData icon, String title, Color iconColor) {
     return Container(
       transform: Matrix4.translationValues(-15.0, .0, .0),
@@ -228,6 +250,35 @@ class AllHabitsScreen extends StatelessWidget {
         ),
         trailing: Icon(Icons.keyboard_arrow_right),
       ),
+    );
+  }
+
+  /// [Widget hiển thị khi ko có habit náo trong database]
+  Widget _noneHabitDisplayWidget() {
+    return Stack(
+      children: [
+        Container(
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "images/plant_pot.png",
+                width: Get.width * 0.27,
+                height: Get.height * 0.27,
+              ),
+              Text(
+                "All tree grown.\nPlant new by clicking \"+\" button",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

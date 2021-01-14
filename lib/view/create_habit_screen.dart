@@ -180,9 +180,19 @@ class CreateHabitScreen extends StatelessWidget {
         title: "Forgot to set a goal?",
         text: "Check your goal for this habit",
       );
+    } else if (habitNameController.text == '' ||
+        habitNameController.text.isEmpty) {
+      CoolAlert.show(
+        context: createHabitScreenContext,
+        type: CoolAlertType.error,
+        animType: CoolAlertAnimType.slideInUp,
+        title: "Forgot to set a name?",
+        text: "Check the name you want for this habit",
+      );
     } else {
       createHabitScreenController.addHabit(habitNameController.text);
       Get.to(ManageScreen());
+      habitNameController = TextEditingController();
       createHabitScreenController.onClose();
     }
   }

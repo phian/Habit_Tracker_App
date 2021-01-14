@@ -108,6 +108,7 @@ class NotificationScreen extends StatelessWidget {
             value: _notificationController.isOnOrOffTodayPlanNoti,
             icon: Icons.assignment,
             pickedTime: _notificationController.todayPlanPickedTime,
+            iconColor: Color(0xFF11C480),
           ),
           SizedBox(height: 30.0),
           _dateTimeNotiWidget(
@@ -116,6 +117,7 @@ class NotificationScreen extends StatelessWidget {
                 "You have x habits for this morning and 4 more you can do",
             icon: Icons.wb_sunny,
             value: _notificationController.isOnOrOffMorningPlan,
+            iconColor: Color(0xFFFABB37),
           ),
           SizedBox(height: 30.0),
           _dateTimeNotiWidget(
@@ -132,6 +134,7 @@ class NotificationScreen extends StatelessWidget {
                 "You have 1 habt for this afternoon and 4 more you can do",
             icon: Icons.nights_stay,
             value: _notificationController.isOnOrOffEveningPlan,
+            iconColor: Color(0xFFFFD93B),
           ),
           SizedBox(height: 30.0),
           _todayPlanAndResultWidget(
@@ -140,6 +143,7 @@ class NotificationScreen extends StatelessWidget {
             value: _notificationController.isOnOrOffTodayResult,
             icon: Icons.flag,
             pickedTime: _notificationController.resultNotiPickedTime,
+            iconColor: Color(0xFFF53566),
           ),
           SizedBox(height: 30.0),
           Text(
@@ -170,12 +174,14 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 
-  Widget _todayPlanAndResultWidget(
-      {String title,
-      IconData icon,
-      String summaryText,
-      RxBool value,
-      RxString pickedTime}) {
+  Widget _todayPlanAndResultWidget({
+    String title,
+    IconData icon,
+    String summaryText,
+    RxBool value,
+    RxString pickedTime,
+    Color iconColor,
+  }) {
     return Container(
       height: Get.height * 0.26,
       padding: EdgeInsets.symmetric(horizontal: 30.0),
@@ -203,6 +209,7 @@ class NotificationScreen extends StatelessWidget {
                     child: Icon(
                       icon,
                       size: 30.0,
+                      color: iconColor,
                     ),
                   ),
                 ],
@@ -221,7 +228,7 @@ class NotificationScreen extends StatelessWidget {
                     ),
                   ),
                   Obx(
-                    () => CupertinoSwitch(
+                    () => Switch(
                       activeColor: Colors.blue,
                       value: value.value,
                       onChanged: (value) {
@@ -237,7 +244,9 @@ class NotificationScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 15.0),
+            SizedBox(
+                height:
+                    icon == Icons.assignment ? 15.0 : Get.height * 0.26 * 0.17),
             Divider(
               thickness: 0.5,
               color: Colors.white,
@@ -282,8 +291,13 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 
-  Widget _dateTimeNotiWidget(
-      {String title, String summaryText, IconData icon, RxBool value}) {
+  Widget _dateTimeNotiWidget({
+    String title,
+    String summaryText,
+    IconData icon,
+    RxBool value,
+    Color iconColor,
+  }) {
     return Container(
       height: Get.height * 0.17,
       padding: EdgeInsets.symmetric(horizontal: 30.0),
@@ -308,10 +322,11 @@ class NotificationScreen extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 5.0),
+                      padding: EdgeInsets.only(left: 10.0),
                       child: Icon(
-                        Icons.wb_sunny,
+                        icon,
                         size: 30.0,
+                        color: iconColor,
                       ),
                     ),
                   ],
@@ -332,7 +347,7 @@ class NotificationScreen extends StatelessWidget {
                     Obx(
                       () => Container(
                         padding: EdgeInsets.only(left: Get.width * 0.03),
-                        child: CupertinoSwitch(
+                        child: Switch(
                           activeColor: Colors.blue,
                           value: value.value,
                           onChanged: (value) {

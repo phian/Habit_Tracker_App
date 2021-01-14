@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/view/challenge_time_line_screen.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
+import 'genaral_screeen.dart';
+import 'login_screen.dart';
 import 'notification_screen.dart';
 
 class ChallengesScreen extends StatefulWidget {
@@ -422,6 +424,16 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
           if (icon == Icons.access_time) {
             Get.to(
               NotificationScreen(),
+              transition: Transition.fadeIn,
+            );
+          } else if (icon == Icons.settings) {
+            Get.to(
+              GeneralScreen(),
+              transition: Transition.fadeIn,
+            );
+          } else {
+            Get.to(
+              LoginScreen(),
               transition: Transition.fadeIn,
             );
           }

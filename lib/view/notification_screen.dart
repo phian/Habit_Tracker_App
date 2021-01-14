@@ -56,6 +56,7 @@ class NotificationScreen extends StatelessWidget {
       ),
       backgroundColor: Color(0xFF2F313E),
       centerTitle: true,
+      elevation: 0.0,
     );
   }
 

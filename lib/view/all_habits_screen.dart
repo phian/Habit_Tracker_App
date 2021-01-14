@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/view/habit_statistic_screen.dart';
+import 'package:habit_tracker/view/login_screen.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import 'edit_habit.dart';
+import 'genaral_screeen.dart';
 import 'notification_screen.dart';
 
 class AllHabitsScreen extends StatelessWidget {
@@ -232,6 +234,16 @@ class AllHabitsScreen extends StatelessWidget {
           if (icon == Icons.access_time) {
             Get.to(
               NotificationScreen(),
+              transition: Transition.fadeIn,
+            );
+          } else if (icon == Icons.settings) {
+            Get.to(
+              GeneralScreen(),
+              transition: Transition.fadeIn,
+            );
+          } else {
+            Get.to(
+              LoginScreen(),
               transition: Transition.fadeIn,
             );
           }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/view/genaral_screeen.dart';
 import 'package:habit_tracker/view/notification_screen.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
+
+import 'login_screen.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreenController _mainScreenController = MainScreenController();
@@ -244,6 +247,16 @@ class MainScreen extends StatelessWidget {
           if (icon == Icons.access_time) {
             Get.to(
               NotificationScreen(),
+              transition: Transition.fadeIn,
+            );
+          } else if (icon == Icons.settings) {
+            Get.to(
+              GeneralScreen(),
+              transition: Transition.fadeIn,
+            );
+          } else {
+            Get.to(
+              LoginScreen(),
               transition: Transition.fadeIn,
             );
           }

@@ -21,9 +21,7 @@ class AllHabitsScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Color(0xFF1E212A),
         appBar: _allHabitScreenAppBar(),
-        body: Container(
-          child: Obx(() => listAllHabit()),
-        ),
+        body: Obx(() => listAllHabit()),
       ),
     );
   }
@@ -57,7 +55,7 @@ class AllHabitsScreen extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black12,
       elevation: 0.0,
     );
   }
@@ -76,7 +74,7 @@ class AllHabitsScreen extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-                color: Color(0xff333333),
+                color: Color(0xFF2F313E),
                 borderRadius: BorderRadius.circular(15)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,18 +110,18 @@ class AllHabitsScreen extends StatelessWidget {
             ),
           ),
           onTap: () {
-            print(allHabitController.listAllHabit[index].ma);
-            print(allHabitController.listAllHabit[index].ten);
-            print(allHabitController.listAllHabit[index].mau);
-            print(allHabitController.listAllHabit[index].icon);
-            print(allHabitController.listAllHabit[index].batMucTieu);
-            print(allHabitController.listAllHabit[index].soLan);
-            print(allHabitController.listAllHabit[index].donVi);
-            print(allHabitController.listAllHabit[index].loaiLap);
-            print(allHabitController.listAllHabit[index].ngayTrongTuan);
-            print(allHabitController.listAllHabit[index].soLanTrongTuan);
-            print(allHabitController.listAllHabit[index].buoi);
-            print(allHabitController.listAllHabit[index].trangThai);
+            // print(allHabitController.listAllHabit[index].ma);
+            // print(allHabitController.listAllHabit[index].ten);
+            // print(allHabitController.listAllHabit[index].mau);
+            // print(allHabitController.listAllHabit[index].icon);
+            // print(allHabitController.listAllHabit[index].batMucTieu);
+            // print(allHabitController.listAllHabit[index].soLan);
+            // print(allHabitController.listAllHabit[index].donVi);
+            // print(allHabitController.listAllHabit[index].loaiLap);
+            // print(allHabitController.listAllHabit[index].ngayTrongTuan);
+            // print(allHabitController.listAllHabit[index].soLanTrongTuan);
+            // print(allHabitController.listAllHabit[index].buoi);
+            // print(allHabitController.listAllHabit[index].trangThai);
             Get.to(EditHabitScreen(),
                 arguments: allHabitController.listAllHabit[index]);
           },

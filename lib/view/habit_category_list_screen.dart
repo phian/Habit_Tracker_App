@@ -232,7 +232,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
           ),
         ),
         onTap: () {
-          Get.to(CreateHabitScreen(), arguments: _suggestedHabitList[index]);
+          Get.off(CreateHabitScreen(), arguments: _suggestedHabitList[index]);
         },
         leading: Container(
           child: Icon(

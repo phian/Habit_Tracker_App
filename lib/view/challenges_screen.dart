@@ -98,7 +98,8 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
           ),
         ),
       ),
-      backgroundColor: Colors.transparent,
+      centerTitle: true,
+      backgroundColor: Colors.black12,
       elevation: 0.0,
     );
   }

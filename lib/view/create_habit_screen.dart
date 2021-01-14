@@ -112,6 +112,7 @@ class CreateHabitScreen extends StatelessWidget {
                 () {
                   Get.back();
                   createHabitScreenController.onClose();
+                  habitNameController.clear();
                 },
               );
 
@@ -182,7 +183,7 @@ class CreateHabitScreen extends StatelessWidget {
       );
     } else {
       createHabitScreenController.addHabit(habitNameController.text);
-      Get.to(ManageScreen());
+      Get.back();
       createHabitScreenController.onClose();
     }
   }

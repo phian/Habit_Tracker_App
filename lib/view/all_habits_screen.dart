@@ -61,7 +61,7 @@ class AllHabitsScreen extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black12,
       elevation: 0.0,
     );
   }

@@ -22,131 +22,148 @@ class MainScreen extends StatelessWidget {
       menu: _buildMenu(),
       child: Scaffold(
         backgroundColor: Color(0xFF1E212A),
-        appBar: PreferredSize(
-          preferredSize: Size(MediaQuery.of(context).size.width, 62.0),
-          child: AppBar(
-            leading: Container(
-              alignment: Alignment.center,
-              child: IconButton(
-                icon: Icon(
-                  Icons.menu_rounded,
-                  size: 30.0,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  final _state = _sideMenuKey.currentState;
-                  if (_state.isOpened)
-                    _state.closeSideMenu();
-                  else
-                    _state.openSideMenu();
-                },
+        appBar: AppBar(
+          leading: Container(
+            alignment: Alignment.center,
+            child: IconButton(
+              icon: Icon(
+                Icons.menu_rounded,
+                size: 30.0,
+                color: Colors.white,
               ),
+              onPressed: () {
+                final _state = _sideMenuKey.currentState;
+                if (_state.isOpened)
+                  _state.closeSideMenu();
+                else
+                  _state.openSideMenu();
+              },
             ),
-            title: Container(
-              child: Text(
-                "Today",
-                style: TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
           ),
+          title: Container(
+            child: Text(
+              "Today",
+              style: TextStyle(
+                fontSize: 25.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.black12,
+          elevation: 0.0,
         ),
-        body: SafeArea(
-          child: Stack(
+        body: Container(
+          height: Get.height,
+          child: Column(
             children: [
-              MainScreenTreesAndCloud(),
-              Column(
-                children: [
-                  Obx(
-                    () => Container(
-                      padding: const EdgeInsets.only(top: 11, bottom: 11),
-                      child: FlutterDatePickerTimeline(
-                        startDate: DateTime.now().subtract(Duration(days: 14)),
-                        endDate: DateTime.now().add(Duration(days: 10000)),
-                        initialSelectedDate:
-                            _mainScreenController.selectedDay.value,
-                        onSelectedDateChange: (DateTime dateTime) {
-                          _mainScreenController.changeSelectedDay(dateTime);
-                        },
-                        selectedItemBackgroundColor: Colors.white24,
-                        selectedItemTextStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                        ),
-                        unselectedItemBackgroundColor: Colors.transparent,
-                        unselectedItemTextStyle: TextStyle(
-                          fontSize: 18.0,
-                        ),
-                      ),
+              Obx(
+                // calendar
+                () => Container(
+                  color: Colors.black12,
+                  padding: const EdgeInsets.only(top: 11, bottom: 11),
+                  child: FlutterDatePickerTimeline(
+                    startDate: DateTime.now().subtract(Duration(days: 14)),
+                    endDate: DateTime.now().add(Duration(days: 10000)),
+                    initialSelectedDate:
+                        _mainScreenController.selectedDay.value,
+                    onSelectedDateChange: (DateTime dateTime) {
+                      _mainScreenController.changeSelectedDay(dateTime);
+                    },
+                    selectedItemBackgroundColor: Colors.white24,
+                    selectedItemTextStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                    ),
+                    unselectedItemBackgroundColor: Colors.transparent,
+                    unselectedItemTextStyle: TextStyle(
+                      fontSize: 18.0,
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(top: 22.0, left: 20.0),
-                    child: Text(
-                      "Tracking habits",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 32.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: Divider(),
-                    margin: EdgeInsets.symmetric(
-                      vertical: 5.0,
-                      horizontal: 15.0,
-                    ),
-                  ),
-                  Container(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                    height: MediaQuery.of(context).size.height * 0.45,
-                    child: _habitDataList.length > 0
-                        ? ListView(
-                            physics: BouncingScrollPhysics(
-                                parent: AlwaysScrollableScrollPhysics()),
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                child: Text(""),
-                              )
-                            ],
-                          )
-                        : Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'images/gardener.png',
-                                  fit: BoxFit.cover,
-                                  height: 120.0,
-                                  width: 120.0,
-                                  alignment: Alignment.center,
+                ),
+              ),
+              Expanded(
+                child: DefaultTabController(
+                  length: 4, // length of tabs
+                  initialIndex: 0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Container(
+                        color: Colors.black12,
+                        child: TabBar(
+                          isScrollable: true,
+                          labelColor: Colors.white,
+                          unselectedLabelColor: Colors.white24,
+                          indicatorColor: Colors.transparent,
+                          tabs: [
+                            Tab(
+                              child: Container(
+                                width: 150,
+                                child: Text(
+                                  'All day',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 30.0,
-                                    vertical: 15.0,
-                                  ),
-                                  child: Text(
-                                    "All tree are grown up. Let's plan another tree",
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
+                            Tab(
+                              child: Container(
+                                width: 150,
+                                child: Text(
+                                  'Morning',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            Tab(
+                              child: Container(
+                                width: 150,
+                                child: Text(
+                                  'Afternoon',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            Tab(
+                              child: Container(
+                                width: 150,
+                                child: Text(
+                                  'Evening',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: TabBarView(
+                            children: <Widget>[
+                              //Container(child: Center(child: Text('ca ngay'))),
+                              listHabit(_habitDataList),
+                              Container(child: Center(child: Text('sang'))),
+                              Container(child: Center(child: Text('trua'))),
+                              Container(child: Center(child: Text('chieu'))),
+                            ],
                           ),
+                        ),
+                      )
+                    ],
                   ),
-                ],
+                ),
               ),
             ],
           ),
@@ -180,13 +197,6 @@ class MainScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16.0),
-                  // LText(
-                  //   "\l.lead{Hello},\n\l.lead.bold{User}",
-                  //   baseStyle: TextStyle(
-                  //     color: Colors.white,
-                  //     fontSize: 20.0,
-                  //   ),
-                  // ),
                   Text(
                     "Hello, User",
                     style: TextStyle(
@@ -253,4 +263,56 @@ class MainScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget listHabit(List _habitDataList) {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 20.0),
+    //height: MediaQuery.of(context).size.height * 0.5,
+    child: _habitDataList.length == 0
+        ? ListView(
+            physics:
+                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            children: [
+              Container(height: 80, color: Colors.white12),
+              Container(height: 80, color: Colors.white38),
+              Container(height: 80, color: Colors.white12),
+              Container(height: 80, color: Colors.white38),
+              Container(height: 80, color: Colors.white12),
+              Container(height: 80, color: Colors.white38),
+              Container(height: 80, color: Colors.white12),
+              Container(height: 80, color: Colors.white38),
+              Container(height: 80, color: Colors.white12),
+              Container(height: 80, color: Colors.white38),
+            ],
+          )
+        : Column(
+            // widget khi khong co habit
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'images/gardener.png',
+                fit: BoxFit.cover,
+                height: 120.0,
+                width: 120.0,
+                alignment: Alignment.center,
+              ),
+              SizedBox(height: 10),
+              Text(
+                "There's nothing due.",
+                style: TextStyle(
+                  fontSize: 20.0,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                "Time to create new habits!!",
+                style: TextStyle(
+                  fontSize: 20.0,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+  );
 }

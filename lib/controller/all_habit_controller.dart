@@ -9,7 +9,7 @@ class AllHabitController extends GetxController {
   var listMorningHabit = List<Habit>().obs;
   var listAfternoonHabit = List<Habit>().obs;
   var listEveningHabit = List<Habit>().obs;
-  var boxTitle = "DO ANYTIME".obs;
+  var title = "DO ANYTIME".obs;
   var selectedIndex = 0.obs;
 
   var listAnytimeWidgets = List<Widget>().obs;
@@ -32,16 +32,16 @@ class AllHabitController extends GetxController {
       selectedIndex.value = index;
       switch (index) {
         case 0:
-          boxTitle.value = "DO ANYTIME";
+          title.value = "DO ANYTIME";
           break;
         case 1:
-          boxTitle.value = "MORNING";
+          title.value = "MORNING";
           break;
         case 2:
-          boxTitle.value = "AFTERNOON";
+          title.value = "AFTERNOON";
           break;
         case 3:
-          boxTitle.value = "EVENING";
+          title.value = "EVENING";
           break;
       }
     }

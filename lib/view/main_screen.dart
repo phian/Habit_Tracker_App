@@ -21,8 +21,6 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _initAnytimeHabitListWidget();
-
     return SideMenu(
       background: Color(0xFF2F313E),
       key: _sideMenuKey,
@@ -301,137 +299,22 @@ class MainScreen extends StatelessWidget {
       child: ListView(
         physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         children: [
-          _allHabitBox(),
-        ],
-      ),
-    );
-  }
-
-  /// [Box chứa các habit]
-  Widget _allHabitBox() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFF2F313E),
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            child: Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
-                child: Image.asset(
-                  "images/hill.png",
-                  height: 110.0,
-                  width: Get.width,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 20.0, left: 10.0),
-            child: Obx(
-              () => Text(
-                _allHabitController.boxTitle.value,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFFA7AAB1),
-                ),
-              ),
-            ),
-          ),
+          SizedBox(height: 20.0),
           Obx(
-            () => Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              height: () {
-                switch (_allHabitController.selectedIndex.value) {
-                  case 0:
-                    return ((_allHabitController.listAnytimeWidgets.length *
-                            Get.width *
-                            0.09) +
-                        ((_allHabitController.listAnytimeWidgets.length) *
-                            40.0 *
-                            1.4));
-                    break;
-                  case 1:
-                    return (_allHabitController.listMorningWidgets.length *
-                            Get.width *
-                            0.09) +
-                        ((_allHabitController.listAnytimeWidgets.length) *
-                            40 *
-                            1.4);
-                    break;
-                  case 2:
-                    return (_allHabitController.listAfternoonWidgets.length *
-                            Get.width *
-                            0.09) +
-                        ((_allHabitController.listAnytimeWidgets.length) *
-                            40 *
-                            1.4);
-                    break;
-                  default:
-                    return (_allHabitController.listEveningWidgets.length *
-                            Get.width *
-                            0.09) +
-                        ((_allHabitController.listAnytimeWidgets.length) *
-                            40 *
-                            1.4);
-                }
-              }(),
-              child: Obx(
-                () => Column(
-                  children: [
-                    ...List.generate(
-                      () {
-                        switch (_allHabitController.selectedIndex.value) {
-                          case 0:
-                            return _allHabitController
-                                .listAnytimeWidgets.length;
-                            break;
-                          case 1:
-                            return _allHabitController
-                                .listMorningWidgets.length;
-                            break;
-                          case 2:
-                            return _allHabitController
-                                .listAfternoonWidgets.length;
-                            break;
-                          default:
-                            return _allHabitController
-                                .listEveningWidgets.length;
-                        }
-                      }(),
-                      (index) {
-                        switch (_allHabitController.getSelectedIndex()) {
-                          case 0:
-                            return _allHabitController
-                                .listAnytimeWidgets[index];
-                            break;
-                          case 1:
-                            return _allHabitController
-                                .listMorningWidgets[index];
-                            break;
-                          case 2:
-                            return _allHabitController
-                                .listAfternoonWidgets[index];
-                            break;
-                          default:
-                            return _allHabitController
-                                .listEveningWidgets[index];
-                        }
-                      },
-                    )
-                  ],
-                ),
+            () => Text(
+              _allHabitController.title.value,
+              style: TextStyle(
+                fontSize: 20.0,
+                color: Color(0xFFA7AAB1),
               ),
             ),
           ),
+          _habitBox(),
+          _habitBox(isHaveGoal: true),
+          _habitBox(),
+          _habitBox(isHaveGoal: true),
+          _habitBox(),
+          _habitBox(isHaveGoal: true),
         ],
       ),
     );
@@ -530,34 +413,6 @@ class MainScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  /// [Hàm khởi tạo các box]
-  void _initAnytimeHabitListWidget() {
-    if (_allHabitController.listAnytimeWidgets.length == 0 &&
-        _allHabitController.listMorningWidgets.length == 0 &&
-        _allHabitController.listAfternoonHabit.length == 0 &&
-        _allHabitController.listEveningHabit.length == 0) {
-      _initHabitBoxes(_allHabitController.listAnytimeWidgets);
-      _initHabitBoxes(_allHabitController.listMorningWidgets);
-      _initHabitBoxes(_allHabitController.listAfternoonWidgets);
-      _initHabitBoxes(_allHabitController.listEveningWidgets);
-    }
-  }
-
-  /// [Khởi tạo các ô habit]
-  void _initHabitBoxes(RxList<Widget> list) {
-    if (list.length == 0)
-      for (int i = 0; i < 10; i++) {
-        if (i % 2 == 0)
-          list.add(_habitBox());
-        else
-          list.add(
-            _habitBox(
-              isHaveGoal: true,
-            ),
-          );
-      }
   }
 
   /// [Tab widget]

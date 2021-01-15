@@ -129,7 +129,10 @@ class MainScreen extends StatelessWidget {
                         ),
                         children: <Widget>[
                           //Container(child: Center(child: Text('ca ngay'))),
-                          // _listHabit(_habitDataList)
+                          // _listHabit(_habitDataList),
+                          // _listHabit(_habitDataList),
+                          // _listHabit(_habitDataList),
+                          // _listHabit(_habitDataList),
                           _habitDataList.length != 0
                               ? _listHabit(_habitDataList)
                               : _noneHabitDisplayWidget(),
@@ -284,65 +287,24 @@ class MainScreen extends StatelessWidget {
 
   /// [Habit list]
   Widget _listHabit(List _habitDataList) {
-    return Stack(
-      children: [
-        Container(
-          alignment: Alignment.bottomCenter,
-          child: Image.asset(
-            "images/jungle_leaf.png",
-            color: Color(0xFF2F313E),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          //height: MediaQuery.of(context).size.height * 0.5,
-          child: _habitDataList.length == 0
-              ? ListView(
-                  physics: BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  children: [
-                    Container(height: 80, color: Colors.white12),
-                    Container(height: 80, color: Colors.white38),
-                    Container(height: 80, color: Colors.white12),
-                    Container(height: 80, color: Colors.white38),
-                    Container(height: 80, color: Colors.white12),
-                    Container(height: 80, color: Colors.white38),
-                    Container(height: 80, color: Colors.white12),
-                    Container(height: 80, color: Colors.white38),
-                    Container(height: 80, color: Colors.white12),
-                    Container(height: 80, color: Colors.white38),
-                  ],
-                )
-              : Column(
-                  // widget khi khong co habit
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'images/gardener.png',
-                      fit: BoxFit.cover,
-                      height: 120.0,
-                      width: 120.0,
-                      alignment: Alignment.center,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      "There's nothing due.",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      "Time to create new habits!!",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-        ),
-      ],
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      //height: MediaQuery.of(context).size.height * 0.5,
+      child: ListView(
+        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        children: [
+          Container(height: 80, color: Colors.white12),
+          Container(height: 80, color: Colors.white38),
+          Container(height: 80, color: Colors.white12),
+          Container(height: 80, color: Colors.white38),
+          Container(height: 80, color: Colors.white12),
+          Container(height: 80, color: Colors.white38),
+          Container(height: 80, color: Colors.white12),
+          Container(height: 80, color: Colors.white38),
+          Container(height: 80, color: Colors.white12),
+          Container(height: 80, color: Colors.white38),
+        ],
+      ),
     );
   }
 

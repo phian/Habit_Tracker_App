@@ -27,7 +27,7 @@ class AllHabitsScreen extends StatelessWidget {
         body: Container(
           child: allHabitController.listAllHabit.length == 0
               ? _noneHabitDisplayWidget()
-              : _listAllHabit(),
+              : Obx(() => _listAllHabit()),
         ),
       ),
     );

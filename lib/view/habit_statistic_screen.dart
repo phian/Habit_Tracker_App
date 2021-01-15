@@ -542,7 +542,9 @@ class HabitStatisticScreen extends StatelessWidget {
             SizedBox(height: 10.0),
             Container(
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  Get.back();
+                },
                 leading: Icon(
                   Icons.restore_outlined,
                   size: 20.0,
@@ -558,7 +560,7 @@ class HabitStatisticScreen extends StatelessWidget {
               ),
             ),
             Container(
-              height: 1.5,
+              height: 1.0,
               color: Color(0xFF1E212A),
             ),
             Container(
@@ -569,7 +571,9 @@ class HabitStatisticScreen extends StatelessWidget {
                     bottomRight: Radius.circular(10.0),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Get.back();
+                },
                 leading: Icon(
                   Icons.auto_delete,
                   size: 20.0,

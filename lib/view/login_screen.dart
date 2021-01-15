@@ -364,28 +364,31 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 20.0),
-                      FlatButton(
-                        minWidth: Get.width,
-                        height: 60.0,
-                        onPressed: () {
-                          CoolAlert.show(
-                            context: _context,
-                            type: CoolAlertType.success,
-                            animType: CoolAlertAnimType.slideInUp,
-                            title: "Sign up sucess",
-                            text: "Let's go and build greatful habits",
-                          );
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        color: Colors.white,
-                        child: Text(
-                          "Sign up",
-                          style: TextStyle(
-                            color: Color(0xFF1E212A),
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w500,
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15.0),
+                        child: FlatButton(
+                          minWidth: Get.width,
+                          height: 60.0,
+                          onPressed: () {
+                            CoolAlert.show(
+                              context: _context,
+                              type: CoolAlertType.success,
+                              animType: CoolAlertAnimType.slideInUp,
+                              title: "Sign up sucess",
+                              text: "Let's go and build greatful habits",
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: Colors.white,
+                          child: Text(
+                            "Sign up",
+                            style: TextStyle(
+                              color: Color(0xFF1E212A),
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),

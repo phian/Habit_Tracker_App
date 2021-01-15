@@ -111,9 +111,6 @@ class MainScreen extends StatelessWidget {
                     padding: EdgeInsets.only(top: 10.0),
                     color: Colors.black12,
                     child: TabBar(
-                      onTap: (index) {
-                        _allHabitController.changeboxTite(index);
-                      },
                       isScrollable: true,
                       labelColor: Colors.white,
                       unselectedLabelColor: Colors.white24,
@@ -132,7 +129,9 @@ class MainScreen extends StatelessWidget {
                   Expanded(
                     child: Container(
                       child: TabBarView(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics(),
+                        ),
                         children: <Widget>[
                           //Container(child: Center(child: Text('ca ngay'))),
                           _listHabit(_habitDataList),
@@ -297,18 +296,9 @@ class MainScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       //height: MediaQuery.of(context).size.height * 0.5,
       child: ListView(
+        padding: EdgeInsets.only(top: 20.0, bottom: 30.0),
         physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         children: [
-          SizedBox(height: 20.0),
-          Obx(
-            () => Text(
-              _allHabitController.title.value,
-              style: TextStyle(
-                fontSize: 20.0,
-                color: Color(0xFFA7AAB1),
-              ),
-            ),
-          ),
           _habitBox(),
           _habitBox(isHaveGoal: true),
           _habitBox(),

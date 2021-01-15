@@ -64,7 +64,7 @@ class GeneralScreen extends StatelessWidget {
           _genralScreenItem(
             icon: Icons.beach_access,
             title: 'Vacation mode',
-            iconColor: Color(0xFF1C8EFE),
+            iconColor: Color(0xFFFABB37),
             isSwitch: true,
             toggle: _generalScreenController.isVacationMode,
           ),
@@ -79,7 +79,7 @@ class GeneralScreen extends StatelessWidget {
           _genralScreenItem(
             icon: Icons.straighten,
             title: 'Units of Measure',
-            iconColor: Color(0xFF1C8EFE),
+            iconColor: Color(0xFFF53566),
           ),
           Container(
             height: 1,
@@ -88,7 +88,7 @@ class GeneralScreen extends StatelessWidget {
           _genralScreenItem(
             icon: Icons.volume_down,
             title: 'Sounds',
-            iconColor: Color(0xFF1C8EFE),
+            iconColor: Color(0xFF933DFF),
             isSwitch: true,
             toggle: _generalScreenController.isOnSound,
           ),
@@ -108,7 +108,7 @@ class GeneralScreen extends StatelessWidget {
           _genralScreenItem(
             icon: Icons.lock_rounded,
             title: 'Passcode lock',
-            iconColor: Color(0xFF1C8EFE),
+            iconColor: Color(0xFFF53566),
             isSwitch: true,
             toggle: _generalScreenController.isPassCodeLock,
           ),
@@ -119,13 +119,13 @@ class GeneralScreen extends StatelessWidget {
           _genralScreenItem(
             icon: Icons.delete_forever,
             title: 'Clean Slate Protocol',
-            iconColor: Color(0xFF1C8EFE),
+            iconColor: Color(0xFFF53566),
           ),
           SizedBox(height: 40.0),
           _genralScreenItem(
             icon: Icons.build,
             title: 'Export Data',
-            iconColor: Color(0xFF1C8EFE),
+            iconColor: Color(0xFF933DFF),
           ),
         ],
       ),

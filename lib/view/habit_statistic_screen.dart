@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 import 'edit_habit.dart';
 
@@ -100,7 +99,13 @@ class HabitStatisticScreen extends StatelessWidget {
         ),
         Obx(
           () => InkWell(
-            onTap: () {},
+            onTap: () {
+              if (_habitStatisticController.isResumeHabit.value) {
+                _showPauseDialog();
+              } else {
+                _habitStatisticController.chageIsResumeHabit();
+              }
+            },
             borderRadius: BorderRadius.circular(90.0),
             child: Container(
               alignment: Alignment.center,
@@ -118,7 +123,9 @@ class HabitStatisticScreen extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            _showDeleteDialog();
+          },
           borderRadius: BorderRadius.circular(90.0),
           child: Container(
             alignment: Alignment.center,
@@ -459,6 +466,131 @@ class HabitStatisticScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  /// [Pause dialog]
+  _showPauseDialog() async {
+    Dialog pauseDialog = Dialog(
+      backgroundColor: Color(0xFF2F313E),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0)), //this right here
+      child: Container(
+        height: Get.height * 0.2,
+        width: Get.width * 0.7,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                "Paused a habit? It's still on your schedule and can be resued when you're ready",
+                style: TextStyle(
+                  color: Color(0xFFA7AAB1),
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+            SizedBox(height: 10.0),
+            Container(
+              alignment: Alignment.bottomRight,
+              child: FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                onPressed: () {
+                  _habitStatisticController.chageIsResumeHabit();
+                  Get.back();
+                },
+                child: Text(
+                  'Got it',
+                  style: TextStyle(color: Color(0xFF1C8EFE), fontSize: 18.0),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+    showDialog(
+      context: _context,
+      builder: (BuildContext context) => pauseDialog,
+    );
+  }
+
+  /// [Delete dialog]
+  _showDeleteDialog() async {
+    Dialog deleteDialog = Dialog(
+      backgroundColor: Color(0xFF2F313E),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0)), //this right here
+      child: Container(
+        height: Get.height * 0.2,
+        width: Get.width * 0.7,
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: Get.height * 0.2 * 0.1),
+              child: Text(
+                "Delete habit?",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(height: 10.0),
+            Container(
+              child: ListTile(
+                onTap: () {},
+                leading: Icon(
+                  Icons.restore_outlined,
+                  size: 20.0,
+                  color: Color(0xFFFE7352),
+                ),
+                title: Text(
+                  "Clear history",
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: 1.5,
+              color: Color(0xFF1E212A),
+            ),
+            Container(
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10.0),
+                    bottomRight: Radius.circular(10.0),
+                  ),
+                ),
+                onTap: () {},
+                leading: Icon(
+                  Icons.auto_delete,
+                  size: 20.0,
+                  color: Color(0xFFF53566),
+                ),
+                title: Text(
+                  "Delete habit and clear history",
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(
+      context: _context,
+      builder: (BuildContext context) => deleteDialog,
     );
   }
 }

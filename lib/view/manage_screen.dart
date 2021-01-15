@@ -34,11 +34,13 @@ class ManageScreen extends StatelessWidget {
           child: Row(
             children: <Widget>[
               ...List.generate(
-                3,
-                (index) => Obx(() => _bottomBarButton(
-                      _controller.iconList[index],
-                      index,
-                    )),
+                _controller.iconList.length,
+                (index) => Obx(
+                  () => _bottomBarButton(
+                    _controller.iconList[index],
+                    index,
+                  ),
+                ),
               ),
             ],
           ),
@@ -50,8 +52,8 @@ class ManageScreen extends StatelessWidget {
   Widget _bottomBarButton(IconData icon, int index) {
     return Container(
       padding: index == 0
-          ? EdgeInsets.only(left: Get.width * 0.1)
-          : EdgeInsets.only(left: Get.width * 0.15),
+          ? EdgeInsets.only(left: Get.width * 0.05)
+          : EdgeInsets.only(left: Get.width * 0.09),
       child: IconButton(
         icon: Icon(
           icon,

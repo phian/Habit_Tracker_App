@@ -183,6 +183,7 @@ class CreateHabitScreen extends StatelessWidget {
       );
     } else if (habitNameController.text == '' ||
         habitNameController.text.isEmpty) {
+      print(habitNameController.text);
       CoolAlert.show(
         context: createHabitScreenContext,
         type: CoolAlertType.error,

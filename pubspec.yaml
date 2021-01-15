@@ -45,6 +45,8 @@ dependencies:
   timeline_list: ^0.0.3
   flutter_animation_progress_bar: ^1.0.6
   table_calendar: ^2.3.3
+  fl_chart: ^0.12.2
+  step_progress_indicator: ^0.2.5+8
   
 
 dev_dependencies:

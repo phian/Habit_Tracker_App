@@ -199,7 +199,7 @@ class EditHabitScreen extends StatelessWidget {
                 cursorColor: createHabitScreenController.fillColor.value,
                 style: TextStyle(
                   fontSize: 22.0,
-                  color: Colors.white54,
+                  color: Colors.white,
                 ),
                 onChanged: (value) {},
                 decoration: InputDecoration(

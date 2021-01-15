@@ -144,12 +144,12 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
       flexibleSpace: Stack(
         children: [
           Container(
-            padding: EdgeInsets.only(left: Get.width * 0.4, top: 30.0),
+            alignment: Alignment.bottomRight,
             child: Image.asset(
               widget.imagePath,
               fit: BoxFit.contain,
-              width: Get.width * 0.65,
-              height: Get.height * 0.3,
+              width: Get.width * 0.45,
+              height: Get.height * 0.25,
             ),
           ),
           Container(

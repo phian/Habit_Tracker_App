@@ -25,87 +25,7 @@ class MainScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Color(0xFF1E212A),
         appBar: _mainScreenAppBar(),
-        body: Container(
-          height: Get.height,
-          child: Column(
-            children: [
-              Obx(
-                // calendar
-                () => Container(
-                  color: Colors.black12,
-                  padding: const EdgeInsets.only(top: 11, bottom: 11),
-                  child: FlutterDatePickerTimeline(
-                    startDate: DateTime.now().subtract(Duration(days: 14)),
-                    endDate: DateTime.now().add(Duration(days: 10000)),
-                    initialSelectedDate:
-                        _mainScreenController.selectedDay.value,
-                    onSelectedDateChange: (DateTime dateTime) {
-                      _mainScreenController.changeSelectedDay(dateTime);
-                    },
-                    selectedItemBackgroundColor: Colors.white24,
-                    selectedItemTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                    ),
-                    unselectedItemBackgroundColor: Colors.transparent,
-                    unselectedItemTextStyle: TextStyle(
-                      fontSize: 18.0,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: DefaultTabController(
-                  length: 4, // length of tabs
-                  initialIndex: 0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(top: 10.0),
-                        color: Colors.black12,
-                        child: TabBar(
-                          isScrollable: true,
-                          labelColor: Colors.white,
-                          unselectedLabelColor: Colors.white24,
-                          indicatorColor: Colors.transparent,
-                          physics: AlwaysScrollableScrollPhysics(
-                            parent: BouncingScrollPhysics(),
-                          ),
-                          tabs: [
-                            _mainScreenDateTimeTab('All day'),
-                            _mainScreenDateTimeTab('Morning'),
-                            _mainScreenDateTimeTab('Afternoon'),
-                            _mainScreenDateTimeTab('Evening'),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: TabBarView(
-                            physics: AlwaysScrollableScrollPhysics(
-                              parent: BouncingScrollPhysics(),
-                            ),
-                            children: <Widget>[
-                              //Container(child: Center(child: Text('ca ngay'))),
-                              // _listHabit(_habitDataList)
-                              _habitDataList.length != 0
-                                  ? _listHabit(_habitDataList)
-                                  : _noneHabitDisplayWidget(),
-                              _noneHabitDisplayWidget(),
-                              _noneHabitDisplayWidget(),
-                              _noneHabitDisplayWidget(),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        body: _mainScreenBody(),
       ),
     );
   }
@@ -142,6 +62,90 @@ class MainScreen extends StatelessWidget {
       centerTitle: true,
       backgroundColor: Colors.black12,
       elevation: 0.0,
+    );
+  }
+
+  /// [Body]
+  Widget _mainScreenBody() {
+    return Container(
+      height: Get.height,
+      child: Column(
+        children: [
+          Obx(
+            // calendar
+            () => Container(
+              color: Colors.black12,
+              padding: const EdgeInsets.only(top: 11, bottom: 11),
+              child: FlutterDatePickerTimeline(
+                startDate: DateTime.now().subtract(Duration(days: 14)),
+                endDate: DateTime.now().add(Duration(days: 10000)),
+                initialSelectedDate: _mainScreenController.selectedDay.value,
+                onSelectedDateChange: (DateTime dateTime) {
+                  _mainScreenController.changeSelectedDay(dateTime);
+                },
+                selectedItemBackgroundColor: Colors.white24,
+                selectedItemTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                ),
+                unselectedItemBackgroundColor: Colors.transparent,
+                unselectedItemTextStyle: TextStyle(
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: DefaultTabController(
+              length: 4, // length of tabs
+              initialIndex: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: 10.0),
+                    color: Colors.black12,
+                    child: TabBar(
+                      isScrollable: true,
+                      labelColor: Colors.white,
+                      unselectedLabelColor: Colors.white24,
+                      indicatorColor: Colors.transparent,
+                      physics: AlwaysScrollableScrollPhysics(
+                        parent: BouncingScrollPhysics(),
+                      ),
+                      tabs: [
+                        _mainScreenDateTimeTab('All day'),
+                        _mainScreenDateTimeTab('Morning'),
+                        _mainScreenDateTimeTab('Afternoon'),
+                        _mainScreenDateTimeTab('Evening'),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: TabBarView(
+                        physics: AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics(),
+                        ),
+                        children: <Widget>[
+                          //Container(child: Center(child: Text('ca ngay'))),
+                          // _listHabit(_habitDataList)
+                          _habitDataList.length != 0
+                              ? _listHabit(_habitDataList)
+                              : _noneHabitDisplayWidget(),
+                          _noneHabitDisplayWidget(),
+                          _noneHabitDisplayWidget(),
+                          _noneHabitDisplayWidget(),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

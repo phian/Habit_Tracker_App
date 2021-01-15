@@ -122,6 +122,13 @@ class StepTackingScreen extends StatelessWidget {
   /// [App Bar]
   Widget _stepTrackingScreenAppBar() {
     return AppBar(
+      title: Text(
+        "Step tracking",
+        style: TextStyle(
+          fontSize: 25.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       leading: Container(
         alignment: Alignment.center,
         child: IconButton(

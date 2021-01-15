@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/view/genaral_screeen.dart';
 import 'package:habit_tracker/view/notification_screen.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
@@ -9,13 +11,18 @@ import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'login_screen.dart';
 
 class MainScreen extends StatelessWidget {
-  MainScreenController _mainScreenController = MainScreenController();
+  MainScreenController _mainScreenController = Get.put(MainScreenController());
   var _habitDataList = [];
 
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 
+  AllHabitController _allHabitController = Get.put(AllHabitController());
+  List<Widget> _habitBoxList = [];
+
   @override
   Widget build(BuildContext context) {
+    _initAnytimeHabitListWidget();
+
     return SideMenu(
       background: Color(0xFF2F313E),
       key: _sideMenuKey,
@@ -106,6 +113,9 @@ class MainScreen extends StatelessWidget {
                     padding: EdgeInsets.only(top: 10.0),
                     color: Colors.black12,
                     child: TabBar(
+                      onTap: (index) {
+                        _allHabitController.changeboxTite(index);
+                      },
                       isScrollable: true,
                       labelColor: Colors.white,
                       unselectedLabelColor: Colors.white24,
@@ -124,21 +134,19 @@ class MainScreen extends StatelessWidget {
                   Expanded(
                     child: Container(
                       child: TabBarView(
-                        physics: AlwaysScrollableScrollPhysics(
-                          parent: BouncingScrollPhysics(),
-                        ),
+                        physics: NeverScrollableScrollPhysics(),
                         children: <Widget>[
                           //Container(child: Center(child: Text('ca ngay'))),
-                          // _listHabit(_habitDataList),
-                          // _listHabit(_habitDataList),
-                          // _listHabit(_habitDataList),
-                          // _listHabit(_habitDataList),
-                          _habitDataList.length != 0
-                              ? _listHabit(_habitDataList)
-                              : _noneHabitDisplayWidget(),
-                          _noneHabitDisplayWidget(),
-                          _noneHabitDisplayWidget(),
-                          _noneHabitDisplayWidget(),
+                          _listHabit(_habitDataList),
+                          _listHabit(_habitDataList),
+                          _listHabit(_habitDataList),
+                          _listHabit(_habitDataList),
+                          // _habitDataList.length != 0
+                          //     ? _listHabit(_habitDataList)
+                          //     : _noneHabitDisplayWidget(),
+                          // _noneHabitDisplayWidget(),
+                          // _noneHabitDisplayWidget(),
+                          // _noneHabitDisplayWidget(),
                         ],
                       ),
                     ),
@@ -293,19 +301,263 @@ class MainScreen extends StatelessWidget {
       child: ListView(
         physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         children: [
-          Container(height: 80, color: Colors.white12),
-          Container(height: 80, color: Colors.white38),
-          Container(height: 80, color: Colors.white12),
-          Container(height: 80, color: Colors.white38),
-          Container(height: 80, color: Colors.white12),
-          Container(height: 80, color: Colors.white38),
-          Container(height: 80, color: Colors.white12),
-          Container(height: 80, color: Colors.white38),
-          Container(height: 80, color: Colors.white12),
-          Container(height: 80, color: Colors.white38),
+          _allHabitBox(),
         ],
       ),
     );
+  }
+
+  /// [Box chứa các habit]
+  Widget _allHabitBox() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFF2F313E),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            child: Container(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                ),
+                child: Image.asset(
+                  "images/hill.png",
+                  height: 110.0,
+                  width: Get.width,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 20.0, left: 10.0),
+            child: Obx(
+              () => Text(
+                _allHabitController.boxTitle.value,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFFA7AAB1),
+                ),
+              ),
+            ),
+          ),
+          Obx(
+            () => Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              height: () {
+                switch (_allHabitController.selectedIndex.value) {
+                  case 0:
+                    return ((_allHabitController.listAnytimeWidgets.length *
+                            Get.width *
+                            0.09) +
+                        ((_allHabitController.listAnytimeWidgets.length) *
+                            40.0 *
+                            1.4));
+                    break;
+                  case 1:
+                    return (_allHabitController.listMorningWidgets.length *
+                            Get.width *
+                            0.09) +
+                        ((_allHabitController.listAnytimeWidgets.length) *
+                            40 *
+                            1.4);
+                    break;
+                  case 2:
+                    return (_allHabitController.listAfternoonWidgets.length *
+                            Get.width *
+                            0.09) +
+                        ((_allHabitController.listAnytimeWidgets.length) *
+                            40 *
+                            1.4);
+                    break;
+                  default:
+                    return (_allHabitController.listEveningWidgets.length *
+                            Get.width *
+                            0.09) +
+                        ((_allHabitController.listAnytimeWidgets.length) *
+                            40 *
+                            1.4);
+                }
+              }(),
+              child: Obx(
+                () => Column(
+                  children: [
+                    ...List.generate(
+                      () {
+                        switch (_allHabitController.selectedIndex.value) {
+                          case 0:
+                            return _allHabitController
+                                .listAnytimeWidgets.length;
+                            break;
+                          case 1:
+                            return _allHabitController
+                                .listMorningWidgets.length;
+                            break;
+                          case 2:
+                            return _allHabitController
+                                .listAfternoonWidgets.length;
+                            break;
+                          default:
+                            return _allHabitController
+                                .listEveningWidgets.length;
+                        }
+                      }(),
+                      (index) {
+                        switch (_allHabitController.getSelectedIndex()) {
+                          case 0:
+                            return _allHabitController
+                                .listAnytimeWidgets[index];
+                            break;
+                          case 1:
+                            return _allHabitController
+                                .listMorningWidgets[index];
+                            break;
+                          case 2:
+                            return _allHabitController
+                                .listAfternoonWidgets[index];
+                            break;
+                          default:
+                            return _allHabitController
+                                .listEveningWidgets[index];
+                        }
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// [Box chứa thông tin habit]
+  Widget _habitBox({
+    IconData icon,
+    Color iconColor,
+    String title,
+    bool isHaveGoal,
+  }) {
+    return Container(
+      height: Get.height * 0.09,
+      margin: EdgeInsets.only(top: 20.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.white12,
+      ),
+      alignment: Alignment.center,
+      child: Stack(
+        children: [
+          ListTile(
+              onTap: () {},
+              leading: Icon(
+                Icons.star,
+                size: 30.0,
+                color: Color(0xFF1C8EFE),
+              ),
+              title: Text(
+                "Habit",
+                style: TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: Visibility(
+                visible: isHaveGoal == null ? false : true,
+                child: Container(
+                  padding: EdgeInsets.only(top: Get.width * 0.09 * 0.35),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 50.0,
+                        child: Row(
+                          children: [
+                            Text(
+                              "0",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            Text(
+                              "/5",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.blue.withOpacity(0.5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          "times",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
+          Visibility(
+            visible: isHaveGoal == null ? true : false,
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              child: FAProgressBar(
+                currentValue: 1,
+                maxValue: 5,
+                size: 5,
+                backgroundColor: Colors.white12,
+                progressColor: Colors.blue,
+                displayTextStyle: TextStyle(color: Colors.transparent),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  /// [Hàm khởi tạo các box]
+  void _initAnytimeHabitListWidget() {
+    if (_allHabitController.listAnytimeWidgets.length == 0 &&
+        _allHabitController.listMorningWidgets.length == 0 &&
+        _allHabitController.listAfternoonHabit.length == 0 &&
+        _allHabitController.listEveningHabit.length == 0) {
+      _initHabitBoxes(_allHabitController.listAnytimeWidgets);
+      _initHabitBoxes(_allHabitController.listMorningWidgets);
+      _initHabitBoxes(_allHabitController.listAfternoonWidgets);
+      _initHabitBoxes(_allHabitController.listEveningWidgets);
+    }
+  }
+
+  /// [Khởi tạo các ô habit]
+  void _initHabitBoxes(RxList<Widget> list) {
+    if (list.length == 0)
+      for (int i = 0; i < 10; i++) {
+        if (i % 2 == 0)
+          list.add(_habitBox());
+        else
+          list.add(
+            _habitBox(
+              isHaveGoal: true,
+            ),
+          );
+      }
   }
 
   /// [Tab widget]

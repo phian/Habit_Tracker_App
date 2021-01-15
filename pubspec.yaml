@@ -47,6 +47,7 @@ dependencies:
   table_calendar: ^2.3.3
   fl_chart: ^0.12.2
   step_progress_indicator: ^0.2.5+8
+  percent_indicator: ^2.1.9
   
 
 dev_dependencies:

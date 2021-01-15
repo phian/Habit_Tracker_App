@@ -24,10 +24,12 @@ class AllHabitsScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Color(0xFF1E212A),
         appBar: _allHabitScreenAppBar(),
-        body: Container(
-          child: allHabitController.listAllHabit.length == 0
-              ? _noneHabitDisplayWidget()
-              : Obx(() => _listAllHabit()),
+        body: Obx(
+          () => Container(
+            child: allHabitController.listAllHabit.length == 0
+                ? _noneHabitDisplayWidget()
+                : _listAllHabit(),
+          ),
         ),
       ),
     );

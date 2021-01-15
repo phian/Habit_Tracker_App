@@ -248,7 +248,7 @@ class CreateHabitScreenController extends GetxController {
     if (notiTimeChoice[3]) return a = '1,2,3';
     for (int i = 0; i < 3; i++) {
       if (notiTimeChoice[i]) {
-        a += i.toString();
+        a += (i + 1).toString();
         if (i < 2) a += ',';
       }
     }

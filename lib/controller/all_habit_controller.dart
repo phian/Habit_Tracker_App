@@ -10,14 +10,10 @@ class AllHabitController extends GetxController {
   var listAfternoonHabit = List<Habit>().obs;
   var listEveningHabit = List<Habit>().obs;
 
-  var listAnytimeWidgets = List<Widget>().obs;
-  var listMorningWidgets = List<Widget>().obs;
-  var listAfternoonWidgets = List<Widget>().obs;
-  var listEveningWidgets = List<Widget>().obs;
-
   @override
   void onInit() {
     getAllHabit();
+    getHabitByWeekDate(DateTime.now().weekday + 1);
     super.onInit();
   }
 
@@ -43,5 +39,28 @@ class AllHabitController extends GetxController {
         );
       });
     });
+  }
+
+  void getHabitByWeekDate(int weekdate) {
+    listAnytimeHabit.clear();
+    for (int i = 0; i < listAllHabit.length; i++) {
+      if (listAllHabit[i].ngayTrongTuan.contains((weekdate + 1).toString())) {
+        listAnytimeHabit.add(listAllHabit[i]);
+      }
+    }
+
+    listMorningHabit.clear();
+    listAfternoonHabit.clear();
+    listEveningHabit.clear();
+    for (int i = 0; i < listAnytimeHabit.length; i++) {
+      if (listAnytimeHabit[i].buoi.contains('1'))
+        listMorningHabit.add(listAnytimeHabit[i]);
+
+      if (listAnytimeHabit[i].buoi.contains('2'))
+        listAfternoonHabit.add(listAnytimeHabit[i]);
+
+      if (listAnytimeHabit[i].buoi.contains('3'))
+        listEveningHabit.add(listAnytimeHabit[i]);
+    }
   }
 }

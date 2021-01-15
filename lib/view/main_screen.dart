@@ -8,16 +8,15 @@ import 'package:habit_tracker/view/notification_screen.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 
+import '../model/habit.dart';
 import 'login_screen.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreenController _mainScreenController = Get.put(MainScreenController());
-  var _habitDataList = [];
 
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 
-  AllHabitController _allHabitController = Get.put(AllHabitController());
-  List<Widget> _habitBoxList = [];
+  AllHabitController allHabitController = Get.put(AllHabitController());
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +86,7 @@ class MainScreen extends StatelessWidget {
                 initialSelectedDate: _mainScreenController.selectedDay.value,
                 onSelectedDateChange: (DateTime dateTime) {
                   _mainScreenController.changeSelectedDay(dateTime);
+                  allHabitController.getHabitByWeekDate(dateTime.weekday);
                 },
                 selectedItemBackgroundColor: Colors.white24,
                 selectedItemTextStyle: TextStyle(
@@ -101,54 +101,49 @@ class MainScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: DefaultTabController(
-              length: 4, // length of tabs
-              initialIndex: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(top: 10.0),
-                    color: Colors.black12,
-                    child: TabBar(
-                      isScrollable: true,
-                      labelColor: Colors.white,
-                      unselectedLabelColor: Colors.white24,
-                      indicatorColor: Colors.transparent,
-                      physics: AlwaysScrollableScrollPhysics(
-                        parent: BouncingScrollPhysics(),
-                      ),
-                      tabs: [
-                        _mainScreenDateTimeTab('All day'),
-                        _mainScreenDateTimeTab('Morning'),
-                        _mainScreenDateTimeTab('Afternoon'),
-                        _mainScreenDateTimeTab('Evening'),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: TabBarView(
+            child: Obx(
+              () => DefaultTabController(
+                length: 4, // length of tabs
+                initialIndex: 0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 10.0),
+                      color: Colors.black12,
+                      child: TabBar(
+                        isScrollable: true,
+                        labelColor: Colors.white,
+                        unselectedLabelColor: Colors.white24,
+                        indicatorColor: Colors.transparent,
                         physics: AlwaysScrollableScrollPhysics(
                           parent: BouncingScrollPhysics(),
                         ),
-                        children: <Widget>[
-                          //Container(child: Center(child: Text('ca ngay'))),
-                          _listHabit(_habitDataList),
-                          _listHabit(_habitDataList),
-                          _listHabit(_habitDataList),
-                          _listHabit(_habitDataList),
-                          // _habitDataList.length != 0
-                          //     ? _listHabit(_habitDataList)
-                          //     : _noneHabitDisplayWidget(),
-                          // _noneHabitDisplayWidget(),
-                          // _noneHabitDisplayWidget(),
-                          // _noneHabitDisplayWidget(),
+                        tabs: [
+                          _mainScreenDateTimeTab('All day'),
+                          _mainScreenDateTimeTab('Morning'),
+                          _mainScreenDateTimeTab('Afternoon'),
+                          _mainScreenDateTimeTab('Evening'),
                         ],
                       ),
                     ),
-                  )
-                ],
+                    Expanded(
+                      child: Container(
+                        child: TabBarView(
+                          physics: AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics(),
+                          ),
+                          children: <Widget>[
+                            _listHabit(allHabitController.listAnytimeHabit),
+                            _listHabit(allHabitController.listMorningHabit),
+                            _listHabit(allHabitController.listAfternoonHabit),
+                            _listHabit(allHabitController.listEveningHabit),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -292,130 +287,75 @@ class MainScreen extends StatelessWidget {
 
   /// [Habit list]
   Widget _listHabit(List _habitDataList) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      //height: MediaQuery.of(context).size.height * 0.5,
-      child: ListView(
-        padding: EdgeInsets.only(top: 20.0, bottom: 30.0),
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        children: [
-          _habitBox(),
-          _habitBox(isHaveGoal: true),
-          _habitBox(),
-          _habitBox(isHaveGoal: true),
-          _habitBox(),
-          _habitBox(isHaveGoal: true),
-        ],
-      ),
-    );
-  }
-
-  /// [Box chứa thông tin habit]
-  Widget _habitBox({
-    IconData icon,
-    Color iconColor,
-    String title,
-    bool isHaveGoal,
-  }) {
-    return Container(
-      height: Get.height * 0.09,
-      margin: EdgeInsets.only(top: 20.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: Colors.white12,
-      ),
-      alignment: Alignment.center,
-      child: Stack(
-        children: [
-          ListTile(
-              onTap: () {},
-              leading: Icon(
-                Icons.star,
-                size: 30.0,
-                color: Color(0xFF1C8EFE),
-              ),
-              title: Text(
-                "Habit",
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Visibility(
-                visible: isHaveGoal == null ? false : true,
-                child: Container(
-                  padding: EdgeInsets.only(top: Get.width * 0.09 * 0.35),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 50.0,
-                        child: Row(
-                          children: [
-                            Text(
-                              "0",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.blue,
-                              ),
-                            ),
-                            Text(
-                              "/5",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.blue.withOpacity(0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          "times",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )),
-          Visibility(
-            visible: isHaveGoal == null ? true : false,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              child: FAProgressBar(
-                currentValue: 1,
-                maxValue: 5,
-                size: 5,
-                backgroundColor: Colors.white12,
-                progressColor: Colors.blue,
-                displayTextStyle: TextStyle(color: Colors.transparent),
-              ),
+    return _habitDataList.length > 0
+        ? ListView.separated(
+            padding: EdgeInsets.only(top: 20, bottom: 20),
+            itemCount: _habitDataList.length,
+            physics: AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics(),
             ),
+            separatorBuilder: (BuildContext context, int index) =>
+                SizedBox(height: 10),
+            itemBuilder: (BuildContext context, int index) {
+              return habitTile(_habitDataList[index]);
+            },
           )
-        ],
-      ),
-    );
+        : _noneHabitDisplayWidget();
   }
 
   /// [Tab widget]
   Widget _mainScreenDateTimeTab(String title) {
     return Tab(
       child: Container(
-        width: 150,
+        width: Get.width,
         child: Text(
           title,
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
+    );
+  }
+
+  Widget habitTile(Habit habit) {
+    return GestureDetector(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+            color: Color(0xff333333), borderRadius: BorderRadius.circular(15)),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Icon(
+                IconData(habit.icon, fontFamily: 'MaterialIcons'),
+                size: 50,
+                color: Color(
+                  int.parse(
+                    habit.mau,
+                    radix: 16,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Text(
+                  habit.ten,
+                  style: TextStyle(
+                    fontSize: 22,
+                    //fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      onTap: () {},
     );
   }
 }

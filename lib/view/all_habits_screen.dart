@@ -72,87 +72,76 @@ class AllHabitsScreen extends StatelessWidget {
 
   /// [Habit list]
   Widget _listAllHabit() {
-    return Stack(
-      children: [
-        Container(
-          alignment: Alignment.bottomCenter,
-          child: Image.asset(
-            "images/jungle_leaf.png",
-            color: Color(0xFF2F313E),
-          ),
-        ),
-        ListView.separated(
-          padding: EdgeInsets.only(top: 20, bottom: 20),
-          itemCount: allHabitController.listAllHabit.length,
-          physics: AlwaysScrollableScrollPhysics(
-            parent: BouncingScrollPhysics(),
-          ),
-          separatorBuilder: (BuildContext context, int index) =>
-              SizedBox(height: 10),
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                    color: Color(0xff333333),
-                    borderRadius: BorderRadius.circular(15)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Icon(
-                        IconData(allHabitController.listAllHabit[index].icon,
-                            fontFamily: 'MaterialIcons'),
-                        size: 50,
-                        color: Color(
-                          int.parse(
-                            allHabitController.listAllHabit[index].mau,
-                            radix: 16,
-                          ),
-                        ),
+    return ListView.separated(
+      padding: EdgeInsets.only(top: 20, bottom: 20),
+      itemCount: allHabitController.listAllHabit.length,
+      physics: AlwaysScrollableScrollPhysics(
+        parent: BouncingScrollPhysics(),
+      ),
+      separatorBuilder: (BuildContext context, int index) =>
+          SizedBox(height: 10),
+      itemBuilder: (BuildContext context, int index) {
+        return GestureDetector(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+                color: Color(0xff333333),
+                borderRadius: BorderRadius.circular(15)),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Icon(
+                    IconData(allHabitController.listAllHabit[index].icon,
+                        fontFamily: 'MaterialIcons'),
+                    size: 50,
+                    color: Color(
+                      int.parse(
+                        allHabitController.listAllHabit[index].mau,
+                        radix: 16,
                       ),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Text(
-                          allHabitController.listAllHabit[index].ten,
-                          style: TextStyle(
-                            fontSize: 22,
-                            //fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 2,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              onTap: () {
-                print(allHabitController.listAllHabit[index].ma);
-                print(allHabitController.listAllHabit[index].ten);
-                print(allHabitController.listAllHabit[index].mau);
-                print(allHabitController.listAllHabit[index].icon);
-                print(allHabitController.listAllHabit[index].batMucTieu);
-                print(allHabitController.listAllHabit[index].soLan);
-                print(allHabitController.listAllHabit[index].donVi);
-                print(allHabitController.listAllHabit[index].loaiLap);
-                print(allHabitController.listAllHabit[index].ngayTrongTuan);
-                print(allHabitController.listAllHabit[index].soLanTrongTuan);
-                print(allHabitController.listAllHabit[index].buoi);
-                print(allHabitController.listAllHabit[index].trangThai);
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      allHabitController.listAllHabit[index].ten,
+                      style: TextStyle(
+                        fontSize: 22,
+                        //fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          onTap: () {
+            print(allHabitController.listAllHabit[index].ma);
+            print(allHabitController.listAllHabit[index].ten);
+            print(allHabitController.listAllHabit[index].mau);
+            print(allHabitController.listAllHabit[index].icon);
+            print(allHabitController.listAllHabit[index].batMucTieu);
+            print(allHabitController.listAllHabit[index].soLan);
+            print(allHabitController.listAllHabit[index].donVi);
+            print(allHabitController.listAllHabit[index].loaiLap);
+            print(allHabitController.listAllHabit[index].ngayTrongTuan);
+            print(allHabitController.listAllHabit[index].soLanTrongTuan);
+            print(allHabitController.listAllHabit[index].buoi);
+            print(allHabitController.listAllHabit[index].trangThai);
 
-                Get.to(
-                  HabitStatisticScreen(),
-                  transition: Transition.fadeIn,
-                  arguments: allHabitController.listAllHabit[index],
-                );
-              },
+            Get.to(
+              HabitStatisticScreen(),
+              transition: Transition.fadeIn,
+              arguments: allHabitController.listAllHabit[index],
             );
           },
-        ),
-      ],
+        );
+      },
     );
   }
 

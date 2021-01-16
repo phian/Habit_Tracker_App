@@ -17,7 +17,6 @@ class AllHabitController extends GetxController {
   var listAfternoonHabit = List<Habit>().obs;
   var listEveningHabit = List<Habit>().obs;
   var flag = false.obs;
-  var updateListView = true.obs;
 
   var listHabitProcess = List<Process>().obs;
 

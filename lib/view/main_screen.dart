@@ -322,8 +322,6 @@ class MainScreenState extends State<MainScreen> {
               separatorBuilder: (BuildContext context, int index) =>
                   SizedBox(height: 10),
               itemBuilder: (BuildContext context, int index) {
-                if (_habitDataList.length == index + 2)
-                  allHabitController.updateListView.value = false;
                 int i = allHabitController.listHabitProcess.indexWhere(
                     (e) => e.maThoiQuen == _habitDataList[index].ma);
 

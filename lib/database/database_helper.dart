@@ -1,3 +1,4 @@
+import 'package:habit_tracker/model/process.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -102,8 +103,8 @@ class DatabaseHelper {
     CREATE TABLE $tabProcess (
       $maThoiQuen INTEGER,
       $ngay TEXT,
-      $ketQua INTEGER,
-      $skip INTEGER,
+      $ketQua INTEGER DEFAULT 0,
+      $skip INTEGER DEFAULT 0,
       PRIMARY KEY ($maThoiQuen, $ngay),
       FOREIGN KEY($maThoiQuen) REFERENCES $tabHabit ($ma)
     )
@@ -320,10 +321,35 @@ class DatabaseHelper {
   }
 
   Future<int> deleteHabit(int id) async {
-    Database db =
-        await instance.database; // TODO: delete mấy cái liên quan trước
+    Database db = await instance.database;
     await db.delete(tabDiary, where: '$maThoiQuen = ?', whereArgs: [id]);
     await db.delete(tabProcess, where: '$maThoiQuen = ?', whereArgs: [id]);
     return await db.delete(tabHabit, where: '$ma = ?', whereArgs: [id]);
+  }
+
+  Future<List<Map<String, dynamic>>> selectHabitProcess(String date) async {
+    Database db = await instance.database;
+    var res = await db.query(tabProcess,
+        where: '$ngay = ?', orderBy: '$maThoiQuen DESC', whereArgs: [date]);
+    return res;
+  }
+
+  Future<void> insertProcess(int idHabit, String date) async {
+    Database db = await instance.database;
+    try {
+      await db.rawInsert(
+        "INSERT INTO $tabProcess ($maThoiQuen,$ngay) VALUES (?,?)",
+        [idHabit, date],
+      );
+    } catch (e) {
+      print('da ton tai');
+    }
+  }
+
+  Future<int> updateProcess(Process process) async {
+    Database db = await instance.database;
+    return await db.update(tabProcess, process.toMap(),
+        where: '$maThoiQuen = ? and $ngay = ?',
+        whereArgs: [process.maThoiQuen, process.ngay]);
   }
 }

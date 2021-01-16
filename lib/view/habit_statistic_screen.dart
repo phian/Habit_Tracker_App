@@ -2,6 +2,7 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -17,6 +18,7 @@ class HabitStatisticScreen extends StatelessWidget {
       HabitStatisticController();
 
   CalendarController _calendarController = CalendarController();
+  AllHabitController habitController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -543,6 +545,8 @@ class HabitStatisticScreen extends StatelessWidget {
             Container(
               child: ListTile(
                 onTap: () {
+                  habitController.deleteHabit(_habit);
+                  Get.back();
                   Get.back();
                 },
                 leading: Icon(
@@ -572,6 +576,8 @@ class HabitStatisticScreen extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
+                  habitController.deleteHabit(_habit);
+                  Get.back();
                   Get.back();
                 },
                 leading: Icon(

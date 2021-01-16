@@ -3,17 +3,27 @@ import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.da
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
+import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/view/genaral_screeen.dart';
 import 'package:habit_tracker/view/notification_screen.dart';
+import 'package:intl/intl.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 
 import '../model/habit.dart';
 import 'habit_statistic_screen.dart';
 import 'login_screen.dart';
+import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
+  @override
+  MainScreenState createState() => MainScreenState();
+}
+
+class MainScreenState extends State<MainScreen> {
   MainScreenController _mainScreenController = Get.put(MainScreenController());
+
+  List<Habit> emptyList = [];
 
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 
@@ -83,11 +93,13 @@ class MainScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 11, bottom: 11),
               child: FlutterDatePickerTimeline(
                 startDate: DateTime.now().subtract(Duration(days: 14)),
-                endDate: DateTime.now().add(Duration(days: 10000)),
+                endDate: DateTime.now().add(Duration(days: 14)),
                 initialSelectedDate: _mainScreenController.selectedDay.value,
-                onSelectedDateChange: (DateTime dateTime) {
+                onSelectedDateChange: (DateTime dateTime) async {
+                  allHabitController.flag.value = false;
                   _mainScreenController.changeSelectedDay(dateTime);
-                  allHabitController.getHabitByWeekDate(dateTime.weekday);
+                  await allHabitController.getHabitByWeekDate(dateTime.weekday);
+                  allHabitController.flag.value = true;
                 },
                 selectedItemBackgroundColor: Colors.white24,
                 selectedItemTextStyle: TextStyle(
@@ -135,10 +147,22 @@ class MainScreen extends StatelessWidget {
                             parent: BouncingScrollPhysics(),
                           ),
                           children: <Widget>[
-                            _listHabit(allHabitController.listAnytimeHabit),
-                            _listHabit(allHabitController.listMorningHabit),
-                            _listHabit(allHabitController.listAfternoonHabit),
-                            _listHabit(allHabitController.listEveningHabit),
+                            allHabitController.flag.value == true
+                                ? _listHabit(
+                                    allHabitController.listAnytimeHabit)
+                                : Container(),
+                            allHabitController.flag.value == true
+                                ? _listHabit(
+                                    allHabitController.listMorningHabit)
+                                : Container(),
+                            allHabitController.flag.value == true
+                                ? _listHabit(
+                                    allHabitController.listAfternoonHabit)
+                                : Container(),
+                            allHabitController.flag.value == true
+                                ? _listHabit(
+                                    allHabitController.listEveningHabit)
+                                : Container(),
                           ],
                         ),
                       ),
@@ -287,20 +311,35 @@ class MainScreen extends StatelessWidget {
   }
 
   /// [Habit list]
-  Widget _listHabit(List _habitDataList) {
+  Widget _listHabit(List<Habit> _habitDataList) {
     return _habitDataList.length > 0
-        ? ListView.separated(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            itemCount: _habitDataList.length,
-            physics: AlwaysScrollableScrollPhysics(
-              parent: BouncingScrollPhysics(),
-            ),
-            separatorBuilder: (BuildContext context, int index) =>
-                SizedBox(height: 10),
-            itemBuilder: (BuildContext context, int index) {
-              return habitTile(_habitDataList[index]);
-            },
-          )
+        ? Obx(() => ListView.separated(
+              padding: EdgeInsets.only(top: 20, bottom: 20),
+              itemCount: _habitDataList.length,
+              physics: AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics(),
+              ),
+              separatorBuilder: (BuildContext context, int index) =>
+                  SizedBox(height: 10),
+              itemBuilder: (BuildContext context, int index) {
+                if (_habitDataList.length == index + 2)
+                  allHabitController.updateListView.value = false;
+                int i = allHabitController.listHabitProcess.indexWhere(
+                    (e) => e.maThoiQuen == _habitDataList[index].ma);
+
+                if (allHabitController.listHabitProcess[i].ketQua == -1 ||
+                    allHabitController.listHabitProcess[i].ketQua ==
+                            _habitDataList[index].soLan &&
+                        _habitDataList[index].batMucTieu == 0 ||
+                    allHabitController.listHabitProcess[i].skip == true) {
+                  return swipeRightHabit(_habitDataList[index],
+                      allHabitController.listHabitProcess[i]);
+                } else {
+                  return swipeHabit(_habitDataList[index],
+                      allHabitController.listHabitProcess[i]);
+                }
+              },
+            ))
         : _noneHabitDisplayWidget();
   }
 
@@ -318,50 +357,218 @@ class MainScreen extends StatelessWidget {
     );
   }
 
-  Widget habitTile(Habit habit) {
-    return GestureDetector(
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-            color: Color(0xFF2F313E), borderRadius: BorderRadius.circular(15)),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Icon(
-                IconData(habit.icon, fontFamily: 'MaterialIcons'),
-                size: 50,
-                color: Color(
-                  int.parse(
-                    habit.mau,
-                    radix: 16,
-                  ),
-                ),
+  Widget swipeHabit(Habit habit, Process process) {
+    return SwipeActionCell(
+      backgroundColor: Colors.transparent,
+      key: ObjectKey(habit),
+      leadingActions: [
+        SwipeAction(
+          paddingToBoundary: 0,
+          content: Container(
+            width: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.green,
+            ),
+            child: Center(
+              child: Text(
+                'Done',
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Text(
-                  habit.ten,
-                  style: TextStyle(
-                    fontSize: 22,
-                    //fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 2,
-                ),
+          ),
+          onTap: (CompletionHandler handler) async {
+            handler(false);
+            if (habit.batMucTieu == 0)
+              process.ketQua = habit.soLan;
+            else
+              process.ketQua = -1;
+
+            allHabitController.updateProcess(process);
+            print('done');
+            setState(() {});
+          },
+          color: Colors.transparent,
+        ),
+        if (habit.batMucTieu == 0)
+          SwipeAction(
+            paddingToBoundary: 0,
+            content: Container(
+              width: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.blue,
               ),
+              child: Center(child: Text('+1')),
             ),
-            habit.batMucTieu == 0
-                ? Padding(
+            onTap: (CompletionHandler handler) async {
+              handler(false);
+              process.ketQua++;
+              allHabitController.updateProcess(process);
+              print('1');
+              setState(() {});
+            },
+            color: Colors.transparent,
+          ),
+      ],
+      trailingActions: [
+        SwipeAction(
+          paddingToBoundary: 0,
+          content: Container(
+            width: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.blue,
+            ),
+            child: Center(child: Text('Skip')),
+          ),
+          onTap: (CompletionHandler handler) async {
+            handler(false);
+            process.skip = true;
+            allHabitController.updateProcess(process);
+            print('Skip');
+            setState(() {});
+          },
+          color: Colors.transparent,
+        ),
+      ],
+      child: habitTile(
+          habit,
+          allHabitController.listHabitProcess.indexWhere(
+              (element) => element.maThoiQuen == process.maThoiQuen)),
+    );
+  }
+
+  Widget swipeRightHabit(Habit habit, Process process) {
+    return SwipeActionCell(
+      backgroundColor: Colors.transparent,
+      key: ObjectKey(habit),
+      trailingActions: [
+        SwipeAction(
+          paddingToBoundary: 0,
+          content: Container(
+            width: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.purple,
+            ),
+            child: Center(child: Text('Note')),
+          ),
+          onTap: (CompletionHandler handler) async {
+            handler(false);
+            process.skip = true;
+            //allHabitController.updateProcess(process);
+            print('Note');
+            setState(() {});
+          },
+          color: Colors.transparent,
+        ),
+        SwipeAction(
+          paddingToBoundary: 0,
+          content: Container(
+            width: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.orange,
+            ),
+            child: Center(child: Text('Undo')),
+          ),
+          onTap: (CompletionHandler handler) async {
+            handler(false);
+            process.skip = false;
+            process.ketQua = 0;
+            allHabitController.updateProcess(process);
+            print('Undo');
+            setState(() {});
+          },
+          color: Colors.transparent,
+        ),
+      ],
+      child: habitTile(
+          habit,
+          allHabitController.listHabitProcess.indexWhere(
+              (element) => element.maThoiQuen == process.maThoiQuen)),
+    );
+  }
+
+  Widget habitTile(Habit habit, int index) {
+    return Obx(() => GestureDetector(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+                color: Color(0xFF2F313E),
+                borderRadius: BorderRadius.circular(15)),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  // icon
+                  padding: EdgeInsets.all(20),
+                  child: Icon(
+                    IconData(habit.icon, fontFamily: 'MaterialIcons'),
+                    size: 50,
+                    color: allHabitController.listHabitProcess[index].skip ==
+                                true ||
+                            allHabitController.listHabitProcess[index].ketQua ==
+                                -1 ||
+                            allHabitController.listHabitProcess[index].ketQua ==
+                                    habit.soLan &&
+                                habit.soLan != 0
+                        ? Colors.grey
+                        : Color(
+                            int.parse(
+                              habit.mau,
+                              radix: 16,
+                            ),
+                          ),
+                  ),
+                ),
+                Expanded(
+                  // tên
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          habit.ten,
+                          style: TextStyle(
+                              fontSize: 22,
+                              decoration: allHabitController
+                                              .listHabitProcess[index].ketQua ==
+                                          -1 ||
+                                      allHabitController.listHabitProcess[index]
+                                                  .ketQua ==
+                                              habit.soLan &&
+                                          habit.soLan != 0
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none),
+                          maxLines: 2,
+                        ),
+                        if (allHabitController.listHabitProcess[index].skip ==
+                            true)
+                          Text(
+                            'Skiped',
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 15,
+                                fontStyle: FontStyle.italic),
+                          )
+                      ],
+                    ),
+                  ),
+                ),
+                if (habit.batMucTieu == 0)
+                  Padding(
+                    // process
                     padding: EdgeInsets.only(right: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        //SizedBox(height: 20),
                         Text(
-                          '0/' + habit.soLan.toString(),
+                          allHabitController.listHabitProcess[index].ketQua
+                                  .toString() +
+                              '/' +
+                              habit.soLan.toString(),
                           style: TextStyle(
                               fontSize: 20,
                               color: Color(int.parse(habit.mau, radix: 16))),
@@ -373,13 +580,12 @@ class MainScreen extends StatelessWidget {
                       ],
                     ),
                   )
-                : SizedBox(),
-          ],
-        ),
-      ),
-      onTap: () {
-        Get.to(HabitStatisticScreen(), arguments: habit);
-      },
-    );
+              ],
+            ),
+          ),
+          onTap: () {
+            Get.to(HabitStatisticScreen(), arguments: habit);
+          },
+        ));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/view/genaral_screeen.dart';
@@ -9,6 +10,7 @@ import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 
 import '../model/habit.dart';
+import 'habit_note_screen.dart';
 import 'habit_statistic_screen.dart';
 import 'login_screen.dart';
 
@@ -131,9 +133,7 @@ class MainScreen extends StatelessWidget {
                     Expanded(
                       child: Container(
                         child: TabBarView(
-                          physics: AlwaysScrollableScrollPhysics(
-                            parent: BouncingScrollPhysics(),
-                          ),
+                          physics: NeverScrollableScrollPhysics(),
                           children: <Widget>[
                             _listHabit(allHabitController.listAnytimeHabit),
                             _listHabit(allHabitController.listMorningHabit),
@@ -319,98 +319,154 @@ class MainScreen extends StatelessWidget {
   }
 
   Widget habitTile(Habit habit) {
-    return GestureDetector(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  color: Color(0xFF2F313E),
-                  borderRadius: BorderRadius.circular(15)),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Icon(
-                      IconData(habit.icon, fontFamily: 'MaterialIcons'),
-                      size: 50,
-                      color: Color(
-                        int.parse(
-                          habit.mau,
-                          radix: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Text(
-                        habit.ten,
-                        style: TextStyle(
-                          fontSize: 22,
-                          //fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 2,
-                      ),
-                    ),
-                  ),
-                  habit.batMucTieu == 0
-                      ? Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              //SizedBox(height: 20),
-                              Text(
-                                '0/' + habit.soLan.toString(),
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color:
-                                        Color(int.parse(habit.mau, radix: 16))),
-                              ),
-                              Text(
-                                habit.donVi,
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ],
-                          ),
-                        )
-                      : SizedBox(),
-                ],
-              ),
-            ),
-            Visibility(
-              visible: habit.batMucTieu == 0 ? true : false,
-              child: Container(
-                transform: Matrix4.translationValues(
-                  0.0,
-                  Get.height * 0.105,
-                  0.0,
-                ),
-                alignment: Alignment.bottomCenter,
-                child: FAProgressBar(
-                  currentValue: 0,
-                  maxValue: habit.soLan,
-                  size: 5,
-                  backgroundColor: Colors.white12,
-                  progressColor: Colors.blue,
-                  displayTextStyle: TextStyle(color: Colors.transparent),
-                ),
-              ),
-            )
-          ],
+    return Slidable(
+      actionPane: SlidableDrawerActionPane(),
+      actionExtentRatio: 0.25,
+      actions: <Widget>[
+        IconSlideAction(
+          color: Color(0xFF11C480),
+          iconWidget: Icon(
+            Icons.done,
+            size: 35.0,
+            color: Colors.white,
+          ),
+          onTap: () => print('Finish habit'),
         ),
+        IconSlideAction(
+          color: Color(0xFF1C8EFE),
+          iconWidget: Text(
+            "1",
+            style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+          ),
+          onTap: () => print('Added 1 to process'),
+        ),
+        IconSlideAction(
+          color: Color(0xFFF53566),
+          iconWidget: Icon(
+            Icons.undo,
+            size: 35.0,
+            color: Colors.white,
+          ),
+          onTap: () => print('Undo manipulation'),
+        ),
+      ],
+      secondaryActions: <Widget>[
+        IconSlideAction(
+          color: Color(0xFF1C8EFE),
+          iconWidget: Icon(
+            Icons.restore_outlined,
+            size: 35.0,
+          ),
+          onTap: () => print('Restore habit state'),
+        ),
+        IconSlideAction(
+          color: Color(0xFF933DFF),
+          iconWidget: Icon(
+            Icons.note_add,
+            size: 35.0,
+          ),
+          onTap: () {
+            Get.to(
+              HabitNoteScreen(),
+              transition: Transition.fadeIn,
+              arguments: habit.ma,
+            );
+          },
+        ),
+      ],
+      child: GestureDetector(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Color(0xFF2F313E),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Icon(
+                        IconData(habit.icon, fontFamily: 'MaterialIcons'),
+                        size: 50,
+                        color: Color(
+                          int.parse(
+                            habit.mau,
+                            radix: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Text(
+                          habit.ten,
+                          style: TextStyle(
+                            fontSize: 22,
+                            //fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                        ),
+                      ),
+                    ),
+                    habit.batMucTieu == 0
+                        ? Padding(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                //SizedBox(height: 20),
+                                Text(
+                                  '0/' + habit.soLan.toString(),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(
+                                          int.parse(habit.mau, radix: 16))),
+                                ),
+                                Text(
+                                  habit.donVi,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                  ],
+                ),
+              ),
+              Visibility(
+                visible: habit.batMucTieu == 0 ? true : false,
+                child: Container(
+                  transform: Matrix4.translationValues(
+                    0.0,
+                    Get.height * 0.105,
+                    0.0,
+                  ),
+                  alignment: Alignment.bottomCenter,
+                  child: FAProgressBar(
+                    currentValue: 0,
+                    maxValue: habit.soLan,
+                    size: 5,
+                    backgroundColor: Colors.white12,
+                    progressColor: Colors.blue,
+                    displayTextStyle: TextStyle(color: Colors.transparent),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        onTap: () {
+          Get.to(
+            HabitStatisticScreen(),
+            arguments: habit,
+            transition: Transition.fadeIn,
+          );
+        },
       ),
-      onTap: () {
-        Get.to(
-          HabitStatisticScreen(),
-          arguments: habit,
-          transition: Transition.fadeIn,
-        );
-      },
     );
   }
 }

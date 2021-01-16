@@ -321,64 +321,95 @@ class MainScreen extends StatelessWidget {
   Widget habitTile(Habit habit) {
     return GestureDetector(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-            color: Color(0xFF2F313E), borderRadius: BorderRadius.circular(15)),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Stack(
           children: [
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Icon(
-                IconData(habit.icon, fontFamily: 'MaterialIcons'),
-                size: 50,
-                color: Color(
-                  int.parse(
-                    habit.mau,
-                    radix: 16,
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Text(
-                  habit.ten,
-                  style: TextStyle(
-                    fontSize: 22,
-                    //fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 2,
-                ),
-              ),
-            ),
-            habit.batMucTieu == 0
-                ? Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        //SizedBox(height: 20),
-                        Text(
-                          '0/' + habit.soLan.toString(),
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color(int.parse(habit.mau, radix: 16))),
+            Container(
+              decoration: BoxDecoration(
+                  color: Color(0xFF2F313E),
+                  borderRadius: BorderRadius.circular(15)),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Icon(
+                      IconData(habit.icon, fontFamily: 'MaterialIcons'),
+                      size: 50,
+                      color: Color(
+                        int.parse(
+                          habit.mau,
+                          radix: 16,
                         ),
-                        Text(
-                          habit.donVi,
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ],
+                      ),
                     ),
-                  )
-                : SizedBox(),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Text(
+                        habit.ten,
+                        style: TextStyle(
+                          fontSize: 22,
+                          //fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 2,
+                      ),
+                    ),
+                  ),
+                  habit.batMucTieu == 0
+                      ? Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              //SizedBox(height: 20),
+                              Text(
+                                '0/' + habit.soLan.toString(),
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color:
+                                        Color(int.parse(habit.mau, radix: 16))),
+                              ),
+                              Text(
+                                habit.donVi,
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        )
+                      : SizedBox(),
+                ],
+              ),
+            ),
+            Visibility(
+              visible: habit.batMucTieu == 0 ? true : false,
+              child: Container(
+                transform: Matrix4.translationValues(
+                  0.0,
+                  Get.height * 0.105,
+                  0.0,
+                ),
+                alignment: Alignment.bottomCenter,
+                child: FAProgressBar(
+                  currentValue: 0,
+                  maxValue: habit.soLan,
+                  size: 5,
+                  backgroundColor: Colors.white12,
+                  progressColor: Colors.blue,
+                  displayTextStyle: TextStyle(color: Colors.transparent),
+                ),
+              ),
+            )
           ],
         ),
       ),
       onTap: () {
-        Get.to(HabitStatisticScreen(), arguments: habit);
+        Get.to(
+          HabitStatisticScreen(),
+          arguments: habit,
+          transition: Transition.fadeIn,
+        );
       },
     );
   }

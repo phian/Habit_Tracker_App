@@ -175,7 +175,7 @@ class HabitStatisticScreen extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(left: 30.0),
                   child: Text(
-                    _habitStatisticController.habitName.value.toUpperCase(),
+                    _habitStatisticController.habitName.value,
                     style: TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,

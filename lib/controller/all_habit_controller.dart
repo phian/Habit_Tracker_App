@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/model/habit.dart';
 
+import 'main_screen_controller.dart';
+import 'main_screen_controller.dart';
+
 class AllHabitController extends GetxController {
   var listAllHabit = List<Habit>().obs;
   var listAnytimeHabit = List<Habit>().obs;
@@ -10,10 +13,12 @@ class AllHabitController extends GetxController {
   var listAfternoonHabit = List<Habit>().obs;
   var listEveningHabit = List<Habit>().obs;
 
+  MainScreenController mainScreenController = Get.put(MainScreenController());
+
   @override
   void onInit() {
     getAllHabit();
-    getHabitByWeekDate(DateTime.now().weekday + 1);
+    //getHabitByWeekDate(DateTime.now().weekday + 1);
     super.onInit();
   }
 
@@ -39,6 +44,7 @@ class AllHabitController extends GetxController {
         );
       });
     });
+    getHabitByWeekDate(mainScreenController.selectedDay.value.weekday);
   }
 
   void getHabitByWeekDate(int weekdate) {

@@ -9,6 +9,7 @@ import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 
 import '../model/habit.dart';
+import 'habit_statistic_screen.dart';
 import 'login_screen.dart';
 
 class MainScreen extends StatelessWidget {
@@ -322,7 +323,7 @@ class MainScreen extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-            color: Color(0xff333333), borderRadius: BorderRadius.circular(15)),
+            color: Color(0xFF2F313E), borderRadius: BorderRadius.circular(15)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -352,10 +353,33 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
             ),
+            habit.batMucTieu == 0
+                ? Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        //SizedBox(height: 20),
+                        Text(
+                          '0/' + habit.soLan.toString(),
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color(int.parse(habit.mau, radix: 16))),
+                        ),
+                        Text(
+                          habit.donVi,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  )
+                : SizedBox(),
           ],
         ),
       ),
-      onTap: () {},
+      onTap: () {
+        Get.to(HabitStatisticScreen(), arguments: habit);
+      },
     );
   }
 }

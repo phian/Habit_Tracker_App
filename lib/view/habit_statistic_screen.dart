@@ -80,7 +80,7 @@ class HabitStatisticScreen extends StatelessWidget {
           onTap: () {
             Get.to(
               EditHabitScreen(),
-              arguments: _habit,
+              arguments: Get.arguments,
               transition: Transition.fadeIn,
             );
           },

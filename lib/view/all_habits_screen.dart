@@ -85,7 +85,7 @@ class AllHabitsScreen extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-                color: Color(0xff333333),
+                color: Color(0xFF2F313E),
                 borderRadius: BorderRadius.circular(15)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

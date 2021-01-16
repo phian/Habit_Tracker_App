@@ -318,4 +318,12 @@ class DatabaseHelper {
     return await db.update(tabHabit, habit.toMap(),
         where: '$ma = ?', whereArgs: [habit.ma]);
   }
+
+  Future<int> deleteHabit(int id) async {
+    Database db =
+        await instance.database; // TODO: delete mấy cái liên quan trước
+    await db.delete(tabDiary, where: '$maThoiQuen = ?', whereArgs: [id]);
+    await db.delete(tabProcess, where: '$maThoiQuen = ?', whereArgs: [id]);
+    return await db.delete(tabHabit, where: '$ma = ?', whereArgs: [id]);
+  }
 }

@@ -9,6 +9,13 @@ class NotificationController extends GetxController {
   var isOnOrOffEveningPlan = false.obs;
   var isOnOrOffTodayResult = true.obs;
 
+  /// [Challenge]
+  var isOnChallengeNoti = true.obs;
+  var challengeTodayPlanTime = "00:00".obs;
+  var challengeProgressCheckUpTime = "00:00".obs;
+
+  /// [Habit notification]
+  ///
   var todayPlanPickedTime = (TimeOfDay.now().hour.toString() +
           ":" +
           (TimeOfDay.now().minute < 10 ? "0" : "") +
@@ -57,5 +64,33 @@ class NotificationController extends GetxController {
             ":" +
             (timeOfDay.minute < 10 ? "0" : "") +
             timeOfDay.minute.toString());
+  }
+
+  /// [Challenge notification]
+  ///
+  changeIsOnChallengeNoti() {
+    isOnChallengeNoti.value = !isOnChallengeNoti.value;
+  }
+
+  changeChallengeTodayPlanTime(TimeOfDay time) {
+    String temp = time.hour.toString() +
+        ":" +
+        ((time.minute < 10)
+            ? ("0" + time.minute.toString())
+            : time.minute.toString());
+    if (challengeTodayPlanTime.value != temp) {
+      challengeTodayPlanTime.value = temp;
+    }
+  }
+
+  changeProgressCheckUpTime(TimeOfDay time) {
+    String temp = time.hour.toString() +
+        ":" +
+        ((time.minute < 10)
+            ? ("0" + time.minute.toString())
+            : time.minute.toString());
+    if (challengeProgressCheckUpTime.value != temp) {
+      challengeProgressCheckUpTime.value = temp;
+    }
   }
 }

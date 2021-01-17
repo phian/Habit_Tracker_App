@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HabitStatisticController extends GetxController {
+  var habitId = 1.obs;
   var habitIcon = Icons.star.obs;
   var iconColor = "F53566".obs;
   var habitName = "Habit name".obs;
@@ -18,6 +19,7 @@ class HabitStatisticController extends GetxController {
   var isResumeHabit = true.obs;
 
   updateHabitStatisticInfo({
+    int habitId,
     IconData icon,
     String iconColor,
     String habitName,
@@ -31,6 +33,7 @@ class HabitStatisticController extends GetxController {
     String completeRate,
     String totalTimeComplete,
   }) {
+    this.habitId.value = habitId == null ? this.habitId.value : habitId;
     this.habitIcon.value = icon == null ? this.habitIcon.value : icon;
     this.iconColor.value = iconColor == null ? this.iconColor.value : iconColor;
     this.habitName.value = habitName == null ? this.habitName.value : habitName;

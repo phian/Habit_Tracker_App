@@ -1,7 +1,8 @@
 import 'package:habit_tracker/model/process.dart';
+import 'dart:ffi';
+import 'package:habit_tracker/model/diary.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
 import 'package:habit_tracker/model/habit.dart';
 
 class DatabaseHelper {
@@ -327,6 +328,7 @@ class DatabaseHelper {
     return await db.delete(tabHabit, where: '$ma = ?', whereArgs: [id]);
   }
 
+
   Future<List<Map<String, dynamic>>> selectHabitProcess(String date) async {
     Database db = await instance.database;
     var res = await db.query(tabProcess,
@@ -351,5 +353,46 @@ class DatabaseHelper {
     return await db.update(tabProcess, process.toMap(),
         where: '$maThoiQuen = ? and $ngay = ?',
         whereArgs: [process.maThoiQuen, process.ngay]);
+
+  Future<List<Map<String, dynamic>>> selectHabitNote(int habitId) async {
+    Database database = await this.database;
+    var queryResult = database.query(tabDiary, where: "$maThoiQuen = $habitId");
+
+    return queryResult;
+  }
+
+  Future<void> insertHabitNote(Diary diary) async {
+    Database database = await this.database;
+    var result = database.insert(tabDiary, diary.toMap());
+    return result;
+  }
+
+  Future<void> updateHabitNoteData(Diary diary) async {
+    Database database = await this.database;
+    var result = database.rawUpdate(
+      "update $tabDiary set $noiDung = ? where $maThoiQuen = ? and $ngay = ?",
+      [
+        diary.noiDung,
+        diary.maThoiQuen,
+        diary.ngay,
+      ],
+    );
+    return result;
+  }
+
+  /// [Đọc data cho màn hình all note]
+  Future<List<Map<String, dynamic>>> readDataDataFromNoteTable() async {
+    Database database = await this.database;
+    var queryResult = database.rawQuery("select $ngay from $tabDiary");
+
+    return queryResult;
+  }
+
+  Future<List<Map<String, dynamic>>> readAllNoteData() async {
+    Database database = await this.database;
+    var queryResult = database.query(tabDiary);
+
+    return queryResult;
+
   }
 }

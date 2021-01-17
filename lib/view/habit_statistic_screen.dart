@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
+import 'package:habit_tracker/view/habit_all_note_screen.dart';
+import 'package:habit_tracker/view/habit_note_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'edit_habit.dart';
@@ -22,8 +24,10 @@ class HabitStatisticScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _habit = Get.arguments;
-    _updateHabitStatisticInfo();
+    if (Get.arguments != null) {
+      _habit = Get.arguments;
+      _updateHabitStatisticInfo();
+    }
 
     _context = context;
     return Scaffold(
@@ -35,6 +39,7 @@ class HabitStatisticScreen extends StatelessWidget {
 
   void _updateHabitStatisticInfo() {
     _habitStatisticController.updateHabitStatisticInfo(
+      habitId: _habit.ma,
       icon: IconData(_habit.icon, fontFamily: 'MaterialIcons'),
       habitName: _habit.ten,
       goalAmount: _habit.soLan,
@@ -78,68 +83,139 @@ class HabitStatisticScreen extends StatelessWidget {
         ),
       ),
       actions: [
-        InkWell(
-          onTap: () {
-            Get.to(
-              EditHabitScreen(),
-              arguments: Get.arguments,
-              transition: Transition.fadeIn,
-            );
-          },
-          borderRadius: BorderRadius.circular(90.0),
-          child: Container(
-            alignment: Alignment.center,
-            width: 58.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(90.0),
-            ),
-            child: Icon(
-              Icons.edit_outlined,
-              size: 25.0,
-            ),
+        PopupMenuButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
           ),
-        ),
-        Obx(
-          () => InkWell(
-            onTap: () {
-              if (_habitStatisticController.isResumeHabit.value) {
-                _showPauseDialog();
-              } else {
-                _habitStatisticController.chageIsResumeHabit();
-              }
-            },
-            borderRadius: BorderRadius.circular(90.0),
-            child: Container(
-              alignment: Alignment.center,
-              width: 58.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(90.0),
-              ),
-              child: Icon(
-                _habitStatisticController.isResumeHabit.value == true
-                    ? Icons.pause
-                    : Icons.play_arrow,
-                size: 25.0,
+          offset: Offset(0.0, 58.0),
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              child: Container(
+                alignment: Alignment.center,
+                child: Container(
+                  height: 50.0,
+                  width: 50.0,
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    onTap: () {
+                      Get.back();
+                      Get.to(
+                        EditHabitScreen(),
+                        arguments: Get.arguments,
+                        transition: Transition.fadeIn,
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(90.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 58.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(90.0),
+                      ),
+                      child: Icon(
+                        Icons.edit_outlined,
+                        size: 25.0,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            _showDeleteDialog();
-          },
-          borderRadius: BorderRadius.circular(90.0),
-          child: Container(
-            alignment: Alignment.center,
-            width: 58.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(90.0),
+            PopupMenuItem(
+              child: Container(
+                alignment: Alignment.center,
+                child: Container(
+                  height: 50.0,
+                  width: 50.0,
+                  alignment: Alignment.center,
+                  child: Obx(
+                    () => InkWell(
+                      onTap: () {
+                        if (_habitStatisticController.isResumeHabit.value) {
+                          _showPauseDialog();
+                        } else {
+                          _habitStatisticController.chageIsResumeHabit();
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(90.0),
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 58.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(90.0),
+                        ),
+                        child: Icon(
+                          _habitStatisticController.isResumeHabit.value == true
+                              ? Icons.pause
+                              : Icons.play_arrow,
+                          size: 25.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            child: Icon(
-              Icons.delete_outline,
-              size: 25.0,
+            PopupMenuItem(
+              child: Container(
+                alignment: Alignment.center,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 50.0,
+                  width: 50.0,
+                  child: InkWell(
+                    onTap: () {
+                      _showDeleteDialog();
+                    },
+                    borderRadius: BorderRadius.circular(90.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 58.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(90.0),
+                      ),
+                      child: Icon(
+                        Icons.delete_outline,
+                        size: 25.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
+            PopupMenuItem(
+              child: Container(
+                alignment: Alignment.center,
+                child: Container(
+                  height: 50.0,
+                  width: 50.0,
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    onTap: () {
+                      Get.back();
+                      Get.to(
+                        HabitAllNoteScreen(),
+                        transition: Transition.fadeIn,
+                        arguments: _habitStatisticController.habitId.value,
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(90.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 58.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(90.0),
+                      ),
+                      child: Icon(
+                        Icons.event_note,
+                        size: 25.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ],
       backgroundColor: Colors.transparent,
@@ -177,7 +253,7 @@ class HabitStatisticScreen extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(left: 30.0),
                   child: Text(
-                    _habitStatisticController.habitName.value.toUpperCase(),
+                    _habitStatisticController.habitName.value,
                     style: TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,

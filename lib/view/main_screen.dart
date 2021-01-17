@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/model/process.dart';
@@ -11,6 +12,7 @@ import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 
 import '../model/habit.dart';
+import 'habit_note_screen.dart';
 import 'habit_statistic_screen.dart';
 import 'login_screen.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
@@ -143,9 +145,7 @@ class MainScreenState extends State<MainScreen> {
                     Expanded(
                       child: Container(
                         child: TabBarView(
-                          physics: AlwaysScrollableScrollPhysics(
-                            parent: BouncingScrollPhysics(),
-                          ),
+                          physics: NeverScrollableScrollPhysics(),
                           children: <Widget>[
                             allHabitController.flag.value == true
                                 ? _listHabit(
@@ -355,6 +355,7 @@ class MainScreenState extends State<MainScreen> {
     );
   }
 
+
   Widget swipeHabit(Habit habit, Process process) {
     return SwipeActionCell(
       backgroundColor: Colors.transparent,
@@ -455,6 +456,11 @@ class MainScreenState extends State<MainScreen> {
             handler(false);
             process.skip = true;
             //allHabitController.updateProcess(process);
+            Get.to(
+            HabitStatisticScreen(),
+            arguments: habit,
+            transition: Transition.fadeIn,
+          );
             print('Note');
             setState(() {});
           },
@@ -584,6 +590,7 @@ class MainScreenState extends State<MainScreen> {
           onTap: () {
             Get.to(HabitStatisticScreen(), arguments: habit);
           },
-        ));
+        ),
+              );
   }
 }

@@ -4,16 +4,36 @@ import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
 import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/view/habit_note_screen.dart';
 
-class HabitAllNoteScreen extends StatelessWidget {
-  HabitAllNoteScreenController _allNoteScreenController =
-      Get.put(HabitAllNoteScreenController());
+class HabitAllNoteScreen extends StatefulWidget {
+  HabitAllNoteScreen({Key key}) : super(key: key);
 
-  DatabaseHelper _databaseHelper = DatabaseHelper.instance;
+  @override
+  _HabitAllNoteScreenState createState() => _HabitAllNoteScreenState();
+}
+
+class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
+  HabitAllNoteScreenController _allNoteScreenController;
+
+  DatabaseHelper _databaseHelper;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _allNoteScreenController = Get.put(HabitAllNoteScreenController());
+    _databaseHelper = DatabaseHelper.instance;
+  }
+
+  @override
+  void setState(fn) {
+    if (this.mounted) super.setState(fn);
+  }
 
   @override
   Widget build(BuildContext context) {
     if (Get.arguments != null)
       _allNoteScreenController.updateHabitId(Get.arguments);
+    print(_allNoteScreenController.habitId.value);
 
     _readDateData();
     _readAllNoteData();
@@ -28,17 +48,20 @@ class HabitAllNoteScreen extends StatelessWidget {
             parent: BouncingScrollPhysics(),
           ),
           children: [
-            ...List.generate(_allNoteScreenController.dateList.length, (index) {
-              return Container(
-                child: Column(
-                  children: [
-                    _allNoteScreenController.dateListWidget[index],
-                    SizedBox(height: 20.0),
-                    _allNoteScreenController.noteContentBoxes[index],
-                  ],
-                ),
-              );
-            }),
+            ...List.generate(
+              _allNoteScreenController.dateList.length,
+              (index) {
+                return Container(
+                  child: Column(
+                    children: [
+                      _allNoteScreenController.dateListWidget[index],
+                      SizedBox(height: 20.0),
+                      _allNoteScreenController.noteContentBoxes[index],
+                    ],
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -59,6 +82,7 @@ class HabitAllNoteScreen extends StatelessWidget {
           }
         }
       }
+      setState(() {});
     });
   }
 
@@ -72,12 +96,17 @@ class HabitAllNoteScreen extends StatelessWidget {
               false) {
             _allNoteScreenController.noteContent
                 .add(value[i]['noi_dung'].toString());
-            _allNoteScreenController.noteContentBoxes
-                .add(_noteContentCard(value[i]['noi_dung'].toString()));
+
+            _allNoteScreenController
+                .updateNoteContentData(value[i]['noi_dung'].toString());
+
+            _allNoteScreenController.noteContentBoxes.add(
+                _noteContentCard(_allNoteScreenController.noteContentText));
           }
         }
+        setState(() {});
+        // print("Có vô đây");
       }
-      print("Có vô đây");
     });
   }
 
@@ -141,28 +170,31 @@ class HabitAllNoteScreen extends StatelessWidget {
   }
 
   /// [Card chứa nội dung]
-  Widget _noteContentCard(String content) {
-    return GestureDetector(
-      onTap: () {
-        Get.to(
-          HabitNoteScreen(),
-          arguments: _allNoteScreenController.habitId.value,
-          transition: Transition.fadeIn,
-        );
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.0),
-        alignment: Alignment.centerLeft,
-        height: Get.height * 0.12,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: Color(0xFF2F313E),
-        ),
-        child: Text(
-          content,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 20.0),
+  Widget _noteContentCard(RxString content) {
+    return Obx(
+      () => GestureDetector(
+        onTap: () {
+          Get.to(
+            HabitNoteScreen(),
+            arguments: _allNoteScreenController.habitId.value,
+            transition: Transition.fadeIn,
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          alignment: Alignment.centerLeft,
+          width: Get.width - 20.0,
+          height: Get.height * 0.12,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Color(0xFF2F313E),
+          ),
+          child: Text(
+            content.value,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 20.0),
+          ),
         ),
       ),
     );

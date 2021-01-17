@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 class HabitAllNoteScreenController extends GetxController {
   var habitId = 1.obs;
+  var noteContentText = "".obs;
 
   var dateList = [].obs;
   var noteContent = [].obs;
@@ -25,5 +26,9 @@ class HabitAllNoteScreenController extends GetxController {
       return true;
     }
     return false;
+  }
+
+  updateNoteContentData(String data) {
+    noteContentText.value = data;
   }
 }

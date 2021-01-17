@@ -5,7 +5,14 @@ import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/model/diary.dart';
 import 'package:intl/intl.dart';
 
-class HabitNoteScreen extends StatelessWidget {
+class HabitNoteScreen extends StatefulWidget {
+  HabitNoteScreen({Key key}) : super(key: key);
+
+  @override
+  _HabitNoteScreenState createState() => _HabitNoteScreenState();
+}
+
+class _HabitNoteScreenState extends State<HabitNoteScreen> {
   DatabaseHelper _databaseHelper = DatabaseHelper.instance;
   TextEditingController _noteController = TextEditingController();
 
@@ -35,6 +42,7 @@ class HabitNoteScreen extends StatelessWidget {
       if (value.length != 0) {
         _noteScreenController.initTextFieldData.value = value[0]['noi_dung'];
         _noteController = TextEditingController(text: value[0]['noi_dung']);
+        print(_noteScreenController.initTextFieldData.value);
       }
     });
   }

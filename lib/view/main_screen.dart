@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/view/genaral_screeen.dart';
 import 'package:habit_tracker/view/notification_screen.dart';
-import 'package:intl/intl.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 
 import '../model/habit.dart';
-import 'habit_note_screen.dart';
+import '../view/habit_note_screen.dart';
 import 'habit_statistic_screen.dart';
 import 'login_screen.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
@@ -355,7 +352,6 @@ class MainScreenState extends State<MainScreen> {
     );
   }
 
-
   Widget swipeHabit(Habit habit, Process process) {
     return SwipeActionCell(
       backgroundColor: Colors.transparent,
@@ -450,17 +446,19 @@ class MainScreenState extends State<MainScreen> {
               borderRadius: BorderRadius.circular(15),
               color: Colors.purple,
             ),
-            child: Center(child: Text('Note')),
+            child: Center(
+              child: Text('Note'),
+            ),
           ),
           onTap: (CompletionHandler handler) async {
             handler(false);
             process.skip = true;
             //allHabitController.updateProcess(process);
             Get.to(
-            HabitStatisticScreen(),
-            arguments: habit,
-            transition: Transition.fadeIn,
-          );
+              HabitNoteScreen(),
+              arguments: habit.ma,
+              transition: Transition.fadeIn,
+            );
             print('Note');
             setState(() {});
           },
@@ -488,109 +486,111 @@ class MainScreenState extends State<MainScreen> {
         ),
       ],
       child: habitTile(
-          habit,
-          allHabitController.listHabitProcess.indexWhere(
-              (element) => element.maThoiQuen == process.maThoiQuen)),
+        habit,
+        allHabitController.listHabitProcess
+            .indexWhere((element) => element.maThoiQuen == process.maThoiQuen),
+      ),
     );
   }
 
   Widget habitTile(Habit habit, int index) {
-    return Obx(() => GestureDetector(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-                color: Color(0xFF2F313E),
-                borderRadius: BorderRadius.circular(15)),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  // icon
-                  padding: EdgeInsets.all(20),
-                  child: Icon(
-                    IconData(habit.icon, fontFamily: 'MaterialIcons'),
-                    size: 50,
-                    color: allHabitController.listHabitProcess[index].skip ==
-                                true ||
-                            allHabitController.listHabitProcess[index].ketQua ==
-                                -1 ||
-                            allHabitController.listHabitProcess[index].ketQua ==
-                                    habit.soLan &&
-                                habit.soLan != 0
-                        ? Colors.grey
-                        : Color(
-                            int.parse(
-                              habit.mau,
-                              radix: 16,
-                            ),
+    return Obx(
+      () => GestureDetector(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+              color: Color(0xFF2F313E),
+              borderRadius: BorderRadius.circular(15)),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                // icon
+                padding: EdgeInsets.all(20),
+                child: Icon(
+                  IconData(habit.icon, fontFamily: 'MaterialIcons'),
+                  size: 50,
+                  color: allHabitController.listHabitProcess[index].skip ==
+                              true ||
+                          allHabitController.listHabitProcess[index].ketQua ==
+                              -1 ||
+                          allHabitController.listHabitProcess[index].ketQua ==
+                                  habit.soLan &&
+                              habit.soLan != 0
+                      ? Colors.grey
+                      : Color(
+                          int.parse(
+                            habit.mau,
+                            radix: 16,
                           ),
+                        ),
+                ),
+              ),
+              Expanded(
+                // tên
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        habit.ten,
+                        style: TextStyle(
+                            fontSize: 22,
+                            decoration: allHabitController
+                                            .listHabitProcess[index].ketQua ==
+                                        -1 ||
+                                    allHabitController.listHabitProcess[index]
+                                                .ketQua ==
+                                            habit.soLan &&
+                                        habit.soLan != 0
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none),
+                        maxLines: 2,
+                      ),
+                      if (allHabitController.listHabitProcess[index].skip ==
+                          true)
+                        Text(
+                          'Skiped',
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 15,
+                              fontStyle: FontStyle.italic),
+                        )
+                    ],
                   ),
                 ),
-                Expanded(
-                  // tên
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          habit.ten,
-                          style: TextStyle(
-                              fontSize: 22,
-                              decoration: allHabitController
-                                              .listHabitProcess[index].ketQua ==
-                                          -1 ||
-                                      allHabitController.listHabitProcess[index]
-                                                  .ketQua ==
-                                              habit.soLan &&
-                                          habit.soLan != 0
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none),
-                          maxLines: 2,
-                        ),
-                        if (allHabitController.listHabitProcess[index].skip ==
-                            true)
-                          Text(
-                            'Skiped',
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 15,
-                                fontStyle: FontStyle.italic),
-                          )
-                      ],
-                    ),
+              ),
+              if (habit.batMucTieu == 0)
+                Padding(
+                  // process
+                  padding: EdgeInsets.only(right: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        allHabitController.listHabitProcess[index].ketQua
+                                .toString() +
+                            '/' +
+                            habit.soLan.toString(),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Color(int.parse(habit.mau, radix: 16))),
+                      ),
+                      Text(
+                        habit.donVi,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
                   ),
-                ),
-                if (habit.batMucTieu == 0)
-                  Padding(
-                    // process
-                    padding: EdgeInsets.only(right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          allHabitController.listHabitProcess[index].ketQua
-                                  .toString() +
-                              '/' +
-                              habit.soLan.toString(),
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color(int.parse(habit.mau, radix: 16))),
-                        ),
-                        Text(
-                          habit.donVi,
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
-                  )
-              ],
-            ),
+                )
+            ],
           ),
-          onTap: () {
-            Get.to(HabitStatisticScreen(), arguments: habit);
-          },
         ),
-              );
+        onTap: () {
+          Get.to(HabitStatisticScreen(), arguments: habit);
+        },
+      ),
+    );
   }
 }

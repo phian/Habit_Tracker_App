@@ -328,7 +328,6 @@ class DatabaseHelper {
     return await db.delete(tabHabit, where: '$ma = ?', whereArgs: [id]);
   }
 
-
   Future<List<Map<String, dynamic>>> selectHabitProcess(String date) async {
     Database db = await instance.database;
     var res = await db.query(tabProcess,
@@ -353,6 +352,7 @@ class DatabaseHelper {
     return await db.update(tabProcess, process.toMap(),
         where: '$maThoiQuen = ? and $ngay = ?',
         whereArgs: [process.maThoiQuen, process.ngay]);
+  }
 
   Future<List<Map<String, dynamic>>> selectHabitNote(int habitId) async {
     Database database = await this.database;
@@ -393,6 +393,5 @@ class DatabaseHelper {
     var queryResult = database.query(tabDiary);
 
     return queryResult;
-
   }
 }

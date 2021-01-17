@@ -153,13 +153,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.2"
-  flutter_slidable:
+  flutter_swipe_action_cell:
     dependency: "direct main"
     description:
-      name: flutter_slidable
+      name: flutter_swipe_action_cell
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.7"
+    version: "1.3.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter

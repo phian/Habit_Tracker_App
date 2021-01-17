@@ -45,7 +45,7 @@ class HabitAllNoteScreen extends StatelessWidget {
     );
   }
 
-  /// [Read data data]
+  /// [Read date data]
   _readDateData() async {
     await _databaseHelper.readDataDataFromNoteTable().then((value) {
       if (value.length != 0) {

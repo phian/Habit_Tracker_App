@@ -54,6 +54,7 @@ class HabitNoteScreen extends StatelessWidget {
             noiDung: _noteController.text,
           ),
         );
+        Get.back();
         return;
       } else {
         /// [Xét trường hợp nếu ng dùng sửa các noter cũ]
@@ -65,6 +66,7 @@ class HabitNoteScreen extends StatelessWidget {
               noiDung: _noteController.text,
             ),
           );
+          Get.back();
         }
 
         /// [Xét trường hợp cho note gần nhất]
@@ -81,6 +83,7 @@ class HabitNoteScreen extends StatelessWidget {
               noiDung: _noteController.text,
             ),
           );
+          Get.back();
         } else if (value[value.length - 1]['ngay'] !=
             DateFormat("dd MM yyyy").format(
               DateTime.now(),
@@ -94,6 +97,7 @@ class HabitNoteScreen extends StatelessWidget {
               noiDung: _noteController.text,
             ),
           );
+          Get.back();
         }
       }
     });

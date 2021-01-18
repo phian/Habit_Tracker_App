@@ -35,6 +35,11 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
       _allNoteScreenController.updateHabitId(Get.arguments);
     print(_allNoteScreenController.habitId.value);
 
+    if (_allNoteScreenController.isClosed) {
+      _allNoteScreenController = Get.put(HabitAllNoteScreenController());
+      _databaseHelper = DatabaseHelper.instance;
+    }
+
     _readDateData();
     _readAllNoteData();
 
@@ -79,6 +84,10 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
             _allNoteScreenController.dateList.add(value[i]['ngay'].toString());
             _allNoteScreenController.dateListWidget.add(
                 _dateDivider(value[i]['ngay'].toString().replaceAll(' ', '/')));
+          } else {
+            _allNoteScreenController.dateList[i] = value[i]['ngay'].toString();
+            _allNoteScreenController.dateListWidget[i] =
+                _dateDivider(value[i]['ngay'].toString().replaceAll(' ', '/'));
           }
         }
       }
@@ -102,6 +111,15 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
 
             _allNoteScreenController.noteContentBoxes.add(
                 _noteContentCard(_allNoteScreenController.noteContentText));
+          } else {
+            _allNoteScreenController.noteContent[i] =
+                value[i]['noi_dung'].toString();
+
+            _allNoteScreenController
+                .updateNoteContentData(value[i]['noi_dung'].toString());
+
+            _allNoteScreenController.noteContentBoxes[i] =
+                _noteContentCard(_allNoteScreenController.noteContentText);
           }
         }
         setState(() {});

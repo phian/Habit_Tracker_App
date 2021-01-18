@@ -25,6 +25,7 @@ class HabitStatisticScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     if (Get.arguments != null) {
       _habit = Get.arguments;
+      _habitStatisticController.backUpHabit(Get.arguments);
       _updateHabitStatisticInfo();
     }
 
@@ -100,7 +101,7 @@ class HabitStatisticScreen extends StatelessWidget {
                       Get.back();
                       Get.to(
                         EditHabitScreen(),
-                        arguments: Get.arguments,
+                        arguments: _habitStatisticController.habit.value,
                         transition: Transition.fadeIn,
                       );
                     },

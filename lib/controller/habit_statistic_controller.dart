@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/model/habit.dart';
 
 class HabitStatisticController extends GetxController {
+  var habit = Habit().obs;
+
   var habitId = 1.obs;
   var habitIcon = Icons.star.obs;
   var iconColor = "F53566".obs;
@@ -17,6 +20,10 @@ class HabitStatisticController extends GetxController {
   var totalTimeComplete = "0".obs;
 
   var isResumeHabit = true.obs;
+
+  backUpHabit(Habit habit) {
+    this.habit.value = habit;
+  }
 
   updateHabitStatisticInfo({
     int habitId,

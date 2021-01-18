@@ -230,7 +230,11 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
           ),
         ),
         onTap: () {
-          Get.off(CreateHabitScreen(), arguments: _suggestedHabitList[index]);
+          Get.off(
+            CreateHabitScreen(),
+            arguments: _suggestedHabitList[index],
+            transition: Transition.fadeIn,
+          );
         },
         leading: Container(
           child: Icon(

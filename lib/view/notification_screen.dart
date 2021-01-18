@@ -247,9 +247,10 @@ class NotificationScreen extends StatelessWidget {
             SizedBox(height: 5.0),
             Container(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: Get.width * 0.63,
+                    width: Get.width * 0.6,
                     child: Text(
                       summaryText,
                       maxLines: 5,

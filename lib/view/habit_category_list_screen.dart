@@ -5,8 +5,6 @@ import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:habit_tracker/view/create_habit_screen.dart';
 
-import 'habit_categories_screen.dart';
-
 class HabitCategoryListScreen extends StatefulWidget {
   final String tag;
   final int topicId;

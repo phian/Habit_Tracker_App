@@ -342,7 +342,7 @@ class MainScreenState extends State<MainScreen> {
   Widget _mainScreenDateTimeTab(String title) {
     return Tab(
       child: Container(
-        width: Get.width,
+        width: Get.width * 0.25,
         child: Text(
           title,
           textAlign: TextAlign.center,

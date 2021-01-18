@@ -6,7 +6,6 @@ import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/view/habit_all_note_screen.dart';
-import 'package:habit_tracker/view/habit_note_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'edit_habit.dart';

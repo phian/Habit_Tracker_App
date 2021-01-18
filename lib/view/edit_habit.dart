@@ -10,7 +10,6 @@ import 'package:habit_tracker/model/habit.dart';
 
 import 'package:select_form_field/select_form_field.dart';
 import './view_variables/create_habit_screen_variables.dart';
-import 'manage_screen.dart';
 import 'view_variables/create_habit_screen_variables.dart';
 
 class EditHabitScreen extends StatelessWidget {

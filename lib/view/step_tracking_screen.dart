@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -492,7 +490,7 @@ class StepTackingScreen extends StatelessWidget {
   Widget _dayChart() {
     return Container(
       width: Get.width * 0.6,
-      height: Get.width * 0.5,
+      height: Get.width * 0.6,
       transform: Matrix4.translationValues(0.0, -5.0, 0.0),
       child: CircularStepProgressIndicator(
         totalSteps: 100,

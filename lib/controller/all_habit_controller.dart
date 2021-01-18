@@ -1,13 +1,9 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:intl/intl.dart';
-
-import 'main_screen_controller.dart';
 import 'main_screen_controller.dart';
 
 class AllHabitController extends GetxController {

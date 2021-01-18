@@ -160,11 +160,11 @@ class NotificationScreen extends StatelessWidget {
               ),
               SizedBox(height: 30.0),
               _todayPlanAndResultWidget(
-                title: "Plan for today",
+                title: "Your results for today",
                 summaryText:
-                    "x habits completed, y habit skiped, z habits left",
+                    "x habits completed, y habits skiped, z habits left",
                 value: _notificationController.isOnOrOffTodayResult,
-                icon: Icons.flag,
+                icon: Icons.view_list,
                 pickedTime: _notificationController.resultNotiPickedTime,
                 iconColor: Color(0xFFF53566),
               ),

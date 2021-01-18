@@ -11,22 +11,22 @@ import 'package:table_calendar/table_calendar.dart';
 import 'edit_habit.dart';
 
 class HabitStatisticScreen extends StatelessWidget {
-  Habit _habit;
+  //Habit _habit;
 
   BuildContext _context;
   AnimateIconController _controller = AnimateIconController();
   HabitStatisticController _habitStatisticController =
-      HabitStatisticController();
+      Get.put(HabitStatisticController());
 
   CalendarController _calendarController = CalendarController();
-  AllHabitController habitController = Get.find();
+  AllHabitController habitController = Get.put(AllHabitController());
 
   @override
   Widget build(BuildContext context) {
     if (Get.arguments != null) {
-      _habit = Get.arguments;
-      _habitStatisticController.backUpHabit(Get.arguments);
-      _updateHabitStatisticInfo();
+      _habitStatisticController.habit.value = Get.arguments;
+      //_habitStatisticController.backUpHabit(Get.arguments);
+      //_updateHabitStatisticInfo();
     }
 
     _context = context;
@@ -37,17 +37,17 @@ class HabitStatisticScreen extends StatelessWidget {
     );
   }
 
-  void _updateHabitStatisticInfo() {
-    _habitStatisticController.updateHabitStatisticInfo(
-      habitId: _habit.ma,
-      icon: IconData(_habit.icon, fontFamily: 'MaterialIcons'),
-      habitName: _habit.ten,
-      goalAmount: _habit.soLan,
-      goalUnitType: _habit.donVi,
-      repeatType: _habit.loaiLap,
-      iconColor: _habit.mau,
-    );
-  }
+  // void _updateHabitStatisticInfo() {
+  //   _habitStatisticController.updateHabitStatisticInfo(
+  //     habitId: _habit.ma,
+  //     icon: IconData(_habit.icon, fontFamily: 'MaterialIcons'),
+  //     habitName: _habit.ten,
+  //     goalAmount: _habit.soLan,
+  //     goalUnitType: _habit.donVi,
+  //     repeatType: _habit.loaiLap,
+  //     iconColor: _habit.mau,
+  //   );
+  // }
 
   /// [Appbar]
   Widget _habitStatisticScreenAppBar() {
@@ -101,7 +101,9 @@ class HabitStatisticScreen extends StatelessWidget {
                       Get.back();
                       Get.to(
                         EditHabitScreen(),
-                        arguments: _habitStatisticController.habit.value,
+                        arguments: _habitStatisticController.isClosed == false
+                            ? _habitStatisticController.habit.value
+                            : null,
                         transition: Transition.fadeIn,
                       );
                     },
@@ -196,7 +198,7 @@ class HabitStatisticScreen extends StatelessWidget {
                       Get.to(
                         HabitAllNoteScreen(),
                         transition: Transition.fadeIn,
-                        arguments: _habitStatisticController.habitId.value,
+                        arguments: _habitStatisticController.habit.value.ma,
                       );
                     },
                     borderRadius: BorderRadius.circular(90.0),
@@ -241,11 +243,14 @@ class HabitStatisticScreen extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  _habitStatisticController.habitIcon.value,
+                  IconData(
+                    _habitStatisticController.habit.value.icon,
+                    fontFamily: 'MaterialIcons',
+                  ),
                   size: 50.0,
                   color: Color(
                     int.parse(
-                      _habitStatisticController.iconColor.value,
+                      _habitStatisticController.habit.value.mau,
                       radix: 16,
                     ),
                   ),
@@ -253,7 +258,7 @@ class HabitStatisticScreen extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(left: 30.0),
                   child: Text(
-                    _habitStatisticController.habitName.value,
+                    _habitStatisticController.habit.value.ten,
                     style: TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,
@@ -265,7 +270,8 @@ class HabitStatisticScreen extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: _habit.soLan == 0 ? false : true,
+          visible:
+              _habitStatisticController.habit.value.soLan == 0 ? false : true,
           child: Column(
             children: [
               Container(
@@ -282,7 +288,7 @@ class HabitStatisticScreen extends StatelessWidget {
                     ),
                     Text(
                       "/" +
-                          _habitStatisticController.goalAmount.value
+                          _habitStatisticController.habit.value.soLan
                               .toString() +
                           " ",
                       style: TextStyle(
@@ -292,7 +298,7 @@ class HabitStatisticScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      _habitStatisticController.goalUnitType.value,
+                      _habitStatisticController.habit.value.donVi,
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -306,9 +312,8 @@ class HabitStatisticScreen extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10.0, left: 80.0),
                 child: Obx(
                   () => FAProgressBar(
-                    currentValue:
-                        _habitStatisticController.finishedAmount.value,
-                    maxValue: _habitStatisticController.goalAmount.value,
+                    currentValue: 0,
+                    maxValue: _habitStatisticController.habit.value.soLan,
                     size: 5,
                     backgroundColor: Color(0xFF2F313E),
                     progressColor: Colors.blue,
@@ -337,7 +342,9 @@ class HabitStatisticScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 5.0),
                     Text(
-                      _habitStatisticController.repeatType.value,
+                      _habitStatisticController.habit.value.loaiLap == 0
+                          ? 'Daily'
+                          : 'Weekly',
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -621,7 +628,8 @@ class HabitStatisticScreen extends StatelessWidget {
             Container(
               child: ListTile(
                 onTap: () {
-                  habitController.deleteHabit(_habit);
+                  habitController
+                      .deleteHabit(_habitStatisticController.habit.value);
                   Get.back();
                   Get.back();
                 },
@@ -652,7 +660,8 @@ class HabitStatisticScreen extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  habitController.deleteHabit(_habit);
+                  habitController
+                      .deleteHabit(_habitStatisticController.habit.value);
                   Get.back();
                   Get.back();
                 },

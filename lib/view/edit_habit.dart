@@ -164,7 +164,7 @@ class EditHabitScreen extends StatelessWidget {
   }
 
   /// [Hàm để lưu data vào databaee]
-  void _saveHabitData() {
+  void _saveHabitData() async {
     if ((createHabitScreenController.goalAmountController.text == '' ||
             int.parse(createHabitScreenController.goalAmountController.text) ==
                 0) &&
@@ -177,7 +177,8 @@ class EditHabitScreen extends StatelessWidget {
         text: "Check your goal for this habit",
       );
     } else {
-      createHabitScreenController.editHabit(habitNameController.text, habit.ma);
+      await createHabitScreenController.editHabit(
+          habitNameController.text, habit.ma);
       Get.back();
       createHabitScreenController.onClose();
     }

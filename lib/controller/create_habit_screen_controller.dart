@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
+import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/model/habit.dart';
 
@@ -13,6 +14,8 @@ class CreateHabitScreenController extends GetxController {
   var habitIcon = Icons.star.obs;
 
   AllHabitController allHabitController = Get.put(AllHabitController());
+  HabitStatisticController statisticController =
+      Get.put(HabitStatisticController());
 
   TextEditingController goalAmountController = TextEditingController();
 
@@ -51,7 +54,7 @@ class CreateHabitScreenController extends GetxController {
     allHabitController.getAllHabit();
   }
 
-  void editHabit(String name, int id) async {
+  Future<void> editHabit(String name, int id) async {
     await DatabaseHelper.instance.updateHabit(
       Habit(
         ma: id,
@@ -70,6 +73,24 @@ class CreateHabitScreenController extends GetxController {
         trangThai: 0,
       ),
     );
+
+    statisticController.habit.value = Habit(
+      ma: id,
+      ten: name,
+      icon: habitIcon.value.codePoint,
+      mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
+      batMucTieu: selectedIndex.value,
+      soLan: goalAmountController.text == ''
+          ? 0
+          : int.parse(goalAmountController.text),
+      donVi: selectedUnitType.value,
+      loaiLap: repeatTypeChoice.value,
+      ngayTrongTuan: getDailyList(),
+      soLanTrongTuan: getWeeklyList(),
+      buoi: getNotiTimeChoice(),
+      trangThai: 0,
+    );
+
     allHabitController.getAllHabit();
   }
 

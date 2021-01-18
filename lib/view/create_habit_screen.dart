@@ -169,7 +169,7 @@ class CreateHabitScreen extends StatelessWidget {
   }
 
   /// [Hàm để lưu data vào databaee]
-  void _saveHabitData() {
+  void _saveHabitData() async {
     if ((createHabitScreenController.goalAmountController.text == '' ||
             int.parse(createHabitScreenController.goalAmountController.text) ==
                 0) &&
@@ -192,9 +192,10 @@ class CreateHabitScreen extends StatelessWidget {
         text: "Check the name you want for this habit",
       );
     } else {
-      createHabitScreenController.addHabit(habitNameController.text);
-      Get.offAll(ManageScreen());
-      habitNameController = TextEditingController();
+      await createHabitScreenController.addHabit(habitNameController.text);
+      Get.back();
+      //Get.offAll(ManageScreen());
+      habitNameController.clear();
       createHabitScreenController.onClose();
     }
   }
@@ -884,7 +885,6 @@ class CreateHabitScreen extends StatelessWidget {
     createHabitScreenController.changeHabitIcon(icon);
 
     if (icon != null) debugPrint('Icon code point: ${icon.codePoint}');
-    debugPrint(suggestedHabit == null ? "null" : "not null");
   }
 
   /// [Widget icon và color]

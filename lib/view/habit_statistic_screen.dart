@@ -23,11 +23,9 @@ class HabitStatisticScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Get.arguments != null) {
-      _habitStatisticController.habit.value = Get.arguments;
-      //_habitStatisticController.backUpHabit(Get.arguments);
-      //_updateHabitStatisticInfo();
-    }
+    _habitStatisticController.habit.value = Get.arguments;
+    //_habitStatisticController.backUpHabit(Get.arguments);
+    //_updateHabitStatisticInfo();
 
     _context = context;
     return Scaffold(
@@ -631,7 +629,9 @@ class HabitStatisticScreen extends StatelessWidget {
                 onTap: () {
                   habitController
                       .deleteHabit(_habitStatisticController.habit.value);
-                  Get.back(closeOverlays: true);
+                  Get.back();
+                  Get.back();
+                  Get.back();
                 },
                 leading: Icon(
                   Icons.restore_outlined,
@@ -662,7 +662,9 @@ class HabitStatisticScreen extends StatelessWidget {
                 onTap: () {
                   habitController
                       .deleteHabit(_habitStatisticController.habit.value);
-                  Get.back(closeOverlays: true);
+                  Get.back();
+                  Get.back();
+                  Get.back();
                 },
                 leading: Icon(
                   Icons.auto_delete,

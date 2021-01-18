@@ -119,18 +119,18 @@ class AllHabitsScreen extends StatelessWidget {
             ),
           ),
           onTap: () {
-            print(allHabitController.listAllHabit[index].ma);
-            print(allHabitController.listAllHabit[index].ten);
-            print(allHabitController.listAllHabit[index].mau);
-            print(allHabitController.listAllHabit[index].icon);
-            print(allHabitController.listAllHabit[index].batMucTieu);
-            print(allHabitController.listAllHabit[index].soLan);
-            print(allHabitController.listAllHabit[index].donVi);
-            print(allHabitController.listAllHabit[index].loaiLap);
-            print(allHabitController.listAllHabit[index].ngayTrongTuan);
-            print(allHabitController.listAllHabit[index].soLanTrongTuan);
-            print(allHabitController.listAllHabit[index].buoi);
-            print(allHabitController.listAllHabit[index].trangThai);
+            // print(allHabitController.listAllHabit[index].ma);
+            // print(allHabitController.listAllHabit[index].ten);
+            // print(allHabitController.listAllHabit[index].mau);
+            // print(allHabitController.listAllHabit[index].icon);
+            // print(allHabitController.listAllHabit[index].batMucTieu);
+            // print(allHabitController.listAllHabit[index].soLan);
+            // print(allHabitController.listAllHabit[index].donVi);
+            // print(allHabitController.listAllHabit[index].loaiLap);
+            // print(allHabitController.listAllHabit[index].ngayTrongTuan);
+            // print(allHabitController.listAllHabit[index].soLanTrongTuan);
+            // print(allHabitController.listAllHabit[index].buoi);
+            // print(allHabitController.listAllHabit[index].trangThai);
 
             Get.to(
               HabitStatisticScreen(),

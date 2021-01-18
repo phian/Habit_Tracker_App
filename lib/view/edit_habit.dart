@@ -867,9 +867,6 @@ class EditHabitScreen extends StatelessWidget {
     );
 
     createHabitScreenController.changeHabitIcon(icon);
-
-    debugPrint('Icon code point: ${icon.codePoint}');
-    debugPrint(habit == null ? "null" : "not null");
   }
 
   /// [Widget icon và color]

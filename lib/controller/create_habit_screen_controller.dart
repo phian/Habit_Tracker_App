@@ -34,7 +34,7 @@ class CreateHabitScreenController extends GetxController {
     super.onClose();
   }
 
-  void addHabit(String name) async {
+  Future<void> addHabit(String name) async {
     await DatabaseHelper.instance.insertHabit(
       Habit(
         ten: name,
@@ -51,7 +51,7 @@ class CreateHabitScreenController extends GetxController {
         buoi: getNotiTimeChoice(),
       ),
     );
-    allHabitController.getAllHabit();
+    await allHabitController.getAllHabit();
   }
 
   Future<void> editHabit(String name, int id) async {
@@ -91,7 +91,7 @@ class CreateHabitScreenController extends GetxController {
       trangThai: 0,
     );
 
-    allHabitController.getAllHabit();
+    await allHabitController.getAllHabit();
   }
 
   var weekDateList = [

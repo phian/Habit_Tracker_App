@@ -6,7 +6,6 @@ import 'package:habit_tracker/model/suggest_topic.dart';
 import 'package:habit_tracker/view/habit_category_list_screen.dart';
 
 import 'create_habit_screen.dart';
-import 'manage_screen.dart';
 
 class HabitCategoriesScreen extends StatefulWidget {
   HabitCategoriesScreen({Key key}) : super(key: key);

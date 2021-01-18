@@ -4,7 +4,7 @@ import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.da
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
-import 'package:habit_tracker/model/habit.dart';
+
 import 'package:habit_tracker/view/habit_all_note_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -101,9 +101,7 @@ class HabitStatisticScreen extends StatelessWidget {
                       Get.back();
                       Get.to(
                         EditHabitScreen(),
-                        arguments: _habitStatisticController.isClosed == false
-                            ? _habitStatisticController.habit.value
-                            : null,
+                        arguments: _habitStatisticController.habit.value,
                         transition: Transition.fadeIn,
                       );
                     },
@@ -276,36 +274,39 @@ class HabitStatisticScreen extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.only(left: 80.0, top: 15.0),
-                child: Row(
-                  children: [
-                    Text(
-                      _habitStatisticController.finishedAmount.value.toString(),
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                child: Obx(
+                  () => Row(
+                    children: [
+                      Text(
+                        _habitStatisticController.finishedAmount.value
+                            .toString(),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "/" +
-                          _habitStatisticController.habit.value.soLan
-                              .toString() +
-                          " ",
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue.withOpacity(0.5),
+                      Text(
+                        "/" +
+                            _habitStatisticController.habit.value.soLan
+                                .toString() +
+                            " ",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue.withOpacity(0.5),
+                        ),
                       ),
-                    ),
-                    Text(
-                      _habitStatisticController.habit.value.donVi,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFA7AAB1),
+                      Text(
+                        _habitStatisticController.habit.value.donVi,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFA7AAB1),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Container(
@@ -630,8 +631,7 @@ class HabitStatisticScreen extends StatelessWidget {
                 onTap: () {
                   habitController
                       .deleteHabit(_habitStatisticController.habit.value);
-                  Get.back();
-                  Get.back();
+                  Get.back(closeOverlays: true);
                 },
                 leading: Icon(
                   Icons.restore_outlined,
@@ -662,8 +662,7 @@ class HabitStatisticScreen extends StatelessWidget {
                 onTap: () {
                   habitController
                       .deleteHabit(_habitStatisticController.habit.value);
-                  Get.back();
-                  Get.back();
+                  Get.back(closeOverlays: true);
                 },
                 leading: Icon(
                   Icons.auto_delete,

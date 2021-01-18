@@ -213,7 +213,7 @@ class NotificationScreen extends StatelessWidget {
   }) {
     return Container(
       height: Get.height * 0.26,
-      padding: EdgeInsets.symmetric(horizontal: 30.0),
+      padding: EdgeInsets.symmetric(horizontal: 25.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Color(0xFF2F313E),
@@ -331,7 +331,7 @@ class NotificationScreen extends StatelessWidget {
   }) {
     return Container(
       height: Get.height * 0.17,
-      padding: EdgeInsets.symmetric(horizontal: 30.0),
+      padding: EdgeInsets.symmetric(horizontal: 23.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Color(0xFF2F313E),

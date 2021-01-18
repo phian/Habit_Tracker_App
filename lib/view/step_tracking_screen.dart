@@ -489,12 +489,15 @@ class StepTackingScreen extends StatelessWidget {
   /// [Biểu đồ tròn cho ngày]
   Widget _dayChart() {
     return Container(
-      width: Get.width * 0.6,
+      width: Get.width * 0.7,
       height: Get.width * 0.6,
       transform: Matrix4.translationValues(0.0, -5.0, 0.0),
       child: CircularStepProgressIndicator(
         totalSteps: 100,
-        currentStep: 74,
+        currentStep: (int.parse(_controller.totalSteps.value) /
+                _controller.goalSteps.value *
+                100)
+            .toInt(),
         stepSize: 10,
         selectedColor: Colors.greenAccent,
         unselectedColor: Colors.grey[200],

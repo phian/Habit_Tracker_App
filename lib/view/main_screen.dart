@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
+import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/view/genaral_screeen.dart';
 import 'package:habit_tracker/view/notification_screen.dart';
@@ -21,6 +22,8 @@ class MainScreen extends StatefulWidget {
 
 class MainScreenState extends State<MainScreen> {
   MainScreenController _mainScreenController = Get.put(MainScreenController());
+  HabitStatisticController habitStatisticController =
+      Get.put(HabitStatisticController());
 
   List<Habit> emptyList = [];
 

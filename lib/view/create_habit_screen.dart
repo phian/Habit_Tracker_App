@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:select_form_field/select_form_field.dart';
@@ -17,6 +18,8 @@ class CreateHabitScreen extends StatelessWidget {
   static Habit habit;
   static SuggestedHabit suggestedHabit;
   static TextEditingController habitNameController = TextEditingController();
+  CreateHabitScreenController createHabitScreenController =
+      Get.put(CreateHabitScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -193,6 +196,7 @@ class CreateHabitScreen extends StatelessWidget {
       );
     } else {
       await createHabitScreenController.addHabit(habitNameController.text);
+      Get.back();
       Get.back();
       //Get.offAll(ManageScreen());
       habitNameController.clear();

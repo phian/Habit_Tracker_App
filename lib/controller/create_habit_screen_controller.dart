@@ -13,9 +13,10 @@ class CreateHabitScreenController extends GetxController {
   var fillColor = Color(0xFFF53566).obs;
   var habitIcon = Icons.star.obs;
 
-  AllHabitController allHabitController = Get.put(AllHabitController());
-  HabitStatisticController statisticController =
-      Get.put(HabitStatisticController());
+  AllHabitController allHabitController = Get.find();
+  //Get.put(AllHabitController());
+  HabitStatisticController statisticController = Get.find();
+  //Get.put(HabitStatisticController());
 
   TextEditingController goalAmountController = TextEditingController();
 
@@ -51,7 +52,7 @@ class CreateHabitScreenController extends GetxController {
         buoi: getNotiTimeChoice(),
       ),
     );
-    await allHabitController.getAllHabit();
+    if (allHabitController != null) await allHabitController.getAllHabit();
   }
 
   Future<void> editHabit(String name, int id) async {
@@ -73,25 +74,25 @@ class CreateHabitScreenController extends GetxController {
         trangThai: 0,
       ),
     );
+    if (statisticController != null)
+      statisticController.habit.value = Habit(
+        ma: id,
+        ten: name,
+        icon: habitIcon.value.codePoint,
+        mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
+        batMucTieu: selectedIndex.value,
+        soLan: goalAmountController.text == ''
+            ? 0
+            : int.parse(goalAmountController.text),
+        donVi: selectedUnitType.value,
+        loaiLap: repeatTypeChoice.value,
+        ngayTrongTuan: getDailyList(),
+        soLanTrongTuan: getWeeklyList(),
+        buoi: getNotiTimeChoice(),
+        trangThai: 0,
+      );
 
-    statisticController.habit.value = Habit(
-      ma: id,
-      ten: name,
-      icon: habitIcon.value.codePoint,
-      mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
-      batMucTieu: selectedIndex.value,
-      soLan: goalAmountController.text == ''
-          ? 0
-          : int.parse(goalAmountController.text),
-      donVi: selectedUnitType.value,
-      loaiLap: repeatTypeChoice.value,
-      ngayTrongTuan: getDailyList(),
-      soLanTrongTuan: getWeeklyList(),
-      buoi: getNotiTimeChoice(),
-      trangThai: 0,
-    );
-
-    await allHabitController.getAllHabit();
+    if (allHabitController != null) await allHabitController.getAllHabit();
   }
 
   var weekDateList = [

@@ -15,8 +15,8 @@ class HabitStatisticScreen extends StatelessWidget {
 
   BuildContext _context;
   AnimateIconController _controller = AnimateIconController();
-  HabitStatisticController _habitStatisticController =
-      Get.put(HabitStatisticController());
+  HabitStatisticController _habitStatisticController = Get.find();
+  //Get.put(HabitStatisticController());
 
   CalendarController _calendarController = CalendarController();
   AllHabitController habitController = Get.put(AllHabitController());
@@ -238,26 +238,32 @@ class HabitStatisticScreen extends StatelessWidget {
           () => Container(
             child: Row(
               children: [
-                Icon(
-                  IconData(
-                    _habitStatisticController.habit.value.icon,
-                    fontFamily: 'MaterialIcons',
-                  ),
-                  size: 50.0,
-                  color: Color(
-                    int.parse(
-                      _habitStatisticController.habit.value.mau,
-                      radix: 16,
+                Padding(
+                  padding: EdgeInsets.only(left: 8),
+                  child: Icon(
+                    IconData(
+                      _habitStatisticController.habit.value.icon,
+                      fontFamily: 'MaterialIcons',
+                    ),
+                    size: 50.0,
+                    color: Color(
+                      int.parse(
+                        _habitStatisticController.habit.value.mau,
+                        radix: 16,
+                      ),
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 30.0),
-                  child: Text(
-                    _habitStatisticController.habit.value.ten,
-                    style: TextStyle(
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20.0),
+                    child: Text(
+                      _habitStatisticController.habit.value.ten,
+                      style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
                     ),
                   ),
                 ),

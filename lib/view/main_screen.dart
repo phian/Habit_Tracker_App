@@ -588,7 +588,11 @@ class MainScreenState extends State<MainScreen> {
           ),
         ),
         onTap: () {
-          Get.to(HabitStatisticScreen(), arguments: habit);
+          Get.to(
+            HabitStatisticScreen(),
+            arguments: habit,
+            transition: Transition.fadeIn,
+          );
         },
       ),
     );

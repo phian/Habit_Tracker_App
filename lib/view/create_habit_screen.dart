@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:select_form_field/select_form_field.dart';
@@ -17,6 +18,8 @@ class CreateHabitScreen extends StatelessWidget {
   static Habit habit;
   static SuggestedHabit suggestedHabit;
   static TextEditingController habitNameController = TextEditingController();
+  CreateHabitScreenController createHabitScreenController =
+      Get.put(CreateHabitScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +172,7 @@ class CreateHabitScreen extends StatelessWidget {
   }
 
   /// [Hàm để lưu data vào databaee]
-  void _saveHabitData() {
+  void _saveHabitData() async {
     if ((createHabitScreenController.goalAmountController.text == '' ||
             int.parse(createHabitScreenController.goalAmountController.text) ==
                 0) &&
@@ -192,9 +195,11 @@ class CreateHabitScreen extends StatelessWidget {
         text: "Check the name you want for this habit",
       );
     } else {
-      createHabitScreenController.addHabit(habitNameController.text);
-      Get.offAll(ManageScreen());
-      habitNameController = TextEditingController();
+      await createHabitScreenController.addHabit(habitNameController.text);
+      Get.back();
+      Get.back();
+      //Get.offAll(ManageScreen());
+      habitNameController.clear();
       createHabitScreenController.onClose();
     }
   }
@@ -884,7 +889,6 @@ class CreateHabitScreen extends StatelessWidget {
     createHabitScreenController.changeHabitIcon(icon);
 
     if (icon != null) debugPrint('Icon code point: ${icon.codePoint}');
-    debugPrint(suggestedHabit == null ? "null" : "not null");
   }
 
   /// [Widget icon và color]

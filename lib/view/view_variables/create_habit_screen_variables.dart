@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 
 ScrollController screenScrollController = new ScrollController();
 AnimateIconController aniController = new AnimateIconController();
-CreateHabitScreenController createHabitScreenController =
-    Get.put(CreateHabitScreenController());
 
 List<Color> choiceColors = [
   Color(0xFFF53566),

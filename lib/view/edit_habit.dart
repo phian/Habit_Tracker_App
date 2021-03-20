@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 
 import 'package:select_form_field/select_form_field.dart';
@@ -15,6 +16,8 @@ import 'view_variables/create_habit_screen_variables.dart';
 class EditHabitScreen extends StatelessWidget {
   static Habit habit;
   static TextEditingController habitNameController;
+  CreateHabitScreenController createHabitScreenController =
+      Get.put(CreateHabitScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -867,9 +870,6 @@ class EditHabitScreen extends StatelessWidget {
     );
 
     createHabitScreenController.changeHabitIcon(icon);
-
-    debugPrint('Icon code point: ${icon.codePoint}');
-    debugPrint(habit == null ? "null" : "not null");
   }
 
   /// [Widget icon và color]

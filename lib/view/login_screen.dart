@@ -14,12 +14,7 @@ class LoginScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFF1E212A),
       appBar: _losginScreenAppBar(),
-      body: Stack(
-        children: [
-          _loginForm(),
-          _signUpForm(),
-        ],
-      ),
+      body: _loginScreenBody(),
     );
   }
 
@@ -29,6 +24,16 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: Color(0xFF1E212A),
       centerTitle: true,
       elevation: 0.0,
+    );
+  }
+
+  /// [Body]
+  Widget _loginScreenBody() {
+    return Stack(
+      children: [
+        _loginForm(),
+        _signUpForm(),
+      ],
     );
   }
 
@@ -323,7 +328,7 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(height: 30.0),
                   _signUpBox("images/google.png", "Sign up with Google"),
                   SizedBox(height: 10.0),
-                  _signUpBox("images/facebook.png", "Sign up with facebook"),
+                  _signUpBox("images/facebook.png", "Sign up with Facebook"),
                 ],
               ),
               Container(

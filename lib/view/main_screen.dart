@@ -5,6 +5,7 @@ import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/view/genaral_screeen.dart';
 import 'package:habit_tracker/view/notification_screen.dart';
+import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 
@@ -24,18 +25,16 @@ class MainScreenState extends State<MainScreen> {
 
   List<Habit> emptyList = [];
 
-  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
+  final GlobalKey<SideMenuState> _mainScreenKey = GlobalKey<SideMenuState>(
+    debugLabel: "MainScreenKey",
+  );
 
   AllHabitController allHabitController = Get.put(AllHabitController());
 
   @override
   Widget build(BuildContext context) {
-    return SideMenu(
-      background: Color(0xFF2F313E),
-      key: _sideMenuKey,
-      inverse: false,
-      type: SideMenuType.slideNRotate,
-      menu: _buildMenu(),
+    return ScreenMenu(
+      menuKey: _mainScreenKey,
       child: Scaffold(
         backgroundColor: Color(0xFF1E212A),
         appBar: _mainScreenAppBar(),
@@ -56,7 +55,7 @@ class MainScreenState extends State<MainScreen> {
             color: Colors.white,
           ),
           onPressed: () {
-            final _state = _sideMenuKey.currentState;
+            final _state = _mainScreenKey.currentState;
             if (_state.isOpened)
               _state.closeSideMenu();
             else
@@ -200,110 +199,6 @@ class MainScreenState extends State<MainScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  /// [Build menu]
-  Widget _buildMenu() {
-    return Container(
-      child: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(
-          parent: BouncingScrollPhysics(),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 50.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.only(left: 30.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 35.0,
-                    child: Icon(
-                      Icons.account_circle,
-                      size: 60.0,
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    "Hello, User",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  _menuListTile(
-                    Icons.access_time,
-                    "Notification",
-                    Color(0xFF11C480),
-                  ),
-                  SizedBox(height: 20.0),
-                  _menuListTile(
-                    Icons.settings,
-                    "General",
-                    Color(0xFF933DFF),
-                  ),
-                  SizedBox(height: 20.0),
-                  _menuListTile(
-                    Icons.login,
-                    "Login",
-                    Color(0xFFFABB37),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// [Widget cho menu]
-  Widget _menuListTile(IconData icon, String title, Color iconColor) {
-    return Container(
-      transform: Matrix4.translationValues(-15.0, .0, .0),
-      width: 250.0,
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        onTap: () {
-          if (icon == Icons.access_time) {
-            Get.to(
-              NotificationScreen(),
-              transition: Transition.fadeIn,
-            );
-          } else if (icon == Icons.settings) {
-            Get.to(
-              GeneralScreen(),
-              transition: Transition.fadeIn,
-            );
-          } else {
-            Get.to(
-              LoginScreen(),
-              transition: Transition.fadeIn,
-            );
-          }
-        },
-        leading: Icon(
-          icon,
-          size: 30.0,
-          color: iconColor,
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-          ),
-        ),
-        trailing: Icon(Icons.keyboard_arrow_right),
-      ),
     );
   }
 

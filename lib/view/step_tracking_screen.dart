@@ -2,33 +2,82 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/step_tracking_screen_controller.dart';
+import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-import 'genaral_screeen.dart';
-import 'login_screen.dart';
-import 'notification_screen.dart';
-
 class StepTackingScreen extends StatelessWidget {
-  StepTrackingScreenController _controller = StepTrackingScreenController();
+  final StepTrackingScreenController _controller = StepTrackingScreenController();
 
-  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
-  List<Color> gradientColors = [
+  final GlobalKey<SideMenuState> _stepTrackingScreenKey = GlobalKey<SideMenuState>(
+    debugLabel: "StepTrackingScreenKey",
+  );
+  final List<Color> gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return SideMenu(
-      background: Color(0xFF2F313E),
-      key: _sideMenuKey,
-      inverse: false,
-      type: SideMenuType.slideNRotate,
-      menu: _buildMenu(),
+    return ScreenMenu(
+      menuKey: _stepTrackingScreenKey,
       child: Scaffold(
         appBar: _stepTrackingScreenAppBar(),
-        body: Container(
+        body: _stepTrackingScreenBody(),
+      ),
+    );
+  }
+
+  /// [App Bar]
+  Widget _stepTrackingScreenAppBar() {
+    return AppBar(
+      title: Text(
+        "Step tracking",
+        style: TextStyle(
+          fontSize: 25.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      leading: Container(
+        alignment: Alignment.center,
+        child: IconButton(
+          icon: Icon(
+            Icons.menu_rounded,
+            size: 30.0,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            final _state = _stepTrackingScreenKey.currentState;
+            if (_state.isOpened)
+              _state.closeSideMenu();
+            else
+              _state.openSideMenu();
+          },
+        ),
+      ),
+      centerTitle: true,
+      backgroundColor: Color(0xFF2B2B2B),
+      elevation: 0.0,
+    );
+  }
+
+  /// [Tab widget]
+  Widget _stepTrackingScreenTab(String title) {
+    return Tab(
+      child: Container(
+        width: Get.width * 0.25,
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+
+  /// [body]
+  Widget _stepTrackingScreenBody() {
+    return Container(
           child: Column(
             children: [
               Expanded(
@@ -112,160 +161,7 @@ class StepTackingScreen extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  /// [App Bar]
-  Widget _stepTrackingScreenAppBar() {
-    return AppBar(
-      title: Text(
-        "Step tracking",
-        style: TextStyle(
-          fontSize: 25.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      leading: Container(
-        alignment: Alignment.center,
-        child: IconButton(
-          icon: Icon(
-            Icons.menu_rounded,
-            size: 30.0,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            final _state = _sideMenuKey.currentState;
-            if (_state.isOpened)
-              _state.closeSideMenu();
-            else
-              _state.openSideMenu();
-          },
-        ),
-      ),
-      centerTitle: true,
-      backgroundColor: Color(0xFF2B2B2B),
-      elevation: 0.0,
-    );
-  }
-
-  /// [Build menu]
-  Widget _buildMenu() {
-    return Container(
-      child: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(
-          parent: BouncingScrollPhysics(),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 50.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.only(left: 30.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 35.0,
-                    child: Icon(
-                      Icons.account_circle,
-                      size: 60.0,
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    "Hello, User",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  _menuListTile(
-                    Icons.access_time,
-                    "Notification",
-                    Color(0xFF11C480),
-                  ),
-                  SizedBox(height: 20.0),
-                  _menuListTile(
-                    Icons.settings,
-                    "General",
-                    Color(0xFF933DFF),
-                  ),
-                  SizedBox(height: 20.0),
-                  _menuListTile(
-                    Icons.login,
-                    "Login",
-                    Color(0xFFFABB37),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// [Widget cho menu]
-  Widget _menuListTile(IconData icon, String title, Color iconColor) {
-    return Container(
-      transform: Matrix4.translationValues(-15.0, .0, .0),
-      width: 250.0,
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        onTap: () {
-          if (icon == Icons.access_time) {
-            Get.to(
-              NotificationScreen(),
-              transition: Transition.fadeIn,
-            );
-          } else if (icon == Icons.settings) {
-            Get.to(
-              GeneralScreen(),
-              transition: Transition.fadeIn,
-            );
-          } else {
-            Get.to(
-              LoginScreen(),
-              transition: Transition.fadeIn,
-            );
-          }
-        },
-        leading: Icon(
-          icon,
-          size: 30.0,
-          color: iconColor,
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-          ),
-        ),
-        trailing: Icon(Icons.keyboard_arrow_right),
-      ),
-    );
-  }
-
-  /// [Tab widget]
-  Widget _stepTrackingScreenTab(String title) {
-    return Tab(
-      child: Container(
-        width: Get.width * 0.25,
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
+        );
   }
 
   /// [Tracking view]

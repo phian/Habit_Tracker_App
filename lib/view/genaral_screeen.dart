@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/gernaral_screen_controller.dart';
 
 class GeneralScreen extends StatelessWidget {
-  GeneralScreenController _generalScreenController = GeneralScreenController();
+  final GeneralScreenController _generalScreenController = GeneralScreenController();
 
   @override
   Widget build(BuildContext context) {

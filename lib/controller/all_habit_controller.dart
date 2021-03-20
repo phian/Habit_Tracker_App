@@ -50,11 +50,11 @@ class AllHabitController extends GetxController {
         );
       });
     });
-    await getHabitByWeekDate(mainScreenController.selectedDay.value.weekday);
+    getHabitByWeekDate(mainScreenController.selectedDay.value.weekday);
     flag.value = true;
   }
 
-  Future<void> getHabitByWeekDate(int weekdate) async {
+  void getHabitByWeekDate(int weekdate) async {
     listAnytimeHabit.clear();
     for (int i = 0; i < listAllHabit.length; i++) {
       if (listAllHabit[i].ngayTrongTuan.contains((weekdate + 1).toString())) {

@@ -146,10 +146,8 @@ class LoginScreen extends StatelessWidget {
                             ),
                             InkWell(
                               borderRadius: BorderRadius.circular(5.0),
-                              onTap: () {
-                                _loginScreenController
-                                    .changeLoginOrSignUpFormView();
-                              },
+                              onTap: () => _loginScreenController
+                                  .changeLoginOrSignUpFormView(),
                               child: Text(
                                 "Register",
                                 style: TextStyle(
@@ -165,15 +163,20 @@ class LoginScreen extends StatelessWidget {
                       FlatButton(
                         minWidth: Get.width,
                         height: 60.0,
-                        onPressed: () {
-                          CoolAlert.show(
-                            context: _context,
-                            type: CoolAlertType.success,
-                            animType: CoolAlertAnimType.slideInUp,
-                            title: "Sign in sucess",
-                            text: "Let's go and make a plan for today",
-                          );
-                        },
+                        onPressed: () =>
+                            _loginScreenController.showSignInNotificationDialog(
+                          context: _context,
+                          title: "Sign in success",
+                          text: "Let's go and make a plan for today",
+                        ),
+                        // CoolAlert.show(
+                        //   context: _context,
+                        //   type: CoolAlertType.success,
+                        //   animType: CoolAlertAnimType.slideInUp,
+                        //   title: "Sign in success",
+                        //   text: "Let's go and make a plan for today",
+                        // );
+
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -351,10 +354,8 @@ class LoginScreen extends StatelessWidget {
                             ),
                             InkWell(
                               borderRadius: BorderRadius.circular(5.0),
-                              onTap: () {
-                                _loginScreenController
-                                    .changeLoginOrSignUpFormView();
-                              },
+                              onTap: () => _loginScreenController
+                                  .changeLoginOrSignUpFormView(),
                               child: Text(
                                 "Sign in",
                                 style: TextStyle(
@@ -372,15 +373,19 @@ class LoginScreen extends StatelessWidget {
                         child: FlatButton(
                           minWidth: Get.width,
                           height: 60.0,
-                          onPressed: () {
-                            CoolAlert.show(
-                              context: _context,
-                              type: CoolAlertType.success,
-                              animType: CoolAlertAnimType.slideInUp,
-                              title: "Sign up sucess",
-                              text: "Let's go and build greatful habits",
-                            );
-                          },
+                          onPressed: () => _loginScreenController
+                              .showSignInNotificationDialog(
+                            context: _context,
+                            title: "Sign up success",
+                            text: "Let's go and build great habits",
+                          ),
+                          // CoolAlert.show(
+                          //   context: _context,
+                          //   type: CoolAlertType.success,
+                          //   animType: CoolAlertAnimType.slideInUp,
+                          //   title: "Sign up success",
+                          //   text: "Let's go and build great habits",
+                          // );
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
                           ),

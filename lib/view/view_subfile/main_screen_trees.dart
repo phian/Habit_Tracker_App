@@ -5,6 +5,7 @@ class MainScreenTreesAndCloud extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String imagePath = "images";
     return Stack(
       children: [
         _cloudIcon(
@@ -30,73 +31,73 @@ class MainScreenTreesAndCloud extends StatelessWidget {
             iconSize: 30.0,
             transformTop: -MediaQuery.of(context).size.height * 0.078),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.25,
           20.0,
           80.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.275,
           70.0,
           60.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.33,
           MediaQuery.of(context).size.width * 0.8,
           70.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.374,
           MediaQuery.of(context).size.width * 0.9,
           70.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.38,
           MediaQuery.of(context).size.width * 0.75,
           50.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.6,
           MediaQuery.of(context).size.width * 0.1,
           70.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.68,
           MediaQuery.of(context).size.width * 0.15,
           50.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.62,
           MediaQuery.of(context).size.width * 0.2,
           80.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.63,
           MediaQuery.of(context).size.width * 0.02,
           70.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.62,
           MediaQuery.of(context).size.width * 0.75,
           90.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.66,
           MediaQuery.of(context).size.width * 0.66,
           70.0,
         ),
         _treeIcon(
-          "images/tree1.png",
+          "$imagePath/tree1.png",
           MediaQuery.of(context).size.height * 0.73,
           MediaQuery.of(context).size.width * 0.75,
           50.0,

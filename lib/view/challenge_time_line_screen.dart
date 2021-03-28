@@ -1,6 +1,7 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/challenge_time_line_controller.dart';
 import 'package:habit_tracker/view/manage_screen.dart';
 import 'package:habit_tracker/view/view_variables/challenge_time_line_screen_variables.dart';
 import 'package:timeline_list/timeline.dart';
@@ -9,6 +10,7 @@ import 'package:timeline_list/timeline_model.dart';
 class ChallengeTimeLineScreen extends StatefulWidget {
   final int tag;
   final String title, challengeAmount, imagePath;
+
   ChallengeTimeLineScreen({
     Key key,
     this.tag,
@@ -23,18 +25,14 @@ class ChallengeTimeLineScreen extends StatefulWidget {
 }
 
 class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
-  List<ChallengeInfo> _challengeList;
-  List<String> _dateNamesList;
+  ChallengeTimelineScreenController _controller = Get.put(
+    ChallengeTimelineScreenController(),
+  );
 
   @override
   void initState() {
     super.initState();
-
-    _challengeList = [];
-    _initChallengeData();
-
-    _dateNamesList = [];
-    _initDateName();
+    _controller.initChallengeTimelineScreenData(widget.tag);
   }
 
   @override
@@ -48,68 +46,6 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
     );
   }
 
-  // Get data theo challenge
-  void _initChallengeData() {
-    switch (widget.tag) {
-      case 0:
-      case 8:
-        _challengeList = happyMorningChallengeInfos;
-        break;
-      case 1:
-        _challengeList = socialMediaChallengeInfos;
-        break;
-      case 2:
-        _challengeList = bedRoutineChallengeInfos;
-        break;
-      case 3:
-        _challengeList = sugarFreeChallengeInfos;
-        break;
-      case 4:
-        _challengeList = intermittentFastingChallengeInfos;
-        break;
-      case 5:
-        _challengeList = noAlcoholChallengeInfos;
-        break;
-      case 6:
-        _challengeList = mindfulnessChallengeInfos;
-        break;
-      case 7:
-        _challengeList = relationShipChallengeInfos;
-        break;
-    }
-  }
-
-  // Khởi tạo data từ ngày hiện tại
-  void _initDateName() {
-    for (int i = 0; i <= _challengeList.length; i++) {
-      var date = DateTime.now().add(Duration(days: i));
-
-      switch (date.weekday) {
-        case 1:
-          _dateNamesList.add("Mon");
-          break;
-        case 2:
-          _dateNamesList.add("Tue");
-          break;
-        case 3:
-          _dateNamesList.add("Wed");
-          break;
-        case 4:
-          _dateNamesList.add("Thu");
-          break;
-        case 5:
-          _dateNamesList.add("Fri");
-          break;
-        case 6:
-          _dateNamesList.add("Sat");
-          break;
-        case 7:
-          _dateNamesList.add("Sun");
-          break;
-      }
-    }
-  }
-
   // Widget chứa body của màn hình
   Widget _challengeTimelineScreenBody() {
     return Material(
@@ -119,15 +55,15 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
         ),
         controller: challengeTimelineController,
         slivers: [
-          _challengeTimelineScreenAppBar(),
-          _challengeTimelineScreennBody(),
+          _challengeTimelineScreenSliverAppBar(),
+          _challengeTimelineScreenSliverBody(),
         ],
       ),
     );
   }
 
   // AppBar
-  Widget _challengeTimelineScreenAppBar() {
+  Widget _challengeTimelineScreenSliverAppBar() {
     return SliverAppBar(
       expandedHeight: Get.height * 0.3,
       collapsedHeight: Get.height * 0.075,
@@ -245,18 +181,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
             controller: aniController,
             startTooltip: '',
             endTooltip: '',
-            onStartIconPress: () {
-              Future.delayed(
-                Duration(milliseconds: 200),
-                () {
-                  Future.delayed(Duration(milliseconds: 200), () {
-                    Get.back();
-                  });
-                },
-              );
-
-              return true;
-            },
+            onStartIconPress: () => _controller.onBackButtonPress(),
             onEndIconPress: () {
               return true;
             },
@@ -265,15 +190,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
             clockwise: true,
           ),
         ),
-        onTap: () {
-          Future.delayed(Duration(milliseconds: 200), () {
-            Get.to(
-              ManageScreen(),
-              duration: Duration(milliseconds: 500),
-              transition: Transition.fadeIn,
-            );
-          });
-        },
+        onTap: () => _controller.moveToMangeScreen(),
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -285,7 +202,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
   }
 
   // Body
-  Widget _challengeTimelineScreennBody() {
+  Widget _challengeTimelineScreenSliverBody() {
     return SliverList(
       delegate: SliverChildListDelegate(
         <Widget>[
@@ -301,7 +218,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
               ),
               children: [
                 ...List.generate(
-                  _challengeList.length,
+                  _controller.challengeList.length,
                   (index) => TimelineModel(
                     Container(
                       margin: EdgeInsets.only(bottom: 30.0),
@@ -309,7 +226,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _dateNamesList[index],
+                            _controller.dateNamesList[index],
                             style: TextStyle(
                               fontSize: 15.0,
                               color: Color(0xFFA7AAB1),
@@ -324,8 +241,9 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                             ),
                             child: ListTile(
                               leading: Icon(
-                                _challengeList[index].icon,
-                                color: _challengeList[index].iconColor,
+                                _controller.challengeList[index].icon,
+                                color:
+                                    _controller.challengeList[index].iconColor,
                                 size: 40.0,
                               ),
                               title: Container(
@@ -334,7 +252,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      _challengeList[index].title,
+                                      _controller.challengeList[index].title,
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,
@@ -342,7 +260,8 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                                     ),
                                     SizedBox(height: 5.0),
                                     Text(
-                                      _challengeList[index].description,
+                                      _controller
+                                          .challengeList[index].description,
                                       style: TextStyle(
                                         fontSize: 15.0,
                                         fontWeight: FontWeight.w500,
@@ -367,7 +286,8 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _dateNamesList[_dateNamesList.length - 1],
+                          _controller.dateNamesList[
+                              _controller.dateNamesList.length - 1],
                           style: TextStyle(
                             fontSize: 15.0,
                             color: Color(0xFFA7AAB1),

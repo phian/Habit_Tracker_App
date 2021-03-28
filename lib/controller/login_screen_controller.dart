@@ -1,3 +1,5 @@
+import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class LoginScreenController extends GetxController {
@@ -12,5 +14,19 @@ class LoginScreenController extends GetxController {
   changeLoginOrSignUpFormView() {
     isSignUpVisible.value = !isSignUpVisible.value;
     isLogninVisible.value = !isLogninVisible.value;
+  }
+
+  void showSignInNotificationDialog({
+    BuildContext context,
+    String title,
+    String text,
+  }) async {
+    CoolAlert.show(
+      context: context,
+      type: CoolAlertType.success,
+      animType: CoolAlertAnimType.slideInUp,
+      title: title,
+      text: text,
+    );
   }
 }

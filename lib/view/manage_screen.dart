@@ -5,7 +5,7 @@ import 'package:habit_tracker/controller/manage_screen_controller.dart';
 import 'habit_categories_screen.dart';
 
 class ManageScreen extends StatelessWidget {
-  var _controller = Get.put(ManageScreenController());
+  final ManageScreenController _controller = Get.put(ManageScreenController());
 
   @override
   Widget build(BuildContext context) {

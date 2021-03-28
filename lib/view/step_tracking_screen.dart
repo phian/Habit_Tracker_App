@@ -7,9 +7,11 @@ import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class StepTackingScreen extends StatelessWidget {
-  final StepTrackingScreenController _controller = StepTrackingScreenController();
+  final StepTrackingScreenController _controller =
+      StepTrackingScreenController();
 
-  final GlobalKey<SideMenuState> _stepTrackingScreenKey = GlobalKey<SideMenuState>(
+  final GlobalKey<SideMenuState> _stepTrackingScreenKey =
+      GlobalKey<SideMenuState>(
     debugLabel: "StepTrackingScreenKey",
   );
   final List<Color> gradientColors = [
@@ -46,13 +48,9 @@ class StepTackingScreen extends StatelessWidget {
             size: 30.0,
             color: Colors.white,
           ),
-          onPressed: () {
-            final _state = _stepTrackingScreenKey.currentState;
-            if (_state.isOpened)
-              _state.closeSideMenu();
-            else
-              _state.openSideMenu();
-          },
+          onPressed: () => _controller.openOrCloseSideMenu(
+            sideMenuKey: _stepTrackingScreenKey,
+          ),
         ),
       ),
       centerTitle: true,
@@ -78,90 +76,52 @@ class StepTackingScreen extends StatelessWidget {
   /// [body]
   Widget _stepTrackingScreenBody() {
     return Container(
-          child: Column(
-            children: [
-              Expanded(
-                child: DefaultTabController(
-                  length: 3, // length of tabs
-                  initialIndex: 0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(top: 10.0),
-                        color: Colors.black12,
-                        child: TabBar(
-                          onTap: (index) {
-                            switch (index) {
-                              case 0:
-                                _controller.changeSelectedTabIndex(index);
-                                _controller.changeTrackingData(
-                                  index: 0,
-                                  currentData: "Today",
-                                  timeData: "1h19m",
-                                  caloriesData: '603',
-                                  distanceData: "2.11",
-                                  totalSteps: "500",
-                                  goalSteps: 600,
-                                );
-                                break;
-                              case 1:
-                                _controller.changeSelectedTabIndex(index);
-                                _controller.changeTrackingData(
-                                  index: 1,
-                                  currentData: "Week",
-                                  timeData: "14h30m",
-                                  caloriesData: '5000',
-                                  distanceData: "15",
-                                  totalSteps: "3500",
-                                  goalSteps: 4000,
-                                );
-                                break;
-                              case 2:
-                                _controller.changeSelectedTabIndex(index);
-                                _controller.changeTrackingData(
-                                  index: 2,
-                                  currentData: "Month",
-                                  timeData: "60h50m",
-                                  caloriesData: '18000',
-                                  distanceData: "100",
-                                  totalSteps: "15000",
-                                  goalSteps: 16000,
-                                );
-                                break;
-                            }
-                          },
-                          isScrollable: true,
-                          labelColor: Colors.white,
-                          unselectedLabelColor: Colors.white24,
-                          indicatorColor: Colors.transparent,
-                          physics: NeverScrollableScrollPhysics(),
-                          tabs: [
-                            _stepTrackingScreenTab("Day"),
-                            _stepTrackingScreenTab("Week"),
-                            _stepTrackingScreenTab("Month"),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: TabBarView(
-                            physics: NeverScrollableScrollPhysics(),
-                            children: <Widget>[
-                              _stepTrackingView(),
-                              _stepTrackingView(),
-                              _stepTrackingView(),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
+      child: Column(
+        children: [
+          Expanded(
+            child: DefaultTabController(
+              length: 3, // length of tabs
+              initialIndex: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: 10.0),
+                    color: Colors.black12,
+                    child: TabBar(
+                      onTap: (index) =>
+                          _controller.changeTabAndTrackingData(index: index),
+                      isScrollable: true,
+                      labelColor: Colors.white,
+                      unselectedLabelColor: Colors.white24,
+                      indicatorColor: Colors.transparent,
+                      physics: NeverScrollableScrollPhysics(),
+                      tabs: [
+                        _stepTrackingScreenTab("Day"),
+                        _stepTrackingScreenTab("Week"),
+                        _stepTrackingScreenTab("Month"),
+                      ],
+                    ),
                   ),
-                ),
+                  Expanded(
+                    child: Container(
+                      child: TabBarView(
+                        physics: NeverScrollableScrollPhysics(),
+                        children: <Widget>[
+                          _stepTrackingView(),
+                          _stepTrackingView(),
+                          _stepTrackingView(),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ],
+            ),
           ),
-        );
+        ],
+      ),
+    );
   }
 
   /// [Tracking view]
@@ -214,7 +174,7 @@ class StepTackingScreen extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Obx(
                         () => Text(
-                          _controller.cuurentData.value,
+                          _controller.currentData.value,
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
@@ -430,30 +390,7 @@ class StepTackingScreen extends StatelessWidget {
         touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: Colors.blueGrey,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
-              String weekDay;
-              switch (group.x.toInt()) {
-                case 0:
-                  weekDay = 'Monday';
-                  break;
-                case 1:
-                  weekDay = 'Tuesday';
-                  break;
-                case 2:
-                  weekDay = 'Wednesday';
-                  break;
-                case 3:
-                  weekDay = 'Thursday';
-                  break;
-                case 4:
-                  weekDay = 'Friday';
-                  break;
-                case 5:
-                  weekDay = 'Saturday';
-                  break;
-                case 6:
-                  weekDay = 'Sunday';
-                  break;
-              }
+              String weekDay = _controller.initWeekDate(group.x.toInt());
               return BarTooltipItem(
                 weekDay + '\n' + (rod.y.toInt() * 100).toString() + " steps",
                 TextStyle(
@@ -462,16 +399,8 @@ class StepTackingScreen extends StatelessWidget {
                 ),
               );
             }),
-        touchCallback: (barTouchResponse) {
-          if (barTouchResponse.spot != null &&
-              barTouchResponse.touchInput is! FlPanEnd &&
-              barTouchResponse.touchInput is! FlLongPressEnd) {
-            _controller
-                .changeTouchedIndex(barTouchResponse.spot.touchedBarGroupIndex);
-          } else {
-            _controller.changeTouchedIndex(-1);
-          }
-        },
+        touchCallback: (barTouchResponse) =>
+            _controller.onChartBarTouchResponse(barTouchResponse),
       ),
       titlesData: FlTitlesData(
         show: true,
@@ -484,25 +413,7 @@ class StepTackingScreen extends StatelessWidget {
           ),
           margin: 16,
           getTitles: (double value) {
-            switch (value.toInt()) {
-              case 0:
-                return 'M';
-              case 1:
-                return 'T';
-              case 2:
-                return 'W';
-              case 3:
-                return 'T';
-              case 4:
-                return 'F';
-              case 5:
-                return 'S';
-              case 6:
-                return 'S';
-                break;
-              default:
-                return '';
-            }
+            return _controller.initWeekColumnText(value.toInt());
           },
         ),
         leftTitles: SideTitles(
@@ -518,35 +429,7 @@ class StepTackingScreen extends StatelessWidget {
 
   /// [Showing group]
   List<BarChartGroupData> _showingGroups() => List.generate(7, (i) {
-        switch (i) {
-          case 0:
-            return _makeGroupData(0, 5,
-                isTouched: i == _controller.touchedIndex.value);
-          case 1:
-            return _makeGroupData(1, 6.5,
-                isTouched: i == _controller.touchedIndex.value);
-          case 2:
-            return _makeGroupData(2, 5,
-                isTouched: i == _controller.touchedIndex.value);
-          case 3:
-            return _makeGroupData(3, 7.5,
-                isTouched: i == _controller.touchedIndex.value);
-          case 4:
-            return _makeGroupData(4, 9,
-                isTouched: i == _controller.touchedIndex.value);
-          case 5:
-            return _makeGroupData(5, 11.5,
-                isTouched: i == _controller.touchedIndex.value);
-          case 6:
-            return _makeGroupData(6, 6.5,
-                isTouched: i == _controller.touchedIndex.value);
-          case 7:
-            return _makeGroupData(6, 6.5,
-                isTouched: i == _controller.touchedIndex.value);
-            break;
-          default:
-            return null;
-        }
+        return _controller.initBarChartGroupDataList(i);
       });
 
   /// [Tạo data cho Bar Chart, phần hiển thị khi người dùng chạm vào cột, x và y là data]
@@ -604,17 +487,7 @@ class StepTackingScreen extends StatelessWidget {
               color: Color(0xff68737d),
               fontWeight: FontWeight.bold,
               fontSize: 13),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 2:
-                return 'MAR';
-              case 5:
-                return 'JUN';
-              case 8:
-                return 'SEP';
-            }
-            return '';
-          },
+          getTitles: (value) => _controller.initMonthChartText(value.toInt()),
           margin: 8,
         ),
         leftTitles: SideTitles(
@@ -624,17 +497,7 @@ class StepTackingScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 15,
           ),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '10k';
-              case 3:
-                return '30k';
-              case 5:
-                return '50k';
-            }
-            return '';
-          },
+          getTitles: (value) => _controller.initMonthChartValue(value.toInt()),
           reservedSize: 28,
           margin: 12,
         ),

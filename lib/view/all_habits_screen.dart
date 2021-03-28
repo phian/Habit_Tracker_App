@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/view/habit_statistic_screen.dart';
+import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class AllHabitsScreen extends StatelessWidget {
-  final AllHabitController allHabitController = Get.put(AllHabitController());
-  final GlobalKey<SideMenuState> _allHabitScreenKey = GlobalKey<SideMenuState>(debugLabel: "AllHabitScreenKey");
+  final AllHabitController _allHabitController = Get.put(AllHabitController());
+  final GlobalKey<SideMenuState> _allHabitScreenKey =
+      GlobalKey<SideMenuState>(debugLabel: "AllHabitScreenKey");
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +20,8 @@ class AllHabitsScreen extends StatelessWidget {
         appBar: _allHabitScreenAppBar(),
         body: Obx(
           () => Container(
-            child: allHabitController.listAllHabit.length == 0
-                ? _noneHabitDisplayWidget()
+            child: _allHabitController.listAllHabit.length == 0
+                ? NoneHabitDisplayWidget()
                 : _listAllHabit(),
           ),
         ),
@@ -39,13 +41,9 @@ class AllHabitsScreen extends StatelessWidget {
             size: 30.0,
             color: Colors.white,
           ),
-          onPressed: () {
-            final _state = _allHabitScreenKey.currentState;
-            if (_state.isOpened)
-              _state.closeSideMenu();
-            else
-              _state.openSideMenu();
-          },
+          onPressed: () => _allHabitController.openOrCloseSideMenu(
+            sideMenuKey: _allHabitScreenKey,
+          ),
         ),
       ),
       title: Container(
@@ -66,7 +64,7 @@ class AllHabitsScreen extends StatelessWidget {
   Widget _listAllHabit() {
     return ListView.separated(
       padding: EdgeInsets.only(top: 20, bottom: 20),
-      itemCount: allHabitController.listAllHabit.length,
+      itemCount: _allHabitController.listAllHabit.length,
       physics: AlwaysScrollableScrollPhysics(
         parent: BouncingScrollPhysics(),
       ),
@@ -85,12 +83,12 @@ class AllHabitsScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(20),
                   child: Icon(
-                    IconData(allHabitController.listAllHabit[index].icon,
+                    IconData(_allHabitController.listAllHabit[index].icon,
                         fontFamily: 'MaterialIcons'),
                     size: 50,
                     color: Color(
                       int.parse(
-                        allHabitController.listAllHabit[index].mau,
+                        _allHabitController.listAllHabit[index].mau,
                         radix: 16,
                       ),
                     ),
@@ -100,7 +98,7 @@ class AllHabitsScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: Text(
-                      allHabitController.listAllHabit[index].ten,
+                      _allHabitController.listAllHabit[index].ten,
                       style: TextStyle(
                         fontSize: 22,
                         //fontWeight: FontWeight.bold,
@@ -112,57 +110,21 @@ class AllHabitsScreen extends StatelessWidget {
               ],
             ),
           ),
-          onTap: () {
-            // print(allHabitController.listAllHabit[index].ma);
-            // print(allHabitController.listAllHabit[index].ten);
-            // print(allHabitController.listAllHabit[index].mau);
-            // print(allHabitController.listAllHabit[index].icon);
-            // print(allHabitController.listAllHabit[index].batMucTieu);
-            // print(allHabitController.listAllHabit[index].soLan);
-            // print(allHabitController.listAllHabit[index].donVi);
-            // print(allHabitController.listAllHabit[index].loaiLap);
-            // print(allHabitController.listAllHabit[index].ngayTrongTuan);
-            // print(allHabitController.listAllHabit[index].soLanTrongTuan);
-            // print(allHabitController.listAllHabit[index].buoi);
-            // print(allHabitController.listAllHabit[index].trangThai);
-
-            Get.to(
-              HabitStatisticScreen(),
-              transition: Transition.fadeIn,
-              arguments: allHabitController.listAllHabit[index],
-            );
-          },
+          onTap: () => _allHabitController.moveToHabitStatisticScreen(index),
+          // print(allHabitController.listAllHabit[index].ma);
+          // print(allHabitController.listAllHabit[index].ten);
+          // print(allHabitController.listAllHabit[index].mau);
+          // print(allHabitController.listAllHabit[index].icon);
+          // print(allHabitController.listAllHabit[index].batMucTieu);
+          // print(allHabitController.listAllHabit[index].soLan);
+          // print(allHabitController.listAllHabit[index].donVi);
+          // print(allHabitController.listAllHabit[index].loaiLap);
+          // print(allHabitController.listAllHabit[index].ngayTrongTuan);
+          // print(allHabitController.listAllHabit[index].soLanTrongTuan);
+          // print(allHabitController.listAllHabit[index].buoi);
+          // print(allHabitController.listAllHabit[index].trangThai);
         );
       },
-    );
-  }
-
-  /// [Widget hiển thị khi ko có habit náo trong database]
-  Widget _noneHabitDisplayWidget() {
-    return Stack(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "images/plant_pot.png",
-                width: Get.width * 0.27,
-                height: Get.height * 0.27,
-              ),
-              Text(
-                "All tree grown.\nPlant new by clicking \"+\" button",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

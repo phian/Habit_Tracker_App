@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/challenges_screen_controller.dart';
 import 'package:habit_tracker/view/challenge_time_line_screen.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
@@ -13,46 +14,17 @@ class ChallengesScreen extends StatefulWidget {
 }
 
 class _ChallengesScreenState extends State<ChallengesScreen> {
+  ChallengesScreenController _controller = Get.put(
+    ChallengesScreenController(),
+  );
   final GlobalKey<SideMenuState> _challengeScreenKey = GlobalKey<SideMenuState>(
     debugLabel: "ChallengeScreenKey",
   );
 
-  List<String> _challengeTitles, _chalengeAmounts, _imagePaths;
-
   @override
   void initState() {
     super.initState();
-
-    _challengeTitles = [
-      "Social Media Detox Challenge",
-      "Bedtime Routine Challenge",
-      "Sugar Free Challenge",
-      "Intermittent Fasting Challenge",
-      "No Alcohol Challenge",
-      "Mindfullness Challenge",
-      "Relationship Challenge",
-      "Happy Morning Chalenge",
-    ];
-    _chalengeAmounts = [
-      "776",
-      "443",
-      "313",
-      "201",
-      "215",
-      "412",
-      "228",
-      "10355",
-    ];
-    _imagePaths = [
-      "images/social_media_challenge.png",
-      "images/bedtime_routine_challenge.png",
-      "images/sugar_free_challenge.png",
-      "images/intermittent_fasting_challenge.png",
-      "images/no_alcohol_challenge.png",
-      "images/mindfulness_chllenge.png",
-      "images/relationship_challenge.png",
-      "images/morning_challenge.png",
-    ];
+    _controller.initData();
   }
 
   @override
@@ -62,7 +34,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
       child: Scaffold(
         backgroundColor: Color(0xFF1E212A),
         appBar: _challengesScreenAppBar(),
-        body: __challengesScreenBody(),
+        body: _challengesScreenBody(),
       ),
     );
   }
@@ -77,13 +49,8 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
             size: 30.0,
             color: Colors.white,
           ),
-          onPressed: () {
-            final _state = _challengeScreenKey.currentState;
-            if (_state.isOpened)
-              _state.closeSideMenu();
-            else
-              _state.openSideMenu();
-          },
+          onPressed: () =>
+              _controller.openOrCloseSideMenu(sideMenuKey: _challengeScreenKey),
         ),
       ),
       title: Container(
@@ -101,7 +68,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
     );
   }
 
-  Widget __challengesScreenBody() {
+  Widget _challengesScreenBody() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.0),
       child: Column(
@@ -129,14 +96,12 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20.0),
-                  onTap: () {
-                    _moveToChallengeTimelineScreen(
-                      0,
-                      _challengeTitles[7],
-                      "10345",
-                      "images/morning_challenge.png",
-                    );
-                  },
+                  onTap: () => _controller.moveToChallengeScreen(
+                    tag: 0,
+                    title: _controller.challengeTitles[7],
+                    challengeAmount: "10345",
+                    imagePath: "images/morning_challenge.png",
+                  ),
                   child: Stack(
                     children: [
                       Container(
@@ -222,21 +187,19 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () {
-                    _moveToChallengeTimelineScreen(
-                      index + 1,
-                      _challengeTitles[index],
-                      _chalengeAmounts[index],
-                      _imagePaths[index],
-                    );
-                  },
+                  onTap: () => _controller.moveToChallengeScreen(
+                    tag: index + 1,
+                    title: _controller.challengeTitles[index],
+                    challengeAmount: _controller.challengeAmounts[index],
+                    imagePath: _controller.imagePaths[index],
+                  ),
                   borderRadius: BorderRadius.circular(20.0),
                   child: Hero(
                     tag: index + 1,
-                    child: _allChalengeCard(
-                      _challengeTitles[index],
-                      _chalengeAmounts[index],
-                      _imagePaths[index],
+                    child: _allChallengeCard(
+                      _controller.challengeTitles[index],
+                      _controller.challengeAmounts[index],
+                      _controller.imagePaths[index],
                     ),
                   ),
                 );
@@ -244,7 +207,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
               separatorBuilder: (context, index) {
                 return SizedBox(width: 20.0);
               },
-              itemCount: _challengeTitles.length,
+              itemCount: _controller.challengeTitles.length,
             ),
           ),
         ],
@@ -252,23 +215,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
     );
   }
 
-  void _moveToChallengeTimelineScreen(
-    int tag,
-    String title,
-    String challengeAmount,
-    String imagePath,
-  ) {
-    Get.to(
-      ChallengeTimeLineScreen(
-        tag: tag,
-        title: title,
-        challengeAmount: challengeAmount,
-        imagePath: imagePath,
-      ),
-    );
-  }
-
-  Widget _allChalengeCard(String title, String joinAmount, String imagePath) {
+  Widget _allChallengeCard(String title, String joinAmount, String imagePath) {
     return Material(
       color: Colors.transparent,
       elevation: 0.0,

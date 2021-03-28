@@ -1,58 +1,31 @@
-import 'package:animate_icons/animate_icons.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:select_form_field/select_form_field.dart';
+
 import './view_variables/create_habit_screen_variables.dart';
-import 'manage_screen.dart';
+import 'view_subfile/create_and_edit_habit/create_and_edit_habit_screen_app_bar.dart';
 import 'view_variables/create_habit_screen_variables.dart';
 
 class CreateHabitScreen extends StatelessWidget {
-  static Habit habit;
-  static SuggestedHabit suggestedHabit;
-  static TextEditingController habitNameController = TextEditingController();
-  CreateHabitScreenController createHabitScreenController =
-      Get.put(CreateHabitScreenController());
+  Habit habit;
+  SuggestedHabit suggestedHabit;
+  CreateHabitScreenController createHabitScreenController;
 
   @override
   Widget build(BuildContext context) {
-    createHabitScreenContext = context;
+    habitScreenContext = context;
     suggestedHabit = Get.arguments;
     // có tham số thì gán
-    if (suggestedHabit != null) {
-      // ten
-      habitNameController = TextEditingController(text: suggestedHabit.ten);
-      // icon
-      createHabitScreenController.habitIcon.value =
-          IconData(suggestedHabit.icon, fontFamily: 'MaterialIcons');
-      // mau
-      createHabitScreenController.fillColor.value =
-          Color(int.parse(suggestedHabit.mau));
-      // bat muc tieu
-      createHabitScreenController.selectedIndex.value =
-          suggestedHabit.batMucTieu == true ? 1 : 0;
-      // so lan
-      createHabitScreenController.goalAmountController.text =
-          suggestedHabit.soLan.toString();
-      // don vi
-      createHabitScreenController.selectedUnitType.value = suggestedHabit.donVi;
-      // loai lap
-      createHabitScreenController.repeatTypeChoice.value =
-          suggestedHabit.loaiLap;
-      // ngay trong tuan
-      createHabitScreenController.setDailyList(suggestedHabit.ngayTrongTuan);
-      // so lan trong tuan
-      createHabitScreenController.setWeeklyList(suggestedHabit.soLanTrongTuan);
-      // buoi
-      createHabitScreenController.setNotiTimeChoice(suggestedHabit.buoi);
-    }
+    createHabitScreenController =
+        Get.put(CreateHabitScreenController());
+    createHabitScreenController.initDataAndController(suggestedHabit);
+
     return Scaffold(
       backgroundColor: Color(0xFF1E212A),
       // resizeToAvoidBottomInset: false,
@@ -68,140 +41,13 @@ class CreateHabitScreen extends StatelessWidget {
       ),
       controller: screenScrollController,
       slivers: [
-        _habitScreenAppBar(),
+        CreateAndEditHabitScreenAppBar(
+          controller: createHabitScreenController,
+          title: "New habit",
+        ),
         _habitScreenBody(),
       ],
     );
-  }
-
-  // AppBar
-  Widget _habitScreenAppBar() {
-    return SliverAppBar(
-      expandedHeight: Get.size.height * 0.25,
-      collapsedHeight: Get.size.height * 0.075,
-      backgroundColor: Color(0xFF2F313E),
-      pinned: true,
-      flexibleSpace: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20.0),
-              bottomRight: Radius.circular(20.0),
-            ),
-            child: Image.asset(
-              "images/forest.png",
-              fit: BoxFit.cover,
-              width: Get.size.width,
-              height: Get.size.height * 0.3,
-            ),
-          ),
-        ],
-      ),
-      leading: InkWell(
-        borderRadius: BorderRadius.circular(90.0),
-        child: Container(
-          width: 30.0,
-          height: 30.0,
-          child: AnimateIcons(
-            startIcon: Icons.close,
-            endIcon: Icons.arrow_back,
-            size: 30.0,
-            controller: aniController,
-            startTooltip: '',
-            endTooltip: '',
-            onStartIconPress: () {
-              Future.delayed(
-                Duration(milliseconds: 200),
-                () {
-                  Get.back();
-                  createHabitScreenController.onClose();
-                  habitNameController.clear();
-                },
-              );
-
-              return true;
-            },
-            onEndIconPress: () {
-              return true;
-            },
-            duration: Duration(milliseconds: 200),
-            color: Colors.white,
-            clockwise: true,
-          ),
-        ),
-        onTap: () {},
-      ),
-      actions: [
-        Container(
-          transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(
-              15.0,
-            ),
-            onTap: () {
-              _saveHabitData();
-            },
-            child: Container(
-              alignment: Alignment.center,
-              width: 70.0,
-              child: Text(
-                "SAVE",
-                style: TextStyle(
-                  fontSize: 17.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        )
-      ],
-      title: Text(
-        'New Habit',
-        style: TextStyle(
-          fontSize: 30.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20.0),
-          bottomRight: Radius.circular(20.0),
-        ),
-      ),
-    );
-  }
-
-  /// [Hàm để lưu data vào databaee]
-  void _saveHabitData() async {
-    if ((createHabitScreenController.goalAmountController.text == '' ||
-            int.parse(createHabitScreenController.goalAmountController.text) ==
-                0) &&
-        createHabitScreenController.selectedIndex.value == 0) {
-      CoolAlert.show(
-        context: createHabitScreenContext,
-        type: CoolAlertType.error,
-        animType: CoolAlertAnimType.slideInUp,
-        title: "Forgot to set a goal?",
-        text: "Check your goal for this habit",
-      );
-    } else if (habitNameController.text == '' ||
-        habitNameController.text.isEmpty) {
-      print(habitNameController.text);
-      CoolAlert.show(
-        context: createHabitScreenContext,
-        type: CoolAlertType.error,
-        animType: CoolAlertAnimType.slideInUp,
-        title: "Forgot to set a name?",
-        text: "Check the name you want for this habit",
-      );
-    } else {
-      await createHabitScreenController.addHabit(habitNameController.text);
-      Get.back();
-      Get.back();
-      //Get.offAll(ManageScreen());
-      habitNameController.clear();
-      createHabitScreenController.onClose();
-    }
   }
 
   //====================================================//
@@ -216,7 +62,7 @@ class CreateHabitScreen extends StatelessWidget {
             // Tên habit
             Obx(
               () => TextField(
-                controller: habitNameController,
+                controller: createHabitScreenController.habitNameController,
                 cursorColor: createHabitScreenController.fillColor.value,
                 style: TextStyle(
                   fontSize: 22.0,
@@ -231,14 +77,8 @@ class CreateHabitScreen extends StatelessWidget {
                   ),
                   fillColor: Colors.white24,
                   filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
+                  enabledBorder: _textFieldBorder(),
+                  focusedBorder: _textFieldBorder(),
                 ),
               ),
             ),
@@ -272,34 +112,9 @@ class CreateHabitScreen extends StatelessWidget {
             ),
 
             /// [Dòng chữ I want to set a goal]
-            Container(
-              padding: EdgeInsets.only(top: 40.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(right: 10.0),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "I want to set a goal",
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10.0),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ]),
+            _sectionText(
+              content: "I want to set a goal",
+              canChange: false,
             ),
 
             /// [2 nút option on và off]
@@ -312,17 +127,8 @@ class CreateHabitScreen extends StatelessWidget {
                     2,
                     (index) => InkWell(
                       borderRadius: BorderRadius.circular(10.0),
-                      onTap: () {
-                        createHabitScreenController
-                            .changeSelectedIndex(RxInt(index));
-
-                        /// [Nếu người dùng off goal thì sẽ reset lại text trong TextField]
-                        if (createHabitScreenController.selectedIndex.value ==
-                            1) {
-                          createHabitScreenController
-                              .goalAmountController.text = '';
-                        }
-                      },
+                      onTap: () => createHabitScreenController
+                          .onOnOrOffButtonClick(index),
                       child: Obx(
                         () => Container(
                           height: 60.0,
@@ -379,14 +185,8 @@ class CreateHabitScreen extends StatelessWidget {
                             hintStyle: TextStyle(fontSize: 20.0),
                             fillColor: Colors.white24,
                             filled: true,
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
+                            enabledBorder: _textFieldBorder(),
+                            focusedBorder: _textFieldBorder(),
                           ),
                         ),
                       ),
@@ -403,10 +203,8 @@ class CreateHabitScreen extends StatelessWidget {
                             hintText: createHabitScreenController
                                 .selectedUnitType.value,
                             style: TextStyle(fontSize: 20.0),
-                            onChanged: (val) {
-                              createHabitScreenController
-                                  .changeSelectedUnitType(RxString(val));
-                            },
+                            onChanged: (val) => createHabitScreenController
+                                .changeSelectedUnitType(RxString(val)),
                             onSaved: (val) => print(val),
                             scrollPhysics: AlwaysScrollableScrollPhysics(
                               parent: BouncingScrollPhysics(),
@@ -425,16 +223,8 @@ class CreateHabitScreen extends StatelessWidget {
                                 size: 35.0,
                                 color: Colors.white,
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                              enabledBorder: _textFieldBorder(),
+                              focusedBorder: _textFieldBorder(),
                             ),
                           ),
                         ),
@@ -446,34 +236,9 @@ class CreateHabitScreen extends StatelessWidget {
             ),
 
             /// [Dòng chữ I want to repeat this habit]
-            Container(
-              padding: EdgeInsets.only(top: 50.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(right: 10.0),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "I want to repeat this habit",
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10.0),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ]),
+            _sectionText(
+              content: "I want to repeat this habit",
+              canChange: false,
             ),
 
             /// [3 option Daily, Monthly, Weekly]
@@ -505,39 +270,7 @@ class CreateHabitScreen extends StatelessWidget {
             ),
 
             /// [Dòng chữ On these days,...]
-            Container(
-              padding: EdgeInsets.only(top: 30.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(right: 10.0),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    Obx(
-                      () => Text(
-                        createHabitScreenController.repeatTypeChoice.value == 0
-                            ? 'on these days'
-                            : 'as often as',
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10.0),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ]),
-            ),
+            _sectionText(canChange: true),
 
             /// [Phần chọn phần lập lại ngày trong tuần, tuần]
             Container(
@@ -562,10 +295,8 @@ class CreateHabitScreen extends StatelessWidget {
                                   7,
                                   (index) => InkWell(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    onTap: () {
-                                      createHabitScreenController
-                                          .changeWeekdateChoice(index);
-                                    },
+                                    onTap: () => createHabitScreenController
+                                        .changeWeekdateChoice(index),
                                     child: Obx(
                                       () => Container(
                                         decoration: BoxDecoration(
@@ -611,10 +342,8 @@ class CreateHabitScreen extends StatelessWidget {
                                   6,
                                   (index) => InkWell(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    onTap: () {
-                                      createHabitScreenController
-                                          .changeWeeklyListChoice(index);
-                                    },
+                                    onTap: () => createHabitScreenController
+                                        .changeWeeklyListChoice(index),
                                     child: Obx(
                                       () => Container(
                                         decoration: BoxDecoration(
@@ -650,14 +379,8 @@ class CreateHabitScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10.0),
                   InkWell(
-                    onTap: () {
-                      if (createHabitScreenController.repeatTypeChoice.value ==
-                          0) {
-                        createHabitScreenController.changeWeekdateChoice(7);
-                      } else {
-                        createHabitScreenController.changeWeeklyListChoice(6);
-                      }
-                    },
+                    onTap: () =>
+                        createHabitScreenController.onRepatTypeChoiceClick(),
                     borderRadius: BorderRadius.circular(10.0),
                     child: Obx(
                       () => Container(
@@ -666,24 +389,8 @@ class CreateHabitScreen extends StatelessWidget {
                         width: Get.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          color: () {
-                            if (createHabitScreenController
-                                    .repeatTypeChoice.value ==
-                                0) {
-                              if (createHabitScreenController.weekDateList[7]) {
-                                return createHabitScreenController
-                                    .fillColor.value;
-                              } else
-                                return Colors.white24;
-                            } else {
-                              if (createHabitScreenController
-                                  .weeklyChoiceList[6]) {
-                                return createHabitScreenController
-                                    .fillColor.value;
-                              } else
-                                return Colors.white24;
-                            }
-                          }(),
+                          color: createHabitScreenController
+                              .getRepeatTypeChoiceColor(),
                         ),
                         child: Obx(
                           () => Text(
@@ -704,35 +411,10 @@ class CreateHabitScreen extends StatelessWidget {
               ),
             ),
 
-            /// [Dòng chữ I will do it in the]
-            Container(
-              padding: EdgeInsets.only(top: 30.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(right: 10.0),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "I will do it in the",
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10.0),
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ]),
+            /// [Dòng chữ I will do it in]
+            _sectionText(
+              content: "I will do it in",
+              canChange: false,
             ),
 
             /// [Phần chọn buổi nhắc nhở]
@@ -747,9 +429,8 @@ class CreateHabitScreen extends StatelessWidget {
                         ...List.generate(
                           3,
                           (index) => InkWell(
-                            onTap: () {
-                              createHabitScreenController.changeNotiTime(index);
-                            },
+                            onTap: () => createHabitScreenController
+                                .changeNotiTime(index),
                             borderRadius: BorderRadius.circular(10.0),
                             child: Obx(
                               () => Container(
@@ -782,9 +463,7 @@ class CreateHabitScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10.0),
                   InkWell(
-                    onTap: () {
-                      createHabitScreenController.changeNotiTime(3);
-                    },
+                    onTap: () => createHabitScreenController.changeNotiTime(3),
                     borderRadius: BorderRadius.circular(10.0),
                     child: Obx(
                       () => Container(
@@ -831,9 +510,8 @@ class CreateHabitScreen extends StatelessWidget {
                     () => Switch(
                       activeColor: createHabitScreenController.fillColor.value,
                       value: createHabitScreenController.isGetReminder.value,
-                      onChanged: (value) {
-                        createHabitScreenController.changeIsGetReminder();
-                      },
+                      onChanged: (value) =>
+                          createHabitScreenController.changeIsGetReminder(),
                     ),
                   ),
                 ],
@@ -866,29 +544,55 @@ class CreateHabitScreen extends StatelessWidget {
     );
   }
 
-  /// [Hàm hiển thị dialog cho người dụng chọn icon]
-  Future<void> _pickIconForHabit() async {
-    IconData icon = await FlutterIconPicker.showIconPicker(
-      createHabitScreenContext,
-      iconPackMode: IconPack.material,
-      iconSize: 30.0,
-      backgroundColor: Colors.black,
-      closeChild: null,
-      searchHintText: "Search icon...",
-      searchIcon: Icon(
-        Icons.search,
-        color: createHabitScreenController.fillColor.value,
-      ),
-      iconColor: createHabitScreenController.fillColor.value,
-      constraints: BoxConstraints(
-        maxHeight: Get.height * 0.5,
-        minWidth: Get.width,
+  /// [TextField border]
+  OutlineInputBorder _textFieldBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      borderSide: BorderSide(color: Colors.transparent),
+    );
+  }
+
+  /// [Section text]
+  Widget _sectionText({String content, bool canChange}) {
+    return Container(
+      padding: EdgeInsets.only(top: 40.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.only(right: 10.0),
+              child: Divider(
+                thickness: 0.5,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          canChange == false
+              ? Text(
+                  content,
+                  style: TextStyle(fontSize: 20.0),
+                )
+              : Obx(
+                  () => Text(
+                    createHabitScreenController.repeatTypeChoice.value == 0
+                        ? 'on these days'
+                        : 'as often as',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.only(left: 10.0),
+              child: Divider(
+                thickness: 0.5,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
       ),
     );
-
-    createHabitScreenController.changeHabitIcon(icon);
-
-    if (icon != null) debugPrint('Icon code point: ${icon.codePoint}');
   }
 
   /// [Widget icon và color]
@@ -897,13 +601,8 @@ class CreateHabitScreen extends StatelessWidget {
     return Row(
       children: [
         InkWell(
-          onTap: () {
-            if (index == 1) {
-              _showColorChoiceDialog();
-            } else {
-              _pickIconForHabit();
-            }
-          },
+          onTap: () => createHabitScreenController
+              .onChooseIconOrColorButtonClick(index, habitScreenContext),
           borderRadius: BorderRadius.circular(10.0),
           child: Container(
             width: 60.0,
@@ -934,16 +633,8 @@ class CreateHabitScreen extends StatelessWidget {
   /// [Widget cho phần chọn daily, weekly, monthy]
   Widget _repeatChoiceWidget(String choiceType, {Color color, int index}) {
     return InkWell(
-      onTap: () {
-        if (index != 2)
-          createHabitScreenController.changeRepeatTypeIndex(RxInt(index));
-
-        if (index == 1) {
-          createHabitScreenController.resetWeekDateChoice();
-        } else if (index == 0) {
-          createHabitScreenController.resetWeeklyListChoice();
-        }
-      },
+      onTap: () =>
+          createHabitScreenController.onDayMonthYearReapeatChoiceClick(index),
       borderRadius: BorderRadius.circular(10.0),
       child: Container(
         alignment: Alignment.center,
@@ -956,111 +647,6 @@ class CreateHabitScreen extends StatelessWidget {
         child: Text(
           choiceType,
           style: TextStyle(fontSize: 22.0),
-        ),
-      ),
-    );
-  }
-
-  /// [Hàm để show dialog cho người dùng chọn màu]
-  void _showColorChoiceDialog() {
-    showDialog(
-      context: createHabitScreenContext,
-      child: Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Container(
-          width: Get.width * 0.8,
-          height: Get.height * 0.35,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.black87,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                "The color should be",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  decoration: TextDecoration.none,
-                  color: Colors.white,
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ...List.generate(
-                      3,
-                      (index) => InkWell(
-                        onTap: () {
-                          Get.back();
-                          createHabitScreenController
-                              .changeFillColor(choiceColors[index]);
-                        },
-                        child: Obx(
-                          () => Container(
-                            width: 60.0,
-                            height: 60.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color:
-                                  createHabitScreenController.fillColor.value ==
-                                          choiceColors[index]
-                                      ? Colors.white24
-                                      : Colors.transparent,
-                            ),
-                            child: Icon(
-                              Icons.circle,
-                              size: 35.0,
-                              color: choiceColors[index],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ...List.generate(
-                      3,
-                      (index) => InkWell(
-                        onTap: () {
-                          Get.back();
-                          createHabitScreenController
-                              .changeFillColor(choiceColors[index + 3]);
-                        },
-                        child: Obx(
-                          () => Container(
-                            width: 60.0,
-                            height: 60.0,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: createHabitScreenController
-                                            .fillColor.value ==
-                                        choiceColors[index + 3]
-                                    ? Colors.white24
-                                    : Colors.transparent),
-                            child: Icon(
-                              Icons.circle,
-                              size: 35.0,
-                              color: choiceColors[index + 3],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

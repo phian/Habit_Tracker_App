@@ -93,4 +93,50 @@ class NotificationController extends GetxController {
       challengeProgressCheckUpTime.value = temp;
     }
   }
+
+  void onChallengeNotificationTilePress(
+      {BuildContext context, String title}) async {
+    await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      if (value != null) {
+        if (title.toLowerCase() == "plan for today") {
+          changeChallengeTodayPlanTime(value);
+        } else {
+          changeProgressCheckUpTime(value);
+        }
+      }
+    });
+  }
+
+  void onHabitNotificationTilePress(
+      {BuildContext context, IconData icon}) async {
+    await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      if (icon == Icons.assignment)
+        changePickedtime(0, value);
+      else
+        changePickedtime(1, value);
+    });
+  }
+
+  void onNoneDateTimeNotificationSwitchPress({IconData icon}) {
+    if (icon == Icons.wb_sunny) {
+      changeIsOnOrOffDAteTimePlanNoti(0);
+    } else if (Icons.cloud == icon) {
+      changeIsOnOrOffDAteTimePlanNoti(1);
+    } else {
+      changeIsOnOrOffDAteTimePlanNoti(2);
+    }
+  }
+
+  void onDateTimeNotificationSwitchPress({IconData icon}) {
+    if (icon == Icons.assignment)
+      changeIsOnOrOffTodayPlanOrResultNoti(0);
+    else
+      changeIsOnOrOffTodayPlanOrResultNoti(1);
+  }
 }

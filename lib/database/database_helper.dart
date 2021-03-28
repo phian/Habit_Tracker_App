@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:habit_tracker/model/process.dart';
 
 import 'package:habit_tracker/model/diary.dart';
@@ -55,8 +56,10 @@ class DatabaseHelper {
   static final tabSuggestedHabit = 'suggested_habit';
 
   DatabaseHelper._privateConstructor();
+
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
   static Database _database;
+
   Future<Database> get database async {
     if (_database != null) return _database;
     _database = await _initDatabase();
@@ -284,7 +287,7 @@ class DatabaseHelper {
     print('taodb');
   }
 
-  Future<void> insertHabit(Habit habit) async {
+  Future<int> insertHabit(Habit habit) async {
     Database db = await instance.database;
     var res = await db.insert(tabHabit, habit.toMap());
     return res;
@@ -293,9 +296,9 @@ class DatabaseHelper {
   // Hàm để lấy thông tin từ bảng Sugget Topic
   Future<List<Map<String, dynamic>>> getSuggestTopicMap() async {
     Database habitTrackerDb = await this.database;
-    var queryResult = habitTrackerDb.query(tabSuggestedTopic);
-
-    return queryResult;
+    return await habitTrackerDb
+        .query(tabSuggestedTopic)
+        .catchError((err) => debugPrint(err.toString()));
   }
 
   // Hàm lấy thông tin từ bảng Suggest Habit

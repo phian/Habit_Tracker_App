@@ -1,9 +1,12 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/model/habit.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
+import 'package:habit_tracker/view/view_variables/create_habit_screen_variables.dart';
 
 class CreateHabitScreenController extends GetxController {
   var selectedIndex = 1.obs;
@@ -13,12 +16,67 @@ class CreateHabitScreenController extends GetxController {
   var fillColor = Color(0xFFF53566).obs;
   var habitIcon = Icons.star.obs;
 
+  var weekDateList = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+  ].obs;
+
+  var weeklyChoiceList = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+  ].obs;
+
+  var notiTimeChoice = [
+    false,
+    false,
+    false,
+    true,
+  ].obs;
+
   AllHabitController allHabitController = Get.find();
   //Get.put(AllHabitController());
   HabitStatisticController statisticController = Get.find();
   //Get.put(HabitStatisticController());
 
   TextEditingController goalAmountController = TextEditingController();
+  TextEditingController habitNameController = TextEditingController();
+
+  void initDataAndController(var suggestedHabit) {
+    if (suggestedHabit != null) {
+      // ten
+      habitNameController = TextEditingController(text: suggestedHabit.ten);
+      // icon
+      habitIcon.value =
+          IconData(suggestedHabit.icon, fontFamily: 'MaterialIcons');
+      // mau
+      fillColor.value = Color(int.parse(suggestedHabit.mau, radix: 16));
+      // bat muc tieu
+      selectedIndex.value = suggestedHabit.batMucTieu == true ? 1 : 0;
+      // so lan
+      goalAmountController.text = suggestedHabit.soLan.toString();
+      // don vi
+      selectedUnitType.value = suggestedHabit.donVi;
+      // loai lap
+      repeatTypeChoice.value = suggestedHabit.loaiLap;
+      // ngay trong tuan
+      setDailyList(suggestedHabit.ngayTrongTuan);
+      // so lan trong tuan
+      setWeeklyList(suggestedHabit.soLanTrongTuan);
+      // buoi
+      setNotiTimeChoice(suggestedHabit.buoi);
+    }
+  }
 
   @override
   void onClose() {
@@ -34,6 +92,55 @@ class CreateHabitScreenController extends GetxController {
     resetNotiTimeChoice();
     super.onClose();
   }
+
+  /// [Handle click]
+
+  bool onBackIconButtonClick(CreateHabitScreenController controller) {
+    Future.delayed(Duration(milliseconds: 200), () {
+      Get.back();
+      controller.onClose();
+      habitNameController.clear();
+    });
+
+    return true;
+  }
+
+  void onOnOrOffButtonClick(int index) {
+    changeSelectedIndex(RxInt(index));
+
+    /// [Nếu người dùng off goal thì sẽ reset lại text trong TextField]
+    if (selectedIndex.value == 1) {
+      goalAmountController.text = '';
+    }
+  }
+
+  void onRepatTypeChoiceClick() {
+    if (repeatTypeChoice.value == 0) {
+      changeWeekdateChoice(7);
+    } else {
+      changeWeeklyListChoice(6);
+    }
+  }
+
+  void onDayMonthYearReapeatChoiceClick(int index) {
+    if (index != 2) changeRepeatTypeIndex(RxInt(index));
+
+    if (index == 1) {
+      resetWeekDateChoice();
+    } else if (index == 0) {
+      resetWeeklyListChoice();
+    }
+  }
+
+  void onChooseIconOrColorButtonClick(int index, BuildContext context) {
+    if (index == 1) {
+      _showColorChoiceDialog(context);
+    } else {
+      _pickIconForHabit(context);
+    }
+  }
+
+  /// [==================================================================]
 
   Future<void> addHabit(String name) async {
     await DatabaseHelper.instance.insertHabit(
@@ -95,33 +202,144 @@ class CreateHabitScreenController extends GetxController {
     if (allHabitController != null) await allHabitController.getAllHabit();
   }
 
-  var weekDateList = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    true,
-  ].obs;
+  /// [Hàm hiển thị dialog cho người dụng chọn icon]
+  Future<void> _pickIconForHabit(BuildContext context) async {
+    IconData icon = await FlutterIconPicker.showIconPicker(
+      context,
+      iconPackMode: IconPack.material,
+      iconSize: 30.0,
+      backgroundColor: Colors.black,
+      closeChild: null,
+      searchHintText: "Search icon...",
+      searchIcon: Icon(
+        Icons.search,
+        color: fillColor.value,
+      ),
+      iconColor: fillColor.value,
+      constraints: BoxConstraints(
+        maxHeight: Get.height * 0.5,
+        minWidth: Get.width,
+      ),
+    );
 
-  var weeklyChoiceList = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    true,
-  ].obs;
+    changeHabitIcon(icon);
 
-  var notiTimeChoice = [
-    false,
-    false,
-    false,
-    true,
-  ].obs;
+    if (icon != null) debugPrint('Icon code point: ${icon.codePoint}');
+  }
+
+  /// [Hàm để show dialog cho người dùng chọn màu]
+  void _showColorChoiceDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Container(
+          width: Get.width * 0.8,
+          height: Get.height * 0.35,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.black87,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                "The color should be",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  decoration: TextDecoration.none,
+                  color: Colors.white,
+                ),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ...List.generate(
+                      3,
+                      (index) => InkWell(
+                        onTap: () {
+                          Get.back();
+                          changeFillColor(choiceColors[index]);
+                        },
+                        child: Obx(
+                          () => Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: fillColor.value == choiceColors[index]
+                                  ? Colors.white24
+                                  : Colors.transparent,
+                            ),
+                            child: Icon(
+                              Icons.circle,
+                              size: 35.0,
+                              color: choiceColors[index],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ...List.generate(
+                      3,
+                      (index) => InkWell(
+                        onTap: () {
+                          Get.back();
+                          changeFillColor(choiceColors[index + 3]);
+                        },
+                        child: Obx(
+                          () => Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color:
+                                    fillColor.value == choiceColors[index + 3]
+                                        ? Colors.white24
+                                        : Colors.transparent),
+                            child: Icon(
+                              Icons.circle,
+                              size: 35.0,
+                              color: choiceColors[index + 3],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Color getRepeatTypeChoiceColor() {
+    if (repeatTypeChoice.value == 0) {
+      if (weekDateList[7]) {
+        return fillColor.value;
+      } else
+        return Colors.white24;
+    } else {
+      if (weeklyChoiceList[6]) {
+        return fillColor.value;
+      } else
+        return Colors.white24;
+    }
+  }
 
   changeSelectedIndex(RxInt index) {
     selectedIndex.value =
@@ -413,6 +631,38 @@ class CreateHabitScreenController extends GetxController {
   changeFillColor(Color color) {
     if (color != fillColor.value) {
       fillColor.value = color;
+    }
+  }
+
+  /// [Hàm để lưu data vào databaee]
+  void saveHabitData(BuildContext createHabitScreenContext) async {
+    if ((goalAmountController.text == '' ||
+            int.parse(goalAmountController.text) == 0) &&
+        selectedIndex.value == 0) {
+      CoolAlert.show(
+        context: createHabitScreenContext,
+        type: CoolAlertType.error,
+        animType: CoolAlertAnimType.slideInUp,
+        title: "Forgot to set a goal?",
+        text: "Check your goal for this habit",
+      );
+    } else if (habitNameController.text == '' ||
+        habitNameController.text.isEmpty) {
+      print(habitNameController.text);
+      CoolAlert.show(
+        context: createHabitScreenContext,
+        type: CoolAlertType.error,
+        animType: CoolAlertAnimType.slideInUp,
+        title: "Forgot to set a name?",
+        text: "Check the name you want for this habit",
+      );
+    } else {
+      await addHabit(habitNameController.text);
+      Get.back();
+      Get.back();
+      //Get.offAll(ManageScreen());
+      habitNameController.clear();
+      onClose();
     }
   }
 

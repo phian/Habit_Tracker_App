@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/database/database_helper.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
+import 'package:habit_tracker/model/side_menu_model.dart';
+import 'package:habit_tracker/view/habit_statistic_screen.dart';
 import 'package:intl/intl.dart';
 import 'main_screen_controller.dart';
 
-class AllHabitController extends GetxController {
+class AllHabitController extends GetxController with SideMenuModel {
   var listAllHabit = List<Habit>().obs;
   var listAnytimeHabit = List<Habit>().obs;
   var listMorningHabit = List<Habit>().obs;
@@ -124,5 +126,13 @@ class AllHabitController extends GetxController {
   Future<void> deleteHabit(Habit habit) async {
     await DatabaseHelper.instance.deleteHabit(habit.ma);
     await getAllHabit();
+  }
+
+  void moveToHabitStatisticScreen(int index) {
+    Get.to(
+      HabitStatisticScreen(),
+      transition: Transition.fadeIn,
+      arguments: listAllHabit[index],
+    );
   }
 }

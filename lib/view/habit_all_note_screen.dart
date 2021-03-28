@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
 import 'package:habit_tracker/database/database_helper.dart';
-import 'package:habit_tracker/view/habit_note_screen.dart';
 
 class HabitAllNoteScreen extends StatefulWidget {
   HabitAllNoteScreen({Key key}) : super(key: key);
@@ -14,14 +13,14 @@ class HabitAllNoteScreen extends StatefulWidget {
 class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
   HabitAllNoteScreenController _allNoteScreenController;
 
-  DatabaseHelper _databaseHelper;
+  // DatabaseHelper _databaseHelper;
 
   @override
   void initState() {
     super.initState();
 
     _allNoteScreenController = Get.put(HabitAllNoteScreenController());
-    _databaseHelper = DatabaseHelper.instance;
+    _allNoteScreenController.databaseHelper = DatabaseHelper.instance;
   }
 
   @override
@@ -31,17 +30,27 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (Get.arguments != null)
-      _allNoteScreenController.updateHabitId(Get.arguments);
+    _allNoteScreenController.updateHabitId(Get.arguments);
     print(_allNoteScreenController.habitId.value);
 
-    if (_allNoteScreenController.isClosed) {
-      _allNoteScreenController = Get.put(HabitAllNoteScreenController());
-      _databaseHelper = DatabaseHelper.instance;
-    }
+    _allNoteScreenController.checkControllerState(
+      _allNoteScreenController,
+      _allNoteScreenController.databaseHelper,
+    );
 
-    _readDateData();
-    _readAllNoteData();
+    _allNoteScreenController.readDateData().then((value) {
+      setState(() {});
+    }).catchError((err) => debugPrint(err.toString()));
+
+    _allNoteScreenController
+        .readAllNoteData(
+      controller: _allNoteScreenController,
+    )
+        .then((value) {
+      if (value != null && value.length != 0) {
+        setState(() {});
+      }
+    }).catchError((err) => debugPrint(err.toString()));
 
     return Scaffold(
       backgroundColor: Color(0xFF1E212A),
@@ -73,61 +82,6 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
     );
   }
 
-  /// [Read date data]
-  _readDateData() async {
-    await _databaseHelper.readDataDataFromNoteTable().then((value) {
-      if (value.length != 0) {
-        for (int i = 0; i < value.length; i++) {
-          if (_allNoteScreenController
-                  .checkIfDateDataExist(value[i]['ngay'].toString()) ==
-              false) {
-            _allNoteScreenController.dateList.add(value[i]['ngay'].toString());
-            _allNoteScreenController.dateListWidget.add(
-                _dateDivider(value[i]['ngay'].toString().replaceAll(' ', '/')));
-          } else {
-            _allNoteScreenController.dateList[i] = value[i]['ngay'].toString();
-            _allNoteScreenController.dateListWidget[i] =
-                _dateDivider(value[i]['ngay'].toString().replaceAll(' ', '/'));
-          }
-        }
-      }
-      setState(() {});
-    });
-  }
-
-  /// [Read all note content]
-  _readAllNoteData() async {
-    await _databaseHelper.readAllNoteData().then((value) {
-      if (value.length != 0) {
-        for (int i = 0; i < value.length; i++) {
-          if (_allNoteScreenController
-                  .checkIfContentExist(value[i]['noi_dung'].toString()) ==
-              false) {
-            _allNoteScreenController.noteContent
-                .add(value[i]['noi_dung'].toString());
-
-            _allNoteScreenController
-                .updateNoteContentData(value[i]['noi_dung'].toString());
-
-            _allNoteScreenController.noteContentBoxes.add(
-                _noteContentCard(_allNoteScreenController.noteContentText));
-          } else {
-            _allNoteScreenController.noteContent[i] =
-                value[i]['noi_dung'].toString();
-
-            _allNoteScreenController
-                .updateNoteContentData(value[i]['noi_dung'].toString());
-
-            _allNoteScreenController.noteContentBoxes[i] =
-                _noteContentCard(_allNoteScreenController.noteContentText);
-          }
-        }
-        setState(() {});
-        // print("Có vô đây");
-      }
-    });
-  }
-
   /// [App Bar]
   Widget _habitAllNoteScreenAppBar() {
     return AppBar(
@@ -148,71 +102,6 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
         style: TextStyle(
           fontSize: 25.0,
           fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
-  /// [Dòng phân chia ngày]
-  Widget _dateDivider(String date) {
-    return Container(
-      padding: EdgeInsets.only(top: 40.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(right: 10.0),
-              child: Divider(
-                thickness: 0.5,
-                color: Colors.white24,
-              ),
-            ),
-          ),
-          Text(
-            date,
-            style: TextStyle(fontSize: 20.0),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Divider(
-                thickness: 0.5,
-                color: Colors.white24,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// [Card chứa nội dung]
-  Widget _noteContentCard(RxString content) {
-    return Obx(
-      () => GestureDetector(
-        onTap: () {
-          Get.to(
-            HabitNoteScreen(),
-            arguments: _allNoteScreenController.habitId.value,
-            transition: Transition.fadeIn,
-          );
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
-          alignment: Alignment.centerLeft,
-          width: Get.width - 20.0,
-          height: Get.height * 0.12,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Color(0xFF2F313E),
-          ),
-          child: Text(
-            content.value,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 20.0),
-          ),
         ),
       ),
     );

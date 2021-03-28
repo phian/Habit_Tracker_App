@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
+import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
+import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/process.dart';
-import 'package:habit_tracker/view/genaral_screeen.dart';
-import 'package:habit_tracker/view/notification_screen.dart';
+import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
-import 'package:habit_tracker/controller/main_screen_controller.dart';
 
 import '../model/habit.dart';
 import '../view/habit_note_screen.dart';
 import 'habit_statistic_screen.dart';
-import 'login_screen.dart';
-import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -57,13 +55,9 @@ class MainScreenState extends State<MainScreen> {
             size: 30.0,
             color: Colors.white,
           ),
-          onPressed: () {
-            final _state = _mainScreenKey.currentState;
-            if (_state.isOpened)
-              _state.closeSideMenu();
-            else
-              _state.openSideMenu();
-          },
+          onPressed: () => _mainScreenController.openOrCloseSideMenu(
+            sideMenuKey: _mainScreenKey,
+          ),
         ),
       ),
       title: Container(
@@ -99,7 +93,7 @@ class MainScreenState extends State<MainScreen> {
                 onSelectedDateChange: (DateTime dateTime) async {
                   allHabitController.flag.value = false;
                   _mainScreenController.changeSelectedDay(dateTime);
-                  await allHabitController.getHabitByWeekDate(dateTime.weekday);
+                  allHabitController.getHabitByWeekDate(dateTime.weekday);
                   allHabitController.flag.value = true;
                 },
                 selectedItemBackgroundColor: Colors.white24,
@@ -176,35 +170,6 @@ class MainScreenState extends State<MainScreen> {
     );
   }
 
-  /// [Widget hiển thị khi ko có habit náo trong database]
-  Widget _noneHabitDisplayWidget() {
-    return Stack(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "images/plant_pot.png",
-                width: Get.width * 0.27,
-                height: Get.height * 0.27,
-              ),
-              Text(
-                "All tree grown.\nPlant new by clicking \"+\" button",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
   /// [Habit list]
   Widget _listHabit(List<Habit> _habitDataList) {
     return _habitDataList.length > 0
@@ -233,7 +198,7 @@ class MainScreenState extends State<MainScreen> {
                 }
               },
             ))
-        : _noneHabitDisplayWidget();
+        : NoneHabitDisplayWidget();
   }
 
   /// [Tab widget]
@@ -271,11 +236,10 @@ class MainScreenState extends State<MainScreen> {
           ),
           onTap: (CompletionHandler handler) async {
             handler(false);
-            if (habit.batMucTieu == 0)
-              process.ketQua = habit.soLan;
-            else
-              process.ketQua = -1;
-
+            process.ketQua = _mainScreenController.updateHabitProcess(
+              habitGoal: habit.batMucTieu,
+              habit: habit,
+            );
             allHabitController.updateProcess(process);
             print('done');
             setState(() {});
@@ -351,12 +315,7 @@ class MainScreenState extends State<MainScreen> {
           onTap: (CompletionHandler handler) async {
             handler(false);
             process.skip = true;
-            //allHabitController.updateProcess(process);
-            Get.to(
-              HabitNoteScreen(),
-              arguments: habit.ma,
-              transition: Transition.fadeIn,
-            );
+            _mainScreenController.moveToHabitNoteScreen(habit);
             print('Note');
             setState(() {});
           },
@@ -449,7 +408,7 @@ class MainScreenState extends State<MainScreen> {
                       if (allHabitController.listHabitProcess[index].skip ==
                           true)
                         Text(
-                          'Skiped',
+                          'Skipped',
                           style: TextStyle(
                               color: Colors.blue,
                               fontSize: 15,
@@ -485,13 +444,7 @@ class MainScreenState extends State<MainScreen> {
             ],
           ),
         ),
-        onTap: () {
-          Get.to(
-            HabitStatisticScreen(),
-            arguments: habit,
-            transition: Transition.fadeIn,
-          );
-        },
+        onTap: () => _mainScreenController.moveToHabitStatisticScreen(habit),
       ),
     );
   }

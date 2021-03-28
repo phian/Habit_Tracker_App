@@ -2,7 +2,6 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:get/get.dart';
 
 ScrollController screenScrollController = new ScrollController();
@@ -76,7 +75,7 @@ final List<Map<String, dynamic>> unitTypes = [
   },
 ];
 
-BuildContext createHabitScreenContext;
+BuildContext habitScreenContext;
 
 class CustomRangeTextInputFormatter extends TextInputFormatter {
   @override

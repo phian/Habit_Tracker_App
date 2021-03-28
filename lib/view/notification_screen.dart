@@ -33,7 +33,7 @@ class NotificationScreen extends StatelessWidget {
                   bottom: 10.0,
                 ),
                 alignment: Alignment.center,
-                child: _changeNotiScreenButton("Challenges", 2),
+                child: _changeNotificationScreenButton("Challenges", 2),
               ),
               Container(
                 padding: EdgeInsets.only(
@@ -41,7 +41,7 @@ class NotificationScreen extends StatelessWidget {
                   bottom: 10.0,
                 ),
                 alignment: Alignment.centerLeft,
-                child: _changeNotiScreenButton("Habits", 1),
+                child: _changeNotificationScreenButton("Habits", 1),
               ),
             ],
           ),
@@ -61,12 +61,12 @@ class NotificationScreen extends StatelessWidget {
   }
 
   /// [Change notification type button]
-  Widget _changeNotiScreenButton(String title, int index) {
+  Widget _changeNotificationScreenButton(String title, int index) {
     return Obx(
       () => InkWell(
-        onTap: () {
-          _notificationController.changeIsHabitsOrChallenge(RxInt(index));
-        },
+        onTap: () => _notificationController.changeIsHabitsOrChallenge(
+          RxInt(index),
+        ),
         borderRadius: BorderRadius.circular(30.0),
         child: Container(
           width: Get.width * 0.45,
@@ -97,7 +97,7 @@ class NotificationScreen extends StatelessWidget {
           parent: BouncingScrollPhysics(),
         ),
         children: [
-          _habitNoticationListColumn(),
+          _habitNotificationListColumn(),
           _challengeNotificationBox(),
         ],
       ),
@@ -105,7 +105,7 @@ class NotificationScreen extends StatelessWidget {
   }
 
   /// [Habit notification list column]
-  Widget _habitNoticationListColumn() {
+  Widget _habitNotificationListColumn() {
     return Obx(
       () => Visibility(
         visible: _notificationController.isHabitsOrChallenge.value == 1
@@ -261,14 +261,10 @@ class NotificationScreen extends StatelessWidget {
                     () => Switch(
                       activeColor: Color(0xFF1C8EFE),
                       value: value.value,
-                      onChanged: (value) {
-                        if (icon == Icons.assignment)
-                          _notificationController
-                              .changeIsOnOrOffTodayPlanOrResultNoti(0);
-                        else
-                          _notificationController
-                              .changeIsOnOrOffTodayPlanOrResultNoti(1);
-                      },
+                      onChanged: (value) => _notificationController
+                          .onDateTimeNotificationSwitchPress(
+                        icon: icon,
+                      ),
                     ),
                   ),
                 ],
@@ -289,17 +285,12 @@ class NotificationScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
-                  onTap: () {
-                    showTimePicker(
-                      context: _context,
-                      initialTime: TimeOfDay.now(),
-                    ).then((value) {
-                      if (icon == Icons.assignment)
-                        _notificationController.changePickedtime(0, value);
-                      else
-                        _notificationController.changePickedtime(1, value);
-                    });
-                  },
+                  onTap: () =>
+                      _notificationController.onHabitNotificationTilePress(
+                    context: _context,
+                    icon: icon,
+                  ),
+
                   leading: Icon(
                     Icons.access_time,
                     size: 30.0,
@@ -381,18 +372,10 @@ class NotificationScreen extends StatelessWidget {
                         child: Switch(
                           activeColor: Colors.blue,
                           value: value.value,
-                          onChanged: (value) {
-                            if (icon == Icons.wb_sunny) {
-                              _notificationController
-                                  .changeIsOnOrOffDAteTimePlanNoti(0);
-                            } else if (Icons.cloud == icon) {
-                              _notificationController
-                                  .changeIsOnOrOffDAteTimePlanNoti(1);
-                            } else {
-                              _notificationController
-                                  .changeIsOnOrOffDAteTimePlanNoti(2);
-                            }
-                          },
+                          onChanged: (value) => _notificationController
+                              .onNoneDateTimeNotificationSwitchPress(
+                            icon: icon,
+                          ),
                         ),
                       ),
                     ),
@@ -479,14 +462,14 @@ class NotificationScreen extends StatelessWidget {
           ),
           SizedBox(height: 10.0),
           Obx(
-            () => _challengeNotiDisplayTimeTile(
+            () => _challengeNotificationDisplayTimeTile(
               title: "Plan for today",
               time: _notificationController.challengeTodayPlanTime.value,
             ),
           ),
           SizedBox(height: 10.0),
           Obx(
-            () => _challengeNotiDisplayTimeTile(
+            () => _challengeNotificationDisplayTimeTile(
               title: "Progress check up",
               time: _notificationController.challengeProgressCheckUpTime.value,
             ),
@@ -497,27 +480,18 @@ class NotificationScreen extends StatelessWidget {
   }
 
   /// [Challenge display time tile]
-  Widget _challengeNotiDisplayTimeTile({String title, String time}) {
+  Widget _challengeNotificationDisplayTimeTile({String title, String time}) {
     return Material(
       color: Colors.transparent,
       child: ListTile(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
-        onTap: () {
-          showTimePicker(
-            context: _context,
-            initialTime: TimeOfDay.now(),
-          ).then((value) {
-            if (value != null) {
-              if (title.toLowerCase() == "plan for today") {
-                _notificationController.changeChallengeTodayPlanTime(value);
-              } else {
-                _notificationController.changeProgressCheckUpTime(value);
-              }
-            }
-          });
-        },
+        onTap: () => _notificationController.onChallengeNotificationTilePress(
+          context: _context,
+          title: title,
+        ),
+
         leading: Icon(
           Icons.access_time,
           color: Color(0xFF1C8EFE),

@@ -1,14 +1,13 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/database/database_helper.dart';
-import 'package:habit_tracker/model/suggested_habit.dart';
-import 'package:habit_tracker/view/create_habit_screen.dart';
+import 'package:habit_tracker/controller/habit_category_list_screen_controller.dart';
 
 class HabitCategoryListScreen extends StatefulWidget {
   final String tag;
   final int topicId;
   final String imagePath;
+
   HabitCategoryListScreen({
     Key key,
     this.tag,
@@ -22,23 +21,18 @@ class HabitCategoryListScreen extends StatefulWidget {
 }
 
 class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
-  DatabaseHelper _databaseHelper;
-  List<SuggestedHabit> _suggestedHabitList;
+  HabitCategoryListScreenController _controller = Get.put(
+    HabitCategoryListScreenController(),
+  );
 
   ScrollController _screenScrollController;
   AnimateIconController _aniController;
 
-  List<Widget> _suggestHabitCards;
-
   @override
   void initState() {
     super.initState();
-    _databaseHelper = DatabaseHelper.instance;
-
     _screenScrollController = ScrollController();
     _aniController = AnimateIconController();
-
-    _getSuggestHabitFromDb();
   }
 
   @override
@@ -64,44 +58,6 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
         _suggestHabitScreenBody(),
       ],
     );
-  }
-
-  Future<Null> _getSuggestHabitFromDb() async {
-    await _databaseHelper.getSussgestHabitMap(widget.topicId).then((value) {
-      _suggestedHabitList = [];
-      _suggestHabitCards = [];
-
-      for (int i = 0; i < value.length; i++) {
-        _suggestedHabitList.add(
-          SuggestedHabit(
-            maChuDe: value[i]['ma_chu_de'],
-            ten: value[i]['ten'],
-            moTa: value[i]['mo_ta'],
-            icon: value[i]['icon'],
-            mau: value[i]['mau'],
-            batMucTieu: value[i]['bat_muc_tieu'] == 1 ? false : true,
-            soLan: value[i]['so_lan'],
-            donVi: value[i]['don_vi'],
-            loaiLap: value[i]['loai_lap'],
-            ngayTrongTuan: value[i]['ngay_trong_tuan'],
-            soLanTrongTuan: value[i]['so_lan_trong_tuan'],
-            buoi: value[i]['buoi'],
-          ),
-        );
-
-        _suggestHabitCards.add(
-          _suggestHabitCard(
-            value[i]['icon'],
-            value[i]['ten'],
-            value[i]['mo_ta'],
-            int.parse(value[i]['mau']),
-            i,
-          ),
-        );
-      }
-
-      setState(() {});
-    });
   }
 
   // Appbar
@@ -150,25 +106,13 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
             controller: _aniController,
             startTooltip: '',
             endTooltip: '',
-            onStartIconPress: () {
-              Future.delayed(
-                Duration(milliseconds: 200),
-                () {
-                  Get.back();
-                },
-              );
-
-              return true;
-            },
-            onEndIconPress: () {
-              return true;
-            },
+            onStartIconPress: () => _controller.onBackButtonPress(),
+            onEndIconPress: () => true,
             duration: Duration(milliseconds: 200),
             color: Colors.white,
             clockwise: true,
           ),
         ),
-        onTap: () {},
       ),
       bottom: PreferredSize(
         preferredSize: Size(Get.width, Get.size.height * 0.15),
@@ -193,78 +137,31 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
     return SliverToBoxAdapter(
       child: Container(
         padding: EdgeInsets.only(bottom: 20.0),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.only(top: 30.0, left: Get.width * 0.05),
-              alignment: Alignment.topLeft,
-              child: Text(
-                _suggestedHabitList.length.toString() + " habits",
-                style: TextStyle(fontSize: 18.0),
-              ),
-            ),
-            SizedBox(height: 40.0),
-            ...List.generate(_suggestedHabitList.length, (index) {
-              return Container(
-                padding: EdgeInsets.only(top: index == 0 ? 0 : 40.0),
-                child: _suggestHabitCards[index],
-              );
-            }),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _suggestHabitCard(
-      int iconCode, String title, String subTitle, int color, int index) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          side: BorderSide(
-            color: Colors.white24,
-          ),
-        ),
-        onTap: () {
-          Get.off(
-            CreateHabitScreen(),
-            arguments: _suggestedHabitList[index],
-            transition: Transition.fadeIn,
-          );
-        },
-        leading: Container(
-          child: Icon(
-            IconData(iconCode, fontFamily: 'MaterialIcons'),
-            size: 40.0,
-            color: Color(color),
-          ),
-        ),
-        title: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 25.0),
-              ),
-              SizedBox(height: 10.0),
-              Text(subTitle),
-            ],
-          ),
-        ),
-        trailing: Container(
-          child: IconButton(
-            icon: Icon(
-              Icons.info_sharp,
-              size: 30.0,
-              color: Color(0xFFF8B83B),
-            ),
-            onPressed: () {},
-          ),
+        child: FutureBuilder(
+          future: _controller.getSuggestHabitFromDb(widget.topicId),
+          builder: (context, snapshot) {
+            return Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: 30.0, left: Get.width * 0.05),
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    _controller.suggestedHabitList.length.toString() +
+                        " habits",
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                ),
+                SizedBox(height: 40.0),
+                ...List.generate(_controller.suggestedHabitList.length,
+                    (index) {
+                  return Container(
+                    padding: EdgeInsets.only(top: index == 0 ? 0 : 40.0),
+                    child: _controller.suggestHabitCards[index],
+                  );
+                }),
+              ],
+            );
+          },
         ),
       ),
     );

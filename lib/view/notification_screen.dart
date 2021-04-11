@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/notification_screen_controller.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
+  @override
+  _NotificationScreenState createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
   NotificationController _notificationController = NotificationController();
-  BuildContext _context;
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
-
     return Scaffold(
       appBar: _notificationScreenAppBar(),
       backgroundColor: Color(0xFF1E212A),
@@ -65,7 +67,7 @@ class NotificationScreen extends StatelessWidget {
     return Obx(
       () => InkWell(
         onTap: () => _notificationController.changeIsHabitsOrChallenge(
-          RxInt(index),
+          index,
         ),
         borderRadius: BorderRadius.circular(30.0),
         child: Container(
@@ -262,9 +264,7 @@ class NotificationScreen extends StatelessWidget {
                       activeColor: Color(0xFF1C8EFE),
                       value: value.value,
                       onChanged: (value) => _notificationController
-                          .onDateTimeNotificationSwitchPress(
-                        icon: icon,
-                      ),
+                          .onDateTimeNotificationSwitchPress(icon),
                     ),
                   ),
                 ],
@@ -285,12 +285,7 @@ class NotificationScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
-                  onTap: () =>
-                      _notificationController.onHabitNotificationTilePress(
-                    context: _context,
-                    icon: icon,
-                  ),
-
+                  onTap: () => _onHabitNotificationTilePress(icon),
                   leading: Icon(
                     Icons.access_time,
                     size: 30.0,
@@ -373,9 +368,7 @@ class NotificationScreen extends StatelessWidget {
                           activeColor: Colors.blue,
                           value: value.value,
                           onChanged: (value) => _notificationController
-                              .onNoneDateTimeNotificationSwitchPress(
-                            icon: icon,
-                          ),
+                              .onNoneDateTimeNotificationSwitchPress(icon),
                         ),
                       ),
                     ),
@@ -487,11 +480,7 @@ class NotificationScreen extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
-        onTap: () => _notificationController.onChallengeNotificationTilePress(
-          context: _context,
-          title: title,
-        ),
-
+        onTap: () => _onChallengeNotificationTilePress(title),
         leading: Icon(
           Icons.access_time,
           color: Color(0xFF1C8EFE),
@@ -523,5 +512,32 @@ class NotificationScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onChallengeNotificationTilePress(String title) async {
+    await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      if (value != null) {
+        if (title.toLowerCase() == "plan for today") {
+          _notificationController.changeChallengeTodayPlanTime(value);
+        } else {
+          _notificationController.changeProgressCheckUpTime(value);
+        }
+      }
+    }).catchError((err) => debugPrint(err.toString()));
+  }
+
+  void _onHabitNotificationTilePress(IconData icon) async {
+    await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      if (icon == Icons.assignment)
+        _notificationController.changePickedTime(0, value);
+      else
+        _notificationController.changePickedTime(1, value);
+    });
   }
 }

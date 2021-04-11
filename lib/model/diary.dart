@@ -16,4 +16,10 @@ class Diary {
       'noi_dung': noiDung,
     };
   }
+
+  void fromMap(Map<String, dynamic> map) {
+    map['ma_thoi_quen'] = maThoiQuen;
+    map['ngay'] = ngay;
+    map['noi_dung'] = noiDung;
+  }
 }

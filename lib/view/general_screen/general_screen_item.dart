@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/gernaral_screen_controller.dart';
 
-class GenralScreenItem extends StatelessWidget {
+class GeneralScreenItem extends StatelessWidget {
   final GeneralScreenController generalScreenController;
   final IconData icon;
   final Color iconColor;
@@ -10,7 +10,7 @@ class GenralScreenItem extends StatelessWidget {
   final bool isSwitch;
   final RxBool toggle;
 
-  GenralScreenItem({
+  GeneralScreenItem({
     this.generalScreenController,
     this.icon,
     this.iconColor,

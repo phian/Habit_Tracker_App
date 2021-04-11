@@ -43,4 +43,8 @@ class Habit {
     if (trangThai != null) map['trang_thai'] = trangThai;
     return map;
   }
+
+  void fromMap(Map<String, dynamic> map) {
+
+  }
 }

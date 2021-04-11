@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/challenges_screen_controller.dart';
-import 'package:habit_tracker/view/challenge_time_line_screen.dart';
+import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
+import 'package:shrink_sidemenu/src/base.dart';
+import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/challenge_timeline_screen/challenge_timeline_screen.dart';
 
 class ChallengesScreen extends StatefulWidget {
   ChallengesScreen({Key key}) : super(key: key);
@@ -13,12 +15,10 @@ class ChallengesScreen extends StatefulWidget {
   _ChallengesScreenState createState() => _ChallengesScreenState();
 }
 
-class _ChallengesScreenState extends State<ChallengesScreen> {
+class _ChallengesScreenState extends State<ChallengesScreen>
+    implements SideMenuModel {
   ChallengesScreenController _controller = Get.put(
     ChallengesScreenController(),
-  );
-  final GlobalKey<SideMenuState> _challengeScreenKey = GlobalKey<SideMenuState>(
-    debugLabel: "ChallengeScreenKey",
   );
 
   @override
@@ -30,7 +30,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: _challengeScreenKey,
+      menuKey: AppConstant.challengeScreenKey,
       child: Scaffold(
         backgroundColor: Color(0xFF1E212A),
         appBar: _challengesScreenAppBar(),
@@ -49,8 +49,9 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
             size: 30.0,
             color: Colors.white,
           ),
-          onPressed: () =>
-              _controller.openOrCloseSideMenu(sideMenuKey: _challengeScreenKey),
+          onPressed: () => openOrCloseSideMenu(
+            AppConstant.challengeScreenKey,
+          ),
         ),
       ),
       title: Container(
@@ -96,7 +97,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20.0),
-                  onTap: () => _controller.moveToChallengeScreen(
+                  onTap: () => _moveToChallengeScreen(
                     tag: 0,
                     title: _controller.challengeTitles[7],
                     challengeAmount: "10345",
@@ -106,7 +107,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
                     children: [
                       Container(
                         child: Image.asset(
-                          "images/morning_challenge.png",
+                          "${AppConstant.imagePath}/morning_challenge.png",
                           fit: BoxFit.contain,
                           width: Get.width * 0.45,
                           height: Get.height * 0.22,
@@ -187,7 +188,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () => _controller.moveToChallengeScreen(
+                  onTap: () => _moveToChallengeScreen(
                     tag: index + 1,
                     title: _controller.challengeTitles[index],
                     challengeAmount: _controller.challengeAmounts[index],
@@ -284,6 +285,31 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  @override
+  void openOrCloseSideMenu(GlobalKey<SideMenuState> key) {
+    if (key.currentState.isOpened)
+      key.currentState.closeSideMenu();
+    else
+      key.currentState.openSideMenu();
+  }
+
+  /// Navigation
+  void _moveToChallengeScreen({
+    int tag,
+    String title,
+    String challengeAmount,
+    String imagePath,
+  }) {
+    Get.to(
+      ChallengeTimeLineScreen(
+        tag: tag,
+        title: title,
+        challengeAmount: challengeAmount,
+        imagePath: imagePath,
       ),
     );
   }

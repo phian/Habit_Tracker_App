@@ -28,9 +28,9 @@ class NotificationController extends GetxController {
           TimeOfDay.now().minute.toString())
       .obs;
 
-  changeIsHabitsOrChallenge(RxInt index) {
-    if (isHabitsOrChallenge.value != index.value) {
-      isHabitsOrChallenge.value = index.value;
+  changeIsHabitsOrChallenge(int index) {
+    if (isHabitsOrChallenge.value != index) {
+      isHabitsOrChallenge.value = index;
     }
   }
 
@@ -40,7 +40,7 @@ class NotificationController extends GetxController {
         : isOnOrOffTodayResult.value = !isOnOrOffTodayResult.value;
   }
 
-  changeIsOnOrOffDAteTimePlanNoti(int index) {
+  changeIsOnOrOffDAteTimePlanNotice(int index) {
     switch (index) {
       case 0:
         isOnOrOffMorningPlan.value = !isOnOrOffMorningPlan.value;
@@ -54,7 +54,7 @@ class NotificationController extends GetxController {
     }
   }
 
-  changePickedtime(int index, TimeOfDay timeOfDay) {
+  changePickedTime(int index, TimeOfDay timeOfDay) {
     index == 0
         ? todayPlanPickedTime.value = (timeOfDay.hour.toString() +
             ":" +
@@ -94,46 +94,17 @@ class NotificationController extends GetxController {
     }
   }
 
-  void onChallengeNotificationTilePress(
-      {BuildContext context, String title}) async {
-    await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-      if (value != null) {
-        if (title.toLowerCase() == "plan for today") {
-          changeChallengeTodayPlanTime(value);
-        } else {
-          changeProgressCheckUpTime(value);
-        }
-      }
-    });
-  }
-
-  void onHabitNotificationTilePress(
-      {BuildContext context, IconData icon}) async {
-    await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-      if (icon == Icons.assignment)
-        changePickedtime(0, value);
-      else
-        changePickedtime(1, value);
-    });
-  }
-
-  void onNoneDateTimeNotificationSwitchPress({IconData icon}) {
+  void onNoneDateTimeNotificationSwitchPress(IconData icon) {
     if (icon == Icons.wb_sunny) {
-      changeIsOnOrOffDAteTimePlanNoti(0);
+      changeIsOnOrOffDAteTimePlanNotice(0);
     } else if (Icons.cloud == icon) {
-      changeIsOnOrOffDAteTimePlanNoti(1);
+      changeIsOnOrOffDAteTimePlanNotice(1);
     } else {
-      changeIsOnOrOffDAteTimePlanNoti(2);
+      changeIsOnOrOffDAteTimePlanNotice(2);
     }
   }
 
-  void onDateTimeNotificationSwitchPress({IconData icon}) {
+  void onDateTimeNotificationSwitchPress(IconData icon) {
     if (icon == Icons.assignment)
       changeIsOnOrOffTodayPlanOrResultNoti(0);
     else

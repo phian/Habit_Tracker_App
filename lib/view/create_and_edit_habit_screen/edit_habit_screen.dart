@@ -2,30 +2,48 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
-import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:select_form_field/select_form_field.dart';
 
-import './view_variables/create_habit_screen_variables.dart';
-import 'view_subfile/create_and_edit_habit/create_and_edit_habit_screen_app_bar.dart';
-import 'view_variables/create_habit_screen_variables.dart';
+import 'create_and_edit_habit_screen_app_bar.dart';
+import 'create_habit_screen_variables.dart';
 
-class CreateHabitScreen extends StatelessWidget {
-  Habit habit;
-  SuggestedHabit suggestedHabit;
-  CreateHabitScreenController createHabitScreenController;
+class EditHabitScreen extends StatefulWidget {
+  @override
+  _EditHabitScreenState createState() => _EditHabitScreenState();
+}
+
+class _EditHabitScreenState extends State<EditHabitScreen> {
+  Habit _habit;
+  CreateHabitScreenController _editHabitScreenController =
+      Get.put(CreateHabitScreenController());
+  TextEditingController _habitNameController, _goalAmountController;
+
+  @override
+  void initState() {
+    super.initState();
+    _habit = Get.arguments;
+    // có tham số thì gán
+    _editHabitScreenController.initDataAndController(_habit);
+
+    _habitNameController = TextEditingController(text: _habit.ten);
+    _goalAmountController =
+        TextEditingController(text: _habit.soLan.toString());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _editHabitScreenController.onClose();
+    _habitNameController.dispose();
+    _goalAmountController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    habitScreenContext = context;
-    suggestedHabit = Get.arguments;
-    // có tham số thì gán
-    createHabitScreenController =
-        Get.put(CreateHabitScreenController());
-    createHabitScreenController.initDataAndController(suggestedHabit);
-
     return Scaffold(
       backgroundColor: Color(0xFF1E212A),
       // resizeToAvoidBottomInset: false,
@@ -33,7 +51,6 @@ class CreateHabitScreen extends StatelessWidget {
     );
   }
 
-  // Widget chứa body của màn hình
   Widget _createHabitScreenBody() {
     return CustomScrollView(
       physics: BouncingScrollPhysics(
@@ -42,35 +59,34 @@ class CreateHabitScreen extends StatelessWidget {
       controller: screenScrollController,
       slivers: [
         CreateAndEditHabitScreenAppBar(
-          controller: createHabitScreenController,
-          title: "New habit",
+          controller: _editHabitScreenController,
+          title: "Edit _habit",
+          habitNameController: _habitNameController,
+          goalAmountController: _goalAmountController,
         ),
         _habitScreenBody(),
       ],
     );
   }
 
-  //====================================================//
-
-  // Body
   Widget _habitScreenBody() {
     return SliverToBoxAdapter(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
         child: Column(
           children: [
-            // Tên habit
+            // Tên _habit
             Obx(
               () => TextField(
-                controller: createHabitScreenController.habitNameController,
-                cursorColor: createHabitScreenController.fillColor.value,
+                controller: _habitNameController,
+                cursorColor: _editHabitScreenController.fillColor.value,
                 style: TextStyle(
                   fontSize: 22.0,
                   color: Colors.white,
                 ),
                 onChanged: (value) {},
                 decoration: InputDecoration(
-                  hintText: 'Name of the habit',
+                  hintText: 'Name of the _habit',
                   hintStyle: TextStyle(
                     fontSize: 22.0,
                     color: Colors.white54,
@@ -90,9 +106,9 @@ class CreateHabitScreen extends StatelessWidget {
                 children: [
                   Obx(
                     () => _iconAndColorOptionWidget(
-                      createHabitScreenController.habitIcon.value,
+                      _editHabitScreenController.habitIcon.value,
                       "icon",
-                      createHabitScreenController.fillColor.value,
+                      _editHabitScreenController.fillColor.value,
                       0,
                     ),
                   ),
@@ -102,7 +118,7 @@ class CreateHabitScreen extends StatelessWidget {
                       child: _iconAndColorOptionWidget(
                         Icons.circle,
                         "color",
-                        createHabitScreenController.fillColor.value,
+                        _editHabitScreenController.fillColor.value,
                         1,
                       ),
                     ),
@@ -127,8 +143,7 @@ class CreateHabitScreen extends StatelessWidget {
                     2,
                     (index) => InkWell(
                       borderRadius: BorderRadius.circular(10.0),
-                      onTap: () => createHabitScreenController
-                          .onOnOrOffButtonClick(index),
+                      onTap: () => _onOnOrOffButtonClick(index),
                       child: Obx(
                         () => Container(
                           height: 60.0,
@@ -140,11 +155,11 @@ class CreateHabitScreen extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            color: createHabitScreenController
+                            color: _editHabitScreenController
                                         .selectedIndex.value !=
                                     index
                                 ? Colors.white24
-                                : createHabitScreenController.fillColor.value,
+                                : _editHabitScreenController.fillColor.value,
                           ),
                         ),
                       ),
@@ -157,7 +172,7 @@ class CreateHabitScreen extends StatelessWidget {
             /// [Phần chọn giá trị theo đơn vị]
             Obx(
               () => Visibility(
-                visible: createHabitScreenController.selectedIndex.value == 0
+                visible: _editHabitScreenController.selectedIndex.value == 0
                     ? true
                     : false,
                 child: Container(
@@ -169,8 +184,7 @@ class CreateHabitScreen extends StatelessWidget {
                         width: Get.width * 0.44,
                         height: 60.0,
                         child: TextField(
-                          controller:
-                              createHabitScreenController.goalAmountController,
+                          controller: _goalAmountController,
                           style: TextStyle(fontSize: 20.0),
                           keyboardType: TextInputType.number,
                           maxLength: 3,
@@ -197,14 +211,14 @@ class CreateHabitScreen extends StatelessWidget {
                         height: 60.0,
                         child: Obx(
                           () => SelectFormField(
-                            initialValue: createHabitScreenController
+                            initialValue: _editHabitScreenController
                                 .selectedUnitType.value,
                             items: unitTypes,
-                            hintText: createHabitScreenController
+                            hintText: _editHabitScreenController
                                 .selectedUnitType.value,
                             style: TextStyle(fontSize: 20.0),
-                            onChanged: (val) => createHabitScreenController
-                                .changeSelectedUnitType(RxString(val)),
+                            onChanged: (val) => _editHabitScreenController
+                                .changeSelectedUnitType(val),
                             onSaved: (val) => print(val),
                             scrollPhysics: AlwaysScrollableScrollPhysics(
                               parent: BouncingScrollPhysics(),
@@ -212,7 +226,7 @@ class CreateHabitScreen extends StatelessWidget {
                             decoration: InputDecoration(
                               fillColor: Colors.white24,
                               filled: true,
-                              hintText: createHabitScreenController
+                              hintText: _editHabitScreenController
                                   .selectedUnitType.value,
                               hintStyle: TextStyle(
                                 fontSize: 20.0,
@@ -235,9 +249,9 @@ class CreateHabitScreen extends StatelessWidget {
               ),
             ),
 
-            /// [Dòng chữ I want to repeat this habit]
+            /// [Dòng chữ I want to repeat this _habit]
             _sectionText(
-              content: "I want to repeat this habit",
+              content: "I want to repeat this _habit",
               canChange: false,
             ),
 
@@ -256,11 +270,11 @@ class CreateHabitScreen extends StatelessWidget {
                             : index == 1
                                 ? "weekly"
                                 : "monthly",
-                        color: createHabitScreenController
-                                    .repeatTypeChoice.value ==
-                                index
-                            ? createHabitScreenController.fillColor.value
-                            : Colors.white24,
+                        color:
+                            _editHabitScreenController.repeatTypeChoice.value ==
+                                    index
+                                ? _editHabitScreenController.fillColor.value
+                                : Colors.white24,
                         index: index,
                       ),
                     ),
@@ -282,7 +296,7 @@ class CreateHabitScreen extends StatelessWidget {
                     children: [
                       Obx(
                         () => Visibility(
-                          visible: createHabitScreenController
+                          visible: _editHabitScreenController
                                       .repeatTypeChoice.value ==
                                   0
                               ? true
@@ -295,17 +309,17 @@ class CreateHabitScreen extends StatelessWidget {
                                   7,
                                   (index) => InkWell(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    onTap: () => createHabitScreenController
+                                    onTap: () => _editHabitScreenController
                                         .changeWeekdateChoice(index),
                                     child: Obx(
                                       () => Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10.0),
-                                          color: createHabitScreenController
+                                          color: _editHabitScreenController
                                                       .weekDateList[index] ==
                                                   true
-                                              ? createHabitScreenController
+                                              ? _editHabitScreenController
                                                   .fillColor.value
                                               : Colors.white24,
                                         ),
@@ -329,7 +343,7 @@ class CreateHabitScreen extends StatelessWidget {
                       ),
                       Obx(
                         () => Visibility(
-                          visible: createHabitScreenController
+                          visible: _editHabitScreenController
                                       .repeatTypeChoice.value ==
                                   1
                               ? true
@@ -342,18 +356,20 @@ class CreateHabitScreen extends StatelessWidget {
                                   6,
                                   (index) => InkWell(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    onTap: () => createHabitScreenController
-                                        .changeWeeklyListChoice(index),
+                                    onTap: () {
+                                      _editHabitScreenController
+                                          .changeWeeklyListChoice(index);
+                                    },
                                     child: Obx(
                                       () => Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10.0),
-                                          color: createHabitScreenController
+                                          color: _editHabitScreenController
                                                           .weeklyChoiceList[
                                                       index] ==
                                                   true
-                                              ? createHabitScreenController
+                                              ? _editHabitScreenController
                                                   .fillColor.value
                                               : Colors.white24,
                                         ),
@@ -380,7 +396,7 @@ class CreateHabitScreen extends StatelessWidget {
                   SizedBox(height: 10.0),
                   InkWell(
                     onTap: () =>
-                        createHabitScreenController.onRepatTypeChoiceClick(),
+                        _editHabitScreenController.onRepeatTypeChoiceClick(),
                     borderRadius: BorderRadius.circular(10.0),
                     child: Obx(
                       () => Container(
@@ -389,13 +405,12 @@ class CreateHabitScreen extends StatelessWidget {
                         width: Get.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          color: createHabitScreenController
+                          color: _editHabitScreenController
                               .getRepeatTypeChoiceColor(),
                         ),
                         child: Obx(
                           () => Text(
-                            createHabitScreenController
-                                        .repeatTypeChoice.value ==
+                            _editHabitScreenController.repeatTypeChoice.value ==
                                     0
                                 ? 'everyday'
                                 : 'once every two weeks',
@@ -411,7 +426,7 @@ class CreateHabitScreen extends StatelessWidget {
               ),
             ),
 
-            /// [Dòng chữ I will do it in]
+            /// [Dòng chữ I will do it in the]
             _sectionText(
               content: "I will do it in",
               canChange: false,
@@ -429,17 +444,17 @@ class CreateHabitScreen extends StatelessWidget {
                         ...List.generate(
                           3,
                           (index) => InkWell(
-                            onTap: () => createHabitScreenController
+                            onTap: () => _editHabitScreenController
                                 .changeNotiTime(index),
                             borderRadius: BorderRadius.circular(10.0),
                             child: Obx(
                               () => Container(
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: createHabitScreenController
+                                  color: _editHabitScreenController
                                               .notiTimeChoice[index] ==
                                           true
-                                      ? createHabitScreenController
+                                      ? _editHabitScreenController
                                           .fillColor.value
                                       : Colors.white24,
                                   borderRadius: BorderRadius.circular(10.0),
@@ -463,7 +478,7 @@ class CreateHabitScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10.0),
                   InkWell(
-                    onTap: () => createHabitScreenController.changeNotiTime(3),
+                    onTap: () => _editHabitScreenController.changeNotiTime(3),
                     borderRadius: BorderRadius.circular(10.0),
                     child: Obx(
                       () => Container(
@@ -471,11 +486,10 @@ class CreateHabitScreen extends StatelessWidget {
                         width: Get.width,
                         height: 60.0,
                         decoration: BoxDecoration(
-                          color:
-                              createHabitScreenController.notiTimeChoice[3] ==
-                                      true
-                                  ? createHabitScreenController.fillColor.value
-                                  : Colors.white24,
+                          color: _editHabitScreenController.notiTimeChoice[3] ==
+                                  true
+                              ? _editHabitScreenController.fillColor.value
+                              : Colors.white24,
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Text(
@@ -508,10 +522,10 @@ class CreateHabitScreen extends StatelessWidget {
                   ),
                   Obx(
                     () => Switch(
-                      activeColor: createHabitScreenController.fillColor.value,
-                      value: createHabitScreenController.isGetReminder.value,
+                      activeColor: _editHabitScreenController.fillColor.value,
+                      value: _editHabitScreenController.isGetReminder.value,
                       onChanged: (value) =>
-                          createHabitScreenController.changeIsGetReminder(),
+                          _editHabitScreenController.changeIsGetReminder(),
                     ),
                   ),
                 ],
@@ -529,7 +543,7 @@ class CreateHabitScreen extends StatelessWidget {
                     width: 30.0,
                     height: 30.0,
                     decoration: BoxDecoration(
-                      color: createHabitScreenController.fillColor.value
+                      color: _editHabitScreenController.fillColor.value
                           .withOpacity(0.2),
                       borderRadius: BorderRadius.circular(90.0),
                     ),
@@ -575,7 +589,7 @@ class CreateHabitScreen extends StatelessWidget {
                 )
               : Obx(
                   () => Text(
-                    createHabitScreenController.repeatTypeChoice.value == 0
+                    _editHabitScreenController.repeatTypeChoice.value == 0
                         ? 'on these days'
                         : 'as often as',
                     style: TextStyle(fontSize: 20.0),
@@ -601,8 +615,7 @@ class CreateHabitScreen extends StatelessWidget {
     return Row(
       children: [
         InkWell(
-          onTap: () => createHabitScreenController
-              .onChooseIconOrColorButtonClick(index, habitScreenContext),
+          onTap: () => _onChooseIconOrColorButtonClick(index),
           borderRadius: BorderRadius.circular(10.0),
           child: Container(
             width: 60.0,
@@ -634,7 +647,7 @@ class CreateHabitScreen extends StatelessWidget {
   Widget _repeatChoiceWidget(String choiceType, {Color color, int index}) {
     return InkWell(
       onTap: () =>
-          createHabitScreenController.onDayMonthYearReapeatChoiceClick(index),
+          _editHabitScreenController.onDayMonthYearRepeatChoiceClick(index),
       borderRadius: BorderRadius.circular(10.0),
       child: Container(
         alignment: Alignment.center,
@@ -650,5 +663,153 @@ class CreateHabitScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Icon and Color
+  void _onChooseIconOrColorButtonClick(int index) {
+    if (index == 1) {
+      _showColorChoiceDialog();
+    } else {
+      _pickIconForHabit();
+    }
+  }
+
+  /// [Hàm để show dialog cho người dùng chọn màu]
+  void _showColorChoiceDialog() {
+    showDialog(
+      context: context,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Container(
+          width: Get.width * 0.8,
+          height: Get.height * 0.35,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.black87,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                "The color should be",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  decoration: TextDecoration.none,
+                  color: Colors.white,
+                ),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ...List.generate(
+                      3,
+                      (index) => InkWell(
+                        onTap: () {
+                          Get.back();
+                          _editHabitScreenController
+                              .changeFillColor(choiceColors[index]);
+                        },
+                        child: Obx(
+                          () => Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color:
+                                  _editHabitScreenController.fillColor.value ==
+                                          choiceColors[index]
+                                      ? Colors.white24
+                                      : Colors.transparent,
+                            ),
+                            child: Icon(
+                              Icons.circle,
+                              size: 35.0,
+                              color: choiceColors[index],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ...List.generate(
+                      3,
+                      (index) => InkWell(
+                        onTap: () {
+                          Get.back();
+                          _editHabitScreenController
+                              .changeFillColor(choiceColors[index + 3]);
+                        },
+                        child: Obx(
+                          () => Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: _editHabitScreenController
+                                            .fillColor.value ==
+                                        choiceColors[index + 3]
+                                    ? Colors.white24
+                                    : Colors.transparent),
+                            child: Icon(
+                              Icons.circle,
+                              size: 35.0,
+                              color: choiceColors[index + 3],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// [Hàm hiển thị dialog cho người dụng chọn icon]
+  Future<void> _pickIconForHabit() async {
+    IconData icon = await FlutterIconPicker.showIconPicker(
+      context,
+      iconPackMode: IconPack.material,
+      iconSize: 30.0,
+      backgroundColor: Colors.black,
+      closeChild: null,
+      searchHintText: "Search icon...",
+      searchIcon: Icon(
+        Icons.search,
+        color: _editHabitScreenController.fillColor.value,
+      ),
+      iconColor: _editHabitScreenController.fillColor.value,
+      constraints: BoxConstraints(
+        maxHeight: Get.height * 0.5,
+        minWidth: Get.width,
+      ),
+    );
+
+    _editHabitScreenController.changeHabitIcon(icon);
+
+    if (icon != null) debugPrint('Icon code point: ${icon.codePoint}');
+  }
+
+  void _onOnOrOffButtonClick(int index) {
+    _editHabitScreenController.changeSelectedIndex(RxInt(index));
+
+    /// [Nếu người dùng off goal thì sẽ reset lại text trong TextField]
+    if (_editHabitScreenController.selectedIndex.value == 1) {
+      _goalAmountController.text = '';
+    }
   }
 }

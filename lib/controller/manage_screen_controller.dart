@@ -20,7 +20,7 @@ class ManageScreenController extends GetxController {
     Icons.directions_run,
   ];
 
-  void changeScreen(RxInt index) {
-    currentIndex.value = index.value;
+  void changeScreen(int index) {
+    currentIndex.value = index;
   }
 }

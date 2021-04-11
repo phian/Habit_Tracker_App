@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/manage_screen_controller.dart';
-import 'habit_categories_screen.dart';
+import 'habit_categories_screen/habit_categories_screen.dart';
 
 class ManageScreen extends StatelessWidget {
   final ManageScreenController _controller = Get.put(ManageScreenController());
@@ -63,7 +63,7 @@ class ManageScreen extends StatelessWidget {
           size: 30.0,
         ),
         onPressed: () {
-          _controller.changeScreen(RxInt(index));
+          _controller.changeScreen(index);
         },
       ),
     );

@@ -5,4 +5,12 @@ class SuggestedTopic {
   String hinhChuDe;
 
   SuggestedTopic({this.maChuDe, this.tenChuDeGoiY, this.moTa, this.hinhChuDe});
+
+  Map<String, dynamic> toMap() {
+    return {};
+  }
+
+  void fromMap(Map<String, dynamic> data) {
+
+  }
 }

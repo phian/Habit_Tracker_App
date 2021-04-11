@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/database/database_helper.dart';
+import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
-import 'package:habit_tracker/view/view_subfile/habit_category_list_screen/suggest_habit_card.dart';
+import 'package:habit_tracker/view/habit_category_list_screen/suggest_habit_card.dart';
 
 class HabitCategoryListScreenController extends GetxController {
   List<SuggestedHabit> suggestedHabitList;
@@ -46,16 +46,5 @@ class HabitCategoryListScreenController extends GetxController {
         }
       }
     }).catchError((err) => debugPrint(err.toString()));
-  }
-
-  bool onBackButtonPress() {
-    Future.delayed(
-      Duration(milliseconds: 200),
-          () {
-        Get.back();
-      },
-    );
-
-    return true;
   }
 }

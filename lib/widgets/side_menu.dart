@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/view/genaral_screeen.dart';
+import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/general_screen/genaral_screeen.dart';
 import 'package:habit_tracker/view/login_screen.dart';
 import 'package:habit_tracker/view/notification_screen.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';

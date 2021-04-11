@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/login_screen_controller.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   LoginScreenController _loginScreenController = LoginScreenController();
+
   BuildContext _context;
 
   @override
@@ -13,13 +19,13 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFF1E212A),
-      appBar: _losginScreenAppBar(),
+      appBar: _loginScreenAppBar(),
       body: _loginScreenBody(),
     );
   }
 
   /// [App Bar]
-  Widget _losginScreenAppBar() {
+  Widget _loginScreenAppBar() {
     return AppBar(
       backgroundColor: Color(0xFF1E212A),
       centerTitle: true,
@@ -163,20 +169,10 @@ class LoginScreen extends StatelessWidget {
                       FlatButton(
                         minWidth: Get.width,
                         height: 60.0,
-                        onPressed: () =>
-                            _loginScreenController.showSignInNotificationDialog(
-                          context: _context,
+                        onPressed: () => _showSignInNotificationDialog(
                           title: "Sign in success",
                           text: "Let's go and make a plan for today",
                         ),
-                        // CoolAlert.show(
-                        //   context: _context,
-                        //   type: CoolAlertType.success,
-                        //   animType: CoolAlertAnimType.slideInUp,
-                        //   title: "Sign in success",
-                        //   text: "Let's go and make a plan for today",
-                        // );
-
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -373,19 +369,10 @@ class LoginScreen extends StatelessWidget {
                         child: FlatButton(
                           minWidth: Get.width,
                           height: 60.0,
-                          onPressed: () => _loginScreenController
-                              .showSignInNotificationDialog(
-                            context: _context,
+                          onPressed: () => _showSignInNotificationDialog(
                             title: "Sign up success",
                             text: "Let's go and build great habits",
                           ),
-                          // CoolAlert.show(
-                          //   context: _context,
-                          //   type: CoolAlertType.success,
-                          //   animType: CoolAlertAnimType.slideInUp,
-                          //   title: "Sign up success",
-                          //   text: "Let's go and build great habits",
-                          // );
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
                           ),
@@ -437,6 +424,19 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showSignInNotificationDialog({
+    String title,
+    String text,
+  }) async {
+    CoolAlert.show(
+      context: context,
+      type: CoolAlertType.success,
+      animType: CoolAlertAnimType.slideInUp,
+      title: title,
+      text: text,
     );
   }
 }

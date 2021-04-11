@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
-import 'package:habit_tracker/model/side_menu_model.dart';
-import 'package:habit_tracker/view/challenge_time_line_screen.dart';
 
-class ChallengesScreenController extends GetxController with SideMenuModel {
+class ChallengesScreenController extends GetxController {
   List<String> challengeTitles, challengeAmounts, imagePaths;
 
   void initData() {
@@ -36,21 +34,5 @@ class ChallengesScreenController extends GetxController with SideMenuModel {
       "images/relationship_challenge.png",
       "images/morning_challenge.png",
     ];
-  }
-
-  void moveToChallengeScreen({
-    int tag,
-    String title,
-    String challengeAmount,
-    String imagePath,
-  }) {
-    Get.to(
-      ChallengeTimeLineScreen(
-        tag: tag,
-        title: title,
-        challengeAmount: challengeAmount,
-        imagePath: imagePath,
-      ),
-    );
   }
 }

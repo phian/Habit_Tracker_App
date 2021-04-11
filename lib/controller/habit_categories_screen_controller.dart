@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/database/database_helper.dart';
+import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:habit_tracker/model/suggest_topic.dart';
-import 'package:habit_tracker/view/habit_category_list_screen.dart';
-import 'package:habit_tracker/view/view_subfile/habit_categories_screen/habit_category_card.dart';
+import 'package:habit_tracker/view/habit_categories_screen/habit_category_card.dart';
 
 class HabitCategoriesScreenController extends GetxController {
   List<Widget> habitCategoryCards;
@@ -37,17 +36,5 @@ class HabitCategoriesScreenController extends GetxController {
         }
       }
     }).catchError((err) => debugPrint(err.toString()));
-  }
-
-  void onCategoryCardPressed(int index) {
-    if (index != 17) {
-      Get.to(
-        HabitCategoryListScreen(
-          tag: suggestTopicList[index].tenChuDeGoiY,
-          topicId: suggestTopicList[index].maChuDe,
-          imagePath: suggestTopicList[index].hinhChuDe,
-        ),
-      );
-    }
   }
 }

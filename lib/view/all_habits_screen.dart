@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
-import 'package:habit_tracker/view/habit_statistic_screen.dart';
+import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
+import 'package:shrink_sidemenu/src/base.dart';
+import 'package:habit_tracker/view/habit_statistic_screen.dart';
 
-class AllHabitsScreen extends StatelessWidget {
+class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
   final AllHabitController _allHabitController = Get.put(AllHabitController());
-  final GlobalKey<SideMenuState> _allHabitScreenKey =
-      GlobalKey<SideMenuState>(debugLabel: "AllHabitScreenKey");
 
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: _allHabitScreenKey,
+      menuKey: AppConstant.allHabitScreenKey,
       child: Scaffold(
         backgroundColor: Color(0xFF1E212A),
         appBar: _allHabitScreenAppBar(),
@@ -41,8 +41,8 @@ class AllHabitsScreen extends StatelessWidget {
             size: 30.0,
             color: Colors.white,
           ),
-          onPressed: () => _allHabitController.openOrCloseSideMenu(
-            sideMenuKey: _allHabitScreenKey,
+          onPressed: () => openOrCloseSideMenu(
+            AppConstant.allHabitScreenKey,
           ),
         ),
       ),
@@ -110,21 +110,38 @@ class AllHabitsScreen extends StatelessWidget {
               ],
             ),
           ),
-          onTap: () => _allHabitController.moveToHabitStatisticScreen(index),
-          // print(allHabitController.listAllHabit[index].ma);
-          // print(allHabitController.listAllHabit[index].ten);
-          // print(allHabitController.listAllHabit[index].mau);
-          // print(allHabitController.listAllHabit[index].icon);
-          // print(allHabitController.listAllHabit[index].batMucTieu);
-          // print(allHabitController.listAllHabit[index].soLan);
-          // print(allHabitController.listAllHabit[index].donVi);
-          // print(allHabitController.listAllHabit[index].loaiLap);
-          // print(allHabitController.listAllHabit[index].ngayTrongTuan);
-          // print(allHabitController.listAllHabit[index].soLanTrongTuan);
-          // print(allHabitController.listAllHabit[index].buoi);
-          // print(allHabitController.listAllHabit[index].trangThai);
+          onTap: () => _moveToHabitStatisticScreen(index),
+          // print(_allHabitController.listAllHabit[index].ma);
+          // print(_allHabitController.listAllHabit[index].ten);
+          // print(_allHabitController.listAllHabit[index].mau);
+          // print(_allHabitController.listAllHabit[index].icon);
+          // print(_allHabitController.listAllHabit[index].batMucTieu);
+          // print(_allHabitController.listAllHabit[index].soLan);
+          // print(_allHabitController.listAllHabit[index].donVi);
+          // print(_allHabitController.listAllHabit[index].loaiLap);
+          // print(_allHabitController.listAllHabit[index].ngayTrongTuan);
+          // print(_allHabitController.listAllHabit[index].soLanTrongTuan);
+          // print(_allHabitController.listAllHabit[index].buoi);
+          // print(_allHabitController.listAllHabit[index].trangThai);
         );
       },
+    );
+  }
+
+  @override
+  void openOrCloseSideMenu(GlobalKey<SideMenuState> key) {
+    if (key.currentState.isOpened)
+      key.currentState.closeSideMenu();
+    else
+      key.currentState.openSideMenu();
+  }
+
+  /// Navigation
+  void _moveToHabitStatisticScreen(int index) {
+    Get.to(
+      HabitStatisticScreen(),
+      transition: Transition.fadeIn,
+      arguments: _allHabitController.listAllHabit[index],
     );
   }
 }

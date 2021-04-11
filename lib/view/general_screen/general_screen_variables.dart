@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/gernaral_screen_controller.dart';
-import 'package:habit_tracker/model/app_pallete_color.dart';
-import 'package:habit_tracker/view/view_subfile/general_screen/general_screen_item.dart';
+import 'package:habit_tracker/view/general_screen/general_screen_item.dart';
 
 class GeneralScreenVariables {
   List<Widget> generalScreenItems;
@@ -64,11 +64,11 @@ class GeneralScreenVariables {
 
     for (int i = 0; i < 11; i++) {
       generalScreenItems.add(
-        GenralScreenItem(
+        GeneralScreenItem(
           generalScreenController: controller,
           title: titles[i],
           icon: icons[i],
-          iconColor: AppPalleteColor.appPalleteColor[i],
+          iconColor: AppColors.appColors[i],
           isSwitch: isSwitches[i],
           toggle: toggles[i],
         ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
 
-class StepTrackingScreenController extends GetxController with SideMenuModel {
+class StepTrackingScreenController extends GetxController {
   var touchedIndex = (-1).obs;
   var currentData = "Today".obs;
   var timeData = "1h19m".obs;
@@ -64,7 +64,7 @@ class StepTrackingScreenController extends GetxController with SideMenuModel {
     }
   }
 
-  void changeTabAndTrackingData({int index}) {
+  void changeTabAndTrackingData(int index) {
     switch (index) {
       case 0:
         changeSelectedTabIndex(index);

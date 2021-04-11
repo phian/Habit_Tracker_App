@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
-import 'package:habit_tracker/database/database_helper.dart';
 
 class HabitAllNoteScreen extends StatefulWidget {
   HabitAllNoteScreen({Key key}) : super(key: key);
@@ -13,14 +12,23 @@ class HabitAllNoteScreen extends StatefulWidget {
 class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
   HabitAllNoteScreenController _allNoteScreenController;
 
-  // DatabaseHelper _databaseHelper;
-
   @override
   void initState() {
     super.initState();
-
     _allNoteScreenController = Get.put(HabitAllNoteScreenController());
-    _allNoteScreenController.databaseHelper = DatabaseHelper.instance;
+
+    _allNoteScreenController.updateHabitId(Get.arguments);
+    // print(_allNoteScreenController.habitId.value);
+
+    _allNoteScreenController.readDateData().then((value) {
+      setState(() {});
+    }).catchError((err) => debugPrint(err.toString()));
+
+    _allNoteScreenController.readAllNoteData().then((value) {
+      if (value != null && value.length != 0) {
+        setState(() {});
+      }
+    }).catchError((err) => debugPrint(err.toString()));
   }
 
   @override
@@ -30,28 +38,6 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _allNoteScreenController.updateHabitId(Get.arguments);
-    print(_allNoteScreenController.habitId.value);
-
-    _allNoteScreenController.checkControllerState(
-      _allNoteScreenController,
-      _allNoteScreenController.databaseHelper,
-    );
-
-    _allNoteScreenController.readDateData().then((value) {
-      setState(() {});
-    }).catchError((err) => debugPrint(err.toString()));
-
-    _allNoteScreenController
-        .readAllNoteData(
-      controller: _allNoteScreenController,
-    )
-        .then((value) {
-      if (value != null && value.length != 0) {
-        setState(() {});
-      }
-    }).catchError((err) => debugPrint(err.toString()));
-
     return Scaffold(
       backgroundColor: Color(0xFF1E212A),
       appBar: _habitAllNoteScreenAppBar(),

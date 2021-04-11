@@ -2,10 +2,10 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/challenge_time_line_controller.dart';
-import 'package:habit_tracker/view/manage_screen.dart';
-import 'package:habit_tracker/view/view_variables/challenge_time_line_screen_variables.dart';
+import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/challenge_timeline_screen/challenge_time_line_screen_variables.dart';
 import 'package:timeline_list/timeline.dart';
 import 'package:timeline_list/timeline_model.dart';
+import 'package:habit_tracker/view/manage_screen.dart';
 
 class ChallengeTimeLineScreen extends StatefulWidget {
   final int tag;
@@ -181,16 +181,17 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
             controller: aniController,
             startTooltip: '',
             endTooltip: '',
-            onStartIconPress: () => _controller.onBackButtonPress(),
+            onStartIconPress: () => _onBackButtonPress(),
             onEndIconPress: () {
               return true;
             },
             duration: Duration(milliseconds: 200),
-            color: Colors.white,
+            startIconColor: Colors.white,
+            endIconColor: Colors.white,
             clockwise: true,
           ),
         ),
-        onTap: () => _controller.moveToMangeScreen(),
+        onTap: () => _moveToMangeScreen(),
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -351,5 +352,29 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
         ],
       ),
     );
+  }
+
+  /// Handle methods
+  bool _onBackButtonPress() {
+    Future.delayed(
+      Duration(milliseconds: 200),
+          () {
+        Future.delayed(Duration(milliseconds: 200), () {
+          Get.back();
+        });
+      },
+    );
+
+    return true;
+  }
+
+  void _moveToMangeScreen() {
+    Future.delayed(Duration(milliseconds: 200), () {
+      Get.to(
+        ManageScreen(),
+        duration: Duration(milliseconds: 500),
+        transition: Transition.fadeIn,
+      );
+    });
   }
 }

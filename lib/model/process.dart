@@ -19,4 +19,8 @@ class Process {
       'skip': skip ? 1 : 0,
     };
   }
+
+  void fromMap(Map<String, dynamic> data) {
+
+  }
 }

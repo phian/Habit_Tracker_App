@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
-import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/process.dart';
+import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
@@ -19,23 +20,14 @@ class MainScreen extends StatefulWidget {
   MainScreenState createState() => MainScreenState();
 }
 
-class MainScreenState extends State<MainScreen> {
+class MainScreenState extends State<MainScreen> implements SideMenuModel {
   MainScreenController _mainScreenController = Get.put(MainScreenController());
-  HabitStatisticController habitStatisticController =
-      Get.put(HabitStatisticController());
-
-  List<Habit> emptyList = [];
-
-  final GlobalKey<SideMenuState> _mainScreenKey = GlobalKey<SideMenuState>(
-    debugLabel: "MainScreenKey",
-  );
-
-  AllHabitController allHabitController = Get.put(AllHabitController());
+  AllHabitController _allHabitController = Get.put(AllHabitController());
 
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: _mainScreenKey,
+      menuKey: AppConstant.mainScreenKey,
       child: Scaffold(
         backgroundColor: Color(0xFF1E212A),
         appBar: _mainScreenAppBar(),
@@ -55,8 +47,8 @@ class MainScreenState extends State<MainScreen> {
             size: 30.0,
             color: Colors.white,
           ),
-          onPressed: () => _mainScreenController.openOrCloseSideMenu(
-            sideMenuKey: _mainScreenKey,
+          onPressed: () => openOrCloseSideMenu(
+            AppConstant.mainScreenKey,
           ),
         ),
       ),
@@ -91,10 +83,10 @@ class MainScreenState extends State<MainScreen> {
                 endDate: DateTime.now().add(Duration(days: 14)),
                 initialSelectedDate: _mainScreenController.selectedDay.value,
                 onSelectedDateChange: (DateTime dateTime) async {
-                  allHabitController.flag.value = false;
+                  _allHabitController.updateFlagValue(false);
                   _mainScreenController.changeSelectedDay(dateTime);
-                  allHabitController.getHabitByWeekDate(dateTime.weekday);
-                  allHabitController.flag.value = true;
+                  _allHabitController.getHabitByWeekDate(dateTime.weekday);
+                  _allHabitController.updateFlagValue(true);
                 },
                 selectedItemBackgroundColor: Colors.white24,
                 selectedItemTextStyle: TextStyle(
@@ -140,21 +132,21 @@ class MainScreenState extends State<MainScreen> {
                         child: TabBarView(
                           physics: NeverScrollableScrollPhysics(),
                           children: <Widget>[
-                            allHabitController.flag.value == true
+                            _allHabitController.flag.value == true
                                 ? _listHabit(
-                                    allHabitController.listAnytimeHabit)
+                                    _allHabitController.listAnytimeHabit)
                                 : Container(),
-                            allHabitController.flag.value == true
+                            _allHabitController.flag.value == true
                                 ? _listHabit(
-                                    allHabitController.listMorningHabit)
+                                    _allHabitController.listMorningHabit)
                                 : Container(),
-                            allHabitController.flag.value == true
+                            _allHabitController.flag.value == true
                                 ? _listHabit(
-                                    allHabitController.listAfternoonHabit)
+                                    _allHabitController.listAfternoonHabit)
                                 : Container(),
-                            allHabitController.flag.value == true
+                            _allHabitController.flag.value == true
                                 ? _listHabit(
-                                    allHabitController.listEveningHabit)
+                                    _allHabitController.listEveningHabit)
                                 : Container(),
                           ],
                         ),
@@ -181,20 +173,20 @@ class MainScreenState extends State<MainScreen> {
               ),
               separatorBuilder: (BuildContext context, int index) =>
                   SizedBox(height: 10),
-              itemBuilder: (BuildContext context, int index) {
-                int i = allHabitController.listHabitProcess.indexWhere(
+              itemBuilder: (context, index) {
+                int i = _allHabitController.listHabitProcess.indexWhere(
                     (e) => e.maThoiQuen == _habitDataList[index].ma);
 
-                if (allHabitController.listHabitProcess[i].ketQua == -1 ||
-                    allHabitController.listHabitProcess[i].ketQua ==
+                if (_allHabitController.listHabitProcess[i].ketQua == -1 ||
+                    _allHabitController.listHabitProcess[i].ketQua ==
                             _habitDataList[index].soLan &&
                         _habitDataList[index].batMucTieu == 0 ||
-                    allHabitController.listHabitProcess[i].skip == true) {
+                    _allHabitController.listHabitProcess[i].skip == true) {
                   return swipeRightHabit(_habitDataList[index],
-                      allHabitController.listHabitProcess[i]);
+                      _allHabitController.listHabitProcess[i]);
                 } else {
                   return swipeHabit(_habitDataList[index],
-                      allHabitController.listHabitProcess[i]);
+                      _allHabitController.listHabitProcess[i]);
                 }
               },
             ))
@@ -240,7 +232,7 @@ class MainScreenState extends State<MainScreen> {
               habitGoal: habit.batMucTieu,
               habit: habit,
             );
-            allHabitController.updateProcess(process);
+            _allHabitController.updateProcess(process);
             print('done');
             setState(() {});
           },
@@ -260,7 +252,7 @@ class MainScreenState extends State<MainScreen> {
             onTap: (CompletionHandler handler) async {
               handler(false);
               process.ketQua++;
-              allHabitController.updateProcess(process);
+              _allHabitController.updateProcess(process);
               print('1');
               setState(() {});
             },
@@ -281,16 +273,16 @@ class MainScreenState extends State<MainScreen> {
           onTap: (CompletionHandler handler) async {
             handler(false);
             process.skip = true;
-            allHabitController.updateProcess(process);
+            _allHabitController.updateProcess(process);
             print('Skip');
             setState(() {});
           },
           color: Colors.transparent,
         ),
       ],
-      child: habitTile(
+      child: _habitTile(
           habit,
-          allHabitController.listHabitProcess.indexWhere(
+          _allHabitController.listHabitProcess.indexWhere(
               (element) => element.maThoiQuen == process.maThoiQuen)),
     );
   }
@@ -315,7 +307,7 @@ class MainScreenState extends State<MainScreen> {
           onTap: (CompletionHandler handler) async {
             handler(false);
             process.skip = true;
-            _mainScreenController.moveToHabitNoteScreen(habit);
+            _moveToHabitNoteScreen(habit);
             print('Note');
             setState(() {});
           },
@@ -335,22 +327,22 @@ class MainScreenState extends State<MainScreen> {
             handler(false);
             process.skip = false;
             process.ketQua = 0;
-            allHabitController.updateProcess(process);
+            _allHabitController.updateProcess(process);
             print('Undo');
             setState(() {});
           },
           color: Colors.transparent,
         ),
       ],
-      child: habitTile(
+      child: _habitTile(
         habit,
-        allHabitController.listHabitProcess
+        _allHabitController.listHabitProcess
             .indexWhere((element) => element.maThoiQuen == process.maThoiQuen),
       ),
     );
   }
 
-  Widget habitTile(Habit habit, int index) {
+  Widget _habitTile(Habit habit, int index) {
     return Obx(
       () => GestureDetector(
         child: Container(
@@ -367,11 +359,11 @@ class MainScreenState extends State<MainScreen> {
                 child: Icon(
                   IconData(habit.icon, fontFamily: 'MaterialIcons'),
                   size: 50,
-                  color: allHabitController.listHabitProcess[index].skip ==
+                  color: _allHabitController.listHabitProcess[index].skip ==
                               true ||
-                          allHabitController.listHabitProcess[index].ketQua ==
+                          _allHabitController.listHabitProcess[index].ketQua ==
                               -1 ||
-                          allHabitController.listHabitProcess[index].ketQua ==
+                          _allHabitController.listHabitProcess[index].ketQua ==
                                   habit.soLan &&
                               habit.soLan != 0
                       ? Colors.grey
@@ -393,19 +385,20 @@ class MainScreenState extends State<MainScreen> {
                       Text(
                         habit.ten,
                         style: TextStyle(
-                            fontSize: 22,
-                            decoration: allHabitController
-                                            .listHabitProcess[index].ketQua ==
-                                        -1 ||
-                                    allHabitController.listHabitProcess[index]
-                                                .ketQua ==
-                                            habit.soLan &&
-                                        habit.soLan != 0
-                                ? TextDecoration.lineThrough
-                                : TextDecoration.none),
+                          fontSize: 22,
+                          decoration: _allHabitController
+                                          .listHabitProcess[index].ketQua ==
+                                      -1 ||
+                                  _allHabitController
+                                              .listHabitProcess[index].ketQua ==
+                                          habit.soLan &&
+                                      habit.soLan != 0
+                              ? TextDecoration.lineThrough
+                              : TextDecoration.none,
+                        ),
                         maxLines: 2,
                       ),
-                      if (allHabitController.listHabitProcess[index].skip ==
+                      if (_allHabitController.listHabitProcess[index].skip ==
                           true)
                         Text(
                           'Skipped',
@@ -426,13 +419,16 @@ class MainScreenState extends State<MainScreen> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        allHabitController.listHabitProcess[index].ketQua
+                        _allHabitController.listHabitProcess[index].ketQua
                                 .toString() +
                             '/' +
                             habit.soLan.toString(),
                         style: TextStyle(
-                            fontSize: 20,
-                            color: Color(int.parse(habit.mau, radix: 16))),
+                          fontSize: 20,
+                          color: Color(
+                            int.parse(habit.mau, radix: 16),
+                          ),
+                        ),
                       ),
                       Text(
                         habit.donVi,
@@ -444,8 +440,33 @@ class MainScreenState extends State<MainScreen> {
             ],
           ),
         ),
-        onTap: () => _mainScreenController.moveToHabitStatisticScreen(habit),
+        onTap: () => _moveToHabitStatisticScreen(habit),
       ),
+    );
+  }
+
+  @override
+  void openOrCloseSideMenu(GlobalKey<SideMenuState> key) {
+    if (key.currentState.isOpened)
+      key.currentState.closeSideMenu();
+    else
+      key.currentState.openSideMenu();
+  }
+
+  /// Navigation
+  void _moveToHabitStatisticScreen(Habit habit) {
+    Get.to(
+      HabitStatisticScreen(),
+      arguments: habit,
+      transition: Transition.fadeIn,
+    );
+  }
+
+  void _moveToHabitNoteScreen(Habit habit) {
+    Get.to(
+      HabitNoteScreen(),
+      arguments: habit.ma,
+      transition: Transition.fadeIn,
     );
   }
 }

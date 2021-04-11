@@ -40,13 +40,12 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
     return Hero(
       tag: widget.tag,
       child: Scaffold(
-        // appBar: ,
         body: _createHabitScreenBody(),
       ),
     );
   }
 
-  // Widget chứa body của màn hình
+  /// Widget chứa body của màn hình
   Widget _createHabitScreenBody() {
     return CustomScrollView(
       physics: BouncingScrollPhysics(
@@ -60,7 +59,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
     );
   }
 
-  // Appbar
+  /// Appbar
   Widget _suggestHabitScreenAppBar() {
     return SliverAppBar(
       expandedHeight: Get.size.height * 0.2,
@@ -106,10 +105,11 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
             controller: _aniController,
             startTooltip: '',
             endTooltip: '',
-            onStartIconPress: () => _controller.onBackButtonPress(),
+            onStartIconPress: () => _onBackButtonPress(),
             onEndIconPress: () => true,
             duration: Duration(milliseconds: 200),
-            color: Colors.white,
+            startIconColor: Colors.white,
+            endIconColor: Colors.white,
             clockwise: true,
           ),
         ),
@@ -132,7 +132,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
     );
   }
 
-  // Body
+  /// Body
   Widget _suggestHabitScreenBody() {
     return SliverToBoxAdapter(
       child: Container(
@@ -165,5 +165,16 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
         ),
       ),
     );
+  }
+
+  bool _onBackButtonPress() {
+    Future.delayed(
+      Duration(milliseconds: 200),
+          () {
+        Get.back();
+      },
+    );
+
+    return true;
   }
 }

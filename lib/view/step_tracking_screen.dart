@@ -1,19 +1,17 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/step_tracking_screen_controller.dart';
+import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
+import 'package:shrink_sidemenu/src/base.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-class StepTackingScreen extends StatelessWidget {
+class StepTackingScreen extends StatelessWidget implements SideMenuModel {
   final StepTrackingScreenController _controller =
       StepTrackingScreenController();
 
-  final GlobalKey<SideMenuState> _stepTrackingScreenKey =
-      GlobalKey<SideMenuState>(
-    debugLabel: "StepTrackingScreenKey",
-  );
   final List<Color> gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
@@ -22,7 +20,7 @@ class StepTackingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: _stepTrackingScreenKey,
+      menuKey: AppConstant.stepTrackingScreenKey,
       child: Scaffold(
         appBar: _stepTrackingScreenAppBar(),
         body: _stepTrackingScreenBody(),
@@ -48,8 +46,8 @@ class StepTackingScreen extends StatelessWidget {
             size: 30.0,
             color: Colors.white,
           ),
-          onPressed: () => _controller.openOrCloseSideMenu(
-            sideMenuKey: _stepTrackingScreenKey,
+          onPressed: () => openOrCloseSideMenu(
+            AppConstant.stepTrackingScreenKey,
           ),
         ),
       ),
@@ -90,7 +88,7 @@ class StepTackingScreen extends StatelessWidget {
                     color: Colors.black12,
                     child: TabBar(
                       onTap: (index) =>
-                          _controller.changeTabAndTrackingData(index: index),
+                          _controller.changeTabAndTrackingData(index),
                       isScrollable: true,
                       labelColor: Colors.white,
                       unselectedLabelColor: Colors.white24,
@@ -344,40 +342,42 @@ class StepTackingScreen extends StatelessWidget {
 
   /// [Biểu đồ tròn cho ngày]
   Widget _dayChart() {
-    return Container(
-      width: Get.width * 0.7,
-      height: Get.width * 0.6,
-      transform: Matrix4.translationValues(0.0, -5.0, 0.0),
-      child: CircularStepProgressIndicator(
-        totalSteps: 100,
-        currentStep: (int.parse(_controller.totalSteps.value) /
-                _controller.goalSteps.value *
-                100)
-            .toInt(),
-        stepSize: 10,
-        selectedColor: Colors.greenAccent,
-        unselectedColor: Colors.grey[200],
-        padding: 0,
-        selectedStepSize: 15,
-        roundedCap: (_, __) => true,
-        child: Stack(
-          children: [
-            Center(
-              child: Text(
-                "Progress: " +
-                    (int.parse(_controller.totalSteps.value) /
-                            _controller.goalSteps.value *
-                            100)
-                        .toString()
-                        .substring(0, 2) +
-                    " %",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500,
+    return Transform.translate(
+      offset: Offset(0.0, -5.0),
+      child: Container(
+        width: Get.width * 0.7,
+        height: Get.width * 0.6,
+        child: CircularStepProgressIndicator(
+          totalSteps: 100,
+          currentStep: (int.parse(_controller.totalSteps.value) /
+                  _controller.goalSteps.value *
+                  100)
+              .toInt(),
+          stepSize: 10,
+          selectedColor: Colors.greenAccent,
+          unselectedColor: Colors.grey[200],
+          padding: 0,
+          selectedStepSize: 15,
+          roundedCap: (_, __) => true,
+          child: Stack(
+            children: [
+              Center(
+                child: Text(
+                  "Progress: " +
+                      (int.parse(_controller.totalSteps.value) /
+                              _controller.goalSteps.value *
+                              100)
+                          .toString()
+                          .substring(0, 2) +
+                      " %",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -428,36 +428,12 @@ class StepTackingScreen extends StatelessWidget {
   }
 
   /// [Showing group]
-  List<BarChartGroupData> _showingGroups() => List.generate(7, (i) {
-        return _controller.initBarChartGroupDataList(i);
-      });
-
-  /// [Tạo data cho Bar Chart, phần hiển thị khi người dùng chạm vào cột, x và y là data]
-  BarChartGroupData _makeGroupData(
-    int x,
-    double y, {
-    bool isTouched = false,
-    Color barColor = Colors.white,
-    double width = 22,
-    List<int> showTooltips = const [],
-  }) {
-    return BarChartGroupData(
-      x: x,
-      barRods: [
-        BarChartRodData(
-          y: isTouched ? y + 1 : y, // Zoom cột
-          colors: isTouched ? [Color(0xFF1C8EFE)] : [barColor],
-          width: width,
-          backDrawRodData: BackgroundBarChartRodData(
-            show: true,
-            y: 20,
-            colors: [Colors.white24],
-          ),
-        ),
-      ],
-      showingTooltipIndicators: showTooltips,
-    );
-  }
+  List<BarChartGroupData> _showingGroups() => List.generate(
+        7,
+        (i) {
+          return _controller.initBarChartGroupDataList(i);
+        },
+      );
 
   /// [Chart cho tháng]
   LineChartData _monthChart() {
@@ -539,5 +515,13 @@ class StepTackingScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  @override
+  void openOrCloseSideMenu(GlobalKey<SideMenuState> key) {
+    if (key.currentState.isOpened)
+      key.currentState.closeSideMenu();
+    else
+      key.currentState.openSideMenu();
   }
 }

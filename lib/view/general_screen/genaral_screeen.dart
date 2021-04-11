@@ -68,8 +68,11 @@ class GeneralScreen extends StatelessWidget {
   }
 
   /// [Separate widget]
-  Widget _generalScreenSeparateWidget(
-      {double height, Color color, bool isSizedBox}) {
+  Widget _generalScreenSeparateWidget({
+    double height,
+    Color color,
+    bool isSizedBox,
+  }) {
     return isSizedBox != null
         ? SizedBox(height: height)
         : Container(

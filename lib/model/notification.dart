@@ -19,4 +19,8 @@ class Notification {
       'gio_thong_bao_cuoi_ngay': gioThongBaoCuoiNgay,
     };
   }
+
+  void fromMap(Map<String, dynamic> map) {
+
+  }
 }

@@ -5,17 +5,26 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 
-import 'package:habit_tracker/view/habit_all_note_screen.dart';
+import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/habit_all_note_screen/habit_all_note_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import 'edit_habit_screen.dart';
+import 'create_and_edit_habit_screen/edit_habit_screen.dart';
 
-class HabitStatisticScreen extends StatelessWidget {
+class HabitStatisticScreen extends StatefulWidget {
+  @override
+  _HabitStatisticScreenState createState() => _HabitStatisticScreenState();
+}
+
+class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   BuildContext _context;
+
   AnimateIconController _controller = AnimateIconController();
-  HabitStatisticController _habitStatisticController = Get.find();
+
+  HabitStatisticController _habitStatisticController =
+      Get.put(HabitStatisticController());
 
   CalendarController _calendarController = CalendarController();
+
   AllHabitController _habitController = Get.put(AllHabitController());
 
   @override
@@ -43,11 +52,11 @@ class HabitStatisticScreen extends StatelessWidget {
             controller: _controller,
             startTooltip: '',
             endTooltip: '',
-            onStartIconPress: () =>
-                _habitStatisticController.onBackButtonPress(),
+            onStartIconPress: () => _onBackButtonPress(),
             onEndIconPress: () => true,
             duration: Duration(milliseconds: 200),
-            color: Colors.white,
+            startIconColor: Colors.white,
+            endIconColor: Colors.white,
             clockwise: true,
           ),
           onPressed: null,
@@ -68,8 +77,7 @@ class HabitStatisticScreen extends StatelessWidget {
                   width: 50.0,
                   alignment: Alignment.center,
                   child: InkWell(
-                    onTap: () =>
-                        _habitStatisticController.moveToEditHabitScreen(),
+                    onTap: () => _moveToEditHabitScreen(),
                     borderRadius: BorderRadius.circular(90.0),
                     child: Container(
                       alignment: Alignment.center,
@@ -95,8 +103,8 @@ class HabitStatisticScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Obx(
                     () => InkWell(
-                      onTap: () => _habitStatisticController
-                          .onPopMenuPauseItemPress(_context),
+                      onTap: () =>
+                          _onPopMenuPauseItemPress(),
                       borderRadius: BorderRadius.circular(90.0),
                       child: Container(
                         alignment: Alignment.center,
@@ -124,8 +132,7 @@ class HabitStatisticScreen extends StatelessWidget {
                   height: 50.0,
                   width: 50.0,
                   child: InkWell(
-                    onTap: () => _habitStatisticController.showDeleteDialog(
-                        _context, _habitController),
+                    onTap: () => _showDeleteDialog(),
                     borderRadius: BorderRadius.circular(90.0),
                     child: Container(
                       alignment: Alignment.center,
@@ -150,8 +157,7 @@ class HabitStatisticScreen extends StatelessWidget {
                   width: 50.0,
                   alignment: Alignment.center,
                   child: InkWell(
-                    onTap: () =>
-                        _habitStatisticController.moveToHabitAllNoteScreen(),
+                    onTap: () => _moveToHabitAllNoteScreen(),
                     borderRadius: BorderRadius.circular(90.0),
                     child: Container(
                       alignment: Alignment.center,
@@ -511,6 +517,177 @@ class HabitStatisticScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  bool _onBackButtonPress() {
+    Future.delayed(
+      Duration(milliseconds: 200),
+      () {
+        Get.back();
+      },
+    );
+
+    return true;
+  }
+
+  /// [Pause dialog]
+  void _onPopMenuPauseItemPress() {
+    if (_habitStatisticController.isResumeHabit.value) {
+      _showPauseDialog();
+    } else {
+      _habitStatisticController.changeIsResumeHabit();
+    }
+  }
+
+  void _showPauseDialog() async {
+    Dialog pauseDialog = Dialog(
+      backgroundColor: Color(0xFF2F313E),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0)), //this right here
+      child: Container(
+        height: Get.height * 0.2,
+        width: Get.width * 0.7,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                "Paused a habit? It's still on your schedule and can be resued when you're ready",
+                style: TextStyle(
+                  color: Color(0xFFA7AAB1),
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+            SizedBox(height: 10.0),
+            Container(
+              alignment: Alignment.bottomRight,
+              child: FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                onPressed: () => _onPauseItemButtonPressed(),
+                child: Text(
+                  'Got it',
+                  style: TextStyle(color: Color(0xFF1C8EFE), fontSize: 18.0),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => pauseDialog,
+    );
+  }
+
+  void _onPauseItemButtonPressed() {
+    _habitStatisticController.changeIsResumeHabit();
+    Get.back();
+  }
+
+  /// [Delete dialog]
+  void _showDeleteDialog() async {
+    Dialog deleteDialog = Dialog(
+      backgroundColor: Color(0xFF2F313E),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0)), //this right here
+      child: Container(
+        height: Get.height * 0.2,
+        width: Get.width * 0.7,
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: Get.height * 0.2 * 0.1),
+              child: Text(
+                "Delete habit?",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(height: 10.0),
+            Container(
+              child: ListTile(
+                onTap: () => onDeleteHabitButtonPressed(),
+                leading: Icon(
+                  Icons.restore_outlined,
+                  size: 20.0,
+                  color: Color(0xFFFE7352),
+                ),
+                title: Text(
+                  "Clear history",
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: 1.0,
+              color: Color(0xFF1E212A),
+            ),
+            Container(
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10.0),
+                    bottomRight: Radius.circular(10.0),
+                  ),
+                ),
+                onTap: () => onDeleteHabitButtonPressed(),
+                leading: Icon(
+                  Icons.auto_delete,
+                  size: 20.0,
+                  color: Color(0xFFF53566),
+                ),
+                title: Text(
+                  "Delete habit and clear history",
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => deleteDialog,
+    );
+  }
+
+  void onDeleteHabitButtonPressed() {
+    _habitController.deleteHabit(_habitStatisticController.habit.value);
+    Get.back();
+  }
+
+  /// [Move to habit all note screen]
+  void _moveToHabitAllNoteScreen() {
+    Get.back();
+    Get.to(
+      HabitAllNoteScreen(),
+      transition: Transition.fadeIn,
+      arguments: _habitStatisticController.habit.value.ma,
+    );
+  }
+
+  /// [Move to edit habit screen]
+  void _moveToEditHabitScreen() {
+    Get.back();
+    Get.to(
+      EditHabitScreen(),
+      arguments: _habitStatisticController.habit.value,
+      transition: Transition.fadeIn,
     );
   }
 }

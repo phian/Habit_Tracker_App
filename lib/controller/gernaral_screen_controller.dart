@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:habit_tracker/view/view_variables/general_screen_variables.dart';
+import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/general_screen/general_screen_variables.dart';
 
 class GeneralScreenController extends GetxController {
   var isOcIconBadge = true.obs;

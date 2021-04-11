@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/database/database_helper.dart';
-import 'package:habit_tracker/view/view_subfile/habit_all_note_screen/date_divider.dart';
-import 'package:habit_tracker/view/view_subfile/habit_all_note_screen/note_content_card.dart';
+import 'package:habit_tracker/service/database/database_helper.dart';
+import 'package:habit_tracker/view/habit_all_note_screen/date_divider.dart';
+import 'package:habit_tracker/view/habit_all_note_screen/note_content_card.dart';
 
 class HabitAllNoteScreenController extends GetxController {
   var habitId = 1.obs;
@@ -17,14 +17,6 @@ class HabitAllNoteScreenController extends GetxController {
 
   updateHabitId(int data) {
     if (data != null) habitId.value = data;
-  }
-
-  void checkControllerState(
-      HabitAllNoteScreenController controller, DatabaseHelper databaseHelper) {
-    if (controller.isClosed) {
-      controller = Get.put(HabitAllNoteScreenController());
-      databaseHelper = DatabaseHelper.instance;
-    }
   }
 
   void initData() async {}
@@ -51,25 +43,23 @@ class HabitAllNoteScreenController extends GetxController {
   }
 
   /// [Read all note content]
-  Future<Map<String, dynamic>> readAllNoteData({
-    HabitAllNoteScreenController controller,
-  }) async {
-    return await databaseHelper.readAllNoteData().then((value) {
+  Future<Map<String, dynamic>> readAllNoteData() async {
+    return databaseHelper.readAllNoteData().then((value) {
       if (value.length != 0) {
         for (int i = 0; i < value.length; i++) {
           if (checkIfContentExist(value[i]['noi_dung'].toString()) == false) {
             noteContent.add(value[i]['noi_dung'].toString());
-            updateNoteContentData(value[i]['noi_dung'].toString());
+            noteContentText.value = value[i]['noi_dung'].toString();
             noteContentBoxes.add(NoteContentCard(
               content: noteContentText,
-              controller: controller,
+              controller: this,
             ));
           } else {
             noteContent[i] = value[i]['noi_dung'].toString();
-            updateNoteContentData(value[i]['noi_dung'].toString());
+            noteContentText.value = value[i]['noi_dung'].toString();
             noteContentBoxes[i] = NoteContentCard(
               content: noteContentText,
-              controller: controller,
+              controller: this,
             );
           }
         }
@@ -90,9 +80,5 @@ class HabitAllNoteScreenController extends GetxController {
       return true;
     }
     return false;
-  }
-
-  updateNoteContentData(String data) {
-    noteContentText.value = data;
   }
 }

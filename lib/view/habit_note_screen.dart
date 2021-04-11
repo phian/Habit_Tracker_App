@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/note_screen_controller.dart';
-import 'package:habit_tracker/database/database_helper.dart';
-import 'package:habit_tracker/model/diary.dart';
-import 'package:intl/intl.dart';
 
 class HabitNoteScreen extends StatefulWidget {
   HabitNoteScreen({Key key}) : super(key: key);
@@ -14,6 +11,7 @@ class HabitNoteScreen extends StatefulWidget {
 
 class _HabitNoteScreenState extends State<HabitNoteScreen> {
   NoteScreenController _noteScreenController;
+  TextEditingController _noteController;
 
   @override
   void initState() {
@@ -21,7 +19,11 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
 
     _noteScreenController = Get.put(NoteScreenController());
     _noteScreenController.checkAndUpdateHabitId(Get.arguments);
-    _noteScreenController.readDataForTextController();
+    _noteScreenController.readDataForTextController().then((value) {
+      _noteController = TextEditingController(
+        text: _noteScreenController.initTextFieldData.value,
+      );
+    });
   }
 
   @override
@@ -64,7 +66,9 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          onPressed: () => _noteScreenController.saveHabitNoteData(),
+          onPressed: () => _noteScreenController.saveHabitNoteData(
+            _noteController.text,
+          ),
           child: Text(
             "Done",
             style: TextStyle(
@@ -85,7 +89,7 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
         scrollPhysics: AlwaysScrollableScrollPhysics(
           parent: BouncingScrollPhysics(),
         ),
-        controller: _noteScreenController.noteController,
+        controller: _noteController,
         maxLines: Get.height.toInt(),
         keyboardType: TextInputType.multiline,
         style: TextStyle(fontSize: 22.0),

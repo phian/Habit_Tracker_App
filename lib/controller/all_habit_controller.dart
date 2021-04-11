@@ -1,14 +1,14 @@
 import 'dart:io';
+
 import 'package:get/get.dart';
-import 'package:habit_tracker/database/database_helper.dart';
+import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
-import 'package:habit_tracker/model/side_menu_model.dart';
-import 'package:habit_tracker/view/habit_statistic_screen.dart';
 import 'package:intl/intl.dart';
+
 import 'main_screen_controller.dart';
 
-class AllHabitController extends GetxController with SideMenuModel {
+class AllHabitController extends GetxController {
   var listAllHabit = List<Habit>().obs;
   var listAnytimeHabit = List<Habit>().obs;
   var listMorningHabit = List<Habit>().obs;
@@ -128,11 +128,7 @@ class AllHabitController extends GetxController with SideMenuModel {
     await getAllHabit();
   }
 
-  void moveToHabitStatisticScreen(int index) {
-    Get.to(
-      HabitStatisticScreen(),
-      transition: Transition.fadeIn,
-      arguments: listAllHabit[index],
-    );
+  void updateFlagValue(bool value) {
+    flag.value = value;
   }
 }

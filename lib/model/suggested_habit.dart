@@ -26,4 +26,12 @@ class SuggestedHabit {
     this.soLanTrongTuan,
     this.buoi,
   });
+
+  Map<String, dynamic> toMap() {
+    return {};
+  }
+
+  void fromMap(Map<String, dynamic> data) {
+
+  }
 }

@@ -75,8 +75,6 @@ final List<Map<String, dynamic>> unitTypes = [
   },
 ];
 
-BuildContext habitScreenContext;
-
 class CustomRangeTextInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(

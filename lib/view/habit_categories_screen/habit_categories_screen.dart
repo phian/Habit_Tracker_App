@@ -2,12 +2,10 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_categories_screen_controller.dart';
-import 'package:habit_tracker/database/database_helper.dart';
-import 'package:habit_tracker/model/suggest_topic.dart';
-import 'package:habit_tracker/view/habit_category_list_screen.dart';
-import 'package:habit_tracker/view/view_subfile/habit_categories_screen/create_your_own_card.dart';
+import 'package:habit_tracker/service/database/database_helper.dart';
+import 'create_your_own_card.dart';
 
-import 'create_habit_screen.dart';
+import '../habit_category_list_screen/habit_category_list_screen.dart';
 
 class HabitCategoriesScreen extends StatefulWidget {
   HabitCategoriesScreen({Key key}) : super(key: key);
@@ -66,7 +64,8 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
               return true;
             },
             duration: Duration(milliseconds: 200),
-            color: Colors.white,
+            startIconColor: Colors.white,
+            endIconColor: Colors.white,
             clockwise: true,
           ),
           onPressed: null,
@@ -168,8 +167,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                           child: InkWell(
                             highlightColor: Colors.transparent,
                             borderRadius: BorderRadius.circular(20.0),
-                            onTap: () => _categoriesScreenController
-                                .onCategoryCardPressed(index),
+                            onTap: () => _onCategoryCardPressed(index),
                             child: _categoriesScreenController
                                 .habitCategoryCards[index],
                           ),
@@ -184,5 +182,18 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
         ],
       ),
     );
+  }
+
+  void _onCategoryCardPressed(int index) {
+    if (index != 17) {
+      Get.to(
+        HabitCategoryListScreen(
+          tag: _categoriesScreenController.suggestTopicList[index].tenChuDeGoiY,
+          topicId: _categoriesScreenController.suggestTopicList[index].maChuDe,
+          imagePath:
+              _categoriesScreenController.suggestTopicList[index].hinhChuDe,
+        ),
+      );
+    }
   }
 }

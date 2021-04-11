@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
-import 'package:habit_tracker/view/manage_screen.dart';
-import 'package:habit_tracker/view/view_variables/challenge_time_line_screen_variables.dart';
+import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/challenge_timeline_screen/challenge_time_line_screen_variables.dart';
 
 class ChallengeTimelineScreenController extends GetxController {
   List<ChallengeInfo> challengeList = [];
@@ -69,28 +68,5 @@ class ChallengeTimelineScreenController extends GetxController {
           break;
       }
     }
-  }
-
-  void moveToMangeScreen() {
-    Future.delayed(Duration(milliseconds: 200), () {
-      Get.to(
-        ManageScreen(),
-        duration: Duration(milliseconds: 500),
-        transition: Transition.fadeIn,
-      );
-    });
-  }
-
-  bool onBackButtonPress() {
-    Future.delayed(
-      Duration(milliseconds: 200),
-      () {
-        Future.delayed(Duration(milliseconds: 200), () {
-          Get.back();
-        });
-      },
-    );
-
-    return true;
   }
 }

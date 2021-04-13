@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1009484410181-m704damereab8d6r80uvn9886o6a0fmm.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1009484410181-m704damereab8d6r80uvn9886o6a0fmm</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1009484410181-0etodg3js327occj5omm0vm4r7k1ba23.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCx1IJyHCdTDK7MRYVKIZhprWuhAB2w35w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1009484410181</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.habitTracker</string>
+	<key>PROJECT_ID</key>
+	<string>habitracker-anduy</string>
+	<key>STORAGE_BUCKET</key>
+	<string>habitracker-anduy.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1009484410181:ios:d29e9509caaaf8c3e0a22c</string>
+</dict>
+</plist>

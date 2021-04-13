@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1009484410181",
+    "project_id": "habitracker-anduy",
+    "storage_bucket": "habitracker-anduy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009484410181:android:4ebeb131a17cd466e0a22c",
+        "android_client_info": {
+          "package_name": "com.example.habit_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009484410181-0etodg3js327occj5omm0vm4r7k1ba23.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.habit_tracker",
+            "certificate_hash": "7276176a78cb120916eaad39942161ea152297f8"
+          }
+        },
+        {
+          "client_id": "1009484410181-i82ag99d48pouglcpf2g8ug1b2lvpsv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUTZjUeZGGulJM4JYcRAxfFpE0POplNTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009484410181-i82ag99d48pouglcpf2g8ug1b2lvpsv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

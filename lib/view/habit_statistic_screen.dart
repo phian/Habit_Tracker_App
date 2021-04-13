@@ -4,11 +4,10 @@ import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.da
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
-
-import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/habit_all_note_screen/habit_all_note_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'create_and_edit_habit_screen/edit_habit_screen.dart';
+import 'habit_all_note_screen/habit_all_note_screen.dart';
 
 class HabitStatisticScreen extends StatefulWidget {
   @override

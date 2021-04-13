@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/challenge_timeline_screen/challenge_time_line_screen_variables.dart';
+
+import '../view/challenge_timeline_screen/challenge_time_line_screen_variables.dart';
 
 class ChallengeTimelineScreenController extends GetxController {
   List<ChallengeInfo> challengeList = [];

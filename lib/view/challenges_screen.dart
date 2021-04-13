@@ -6,7 +6,8 @@ import 'package:habit_tracker/controller/challenges_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/src/base.dart';
-import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/challenge_timeline_screen/challenge_timeline_screen.dart';
+
+import 'challenge_timeline_screen/challenge_timeline_screen.dart';
 
 class ChallengesScreen extends StatefulWidget {
   ChallengesScreen({Key key}) : super(key: key);

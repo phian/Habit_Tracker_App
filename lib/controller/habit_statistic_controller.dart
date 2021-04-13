@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
-import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/create_and_edit_habit_screen/edit_habit_screen.dart';
-import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/habit_all_note_screen/habit_all_note_screen.dart';
 
 class HabitStatisticController extends GetxController {
   var habit = Habit().obs;

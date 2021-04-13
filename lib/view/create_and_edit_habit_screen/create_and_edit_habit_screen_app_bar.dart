@@ -3,7 +3,8 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
-import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/create_and_edit_habit_screen/create_habit_screen_variables.dart';
+
+import '../challenge_timeline_screen/challenge_time_line_screen_variables.dart';
 
 class CreateAndEditHabitScreenAppBar extends StatefulWidget {
   final CreateHabitScreenController controller;

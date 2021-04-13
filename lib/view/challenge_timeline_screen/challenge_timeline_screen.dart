@@ -2,10 +2,11 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/challenge_time_line_controller.dart';
-import 'file:///D:/DDisk/source/Android_DoAnFlutterJava/habit_tracker/lib/view/challenge_timeline_screen/challenge_time_line_screen_variables.dart';
+import 'package:habit_tracker/view/manage_screen.dart';
 import 'package:timeline_list/timeline.dart';
 import 'package:timeline_list/timeline_model.dart';
-import 'package:habit_tracker/view/manage_screen.dart';
+
+import 'challenge_time_line_screen_variables.dart';
 
 class ChallengeTimeLineScreen extends StatefulWidget {
   final int tag;

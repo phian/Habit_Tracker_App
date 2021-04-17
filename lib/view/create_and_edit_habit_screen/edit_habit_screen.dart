@@ -25,13 +25,14 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
   @override
   void initState() {
     super.initState();
-    _habit = Get.arguments;
-    // có tham số thì gán
-    _editHabitScreenController.initDataAndController(_habit);
+    if (Get.arguments != null) {
+      _habit = Get.arguments;
+      _editHabitScreenController.initDataAndController(_habit);
 
-    _habitNameController = TextEditingController(text: _habit.ten);
-    _goalAmountController =
-        TextEditingController(text: _habit.soLan.toString());
+      _habitNameController = TextEditingController(text: _habit.ten);
+      _goalAmountController =
+          TextEditingController(text: _habit.soLan.toString());
+    }
   }
 
   @override

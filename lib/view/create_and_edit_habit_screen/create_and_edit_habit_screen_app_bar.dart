@@ -120,7 +120,7 @@ class _CreateAndEditHabitScreenAppBarState
         title: "Forgot to set a goal?",
         text: "Check your goal for this habit",
       );
-    } else if (widget.habitNameController.text == '' ||
+    } else if (widget.habitNameController.text == null ||
         widget.habitNameController.text.isEmpty) {
       print(widget.habitNameController.text);
       CoolAlert.show(
@@ -136,8 +136,6 @@ class _CreateAndEditHabitScreenAppBarState
         widget.goalAmountController.text,
       );
       Get.back();
-      Get.back();
-      //Get.offAll(ManageScreen());
       widget.habitNameController.clear();
       widget.controller.onClose();
     }

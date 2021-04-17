@@ -12,6 +12,7 @@ class HabitNoteScreen extends StatefulWidget {
 class _HabitNoteScreenState extends State<HabitNoteScreen> {
   NoteScreenController _noteScreenController;
   TextEditingController _noteController;
+  String _noteContent = "";
 
   @override
   void initState() {
@@ -61,14 +62,19 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
         ),
       ),
       actions: [
-        FlatButton(
-          minWidth: 50.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+        TextButton(
+          style: TextButton.styleFrom(
+            minimumSize: Size(50.0, 50.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
           ),
-          onPressed: () => _noteScreenController.saveHabitNoteData(
-            _noteController.text,
-          ),
+          onPressed: () {
+            print("conteroller text: ${_noteController.text}");
+            _noteScreenController.saveHabitNoteData(
+              _noteContent,
+            );
+          },
           child: Text(
             "Done",
             style: TextStyle(
@@ -90,6 +96,9 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
           parent: BouncingScrollPhysics(),
         ),
         controller: _noteController,
+        onChanged: (value) {
+          _noteContent = _noteController.text;
+        },
         maxLines: Get.height.toInt(),
         keyboardType: TextInputType.multiline,
         style: TextStyle(fontSize: 22.0),

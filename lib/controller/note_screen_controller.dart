@@ -24,7 +24,7 @@ class NoteScreenController extends GetxController {
     await databaseHelper.selectHabitNote(habitId.value).then((value) {
       if (value != null && value.length != 0) {
         initTextFieldData.value = value[0]['noi_dung'];
-        print("note value: ${initTextFieldData.value}");
+        print("note value: ${value[0]['noi_dung']}");
       }
     }).catchError((err) => debugPrint(err.toString()));
   }
@@ -32,6 +32,7 @@ class NoteScreenController extends GetxController {
   void saveHabitNoteData(String noteContent) async {
     await databaseHelper.selectHabitNote(habitId.value).then((value) {
       if (value.length == 0) {
+        print("content is: $noteContent");
         databaseHelper.insertHabitNote(
           Diary(
             maThoiQuen: habitId.value,

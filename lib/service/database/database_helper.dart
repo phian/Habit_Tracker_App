@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:habit_tracker/model/process.dart';
-
 import 'package:habit_tracker/model/diary.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 import 'package:habit_tracker/model/habit.dart';
+import 'package:habit_tracker/model/process.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   static final _databaseName = "todo.db";
@@ -359,7 +358,13 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> selectHabitNote(int habitId) async {
     Database database = await this.database;
-    var queryResult = database.query(tabDiary, where: "$maThoiQuen = $habitId");
+    var queryResult = await database.query(
+      tabDiary,
+      where: "$maThoiQuen = $habitId",
+      orderBy: '$ngay DESC',
+    );
+
+    print("query result: $queryResult}");
 
     return queryResult;
   }

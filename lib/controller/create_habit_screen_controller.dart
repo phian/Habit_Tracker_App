@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
+import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:habit_tracker/service/database/database_helper.dart';
 
 class CreateHabitScreenController extends GetxController {
@@ -42,29 +43,38 @@ class CreateHabitScreenController extends GetxController {
   ].obs;
 
   AllHabitController _allHabitController = Get.find();
+
   //Get.put(_allHabitController());
-  HabitStatisticController statisticController = Get.put(HabitStatisticController());
+  HabitStatisticController statisticController =
+      Get.put(HabitStatisticController());
+
   //Get.put(HabitStatisticController());
 
-  void initDataAndController(var suggestedHabit) {
-    if (suggestedHabit != null) {
+  void initDataAndController(var habit) {
+    if (habit != null) {
       // icon
-      habitIcon.value =
-          IconData(suggestedHabit.icon, fontFamily: 'MaterialIcons');
+      habitIcon.value = IconData(
+        habit.icon,
+        fontFamily: 'MaterialIcons',
+      );
       // mau
-      fillColor.value = Color(int.parse(suggestedHabit.mau));
+      if (habit is SuggestedHabit) {
+        fillColor.value = Color(int.parse(habit.mau));
+      } else {
+        fillColor.value = Color(int.parse(habit.mau, radix: 16));
+      }
       // bat muc tieu
-      selectedIndex.value = suggestedHabit.batMucTieu == true ? 1 : 0;
+      selectedIndex.value = habit.batMucTieu == true ? 1 : 0;
       // don vi
-      selectedUnitType.value = suggestedHabit.donVi;
+      selectedUnitType.value = habit.donVi;
       // loai lap
-      repeatTypeChoice.value = suggestedHabit.loaiLap;
+      repeatTypeChoice.value = habit.loaiLap;
       // ngay trong tuan
-      setDailyList(suggestedHabit.ngayTrongTuan);
+      setDailyList(habit.ngayTrongTuan);
       // so lan trong tuan
-      setWeeklyList(suggestedHabit.soLanTrongTuan);
+      setWeeklyList(habit.soLanTrongTuan);
       // buoi
-      setNotiTimeChoice(suggestedHabit.buoi);
+      setNotiTimeChoice(habit.buoi);
     }
   }
 
@@ -110,9 +120,7 @@ class CreateHabitScreenController extends GetxController {
         icon: habitIcon.value.codePoint,
         mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
         batMucTieu: selectedIndex.value,
-        soLan: amount == ''
-            ? 0
-            : int.parse(amount),
+        soLan: amount == '' ? 0 : int.parse(amount),
         donVi: selectedUnitType.value,
         loaiLap: repeatTypeChoice.value,
         ngayTrongTuan: getDailyList(),
@@ -131,9 +139,7 @@ class CreateHabitScreenController extends GetxController {
         icon: habitIcon.value.codePoint,
         mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
         batMucTieu: selectedIndex.value,
-        soLan: amount == ''
-            ? 0
-            : int.parse(amount),
+        soLan: amount == '' ? 0 : int.parse(amount),
         donVi: selectedUnitType.value,
         loaiLap: repeatTypeChoice.value,
         ngayTrongTuan: getDailyList(),
@@ -149,9 +155,7 @@ class CreateHabitScreenController extends GetxController {
         icon: habitIcon.value.codePoint,
         mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
         batMucTieu: selectedIndex.value,
-        soLan: amount == ''
-            ? 0
-            : int.parse(amount),
+        soLan: amount == '' ? 0 : int.parse(amount),
         donVi: selectedUnitType.value,
         loaiLap: repeatTypeChoice.value,
         ngayTrongTuan: getDailyList(),

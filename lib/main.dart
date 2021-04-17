@@ -28,7 +28,7 @@ class _IntroScreenState extends State<IntroScreen> {
     Future.delayed(
       Duration(milliseconds: 1500),
       () {
-        Get.offAll(ManageScreen());
+        Get.offAll(() => ManageScreen());
       },
     );
   }

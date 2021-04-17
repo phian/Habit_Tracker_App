@@ -15,22 +15,22 @@ class HabitStatisticScreen extends StatefulWidget {
 }
 
 class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
-  BuildContext _context;
-
   AnimateIconController _controller = AnimateIconController();
-
   HabitStatisticController _habitStatisticController =
       Get.put(HabitStatisticController());
-
   CalendarController _calendarController = CalendarController();
-
   AllHabitController _habitController = Get.put(AllHabitController());
 
   @override
-  Widget build(BuildContext context) {
-    _habitStatisticController.habit.value = Get.arguments;
+  void initState() {
+    super.initState();
+    if (Get.arguments != null) {
+      _habitStatisticController.habit.value = Get.arguments;
+    }
+  }
 
-    _context = context;
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF1E212A),
       appBar: _habitStatisticScreenAppBar(),
@@ -102,8 +102,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                   alignment: Alignment.center,
                   child: Obx(
                     () => InkWell(
-                      onTap: () =>
-                          _onPopMenuPauseItemPress(),
+                      onTap: () => _onPopMenuPauseItemPress(),
                       borderRadius: BorderRadius.circular(90.0),
                       child: Container(
                         alignment: Alignment.center,
@@ -674,7 +673,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   void _moveToHabitAllNoteScreen() {
     Get.back();
     Get.to(
-      HabitAllNoteScreen(),
+          () => HabitAllNoteScreen(),
       transition: Transition.fadeIn,
       arguments: _habitStatisticController.habit.value.ma,
     );
@@ -684,7 +683,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   void _moveToEditHabitScreen() {
     Get.back();
     Get.to(
-      EditHabitScreen(),
+          () => EditHabitScreen(),
       arguments: _habitStatisticController.habit.value,
       transition: Transition.fadeIn,
     );

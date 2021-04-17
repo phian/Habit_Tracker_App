@@ -8,6 +8,7 @@ class CreateYourOwnCard extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
   final String title;
+
   CreateYourOwnCard({this.title, this.iconColor, this.icon});
 
   @override
@@ -20,7 +21,7 @@ class CreateYourOwnCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
         onTap: () {
           Get.to(
-            CreateHabitScreen(),
+                () => CreateHabitScreen(),
             duration: Duration(milliseconds: 500),
             transition: Transition.fadeIn,
           );

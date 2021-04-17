@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:select_form_field/select_form_field.dart';
 
-import 'create_habit_screen_variables.dart';
 import 'create_and_edit_habit_screen_app_bar.dart';
-import 'package:flutter_iconpicker/flutter_iconpicker.dart';
+import 'create_habit_screen_variables.dart';
 
 class CreateHabitScreen extends StatefulWidget {
   @override
@@ -24,14 +24,22 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
   @override
   void initState() {
     super.initState();
-    _suggestedHabit = Get.arguments;
-    // có tham số thì gán
-    _createHabitScreenController = Get.put(CreateHabitScreenController());
-    _createHabitScreenController.initDataAndController(_suggestedHabit);
+    _intControllerAndData();
+  }
 
-    _habitNameController = TextEditingController(text: _suggestedHabit.ten);
-    _goalAmountController =
-        TextEditingController(text: _suggestedHabit.soLan.toString());
+  void _intControllerAndData() {
+    _createHabitScreenController = Get.put(CreateHabitScreenController());
+
+    if (Get.arguments != null) {
+      _suggestedHabit = Get.arguments;
+      _createHabitScreenController.initDataAndController(_suggestedHabit);
+      _habitNameController = TextEditingController(text: _suggestedHabit.ten);
+      _goalAmountController =
+          TextEditingController(text: _suggestedHabit.soLan.toString());
+    } else {
+      _habitNameController = TextEditingController();
+      _goalAmountController = TextEditingController();
+    }
   }
 
   @override

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
+import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:habit_tracker/view/habit_category_list_screen/suggest_habit_card.dart';
 
 class HabitCategoryListScreenController extends GetxController {
   List<SuggestedHabit> suggestedHabitList;
   List<Widget> suggestHabitCards;
   DatabaseHelper databaseHelper = DatabaseHelper.instance;
+  RxBool isLoaded = false.obs;
 
   Future<Map<String, dynamic>> getSuggestHabitFromDb(int topicId) async {
     return await databaseHelper.getSussgestHabitMap(topicId).then((value) {
@@ -44,6 +45,7 @@ class HabitCategoryListScreenController extends GetxController {
             ),
           );
         }
+        isLoaded.value = !isLoaded.value;
       }
     }).catchError((err) => debugPrint(err.toString()));
   }

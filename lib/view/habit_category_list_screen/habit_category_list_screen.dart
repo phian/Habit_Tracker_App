@@ -1,6 +1,8 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/habit_category_list_screen_controller.dart';
 
 class HabitCategoryListScreen extends StatefulWidget {
@@ -33,6 +35,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
     super.initState();
     _screenScrollController = ScrollController();
     _aniController = AnimateIconController();
+    _controller.getSuggestHabitFromDb(widget.topicId);
   }
 
   @override
@@ -137,32 +140,29 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
     return SliverToBoxAdapter(
       child: Container(
         padding: EdgeInsets.only(bottom: 20.0),
-        child: FutureBuilder(
-          future: _controller.getSuggestHabitFromDb(widget.topicId),
-          builder: (context, snapshot) {
-            return Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(top: 30.0, left: Get.width * 0.05),
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    _controller.suggestedHabitList.length.toString() +
-                        " habits",
-                    style: TextStyle(fontSize: 18.0),
+        child: Obx(() => _controller.isLoaded.value
+            ? Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 30.0, left: Get.width * 0.05),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      _controller.suggestedHabitList.length.toString() +
+                          " habits",
+                      style: TextStyle(fontSize: 18.0),
+                    ),
                   ),
-                ),
-                SizedBox(height: 40.0),
-                ...List.generate(_controller.suggestedHabitList.length,
-                    (index) {
-                  return Container(
-                    padding: EdgeInsets.only(top: index == 0 ? 0 : 40.0),
-                    child: _controller.suggestHabitCards[index],
-                  );
-                }),
-              ],
-            );
-          },
-        ),
+                  SizedBox(height: 40.0),
+                  ...List.generate(_controller.suggestedHabitList.length,
+                      (index) {
+                    return Container(
+                      padding: EdgeInsets.only(top: index == 0 ? 0 : 40.0),
+                      child: _controller.suggestHabitCards[index],
+                    );
+                  }),
+                ],
+              )
+            : Center(child: SpinKitFadingCube(color: AppColors.cFFFF))),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/manage_screen_controller.dart';
+
 import 'habit_categories_screen/habit_categories_screen.dart';
 
 class ManageScreen extends StatelessWidget {
@@ -16,7 +17,7 @@ class ManageScreen extends StatelessWidget {
         backgroundColor: Colors.blue,
         child: Icon(Icons.add),
         onPressed: () {
-          Get.to(HabitCategoriesScreen(), transition: Transition.fadeIn);
+          Get.to(() => HabitCategoriesScreen(), transition: Transition.fadeIn);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

@@ -52,7 +52,7 @@ class CreateHabitScreenController extends GetxController {
       habitIcon.value =
           IconData(suggestedHabit.icon, fontFamily: 'MaterialIcons');
       // mau
-      fillColor.value = Color(int.parse(suggestedHabit.mau, radix: 16));
+      fillColor.value = Color(int.parse(suggestedHabit.mau));
       // bat muc tieu
       selectedIndex.value = suggestedHabit.batMucTieu == true ? 1 : 0;
       // don vi

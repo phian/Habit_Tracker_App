@@ -1,11 +1,12 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/habit_categories_screen_controller.dart';
-import 'package:habit_tracker/service/database/database_helper.dart';
-import 'create_your_own_card.dart';
 
 import '../habit_category_list_screen/habit_category_list_screen.dart';
+import 'create_your_own_card.dart';
 
 class HabitCategoriesScreen extends StatefulWidget {
   HabitCategoriesScreen({Key key}) : super(key: key);
@@ -16,14 +17,13 @@ class HabitCategoriesScreen extends StatefulWidget {
 
 class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
   AnimateIconController _controller;
-  DatabaseHelper _databaseHelper;
   HabitCategoriesScreenController _categoriesScreenController;
 
   @override
   void initState() {
     super.initState();
     _categoriesScreenController = Get.put(HabitCategoriesScreenController());
-    _databaseHelper = DatabaseHelper.instance;
+    _categoriesScreenController.initCategoriesCardInfo();
   }
 
   @override
@@ -143,42 +143,37 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
           SizedBox(
             height: 30.0,
           ),
-          FutureBuilder(
-            future: _categoriesScreenController.initCategoriesCardInfo(
-              databaseHelper: _databaseHelper,
-            ),
-            builder: (context, snapshot) {
-              return Column(
-                children: [
-                  ...List.generate(
-                    _categoriesScreenController.suggestTopicList.length,
-                    (index) => Hero(
-                      tag: _categoriesScreenController
-                          .suggestTopicList[index].tenChuDeGoiY,
-                      child: Container(
-                        margin: index == 0
-                            ? null
-                            : EdgeInsets.only(
-                                top: 15.0,
-                              ),
-                        child: Material(
-                          borderRadius: BorderRadius.circular(20.0),
-                          color: Color(0xFF2F313E),
-                          child: InkWell(
-                            highlightColor: Colors.transparent,
+          Obx(() => _categoriesScreenController.isLoadingCompleted.value
+              ? Column(
+                  children: [
+                    ...List.generate(
+                      _categoriesScreenController.suggestTopicList.length,
+                      (index) => Hero(
+                        tag: _categoriesScreenController
+                            .suggestTopicList[index].tenChuDeGoiY,
+                        child: Container(
+                          margin: index == 0
+                              ? null
+                              : EdgeInsets.only(
+                                  top: 15.0,
+                                ),
+                          child: Material(
                             borderRadius: BorderRadius.circular(20.0),
-                            onTap: () => _onCategoryCardPressed(index),
-                            child: _categoriesScreenController
-                                .habitCategoryCards[index],
+                            color: Color(0xFF2F313E),
+                            child: InkWell(
+                              highlightColor: Colors.transparent,
+                              borderRadius: BorderRadius.circular(20.0),
+                              onTap: () => _onCategoryCardPressed(index),
+                              child: _categoriesScreenController
+                                  .habitCategoryCards[index],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
-          ),
+                  ],
+                )
+              : SpinKitFadingCube(color: AppColors.cFFFF)),
         ],
       ),
     );
@@ -187,7 +182,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
   void _onCategoryCardPressed(int index) {
     if (index != 17) {
       Get.to(
-        HabitCategoryListScreen(
+            () => HabitCategoryListScreen(
           tag: _categoriesScreenController.suggestTopicList[index].tenChuDeGoiY,
           topicId: _categoriesScreenController.suggestTopicList[index].maChuDe,
           imagePath:

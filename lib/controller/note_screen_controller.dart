@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:habit_tracker/model/diary.dart';
+import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:intl/intl.dart';
 
 class NoteScreenController extends GetxController {
@@ -12,29 +12,25 @@ class NoteScreenController extends GetxController {
 
   void checkAndUpdateHabitId(dynamic value) {
     if (value != null) {
-      updateHabitId(value);
+      _updateHabitId(value);
     }
   }
 
-  updateHabitId(int id) {
+  _updateHabitId(int id) {
     habitId.value = id;
   }
 
   Future<void> readDataForTextController() async {
-    await databaseHelper
-        .selectHabitNote(habitId.value)
-        .then((value) {
-      if (value.length != 0) {
+    await databaseHelper.selectHabitNote(habitId.value).then((value) {
+      if (value != null && value.length != 0) {
         initTextFieldData.value = value[0]['noi_dung'];
-        print(initTextFieldData.value);
+        print("note value: ${initTextFieldData.value}");
       }
     }).catchError((err) => debugPrint(err.toString()));
   }
 
   void saveHabitNoteData(String noteContent) async {
-    await databaseHelper
-        .selectHabitNote(habitId.value)
-        .then((value) {
+    await databaseHelper.selectHabitNote(habitId.value).then((value) {
       if (value.length == 0) {
         databaseHelper.insertHabitNote(
           Diary(

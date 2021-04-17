@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
@@ -67,7 +69,6 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
     );
   }
 
-  /// [Body]
   Widget _mainScreenBody() {
     return Container(
       height: Get.height,
@@ -116,9 +117,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                         labelColor: Colors.white,
                         unselectedLabelColor: Colors.white24,
                         indicatorColor: Colors.transparent,
-                        physics: AlwaysScrollableScrollPhysics(
-                          parent: BouncingScrollPhysics(),
-                        ),
+                        physics: AlwaysScrollableScrollPhysics(),
                         tabs: [
                           _mainScreenDateTimeTab('All day'),
                           _mainScreenDateTimeTab('Morning'),
@@ -165,31 +164,37 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
   /// [Habit list]
   Widget _listHabit(List<Habit> _habitDataList) {
     return _habitDataList.length > 0
-        ? Obx(() => ListView.separated(
-              padding: EdgeInsets.only(top: 20, bottom: 20),
-              itemCount: _habitDataList.length,
-              physics: AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics(),
-              ),
-              separatorBuilder: (BuildContext context, int index) =>
-                  SizedBox(height: 10),
-              itemBuilder: (context, index) {
-                int i = _allHabitController.listHabitProcess.indexWhere(
-                    (e) => e.maThoiQuen == _habitDataList[index].ma);
+        ? _allHabitController.listHabitProcess.length > 0
+            ? Obx(() => ListView.separated(
+                  padding: EdgeInsets.only(top: 20, bottom: 20),
+                  itemCount: _habitDataList.length,
+                  physics: AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics(),
+                  ),
+                  separatorBuilder: (BuildContext context, int index) =>
+                      SizedBox(height: 10),
+                  itemBuilder: (context, index) {
+                    int i = _allHabitController.listHabitProcess.indexWhere(
+                        (e) => e.maThoiQuen == _habitDataList[index].ma);
 
-                if (_allHabitController.listHabitProcess[i].ketQua == -1 ||
-                    _allHabitController.listHabitProcess[i].ketQua ==
-                            _habitDataList[index].soLan &&
-                        _habitDataList[index].batMucTieu == 0 ||
-                    _allHabitController.listHabitProcess[i].skip == true) {
-                  return swipeRightHabit(_habitDataList[index],
-                      _allHabitController.listHabitProcess[i]);
-                } else {
-                  return swipeHabit(_habitDataList[index],
-                      _allHabitController.listHabitProcess[i]);
-                }
-              },
-            ))
+                    if (_allHabitController.listHabitProcess[i].ketQua == -1 ||
+                        _allHabitController.listHabitProcess[i].ketQua ==
+                                _habitDataList[index].soLan &&
+                            _habitDataList[index].batMucTieu == 0 ||
+                        _allHabitController.listHabitProcess[i].skip == true) {
+                      return swipeRightHabit(_habitDataList[index],
+                          _allHabitController.listHabitProcess[i]);
+                    } else {
+                      return swipeHabit(_habitDataList[index],
+                          _allHabitController.listHabitProcess[i]);
+                    }
+                  },
+                ))
+            : Center(
+                child: SpinKitFadingCube(
+                  color: AppColors.cFFFF,
+                ),
+              )
         : NoneHabitDisplayWidget();
   }
 

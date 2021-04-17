@@ -686,104 +686,106 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
   void _showColorChoiceDialog() {
     showDialog(
       context: context,
-      child: Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Container(
-          width: Get.width * 0.8,
-          height: Get.height * 0.35,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
-            color: Colors.black87,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                "The color should be",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  decoration: TextDecoration.none,
-                  color: Colors.white,
+          child: Container(
+            width: Get.width * 0.8,
+            height: Get.height * 0.35,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: Colors.black87,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  "The color should be",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    decoration: TextDecoration.none,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ...List.generate(
-                      3,
-                      (index) => InkWell(
-                        onTap: () {
-                          Get.back();
-                          _createHabitScreenController
-                              .changeFillColor(choiceColors[index]);
-                        },
-                        child: Obx(
-                          () => Container(
-                            width: 60.0,
-                            height: 60.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: _createHabitScreenController
-                                          .fillColor.value ==
-                                      choiceColors[index]
-                                  ? Colors.white24
-                                  : Colors.transparent,
-                            ),
-                            child: Icon(
-                              Icons.circle,
-                              size: 35.0,
-                              color: choiceColors[index],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ...List.generate(
-                      3,
-                      (index) => InkWell(
-                        onTap: () {
-                          Get.back();
-                          _createHabitScreenController
-                              .changeFillColor(choiceColors[index + 3]);
-                        },
-                        child: Obx(
-                          () => Container(
-                            width: 60.0,
-                            height: 60.0,
-                            decoration: BoxDecoration(
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ...List.generate(
+                        3,
+                        (index) => InkWell(
+                          onTap: () {
+                            Get.back();
+                            _createHabitScreenController
+                                .changeFillColor(choiceColors[index]);
+                          },
+                          child: Obx(
+                            () => Container(
+                              width: 60.0,
+                              height: 60.0,
+                              decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 color: _createHabitScreenController
                                             .fillColor.value ==
-                                        choiceColors[index + 3]
+                                        choiceColors[index]
                                     ? Colors.white24
-                                    : Colors.transparent),
-                            child: Icon(
-                              Icons.circle,
-                              size: 35.0,
-                              color: choiceColors[index + 3],
+                                    : Colors.transparent,
+                              ),
+                              child: Icon(
+                                Icons.circle,
+                                size: 35.0,
+                                color: choiceColors[index],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ...List.generate(
+                        3,
+                        (index) => InkWell(
+                          onTap: () {
+                            Get.back();
+                            _createHabitScreenController
+                                .changeFillColor(choiceColors[index + 3]);
+                          },
+                          child: Obx(
+                            () => Container(
+                              width: 60.0,
+                              height: 60.0,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: _createHabitScreenController
+                                              .fillColor.value ==
+                                          choiceColors[index + 3]
+                                      ? Colors.white24
+                                      : Colors.transparent),
+                              child: Icon(
+                                Icons.circle,
+                                size: 35.0,
+                                color: choiceColors[index + 3],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

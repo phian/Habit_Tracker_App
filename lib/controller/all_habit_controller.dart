@@ -1,22 +1,21 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
-import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
+import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:intl/intl.dart';
 
 import 'main_screen_controller.dart';
 
 class AllHabitController extends GetxController {
-  var listAllHabit = List<Habit>().obs;
-  var listAnytimeHabit = List<Habit>().obs;
-  var listMorningHabit = List<Habit>().obs;
-  var listAfternoonHabit = List<Habit>().obs;
-  var listEveningHabit = List<Habit>().obs;
+  var listAllHabit = <Habit>[].obs;
+  var listAnytimeHabit = <Habit>[].obs;
+  var listMorningHabit = <Habit>[].obs;
+  var listAfternoonHabit = <Habit>[].obs;
+  var listEveningHabit = <Habit>[].obs;
   var flag = false.obs;
-
-  var listHabitProcess = List<Process>().obs;
+  var listHabitProcess = <Process>[].obs;
 
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
 

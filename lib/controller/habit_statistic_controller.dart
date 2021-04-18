@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/model/habit.dart';
 
 class HabitStatisticController extends GetxController {
+  
   var habit = Habit().obs;
 
   var habitId = 1.obs;

@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 
 class ChallengesScreenController extends GetxController {
   List<String> challengeTitles, challengeAmounts, imagePaths;
-
-  void initData() {
+  @override
+  void onInit() {
     challengeTitles = [
       "Social Media Detox Challenge",
       "Bedtime Routine Challenge",
@@ -34,5 +34,7 @@ class ChallengesScreenController extends GetxController {
       "images/relationship_challenge.png",
       "images/morning_challenge.png",
     ];
+    super.onInit();
   }
+  
 }

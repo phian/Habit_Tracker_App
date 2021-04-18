@@ -12,11 +12,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   LoginScreenController _loginScreenController = LoginScreenController();
 
-  BuildContext _context;
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.cFF1E,

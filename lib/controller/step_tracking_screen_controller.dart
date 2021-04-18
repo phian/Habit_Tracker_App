@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/model/side_menu_model.dart';
+
 
 class StepTrackingScreenController extends GetxController {
   var touchedIndex = (-1).obs;

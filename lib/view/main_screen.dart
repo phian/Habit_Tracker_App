@@ -5,7 +5,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
-import 'package:habit_tracker/controller/all_habit_controller.dart';
+
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
@@ -14,8 +14,7 @@ import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import '../model/habit.dart';
-import '../view/habit_note_screen.dart';
-import 'habit_statistic_screen.dart';
+
 
 class MainScreen extends StatefulWidget {
   @override
@@ -23,8 +22,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> implements SideMenuModel {
-  MainScreenController _mainScreenController = Get.put(MainScreenController());
-  AllHabitController _allHabitController = Get.put(AllHabitController());
+  final mainScreenController = Get.find<MainScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -82,12 +80,12 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
               child: FlutterDatePickerTimeline(
                 startDate: DateTime.now().subtract(Duration(days: 14)),
                 endDate: DateTime.now().add(Duration(days: 14)),
-                initialSelectedDate: _mainScreenController.selectedDay.value,
+                initialSelectedDate: mainScreenController.selectedDay.value,
                 onSelectedDateChange: (DateTime dateTime) async {
-                  _allHabitController.updateFlagValue(false);
-                  _mainScreenController.changeSelectedDay(dateTime);
-                  _allHabitController.getHabitByWeekDate(dateTime.weekday);
-                  _allHabitController.updateFlagValue(true);
+                  mainScreenController.updateFlagValue(false);
+                  mainScreenController.changeSelectedDay(dateTime);
+                  mainScreenController.getHabitByWeekDate(dateTime.weekday);
+                  mainScreenController.updateFlagValue(true);
                 },
                 selectedItemBackgroundColor: AppColors.c3DFF,
                 selectedItemTextStyle: TextStyle(
@@ -131,21 +129,17 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                         child: TabBarView(
                           physics: NeverScrollableScrollPhysics(),
                           children: <Widget>[
-                            _allHabitController.flag.value == true
-                                ? _listHabit(
-                                    _allHabitController.listAnytimeHabit)
+                            mainScreenController.flag.value == true
+                                ? _listHabit(mainScreenController.listAnytimeHabit)
                                 : Container(),
-                            _allHabitController.flag.value == true
-                                ? _listHabit(
-                                    _allHabitController.listMorningHabit)
+                            mainScreenController.flag.value == true
+                                ? _listHabit(mainScreenController.listMorningHabit)
                                 : Container(),
-                            _allHabitController.flag.value == true
-                                ? _listHabit(
-                                    _allHabitController.listAfternoonHabit)
+                            mainScreenController.flag.value == true
+                                ? _listHabit(mainScreenController.listAfternoonHabit)
                                 : Container(),
-                            _allHabitController.flag.value == true
-                                ? _listHabit(
-                                    _allHabitController.listEveningHabit)
+                            mainScreenController.flag.value == true
+                                ? _listHabit(mainScreenController.listEveningHabit)
                                 : Container(),
                           ],
                         ),
@@ -164,29 +158,28 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
   /// [Habit list]
   Widget _listHabit(List<Habit> _habitDataList) {
     return _habitDataList.length > 0
-        ? _allHabitController.listHabitProcess.length > 0
+        ? mainScreenController.listHabitProcess.length > 0
             ? Obx(() => ListView.separated(
                   padding: EdgeInsets.only(top: 20, bottom: 20),
                   itemCount: _habitDataList.length,
                   physics: AlwaysScrollableScrollPhysics(
                     parent: BouncingScrollPhysics(),
                   ),
-                  separatorBuilder: (BuildContext context, int index) =>
-                      SizedBox(height: 10),
+                  separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10),
                   itemBuilder: (context, index) {
-                    int i = _allHabitController.listHabitProcess.indexWhere(
-                        (e) => e.maThoiQuen == _habitDataList[index].ma);
+                    int i = mainScreenController.listHabitProcess
+                        .indexWhere((e) => e.maThoiQuen == _habitDataList[index].ma);
 
-                    if (_allHabitController.listHabitProcess[i].ketQua == -1 ||
-                        _allHabitController.listHabitProcess[i].ketQua ==
+                    if (mainScreenController.listHabitProcess[i].ketQua == -1 ||
+                        mainScreenController.listHabitProcess[i].ketQua ==
                                 _habitDataList[index].soLan &&
                             _habitDataList[index].batMucTieu == 0 ||
-                        _allHabitController.listHabitProcess[i].skip == true) {
-                      return swipeRightHabit(_habitDataList[index],
-                          _allHabitController.listHabitProcess[i]);
+                        mainScreenController.listHabitProcess[i].skip == true) {
+                      return swipeRightHabit(
+                          _habitDataList[index], mainScreenController.listHabitProcess[i]);
                     } else {
-                      return swipeHabit(_habitDataList[index],
-                          _allHabitController.listHabitProcess[i]);
+                      return swipeHabit(
+                          _habitDataList[index], mainScreenController.listHabitProcess[i]);
                     }
                   },
                 ))
@@ -233,11 +226,11 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           ),
           onTap: (CompletionHandler handler) async {
             handler(false);
-            process.ketQua = _mainScreenController.updateHabitProcess(
+            process.ketQua = mainScreenController.updateHabitProcess(
               habitGoal: habit.batMucTieu,
               habit: habit,
             );
-            _allHabitController.updateProcess(process);
+            mainScreenController.updateProcess(process);
             print('done');
             setState(() {});
           },
@@ -257,7 +250,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             onTap: (CompletionHandler handler) async {
               handler(false);
               process.ketQua++;
-              _allHabitController.updateProcess(process);
+              mainScreenController.updateProcess(process);
               print('1');
               setState(() {});
             },
@@ -278,7 +271,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           onTap: (CompletionHandler handler) async {
             handler(false);
             process.skip = true;
-            _allHabitController.updateProcess(process);
+            mainScreenController.updateProcess(process);
             print('Skip');
             setState(() {});
           },
@@ -287,8 +280,8 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       ],
       child: _habitTile(
           habit,
-          _allHabitController.listHabitProcess.indexWhere(
-              (element) => element.maThoiQuen == process.maThoiQuen)),
+          mainScreenController.listHabitProcess
+              .indexWhere((element) => element.maThoiQuen == process.maThoiQuen)),
     );
   }
 
@@ -332,7 +325,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             handler(false);
             process.skip = false;
             process.ketQua = 0;
-            _allHabitController.updateProcess(process);
+            mainScreenController.updateProcess(process);
             print('Undo');
             setState(() {});
           },
@@ -341,7 +334,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       ],
       child: _habitTile(
         habit,
-        _allHabitController.listHabitProcess
+        mainScreenController.listHabitProcess
             .indexWhere((element) => element.maThoiQuen == process.maThoiQuen),
       ),
     );
@@ -352,8 +345,8 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       () => GestureDetector(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-              color: AppColors.cFF2F, borderRadius: BorderRadius.circular(15)),
+          decoration:
+              BoxDecoration(color: AppColors.cFF2F, borderRadius: BorderRadius.circular(15)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -363,12 +356,9 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                 child: Icon(
                   IconData(habit.icon, fontFamily: 'MaterialIcons'),
                   size: 50,
-                  color: _allHabitController.listHabitProcess[index].skip ==
-                              true ||
-                          _allHabitController.listHabitProcess[index].ketQua ==
-                              -1 ||
-                          _allHabitController.listHabitProcess[index].ketQua ==
-                                  habit.soLan &&
+                  color: mainScreenController.listHabitProcess[index].skip == true ||
+                          mainScreenController.listHabitProcess[index].ketQua == -1 ||
+                          mainScreenController.listHabitProcess[index].ketQua == habit.soLan &&
                               habit.soLan != 0
                       ? AppColors.cFF9E
                       : Color(
@@ -390,11 +380,8 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                         habit.ten,
                         style: TextStyle(
                           fontSize: 22,
-                          decoration: _allHabitController
-                                          .listHabitProcess[index].ketQua ==
-                                      -1 ||
-                                  _allHabitController
-                                              .listHabitProcess[index].ketQua ==
+                          decoration: mainScreenController.listHabitProcess[index].ketQua == -1 ||
+                                  mainScreenController.listHabitProcess[index].ketQua ==
                                           habit.soLan &&
                                       habit.soLan != 0
                               ? TextDecoration.lineThrough
@@ -402,14 +389,11 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                         ),
                         maxLines: 2,
                       ),
-                      if (_allHabitController.listHabitProcess[index].skip ==
-                          true)
+                      if (mainScreenController.listHabitProcess[index].skip == true)
                         Text(
                           'Skipped',
                           style: TextStyle(
-                              color: AppColors.cFFFE,
-                              fontSize: 15,
-                              fontStyle: FontStyle.italic),
+                              color: AppColors.cFFFE, fontSize: 15, fontStyle: FontStyle.italic),
                         )
                     ],
                   ),
@@ -423,8 +407,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        _allHabitController.listHabitProcess[index].ketQua
-                                .toString() +
+                        mainScreenController.listHabitProcess[index].ketQua.toString() +
                             '/' +
                             habit.soLan.toString(),
                         style: TextStyle(
@@ -459,18 +442,16 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
 
   /// Navigation
   void _moveToHabitStatisticScreen(Habit habit) {
-    Get.to(
-      HabitStatisticScreen(),
+    Get.toNamed(
+      '/statistic',
       arguments: habit,
-      transition: Transition.fadeIn,
     );
   }
 
   void _moveToHabitNoteScreen(Habit habit) {
-    Get.to(
-      HabitNoteScreen(),
+    Get.toNamed(
+      '/note',
       arguments: habit.ma,
-      transition: Transition.fadeIn,
     );
   }
 }

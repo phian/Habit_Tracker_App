@@ -145,9 +145,9 @@ class _CreateAndEditHabitScreenAppBarState
   bool _onBackIconButtonClick() {
     Future.delayed(Duration(milliseconds: 200), () {
       Get.back();
-      widget.controller.onClose();
-      widget.habitNameController.clear();
-      widget.goalAmountController.clear();
+      // widget.controller.onClose();
+      // widget.habitNameController.clear();
+      // widget.goalAmountController.clear();
     });
 
     return true;

@@ -4,21 +4,21 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/manage_screen_controller.dart';
 
-import 'habit_categories_screen/habit_categories_screen.dart';
+
 
 class ManageScreen extends StatelessWidget {
-  final ManageScreenController _controller = Get.put(ManageScreenController());
+  final controller = Get.find<ManageScreenController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.cFF1E,
-      body: Obx(() => _controller.screens[_controller.currentIndex.value]),
+      body: Obx(() => controller.screens[controller.currentIndex.value]),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.cFFFE,
         child: Icon(Icons.add),
         onPressed: () {
-          Get.to(() => HabitCategoriesScreen(), transition: Transition.fadeIn);
+          Get.toNamed('/suggest_category');
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -36,10 +36,10 @@ class ManageScreen extends StatelessWidget {
           child: Row(
             children: <Widget>[
               ...List.generate(
-                _controller.iconList.length,
+                controller.iconList.length,
                 (index) => Obx(
                   () => _bottomBarButton(
-                    _controller.iconList[index],
+                    controller.iconList[index],
                     index,
                   ),
                 ),
@@ -59,13 +59,13 @@ class ManageScreen extends StatelessWidget {
       child: IconButton(
         icon: Icon(
           icon,
-          color: _controller.currentIndex.value == index
+          color: controller.currentIndex.value == index
               ? AppColors.cFFFE
               : AppColors.cFF9E,
           size: 30.0,
         ),
         onPressed: () {
-          _controller.changeScreen(index);
+          controller.changeScreen(index);
         },
       ),
     );

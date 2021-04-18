@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
-import 'package:habit_tracker/controller/all_habit_controller.dart';
+
+import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
-import 'package:habit_tracker/view/habit_statistic_screen.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/src/base.dart';
 
 class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
-  final AllHabitController _allHabitController = Get.put(AllHabitController());
+  final mainScreenController = Get.put(MainScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
         appBar: _allHabitScreenAppBar(),
         body: Obx(
           () => Container(
-            child: _allHabitController.listAllHabit.length == 0
+            child: mainScreenController.listAllHabit.length == 0
                 ? NoneHabitDisplayWidget()
                 : _listAllHabit(),
           ),
@@ -65,31 +65,29 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
   Widget _listAllHabit() {
     return ListView.separated(
       padding: EdgeInsets.only(top: 20, bottom: 20),
-      itemCount: _allHabitController.listAllHabit.length,
+      itemCount: mainScreenController.listAllHabit.length,
       physics: AlwaysScrollableScrollPhysics(
         parent: BouncingScrollPhysics(),
       ),
-      separatorBuilder: (BuildContext context, int index) =>
-          SizedBox(height: 10),
+      separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10),
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-                color: AppColors.cFF2F,
-                borderRadius: BorderRadius.circular(15)),
+            decoration:
+                BoxDecoration(color: AppColors.cFF2F, borderRadius: BorderRadius.circular(15)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: EdgeInsets.all(20),
                   child: Icon(
-                    IconData(_allHabitController.listAllHabit[index].icon,
+                    IconData(mainScreenController.listAllHabit[index].icon,
                         fontFamily: 'MaterialIcons'),
                     size: 50,
                     color: Color(
                       int.parse(
-                        _allHabitController.listAllHabit[index].mau,
+                        mainScreenController.listAllHabit[index].mau,
                         radix: 16,
                       ),
                     ),
@@ -99,7 +97,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: Text(
-                      _allHabitController.listAllHabit[index].ten,
+                      mainScreenController.listAllHabit[index].ten,
                       style: TextStyle(
                         fontSize: 22,
                         //fontWeight: FontWeight.bold,
@@ -139,10 +137,10 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
 
   /// Navigation
   void _moveToHabitStatisticScreen(int index) {
-    Get.to(
-      HabitStatisticScreen(),
-      transition: Transition.fadeIn,
-      arguments: _allHabitController.listAllHabit[index],
+    Get.toNamed(
+      '/statistic',
+      
+      arguments: mainScreenController.listAllHabit[index],
     );
   }
 }

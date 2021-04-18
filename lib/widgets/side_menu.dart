@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/view/login_screen.dart';
-import 'package:habit_tracker/view/notification_screen.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
-import '../view/general_screen/genaral_screeen.dart';
 
 class ScreenMenu extends StatelessWidget {
   final Widget child;
@@ -103,20 +100,11 @@ class ScreenMenu extends StatelessWidget {
         ),
         onTap: () {
           if (icon == Icons.access_time) {
-            Get.to(
-              NotificationScreen(),
-              transition: Transition.fadeIn,
-            );
+            Get.toNamed('/notification');
           } else if (icon == Icons.settings) {
-            Get.to(
-              GeneralScreen(),
-              transition: Transition.fadeIn,
-            );
+            Get.toNamed('/general');
           } else {
-            Get.to(
-              LoginScreen(),
-              transition: Transition.fadeIn,
-            );
+            Get.toNamed('/login');
           }
         },
         leading: Icon(

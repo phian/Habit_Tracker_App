@@ -19,8 +19,7 @@ class EditHabitScreen extends StatefulWidget {
 
 class _EditHabitScreenState extends State<EditHabitScreen> {
   Habit _habit;
-  CreateHabitScreenController _editHabitScreenController =
-      Get.put(CreateHabitScreenController());
+  final _editHabitScreenController = Get.put(CreateHabitScreenController());
   TextEditingController _habitNameController, _goalAmountController;
 
   @override
@@ -31,8 +30,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
       _editHabitScreenController.initDataAndController(_habit);
 
       _habitNameController = TextEditingController(text: _habit.ten);
-      _goalAmountController =
-          TextEditingController(text: _habit.soLan.toString());
+      _goalAmountController = TextEditingController(text: _habit.soLan.toString());
     }
   }
 
@@ -62,7 +60,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
       slivers: [
         CreateAndEditHabitScreenAppBar(
           controller: _editHabitScreenController,
-          title: "Edit _habit",
+          title: "Edit habit",
           habitNameController: _habitNameController,
           goalAmountController: _goalAmountController,
         ),
@@ -88,7 +86,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                 ),
                 onChanged: (value) {},
                 decoration: InputDecoration(
-                  hintText: 'Name of the _habit',
+                  hintText: 'Name of the habit',
                   hintStyle: TextStyle(
                     fontSize: 22.0,
                     color: AppColors.c8AFF,
@@ -157,9 +155,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            color: _editHabitScreenController
-                                        .selectedIndex.value !=
-                                    index
+                            color: _editHabitScreenController.selectedIndex.value != index
                                 ? AppColors.c3DFF
                                 : _editHabitScreenController.fillColor.value,
                           ),
@@ -174,9 +170,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
             /// [Phần chọn giá trị theo đơn vị]
             Obx(
               () => Visibility(
-                visible: _editHabitScreenController.selectedIndex.value == 0
-                    ? true
-                    : false,
+                visible: _editHabitScreenController.selectedIndex.value == 0 ? true : false,
                 child: Container(
                   padding: EdgeInsets.only(top: 20.0),
                   child: Row(
@@ -213,14 +207,12 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                         height: 60.0,
                         child: Obx(
                           () => SelectFormField(
-                            initialValue: _editHabitScreenController
-                                .selectedUnitType.value,
+                            initialValue: _editHabitScreenController.selectedUnitType.value,
                             items: unitTypes,
-                            hintText: _editHabitScreenController
-                                .selectedUnitType.value,
+                            hintText: _editHabitScreenController.selectedUnitType.value,
                             style: TextStyle(fontSize: 20.0),
-                            onChanged: (val) => _editHabitScreenController
-                                .changeSelectedUnitType(val),
+                            onChanged: (val) =>
+                                _editHabitScreenController.changeSelectedUnitType(val),
                             onSaved: (val) => print(val),
                             scrollPhysics: AlwaysScrollableScrollPhysics(
                               parent: BouncingScrollPhysics(),
@@ -228,8 +220,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                             decoration: InputDecoration(
                               fillColor: AppColors.c3DFF,
                               filled: true,
-                              hintText: _editHabitScreenController
-                                  .selectedUnitType.value,
+                              hintText: _editHabitScreenController.selectedUnitType.value,
                               hintStyle: TextStyle(
                                 fontSize: 20.0,
                                 color: AppColors.cFFFF,
@@ -253,7 +244,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
 
             /// [Dòng chữ I want to repeat this _habit]
             _sectionText(
-              content: "I want to repeat this _habit",
+              content: "I want to repeat this habit",
               canChange: false,
             ),
 
@@ -272,11 +263,9 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                             : index == 1
                                 ? "weekly"
                                 : "monthly",
-                        color:
-                            _editHabitScreenController.repeatTypeChoice.value ==
-                                    index
-                                ? _editHabitScreenController.fillColor.value
-                                : AppColors.c3DFF,
+                        color: _editHabitScreenController.repeatTypeChoice.value == index
+                            ? _editHabitScreenController.fillColor.value
+                            : AppColors.c3DFF,
                         index: index,
                       ),
                     ),
@@ -290,7 +279,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
 
             /// [Phần chọn phần lập lại ngày trong tuần, tuần]
             Container(
-              height: Get.height * 0.18,
+              //height: Get.height * 0.18,
               padding: EdgeInsets.only(top: 20.0),
               child: Column(
                 children: [
@@ -298,11 +287,8 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                     children: [
                       Obx(
                         () => Visibility(
-                          visible: _editHabitScreenController
-                                      .repeatTypeChoice.value ==
-                                  0
-                              ? true
-                              : false,
+                          visible:
+                              _editHabitScreenController.repeatTypeChoice.value == 0 ? true : false,
                           child: Container(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -311,19 +297,16 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                                   7,
                                   (index) => InkWell(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    onTap: () => _editHabitScreenController
-                                        .changeWeekdateChoice(index),
+                                    onTap: () =>
+                                        _editHabitScreenController.changeWeekdateChoice(index),
                                     child: Obx(
                                       () => Container(
                                         decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          color: _editHabitScreenController
-                                                      .weekDateList[index] ==
-                                                  true
-                                              ? _editHabitScreenController
-                                                  .fillColor.value
-                                              : AppColors.c3DFF,
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color:
+                                              _editHabitScreenController.weekDateList[index] == true
+                                                  ? _editHabitScreenController.fillColor.value
+                                                  : AppColors.c3DFF,
                                         ),
                                         alignment: Alignment.center,
                                         width: 50.0,
@@ -345,11 +328,8 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                       ),
                       Obx(
                         () => Visibility(
-                          visible: _editHabitScreenController
-                                      .repeatTypeChoice.value ==
-                                  1
-                              ? true
-                              : false,
+                          visible:
+                              _editHabitScreenController.repeatTypeChoice.value == 1 ? true : false,
                           child: Container(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -359,21 +339,17 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                                   (index) => InkWell(
                                     borderRadius: BorderRadius.circular(10.0),
                                     onTap: () {
-                                      _editHabitScreenController
-                                          .changeWeeklyListChoice(index);
+                                      _editHabitScreenController.changeWeeklyListChoice(index);
                                     },
                                     child: Obx(
                                       () => Container(
                                         decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          color: _editHabitScreenController
-                                                          .weeklyChoiceList[
-                                                      index] ==
-                                                  true
-                                              ? _editHabitScreenController
-                                                  .fillColor.value
-                                              : AppColors.c3DFF,
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color:
+                                              _editHabitScreenController.weeklyChoiceList[index] ==
+                                                      true
+                                                  ? _editHabitScreenController.fillColor.value
+                                                  : AppColors.c3DFF,
                                         ),
                                         alignment: Alignment.center,
                                         width: 50.0,
@@ -397,8 +373,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                   ),
                   SizedBox(height: 10.0),
                   InkWell(
-                    onTap: () =>
-                        _editHabitScreenController.onRepeatTypeChoiceClick(),
+                    onTap: () => _editHabitScreenController.onRepeatTypeChoiceClick(),
                     borderRadius: BorderRadius.circular(10.0),
                     child: Obx(
                       () => Container(
@@ -407,13 +382,11 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                         width: Get.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          color: _editHabitScreenController
-                              .getRepeatTypeChoiceColor(),
+                          color: _editHabitScreenController.getRepeatTypeChoiceColor(),
                         ),
                         child: Obx(
                           () => Text(
-                            _editHabitScreenController.repeatTypeChoice.value ==
-                                    0
+                            _editHabitScreenController.repeatTypeChoice.value == 0
                                 ? 'everyday'
                                 : 'once every two weeks',
                             style: TextStyle(
@@ -446,18 +419,14 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                         ...List.generate(
                           3,
                           (index) => InkWell(
-                            onTap: () => _editHabitScreenController
-                                .changeNotiTime(index),
+                            onTap: () => _editHabitScreenController.changeNotiTime(index),
                             borderRadius: BorderRadius.circular(10.0),
                             child: Obx(
                               () => Container(
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: _editHabitScreenController
-                                              .notiTimeChoice[index] ==
-                                          true
-                                      ? _editHabitScreenController
-                                          .fillColor.value
+                                  color: _editHabitScreenController.notiTimeChoice[index] == true
+                                      ? _editHabitScreenController.fillColor.value
                                       : AppColors.c3DFF,
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
@@ -488,8 +457,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                         width: Get.width,
                         height: 60.0,
                         decoration: BoxDecoration(
-                          color: _editHabitScreenController.notiTimeChoice[3] ==
-                                  true
+                          color: _editHabitScreenController.notiTimeChoice[3] == true
                               ? _editHabitScreenController.fillColor.value
                               : AppColors.c3DFF,
                           borderRadius: BorderRadius.circular(10.0),
@@ -526,8 +494,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                     () => Switch(
                       activeColor: _editHabitScreenController.fillColor.value,
                       value: _editHabitScreenController.isGetReminder.value,
-                      onChanged: (value) =>
-                          _editHabitScreenController.changeIsGetReminder(),
+                      onChanged: (value) => _editHabitScreenController.changeIsGetReminder(),
                     ),
                   ),
                 ],
@@ -545,8 +512,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                     width: 30.0,
                     height: 30.0,
                     decoration: BoxDecoration(
-                      color: _editHabitScreenController.fillColor.value
-                          .withOpacity(0.2),
+                      color: _editHabitScreenController.fillColor.value.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(90.0),
                     ),
                   ),
@@ -612,8 +578,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
   }
 
   /// [Widget icon và color]
-  Widget _iconAndColorOptionWidget(
-      IconData icon, String text, Color color, int index) {
+  Widget _iconAndColorOptionWidget(IconData icon, String text, Color color, int index) {
     return Row(
       children: [
         InkWell(
@@ -648,8 +613,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
   /// [Widget cho phần chọn daily, weekly, monthy]
   Widget _repeatChoiceWidget(String choiceType, {Color color, int index}) {
     return InkWell(
-      onTap: () =>
-          _editHabitScreenController.onDayMonthYearRepeatChoiceClick(index),
+      onTap: () => _editHabitScreenController.onDayMonthYearRepeatChoiceClick(index),
       borderRadius: BorderRadius.circular(10.0),
       child: Container(
         alignment: Alignment.center,
@@ -722,8 +686,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                               height: 60.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
-                                color: _editHabitScreenController
-                                            .fillColor.value ==
+                                color: _editHabitScreenController.fillColor.value ==
                                         AppColors.choiceColors[index]
                                     ? AppColors.c3DFF
                                     : AppColors.c0000,
@@ -749,8 +712,8 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                         (index) => InkWell(
                           onTap: () {
                             Get.back();
-                            _editHabitScreenController.changeFillColor(
-                                AppColors.choiceColors[index + 3]);
+                            _editHabitScreenController
+                                .changeFillColor(AppColors.choiceColors[index + 3]);
                           },
                           child: Obx(
                             () => Container(
@@ -758,8 +721,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                               height: 60.0,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  color: _editHabitScreenController
-                                              .fillColor.value ==
+                                  color: _editHabitScreenController.fillColor.value ==
                                           AppColors.choiceColors[index + 3]
                                       ? AppColors.c3DFF
                                       : AppColors.c0000),

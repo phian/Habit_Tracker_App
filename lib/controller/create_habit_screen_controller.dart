@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/all_habit_controller.dart';
-import 'package:habit_tracker/controller/habit_statistic_controller.dart';
+
+import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:habit_tracker/service/database/database_helper.dart';
@@ -42,13 +42,14 @@ class CreateHabitScreenController extends GetxController {
     true,
   ].obs;
 
-  AllHabitController _allHabitController = Get.find();
+  final mainScreenController = Get.find<MainScreenController>();
 
-  //Get.put(_allHabitController());
-  HabitStatisticController statisticController =
-      Get.put(HabitStatisticController());
+  //final statisticController = Get.put(HabitStatisticController());
 
-  //Get.put(HabitStatisticController());
+  @override
+  void onInit() {
+    super.onInit();
+  }
 
   void initDataAndController(var habit) {
     if (habit != null) {
@@ -128,43 +129,42 @@ class CreateHabitScreenController extends GetxController {
         buoi: getNotiTimeChoice(),
       ),
     );
-    if (_allHabitController != null) await _allHabitController.getAllHabit();
+    if (mainScreenController != null) await mainScreenController.getAllHabit();
   }
 
   Future<void> editHabit(String name, int id, String amount) async {
-    await DatabaseHelper.instance.updateHabit(
-      Habit(
-        ma: id,
-        ten: name,
-        icon: habitIcon.value.codePoint,
-        mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
-        batMucTieu: selectedIndex.value,
-        soLan: amount == '' ? 0 : int.parse(amount),
-        donVi: selectedUnitType.value,
-        loaiLap: repeatTypeChoice.value,
-        ngayTrongTuan: getDailyList(),
-        soLanTrongTuan: getWeeklyList(),
-        buoi: getNotiTimeChoice(),
-        trangThai: 0,
-      ),
+    var habit = Habit(
+      ma: id,
+      ten: name,
+      icon: habitIcon.value.codePoint,
+      mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
+      batMucTieu: selectedIndex.value,
+      soLan: amount == '' ? 0 : int.parse(amount),
+      donVi: selectedUnitType.value,
+      loaiLap: repeatTypeChoice.value,
+      ngayTrongTuan: getDailyList(),
+      soLanTrongTuan: getWeeklyList(),
+      buoi: getNotiTimeChoice(),
+      trangThai: 0,
     );
-    if (statisticController != null)
-      statisticController.habit.value = Habit(
-        ma: id,
-        ten: name,
-        icon: habitIcon.value.codePoint,
-        mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
-        batMucTieu: selectedIndex.value,
-        soLan: amount == '' ? 0 : int.parse(amount),
-        donVi: selectedUnitType.value,
-        loaiLap: repeatTypeChoice.value,
-        ngayTrongTuan: getDailyList(),
-        soLanTrongTuan: getWeeklyList(),
-        buoi: getNotiTimeChoice(),
-        trangThai: 0,
-      );
+    await DatabaseHelper.instance.updateHabit(habit);
+    // if (statisticController != null)
+    //   statisticController.habit.value = Habit(
+    //     ma: id,
+    //     ten: name,
+    //     icon: habitIcon.value.codePoint,
+    //     mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
+    //     batMucTieu: selectedIndex.value,
+    //     soLan: amount == '' ? 0 : int.parse(amount),
+    //     donVi: selectedUnitType.value,
+    //     loaiLap: repeatTypeChoice.value,
+    //     ngayTrongTuan: getDailyList(),
+    //     soLanTrongTuan: getWeeklyList(),
+    //     buoi: getNotiTimeChoice(),
+    //     trangThai: 0,
+    //   );
 
-    if (_allHabitController != null) await _allHabitController.getAllHabit();
+    if (mainScreenController != null) await mainScreenController.getAllHabit();
   }
 
   Color getRepeatTypeChoiceColor() {
@@ -182,8 +182,7 @@ class CreateHabitScreenController extends GetxController {
   }
 
   changeSelectedIndex(RxInt index) {
-    selectedIndex.value =
-        selectedIndex.value == index.value ? selectedIndex.value : index.value;
+    selectedIndex.value = selectedIndex.value == index.value ? selectedIndex.value : index.value;
 
     // Nếu off thì reset thành giá trị mặc định
     if (index.value == 1) {

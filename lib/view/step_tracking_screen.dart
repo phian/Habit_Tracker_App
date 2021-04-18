@@ -10,8 +10,7 @@ import 'package:shrink_sidemenu/src/base.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class StepTackingScreen extends StatelessWidget implements SideMenuModel {
-  final StepTrackingScreenController _controller =
-      StepTrackingScreenController();
+  final _controller = Get.find<StepTrackingScreenController>();
 
   final List<Color> _gradientColors = [
     const Color(0xff23b6e6),
@@ -88,8 +87,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                     padding: EdgeInsets.only(top: 10.0),
                     color: AppColors.c1F00,
                     child: TabBar(
-                      onTap: (index) =>
-                          _controller.changeTabAndTrackingData(index),
+                      onTap: (index) => _controller.changeTabAndTrackingData(index),
                       isScrollable: true,
                       labelColor: AppColors.cFFFF,
                       unselectedLabelColor: AppColors.c3DFF,
@@ -288,8 +286,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                           case 1:
                             return BarChart(
                               _weekChart(_controller.touchedIndex.value),
-                              swapAnimationDuration:
-                                  Duration(milliseconds: 250),
+                              swapAnimationDuration: Duration(milliseconds: 250),
                             );
                             break;
                           default:
@@ -320,9 +317,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
         child: Column(
           children: [
             Text(
-              title.toLowerCase() != "distance"
-                  ? amount.value
-                  : (amount.value + " km"),
+              title.toLowerCase() != "distance" ? amount.value : (amount.value + " km"),
               style: TextStyle(
                 fontSize: 28.0,
                 fontWeight: FontWeight.bold,
@@ -350,10 +345,8 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
         height: Get.width * 0.6,
         child: CircularStepProgressIndicator(
           totalSteps: 100,
-          currentStep: (int.parse(_controller.totalSteps.value) /
-                  _controller.goalSteps.value *
-                  100)
-              .toInt(),
+          currentStep:
+              (int.parse(_controller.totalSteps.value) / _controller.goalSteps.value * 100).toInt(),
           stepSize: 10,
           selectedColor: AppColors.cFF69,
           unselectedColor: AppColors.cFFEE,
@@ -365,9 +358,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
               Center(
                 child: Text(
                   "Progress: " +
-                      (int.parse(_controller.totalSteps.value) /
-                              _controller.goalSteps.value *
-                              100)
+                      (int.parse(_controller.totalSteps.value) / _controller.goalSteps.value * 100)
                           .toString()
                           .substring(0, 2) +
                       " %",
@@ -400,8 +391,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                 ),
               );
             }),
-        touchCallback: (barTouchResponse) =>
-            _controller.onChartBarTouchResponse(barTouchResponse),
+        touchCallback: (barTouchResponse) => _controller.onChartBarTouchResponse(barTouchResponse),
       ),
       titlesData: FlTitlesData(
         show: true,
@@ -460,10 +450,8 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
-              color: Color(0xff68737d),
-              fontWeight: FontWeight.bold,
-              fontSize: 13),
+          getTextStyles: (value) =>
+              const TextStyle(color: Color(0xff68737d), fontWeight: FontWeight.bold, fontSize: 13),
           getTitles: (value) => _controller.initMonthChartText(value.toInt()),
           margin: 8,
         ),

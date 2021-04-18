@@ -10,7 +10,7 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  NotificationController _notificationController = NotificationController();
+  final _notificationController = Get.put(NotificationController());
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +111,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget _habitNotificationListColumn() {
     return Obx(
       () => Visibility(
-        visible: _notificationController.isHabitsOrChallenge.value == 1
-            ? true
-            : false,
+        visible: _notificationController.isHabitsOrChallenge.value == 1 ? true : false,
         child: Container(
           child: Column(
             children: [
@@ -138,8 +136,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               SizedBox(height: 30.0),
               _dateTimeNotiWidget(
                 title: "Morning plan",
-                summaryText:
-                    "You have x habits for this morning and 4 more you can do",
+                summaryText: "You have x habits for this morning and 4 more you can do",
                 icon: Icons.wb_sunny,
                 value: _notificationController.isOnOrOffMorningPlan,
                 iconColor: AppColors.cFFFA,
@@ -147,16 +144,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
               SizedBox(height: 30.0),
               _dateTimeNotiWidget(
                 title: "Afternoon plan",
-                summaryText:
-                    "You have 1 habt for this afternoon and 4 more you can do",
+                summaryText: "You have 1 habt for this afternoon and 4 more you can do",
                 icon: Icons.cloud,
                 value: _notificationController.isOnOrOffAternoonPlan,
               ),
               SizedBox(height: 30.0),
               _dateTimeNotiWidget(
                 title: "Evening plan",
-                summaryText:
-                    "You have 1 habt for this afternoon and 4 more you can do",
+                summaryText: "You have 1 habt for this afternoon and 4 more you can do",
                 icon: Icons.nights_stay,
                 value: _notificationController.isOnOrOffEveningPlan,
                 iconColor: AppColors.cFFFFD9,
@@ -164,8 +159,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               SizedBox(height: 30.0),
               _todayPlanAndResultWidget(
                 title: "Your results for today",
-                summaryText:
-                    "x habits completed, y habits skiped, z habits left",
+                summaryText: "x habits completed, y habits skiped, z habits left",
                 value: _notificationController.isOnOrOffTodayResult,
                 icon: Icons.view_list,
                 pickedTime: _notificationController.resultNotiPickedTime,
@@ -215,7 +209,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     Color iconColor,
   }) {
     return Container(
-      height: Get.height * 0.26,
       padding: EdgeInsets.symmetric(horizontal: 25.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
@@ -264,16 +257,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     () => Switch(
                       activeColor: AppColors.cFF1C,
                       value: value.value,
-                      onChanged: (value) => _notificationController
-                          .onDateTimeNotificationSwitchPress(icon),
+                      onChanged: (value) =>
+                          _notificationController.onDateTimeNotificationSwitchPress(icon),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-                height:
-                    icon == Icons.assignment ? 15.0 : Get.height * 0.26 * 0.17),
+            SizedBox(height: icon == Icons.assignment ? 15.0 : Get.height * 0.26 * 0.17),
             Divider(
               thickness: 0.5,
               color: AppColors.cFFFF,
@@ -368,8 +359,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         child: Switch(
                           activeColor: AppColors.cFFFE,
                           value: value.value,
-                          onChanged: (value) => _notificationController
-                              .onNoneDateTimeNotificationSwitchPress(icon),
+                          onChanged: (value) =>
+                              _notificationController.onNoneDateTimeNotificationSwitchPress(icon),
                         ),
                       ),
                     ),
@@ -387,9 +378,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget _challengeNotificationBox() {
     return Obx(
       () => Visibility(
-        visible: _notificationController.isHabitsOrChallenge.value == 2
-            ? true
-            : false,
+        visible: _notificationController.isHabitsOrChallenge.value == 2 ? true : false,
         child: Container(
           child: Column(
             children: [

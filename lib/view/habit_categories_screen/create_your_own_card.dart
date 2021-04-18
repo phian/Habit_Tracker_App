@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 
-import '../create_and_edit_habit_screen/create_habit_screen.dart';
 
 class CreateYourOwnCard extends StatelessWidget {
   final IconData icon;
@@ -21,11 +19,7 @@ class CreateYourOwnCard extends StatelessWidget {
         highlightColor: AppColors.c0000,
         borderRadius: BorderRadius.circular(20.0),
         onTap: () {
-          Get.to(
-            () => CreateHabitScreen(),
-            duration: Duration(milliseconds: 500),
-            transition: Transition.fadeIn,
-          );
+          Get.toNamed('/create_habit');
         },
         child: Container(
           padding: EdgeInsets.only(left: 30.0),

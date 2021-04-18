@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
 
-import '../habit_note_screen.dart';
 
 class NoteContentCard extends StatelessWidget {
   final RxString content;
@@ -16,10 +15,9 @@ class NoteContentCard extends StatelessWidget {
     return Obx(
       () => GestureDetector(
         onTap: () {
-          Get.to(
-            HabitNoteScreen(),
+          Get.toNamed(
+            '/note',
             arguments: controller.habitId.value,
-            transition: Transition.fadeIn,
           );
         },
         child: Container(

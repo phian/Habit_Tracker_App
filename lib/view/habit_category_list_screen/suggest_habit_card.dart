@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/habit_category_list_screen_controller.dart';
 
-import '../create_and_edit_habit_screen/create_habit_screen.dart';
 
 class SuggestHabitCard extends StatelessWidget {
   final int iconCode, color, index;
@@ -33,11 +32,12 @@ class SuggestHabitCard extends StatelessWidget {
           ),
         ),
         onTap: () {
-          Get.off(
-            CreateHabitScreen(),
+          Get.offNamed(
+            '/create_habit',
             arguments: this.habitCategoryListScreenController.suggestedHabitList[index],
-            transition: Transition.fadeIn,
+            
           );
+          
         },
         leading: Container(
           child: Icon(

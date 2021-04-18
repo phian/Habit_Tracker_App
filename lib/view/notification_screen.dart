@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/notification_screen_controller.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _notificationScreenAppBar(),
-      backgroundColor: Color(0xFF1E212A),
+      backgroundColor: AppColors.cFF1E,
       body: _notificationScreenBody(),
     );
   }
@@ -56,7 +57,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      backgroundColor: Color(0xFF2F313E),
+      backgroundColor: AppColors.cFF2F,
       centerTitle: true,
       elevation: 0.0,
     );
@@ -76,8 +77,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: _notificationController.isHabitsOrChallenge.value == index
-                ? Color(0xFF1C8EFE)
-                : Colors.white24,
+                ? AppColors.cFF1C
+                : AppColors.c3DFF,
             borderRadius: BorderRadius.circular(30.0),
           ),
           child: Text(
@@ -121,7 +122,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 "Set notifications to get information about the habits you need to complete",
                 style: TextStyle(
                   fontSize: 20.0,
-                  color: Color(0xFFA7AAB1),
+                  color: AppColors.cFFA7,
                 ),
               ),
               SizedBox(height: 30.0),
@@ -132,7 +133,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 value: _notificationController.isOnOrOffTodayPlanNoti,
                 icon: Icons.assignment,
                 pickedTime: _notificationController.todayPlanPickedTime,
-                iconColor: Color(0xFF11C480),
+                iconColor: AppColors.cFF11,
               ),
               SizedBox(height: 30.0),
               _dateTimeNotiWidget(
@@ -141,7 +142,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     "You have x habits for this morning and 4 more you can do",
                 icon: Icons.wb_sunny,
                 value: _notificationController.isOnOrOffMorningPlan,
-                iconColor: Color(0xFFFABB37),
+                iconColor: AppColors.cFFFA,
               ),
               SizedBox(height: 30.0),
               _dateTimeNotiWidget(
@@ -158,7 +159,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     "You have 1 habt for this afternoon and 4 more you can do",
                 icon: Icons.nights_stay,
                 value: _notificationController.isOnOrOffEveningPlan,
-                iconColor: Color(0xFFFFD93B),
+                iconColor: AppColors.cFFFFD9,
               ),
               SizedBox(height: 30.0),
               _todayPlanAndResultWidget(
@@ -168,19 +169,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 value: _notificationController.isOnOrOffTodayResult,
                 icon: Icons.view_list,
                 pickedTime: _notificationController.resultNotiPickedTime,
-                iconColor: Color(0xFFF53566),
+                iconColor: AppColors.cFFF5,
               ),
               SizedBox(height: 30.0),
               Text(
                 "You can also set reminder for each habit in the settings",
                 style: TextStyle(
                   fontSize: 20.0,
-                  color: Color(0xFFA7AAB1),
+                  color: AppColors.cFFA7,
                 ),
               ),
               SizedBox(height: 30.0),
               Material(
-                color: Color(0xFF2F313E),
+                color: AppColors.cFF2F,
                 borderRadius: BorderRadius.circular(10.0),
                 child: ListTile(
                   shape: RoundedRectangleBorder(
@@ -189,7 +190,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   onTap: () {},
                   leading: Icon(
                     Icons.settings_outlined,
-                    color: Color(0xFF1C8EFE),
+                    color: AppColors.cFF1C,
                   ),
                   title: Text(
                     "Change notifications settings",
@@ -218,7 +219,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       padding: EdgeInsets.symmetric(horizontal: 25.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: Color(0xFF2F313E),
+        color: AppColors.cFF2F,
       ),
       child: Container(
         child: Column(
@@ -261,7 +262,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                   Obx(
                     () => Switch(
-                      activeColor: Color(0xFF1C8EFE),
+                      activeColor: AppColors.cFF1C,
                       value: value.value,
                       onChanged: (value) => _notificationController
                           .onDateTimeNotificationSwitchPress(icon),
@@ -275,11 +276,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     icon == Icons.assignment ? 15.0 : Get.height * 0.26 * 0.17),
             Divider(
               thickness: 0.5,
-              color: Colors.white,
+              color: AppColors.cFFFF,
             ),
             Container(
               child: Material(
-                color: Colors.transparent,
+                color: AppColors.c0000,
                 borderRadius: BorderRadius.circular(5.0),
                 child: ListTile(
                   shape: RoundedRectangleBorder(
@@ -289,7 +290,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   leading: Icon(
                     Icons.access_time,
                     size: 30.0,
-                    color: Color(0xFF1C8EFE),
+                    color: AppColors.cFF1C,
                   ),
                   title: Obx(
                     () => Text(
@@ -320,7 +321,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       padding: EdgeInsets.symmetric(horizontal: 23.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: Color(0xFF2F313E),
+        color: AppColors.cFF2F,
       ),
       child: Row(
         children: [
@@ -365,7 +366,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       () => Container(
                         padding: EdgeInsets.only(left: Get.width * 0.03),
                         child: Switch(
-                          activeColor: Colors.blue,
+                          activeColor: AppColors.cFFFE,
                           value: value.value,
                           onChanged: (value) => _notificationController
                               .onNoneDateTimeNotificationSwitchPress(icon),
@@ -397,7 +398,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 "Set notification to get infromation about Challenges you need to complete",
                 style: TextStyle(
                   fontSize: 20.0,
-                  color: Color(0xFFA7AAB1),
+                  color: AppColors.cFFA7,
                 ),
               ),
               _challengeNotificationCard(),
@@ -416,7 +417,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       padding: EdgeInsets.symmetric(horizontal: 15.0),
       margin: EdgeInsets.only(top: 20.0),
       decoration: BoxDecoration(
-        color: Color(0xFF2F313E),
+        color: AppColors.cFF2F,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Column(
@@ -451,7 +452,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           Container(
             margin: EdgeInsets.only(top: 20.0),
             height: 1,
-            color: Colors.white12,
+            color: AppColors.c1FFF,
           ),
           SizedBox(height: 10.0),
           Obx(
@@ -475,7 +476,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   /// [Challenge display time tile]
   Widget _challengeNotificationDisplayTimeTile({String title, String time}) {
     return Material(
-      color: Colors.transparent,
+      color: AppColors.c0000,
       child: ListTile(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
@@ -483,14 +484,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
         onTap: () => _onChallengeNotificationTilePress(title),
         leading: Icon(
           Icons.access_time,
-          color: Color(0xFF1C8EFE),
+          color: AppColors.cFF1C,
           size: 30.0,
         ),
         title: Text(
           title,
           style: TextStyle(
             fontSize: 18.0,
-            color: Color(0xFFA7AAB1),
+            color: AppColors.cFFA7,
           ),
         ),
         trailing: Container(

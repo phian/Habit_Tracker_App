@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
 
 import '../habit_note_screen.dart';
@@ -28,7 +29,7 @@ class NoteContentCard extends StatelessWidget {
           height: Get.height * 0.12,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            color: Color(0xFF2F313E),
+            color: AppColors.cFF2F,
           ),
           child: Text(
             content.value,

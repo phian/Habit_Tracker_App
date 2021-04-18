@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/manage_screen_controller.dart';
 
 import 'habit_categories_screen/habit_categories_screen.dart';
@@ -11,10 +12,10 @@ class ManageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1E212A),
+      backgroundColor: AppColors.cFF1E,
       body: Obx(() => _controller.screens[_controller.currentIndex.value]),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
+        backgroundColor: AppColors.cFFFE,
         child: Icon(Icons.add),
         onPressed: () {
           Get.to(() => HabitCategoriesScreen(), transition: Transition.fadeIn);
@@ -23,7 +24,7 @@ class ManageScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        color: Colors.black12,
+        color: AppColors.c1F00,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -59,8 +60,8 @@ class ManageScreen extends StatelessWidget {
         icon: Icon(
           icon,
           color: _controller.currentIndex.value == index
-              ? Colors.blue
-              : Colors.grey,
+              ? AppColors.cFFFE
+              : AppColors.cFF9E,
           size: 30.0,
         ),
         onPressed: () {

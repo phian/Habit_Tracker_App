@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/step_tracking_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
@@ -12,7 +13,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
   final StepTrackingScreenController _controller =
       StepTrackingScreenController();
 
-  final List<Color> gradientColors = [
+  final List<Color> _gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
   ];
@@ -44,7 +45,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
           icon: Icon(
             Icons.menu_rounded,
             size: 30.0,
-            color: Colors.white,
+            color: AppColors.cFFFF,
           ),
           onPressed: () => openOrCloseSideMenu(
             AppConstant.stepTrackingScreenKey,
@@ -52,7 +53,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
         ),
       ),
       centerTitle: true,
-      backgroundColor: Color(0xFF2B2B2B),
+      backgroundColor: AppColors.cFF2B,
       elevation: 0.0,
     );
   }
@@ -85,14 +86,14 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.only(top: 10.0),
-                    color: Colors.black12,
+                    color: AppColors.c1F00,
                     child: TabBar(
                       onTap: (index) =>
                           _controller.changeTabAndTrackingData(index),
                       isScrollable: true,
-                      labelColor: Colors.white,
-                      unselectedLabelColor: Colors.white24,
-                      indicatorColor: Colors.transparent,
+                      labelColor: AppColors.cFFFF,
+                      unselectedLabelColor: AppColors.c3DFF,
+                      indicatorColor: AppColors.c0000,
                       physics: NeverScrollableScrollPhysics(),
                       tabs: [
                         _stepTrackingScreenTab("Day"),
@@ -140,7 +141,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 0.5,
-                  color: Colors.white24,
+                  color: AppColors.c3DFF,
                 ),
                 borderRadius: BorderRadius.circular(360.0),
               ),
@@ -166,7 +167,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                       width: 80.0,
                       height: 30.0,
                       decoration: BoxDecoration(
-                        color: Color(0xFF1C8EFE),
+                        color: AppColors.cFF1C,
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       alignment: Alignment.center,
@@ -210,7 +211,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
             margin: EdgeInsets.only(top: 70.0),
             height: Get.height * 0.5,
             decoration: BoxDecoration(
-              color: Color(0xFF2F313E),
+              color: AppColors.cFF2F,
               borderRadius: BorderRadius.circular(30.0),
             ),
             child: Column(
@@ -232,7 +233,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                                 style: TextStyle(
                                   fontSize: 60.0,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFFFABB37),
+                                  color: AppColors.cFFFA,
                                 ),
                               ),
                             ),
@@ -240,7 +241,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                               " Steps",
                               style: TextStyle(
                                 fontSize: 20.0,
-                                color: Color(0xFFFABB37),
+                                color: AppColors.cFFFA,
                               ),
                             ),
                           ],
@@ -255,7 +256,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                               "Goal",
                               style: TextStyle(
                                 fontSize: 20.0,
-                                color: Color(0xFFA7AAB1),
+                                color: AppColors.cFFA7,
                               ),
                             ),
                             SizedBox(height: 5.0),
@@ -265,7 +266,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                                 style: TextStyle(
                                   fontSize: 25.0,
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFFFE7352),
+                                  color: AppColors.cFFFE,
                                 ),
                               ),
                             ),
@@ -331,7 +332,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
               title,
               style: TextStyle(
                 fontSize: 18.0,
-                color: Color(0xFFA7AAB1),
+                color: AppColors.cFFA7,
               ),
             ),
           ],
@@ -354,8 +355,8 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                   100)
               .toInt(),
           stepSize: 10,
-          selectedColor: Colors.greenAccent,
-          unselectedColor: Colors.grey[200],
+          selectedColor: AppColors.cFF69,
+          unselectedColor: AppColors.cFFEE,
           padding: 0,
           selectedStepSize: 15,
           roundedCap: (_, __) => true,
@@ -388,13 +389,13 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
     return BarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
-            tooltipBgColor: Colors.blueGrey,
+            tooltipBgColor: AppColors.cFF60,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               String weekDay = _controller.initWeekDate(group.x.toInt());
               return BarTooltipItem(
                 weekDay + '\n' + (rod.y.toInt() * 100).toString() + " steps",
                 TextStyle(
-                  color: Colors.white,
+                  color: AppColors.cFFFF,
                   fontSize: 18.0,
                 ),
               );
@@ -443,13 +444,13 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
         drawVerticalLine: true,
         getDrawingHorizontalLine: (value) {
           return FlLine(
-            color: const Color(0xff37434d),
+            color: AppColors.cFF37,
             strokeWidth: 1,
           );
         },
         getDrawingVerticalLine: (value) {
           return FlLine(
-            color: const Color(0xff37434d),
+            color: AppColors.cFF37,
             strokeWidth: 1,
           );
         },
@@ -480,7 +481,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border.all(color: const Color(0xff37434d), width: 1),
+        border: Border.all(color: AppColors.cFF37, width: 1),
       ),
       minX: 0,
       maxX: 11,
@@ -498,7 +499,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
             FlSpot(11, 4),
           ],
           isCurved: true,
-          colors: gradientColors,
+          colors: _gradientColors,
           barWidth: 5,
           isStrokeCapRound: true,
           dotData: FlDotData(
@@ -506,7 +507,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
           ),
           belowBarData: BarAreaData(
             show: true,
-            colors: gradientColors
+            colors: _gradientColors
                 .map(
                   (color) => color.withOpacity(0.3),
                 )

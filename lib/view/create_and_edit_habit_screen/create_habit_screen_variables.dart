@@ -7,14 +7,6 @@ import 'package:get/get.dart';
 ScrollController screenScrollController = new ScrollController();
 AnimateIconController aniController = new AnimateIconController();
 
-List<Color> choiceColors = [
-  Color(0xFFF53566),
-  Color(0xFF11C480),
-  Color(0xFF1C8EFE),
-  Color(0xFFFABB37),
-  Color(0xFFFE7352),
-  Color(0xFF933DFF),
-];
 List<String> weekDayChoices = [
   "M",
   "T",

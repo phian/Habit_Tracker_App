@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:select_form_field/select_form_field.dart';
@@ -53,7 +54,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1E212A),
+      backgroundColor: AppColors.cFF1E,
       // resizeToAvoidBottomInset: false,
       body: _createHabitScreenBody(),
     );
@@ -90,16 +91,16 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                 cursorColor: _createHabitScreenController.fillColor.value,
                 style: TextStyle(
                   fontSize: 22.0,
-                  color: Colors.white,
+                  color: AppColors.cFFFF,
                 ),
                 onChanged: (value) {},
                 decoration: InputDecoration(
                   hintText: 'Name of the habit',
                   hintStyle: TextStyle(
                     fontSize: 22.0,
-                    color: Colors.white54,
+                    color: AppColors.c8AFF,
                   ),
-                  fillColor: Colors.white24,
+                  fillColor: AppColors.c3DFF,
                   filled: true,
                   enabledBorder: _textFieldBorder(),
                   focusedBorder: _textFieldBorder(),
@@ -166,7 +167,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                             color: _createHabitScreenController
                                         .selectedIndex.value !=
                                     index
-                                ? Colors.white24
+                                ? AppColors.c3DFF
                                 : _createHabitScreenController.fillColor.value,
                           ),
                         ),
@@ -205,7 +206,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                             counterText: '',
                             hintText: '0',
                             hintStyle: TextStyle(fontSize: 20.0),
-                            fillColor: Colors.white24,
+                            fillColor: AppColors.c3DFF,
                             filled: true,
                             enabledBorder: _textFieldBorder(),
                             focusedBorder: _textFieldBorder(),
@@ -232,18 +233,18 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                               parent: BouncingScrollPhysics(),
                             ),
                             decoration: InputDecoration(
-                              fillColor: Colors.white24,
+                              fillColor: AppColors.c3DFF,
                               filled: true,
                               hintText: _createHabitScreenController
                                   .selectedUnitType.value,
                               hintStyle: TextStyle(
                                 fontSize: 20.0,
-                                color: Colors.white,
+                                color: AppColors.cFFFF,
                               ),
                               suffixIcon: Icon(
                                 Icons.arrow_drop_down,
                                 size: 35.0,
-                                color: Colors.white,
+                                color: AppColors.cFFFF,
                               ),
                               enabledBorder: _textFieldBorder(),
                               focusedBorder: _textFieldBorder(),
@@ -282,7 +283,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                                     .repeatTypeChoice.value ==
                                 index
                             ? _createHabitScreenController.fillColor.value
-                            : Colors.white24,
+                            : AppColors.c3DFF,
                         index: index,
                       ),
                     ),
@@ -329,7 +330,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                                                   true
                                               ? _createHabitScreenController
                                                   .fillColor.value
-                                              : Colors.white24,
+                                              : AppColors.c3DFF,
                                         ),
                                         alignment: Alignment.center,
                                         width: 50.0,
@@ -377,7 +378,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                                                   true
                                               ? _createHabitScreenController
                                                   .fillColor.value
-                                              : Colors.white24,
+                                              : AppColors.c3DFF,
                                         ),
                                         alignment: Alignment.center,
                                         width: 50.0,
@@ -463,7 +464,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                                           true
                                       ? _createHabitScreenController
                                           .fillColor.value
-                                      : Colors.white24,
+                                      : AppColors.c3DFF,
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 width: Get.width * 0.285,
@@ -497,7 +498,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                               _createHabitScreenController.notiTimeChoice[3] ==
                                       true
                                   ? _createHabitScreenController.fillColor.value
-                                  : Colors.white24,
+                                  : AppColors.c3DFF,
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Text(
@@ -515,7 +516,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
             SizedBox(height: 30.0),
             Divider(
               thickness: 0.5,
-              color: Colors.black,
+              color: AppColors.cFF00,
             ),
             SizedBox(height: 5.0),
             Container(
@@ -570,7 +571,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
   OutlineInputBorder _textFieldBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
-      borderSide: BorderSide(color: Colors.transparent),
+      borderSide: BorderSide(color: AppColors.c0000),
     );
   }
 
@@ -586,7 +587,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
               padding: EdgeInsets.only(right: 10.0),
               child: Divider(
                 thickness: 0.5,
-                color: Colors.black,
+                color: AppColors.cFF00,
               ),
             ),
           ),
@@ -608,7 +609,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
               padding: EdgeInsets.only(left: 10.0),
               child: Divider(
                 thickness: 0.5,
-                color: Colors.black,
+                color: AppColors.cFF00,
               ),
             ),
           ),
@@ -630,7 +631,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
             height: 60.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white24,
+              color: AppColors.c3DFF,
             ),
             alignment: Alignment.center,
             child: Icon(
@@ -663,7 +664,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
         height: 60.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: color != null ? color : Colors.white24,
+          color: color != null ? color : AppColors.c3DFF,
         ),
         child: Text(
           choiceType,
@@ -697,7 +698,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: Colors.black87,
+              color: AppColors.cDD00,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -707,7 +708,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                   style: TextStyle(
                     fontSize: 20.0,
                     decoration: TextDecoration.none,
-                    color: Colors.white,
+                    color: AppColors.cFFFF,
                   ),
                 ),
                 Container(
@@ -720,7 +721,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                           onTap: () {
                             Get.back();
                             _createHabitScreenController
-                                .changeFillColor(choiceColors[index]);
+                                .changeFillColor(AppColors.choiceColors[index]);
                           },
                           child: Obx(
                             () => Container(
@@ -730,14 +731,14 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 color: _createHabitScreenController
                                             .fillColor.value ==
-                                        choiceColors[index]
-                                    ? Colors.white24
-                                    : Colors.transparent,
+                                        AppColors.choiceColors[index]
+                                    ? AppColors.c3DFF
+                                    : AppColors.c0000,
                               ),
                               child: Icon(
                                 Icons.circle,
                                 size: 35.0,
-                                color: choiceColors[index],
+                                color: AppColors.choiceColors[index],
                               ),
                             ),
                           ),
@@ -755,8 +756,8 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                         (index) => InkWell(
                           onTap: () {
                             Get.back();
-                            _createHabitScreenController
-                                .changeFillColor(choiceColors[index + 3]);
+                            _createHabitScreenController.changeFillColor(
+                                AppColors.choiceColors[index + 3]);
                           },
                           child: Obx(
                             () => Container(
@@ -766,13 +767,13 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   color: _createHabitScreenController
                                               .fillColor.value ==
-                                          choiceColors[index + 3]
-                                      ? Colors.white24
-                                      : Colors.transparent),
+                                          AppColors.choiceColors[index + 3]
+                                      ? AppColors.c3DFF
+                                      : AppColors.c0000),
                               child: Icon(
                                 Icons.circle,
                                 size: 35.0,
-                                color: choiceColors[index + 3],
+                                color: AppColors.choiceColors[index + 3],
                               ),
                             ),
                           ),
@@ -795,7 +796,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
       context,
       iconPackMode: IconPack.material,
       iconSize: 30.0,
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.cFF00,
       closeChild: null,
       searchHintText: "Search icon...",
       searchIcon: Icon(

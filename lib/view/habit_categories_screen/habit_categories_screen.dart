@@ -29,7 +29,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1E212A),
+      backgroundColor: AppColors.cFF1E,
       appBar: _habitCategoriesAppBar(),
       body: _habitCategoriesBody(),
     );
@@ -64,8 +64,8 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
               return true;
             },
             duration: Duration(milliseconds: 200),
-            startIconColor: Colors.white,
-            endIconColor: Colors.white,
+            startIconColor: AppColors.cFFFF,
+            endIconColor: AppColors.cFFFF,
             clockwise: true,
           ),
           onPressed: null,
@@ -82,12 +82,12 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
           "Habit categories",
           style: TextStyle(
             fontSize: 30.0,
-            color: Colors.white,
+            color: AppColors.cFFFF,
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.c0000,
       elevation: 0.0,
     );
   }
@@ -113,7 +113,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
           Text(
             "Create your own",
             style: TextStyle(
-              color: Colors.white,
+              color: AppColors.cFFFF,
               fontSize: 25.0,
               fontWeight: FontWeight.bold,
             ),
@@ -123,7 +123,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
           ),
           CreateYourOwnCard(
             icon: Icons.calendar_today_rounded,
-            iconColor: Color(0xFF4949f4),
+            iconColor: AppColors.cFF49,
             title: "Regular Habit",
           ),
           SizedBox(
@@ -136,7 +136,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
             "Or choose in these categories",
             style: TextStyle(
               fontSize: 25.0,
-              color: Colors.white,
+              color: AppColors.cFFFF,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -159,9 +159,9 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                                 ),
                           child: Material(
                             borderRadius: BorderRadius.circular(20.0),
-                            color: Color(0xFF2F313E),
+                            color: AppColors.cFF2F,
                             child: InkWell(
-                              highlightColor: Colors.transparent,
+                              highlightColor: AppColors.c0000,
                               borderRadius: BorderRadius.circular(20.0),
                               onTap: () => _onCategoryCardPressed(index),
                               child: _categoriesScreenController

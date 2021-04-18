@@ -1,6 +1,7 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/challenge_time_line_controller.dart';
 import 'package:habit_tracker/view/manage_screen.dart';
 import 'package:timeline_list/timeline.dart';
@@ -39,7 +40,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1E212A),
+      backgroundColor: AppColors.cFF1E,
       body: Hero(
         tag: widget.tag,
         child: _challengeTimelineScreenBody(),
@@ -68,12 +69,12 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
     return SliverAppBar(
       expandedHeight: Get.height * 0.3,
       collapsedHeight: Get.height * 0.075,
-      backgroundColor: Color(0xFF2F313E),
+      backgroundColor: AppColors.cFF2F,
       pinned: true,
       bottom: PreferredSize(
         preferredSize: Size(Get.width, Get.height * 0.3 * 0.75),
         child: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.c0000,
           elevation: 0.0,
           leading: Text(""),
         ),
@@ -112,7 +113,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                   "7 days",
                   style: TextStyle(
                     fontSize: 15.0,
-                    color: Color(0xFFA7AAB1),
+                    color: AppColors.cFFA7,
                   ),
                 ),
                 Container(
@@ -127,14 +128,14 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                           margin: EdgeInsets.only(top: Get.height * 0.3 * 0.07),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: Colors.white24,
+                            color: AppColors.c3DFF,
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                           child: Text(
                             widget.challengeAmount + " joined",
                             style: TextStyle(
                               fontSize: 15.0,
-                              color: Color(0xFFE2C372),
+                              color: AppColors.cFFE2,
                             ),
                           ),
                         ),
@@ -150,14 +151,14 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                           width: 70.0,
                           height: 30.0,
                           decoration: BoxDecoration(
-                            color: Color(0xFFF9BD33),
+                            color: AppColors.cFFF9,
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                           child: Text(
                             "WHY",
                             style: TextStyle(
                               fontSize: 15.0,
-                              color: Color(0xFF2F313E),
+                              color: AppColors.cFF2F,
                             ),
                           ),
                         ),
@@ -187,8 +188,8 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
               return true;
             },
             duration: Duration(milliseconds: 200),
-            startIconColor: Colors.white,
-            endIconColor: Colors.white,
+            startIconColor: AppColors.cFFFF,
+            endIconColor: AppColors.cFFFF,
             clockwise: true,
           ),
         ),
@@ -213,7 +214,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
             padding: EdgeInsets.only(bottom: 20.0, top: 15.0),
             child: Timeline(
               position: TimelinePosition.Left,
-              lineColor: Colors.white12,
+              lineColor: AppColors.c1FFF,
               lineWidth: 0.7,
               physics: AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
@@ -231,14 +232,14 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                             _controller.dateNamesList[index],
                             style: TextStyle(
                               fontSize: 15.0,
-                              color: Color(0xFFA7AAB1),
+                              color: AppColors.cFFA7,
                             ),
                           ),
                           SizedBox(height: 20.0),
                           Container(
                             height: Get.height * 0.14,
                             decoration: BoxDecoration(
-                              color: Color(0xFF2F313E),
+                              color: AppColors.cFF2F,
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: ListTile(
@@ -267,7 +268,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                                       style: TextStyle(
                                         fontSize: 15.0,
                                         fontWeight: FontWeight.w500,
-                                        color: Color(0xFFA7AAB1),
+                                        color: AppColors.cFFA7,
                                       ),
                                     ),
                                   ],
@@ -292,14 +293,14 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                               _controller.dateNamesList.length - 1],
                           style: TextStyle(
                             fontSize: 15.0,
-                            color: Color(0xFFA7AAB1),
+                            color: AppColors.cFFA7,
                           ),
                         ),
                         SizedBox(height: 20.0),
                         Container(
                           height: Get.height * 0.1,
                           decoration: BoxDecoration(
-                            color: Color(0xFF2F313E),
+                            color: AppColors.cFF2F,
                             borderRadius: BorderRadius.circular(20.0),
                           ),
                           child: ListTile(
@@ -309,7 +310,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                               ),
                               child: Icon(
                                 Icons.more_horiz,
-                                color: Colors.white12,
+                                color: AppColors.c1FFF,
                                 size: 40.0,
                               ),
                             ),
@@ -337,14 +338,14 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                 width: 100.0,
                 height: 50.0,
                 decoration: BoxDecoration(
-                  color: Color(0xFFF9BD33),
+                  color: AppColors.cFFF9,
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Text(
                   "START CHALLENGE",
                   style: TextStyle(
                     fontSize: 18.0,
-                    color: Color(0xFF2F313E),
+                    color: AppColors.cFF2F,
                   ),
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 
 import '../create_and_edit_habit_screen/create_habit_screen.dart';
 
@@ -15,13 +16,13 @@ class CreateYourOwnCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(20.0),
-      color: Color(0xFF2F313E),
+      color: AppColors.cFF2F,
       child: InkWell(
-        highlightColor: Colors.transparent,
+        highlightColor: AppColors.c0000,
         borderRadius: BorderRadius.circular(20.0),
         onTap: () {
           Get.to(
-                () => CreateHabitScreen(),
+            () => CreateHabitScreen(),
             duration: Duration(milliseconds: 500),
             transition: Transition.fadeIn,
           );
@@ -42,7 +43,7 @@ class CreateYourOwnCard extends StatelessWidget {
                   title,
                   style: TextStyle(
                     fontSize: 22.0,
-                    color: Colors.white,
+                    color: AppColors.cFFFF,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/gernaral_screen_controller.dart';
 
 class GeneralScreen extends StatelessWidget {
@@ -10,7 +11,7 @@ class GeneralScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1E212A),
+      backgroundColor: AppColors.cFF1E,
       appBar: _generalScreenAppBar(),
       body: ListView(
         padding: EdgeInsets.only(top: 40.0),
@@ -19,7 +20,7 @@ class GeneralScreen extends StatelessWidget {
         ),
         children: [
           _generalScreenController.variables.generalScreenItems[0],
-          _generalScreenSeparateWidget(height: 1, color: Colors.white24),
+          _generalScreenSeparateWidget(height: 1, color: AppColors.c3DFF),
           _generalScreenController.variables.generalScreenItems[1],
           _generalScreenSeparateWidget(height: 50, isSizedBox: true),
           _generalScreenController.variables.generalScreenItems[2],
@@ -36,13 +37,13 @@ class GeneralScreen extends StatelessWidget {
                   "Enable vacation mode to pause all your habits and keep your stats"),
           _generalScreenSeparateWidget(height: 50, isSizedBox: true),
           _generalScreenController.variables.generalScreenItems[5],
-          _generalScreenSeparateWidget(height: 1, color: Colors.white24),
+          _generalScreenSeparateWidget(height: 1, color: AppColors.c3DFF),
           _generalScreenController.variables.generalScreenItems[6],
-          _generalScreenSeparateWidget(height: 1, color: Colors.white24),
+          _generalScreenSeparateWidget(height: 1, color: AppColors.c3DFF),
           _generalScreenController.variables.generalScreenItems[7],
-          _generalScreenSeparateWidget(height: 1, color: Colors.white24),
+          _generalScreenSeparateWidget(height: 1, color: AppColors.c3DFF),
           _generalScreenController.variables.generalScreenItems[8],
-          _generalScreenSeparateWidget(height: 1, color: Colors.white24),
+          _generalScreenSeparateWidget(height: 1, color: AppColors.c3DFF),
           _generalScreenController.variables.generalScreenItems[9],
           _generalScreenSeparateWidget(height: 40.0, isSizedBox: true),
           _generalScreenController.variables.generalScreenItems[10],
@@ -61,7 +62,7 @@ class GeneralScreen extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      backgroundColor: Colors.black12,
+      backgroundColor: AppColors.c1F00,
       centerTitle: true,
       elevation: 0.0,
     );
@@ -75,8 +76,7 @@ class GeneralScreen extends StatelessWidget {
   }) {
     return isSizedBox != null
         ? SizedBox(height: height)
-        : Container(
-            height: 1, color: color == null ? Colors.transparent : color);
+        : Container(height: 1, color: color == null ? AppColors.c0000 : color);
   }
 
   Widget _generalScreenAnnotationWidget({String content}) {

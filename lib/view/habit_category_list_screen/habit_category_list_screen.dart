@@ -67,7 +67,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
     return SliverAppBar(
       expandedHeight: Get.size.height * 0.2,
       collapsedHeight: Get.size.height * 0.075,
-      backgroundColor: Color(0xFF2F313E),
+      backgroundColor: AppColors.cFF2F,
       pinned: true,
       floating: true,
       flexibleSpace: Stack(
@@ -111,8 +111,8 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
             onStartIconPress: () => _onBackButtonPress(),
             onEndIconPress: () => true,
             duration: Duration(milliseconds: 200),
-            startIconColor: Colors.white,
-            endIconColor: Colors.white,
+            startIconColor: AppColors.cFFFF,
+            endIconColor: AppColors.cFFFF,
             clockwise: true,
           ),
         ),
@@ -122,7 +122,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
         child: AppBar(
           leading: Text(""),
           leadingWidth: 0.0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.c0000,
           elevation: 0.0,
         ),
       ),

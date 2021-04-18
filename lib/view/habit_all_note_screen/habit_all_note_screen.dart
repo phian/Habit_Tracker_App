@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
 
 class HabitAllNoteScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1E212A),
+      backgroundColor: AppColors.cFF1E,
       appBar: _habitAllNoteScreenAppBar(),
       body: Obx(
         () => ListView(
@@ -71,7 +72,7 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
   /// [App Bar]
   Widget _habitAllNoteScreenAppBar() {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.c0000,
       elevation: 0.0,
       centerTitle: true,
       leading: IconButton(

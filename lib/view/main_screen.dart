@@ -31,7 +31,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
     return ScreenMenu(
       menuKey: AppConstant.mainScreenKey,
       child: Scaffold(
-        backgroundColor: Color(0xFF1E212A),
+        backgroundColor: AppColors.cFF1E,
         appBar: _mainScreenAppBar(),
         body: _mainScreenBody(),
       ),
@@ -47,7 +47,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           icon: Icon(
             Icons.menu_rounded,
             size: 30.0,
-            color: Colors.white,
+            color: AppColors.cFFFF,
           ),
           onPressed: () => openOrCloseSideMenu(
             AppConstant.mainScreenKey,
@@ -64,7 +64,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
         ),
       ),
       centerTitle: true,
-      backgroundColor: Colors.black12,
+      backgroundColor: AppColors.c1F00,
       elevation: 0.0,
     );
   }
@@ -77,7 +77,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           Obx(
             // calendar
             () => Container(
-              color: Colors.black12,
+              color: AppColors.c1F00,
               padding: const EdgeInsets.only(top: 11, bottom: 11),
               child: FlutterDatePickerTimeline(
                 startDate: DateTime.now().subtract(Duration(days: 14)),
@@ -89,12 +89,12 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                   _allHabitController.getHabitByWeekDate(dateTime.weekday);
                   _allHabitController.updateFlagValue(true);
                 },
-                selectedItemBackgroundColor: Colors.white24,
+                selectedItemBackgroundColor: AppColors.c3DFF,
                 selectedItemTextStyle: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.cFFFF,
                   fontSize: 18.0,
                 ),
-                unselectedItemBackgroundColor: Colors.transparent,
+                unselectedItemBackgroundColor: AppColors.c0000,
                 unselectedItemTextStyle: TextStyle(
                   fontSize: 18.0,
                 ),
@@ -111,12 +111,12 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.only(top: 10.0),
-                      color: Colors.black12,
+                      color: AppColors.c1F00,
                       child: TabBar(
                         isScrollable: true,
-                        labelColor: Colors.white,
-                        unselectedLabelColor: Colors.white24,
-                        indicatorColor: Colors.transparent,
+                        labelColor: AppColors.cFFFF,
+                        unselectedLabelColor: AppColors.c3DFF,
+                        indicatorColor: AppColors.c0000,
                         physics: AlwaysScrollableScrollPhysics(),
                         tabs: [
                           _mainScreenDateTimeTab('All day'),
@@ -214,7 +214,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
 
   Widget swipeHabit(Habit habit, Process process) {
     return SwipeActionCell(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.c0000,
       key: ObjectKey(habit),
       leadingActions: [
         SwipeAction(
@@ -223,7 +223,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             width: 70,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.green,
+              color: AppColors.cFF4C,
             ),
             child: Center(
               child: Text(
@@ -241,7 +241,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             print('done');
             setState(() {});
           },
-          color: Colors.transparent,
+          color: AppColors.c0000,
         ),
         if (habit.batMucTieu == 0)
           SwipeAction(
@@ -250,7 +250,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
               width: 70,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: Colors.blue,
+                color: AppColors.cFFFE,
               ),
               child: Center(child: Text('+1')),
             ),
@@ -261,7 +261,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
               print('1');
               setState(() {});
             },
-            color: Colors.transparent,
+            color: AppColors.c0000,
           ),
       ],
       trailingActions: [
@@ -271,7 +271,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             width: 70,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.blue,
+              color: AppColors.cFFFE,
             ),
             child: Center(child: Text('Skip')),
           ),
@@ -282,7 +282,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             print('Skip');
             setState(() {});
           },
-          color: Colors.transparent,
+          color: AppColors.c0000,
         ),
       ],
       child: _habitTile(
@@ -294,7 +294,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
 
   Widget swipeRightHabit(Habit habit, Process process) {
     return SwipeActionCell(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.c0000,
       key: ObjectKey(habit),
       trailingActions: [
         SwipeAction(
@@ -303,7 +303,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             width: 70,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.purple,
+              color: AppColors.cFF9C,
             ),
             child: Center(
               child: Text('Note'),
@@ -316,7 +316,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             print('Note');
             setState(() {});
           },
-          color: Colors.transparent,
+          color: AppColors.c0000,
         ),
         SwipeAction(
           paddingToBoundary: 0,
@@ -324,7 +324,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             width: 70,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.orange,
+              color: AppColors.cFFFF98,
             ),
             child: Center(child: Text('Undo')),
           ),
@@ -336,7 +336,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             print('Undo');
             setState(() {});
           },
-          color: Colors.transparent,
+          color: AppColors.c0000,
         ),
       ],
       child: _habitTile(
@@ -353,8 +353,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
-              color: Color(0xFF2F313E),
-              borderRadius: BorderRadius.circular(15)),
+              color: AppColors.cFF2F, borderRadius: BorderRadius.circular(15)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -371,7 +370,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                           _allHabitController.listHabitProcess[index].ketQua ==
                                   habit.soLan &&
                               habit.soLan != 0
-                      ? Colors.grey
+                      ? AppColors.cFF9E
                       : Color(
                           int.parse(
                             habit.mau,
@@ -408,7 +407,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                         Text(
                           'Skipped',
                           style: TextStyle(
-                              color: Colors.blue,
+                              color: AppColors.cFFFE,
                               fontSize: 15,
                               fontStyle: FontStyle.italic),
                         )

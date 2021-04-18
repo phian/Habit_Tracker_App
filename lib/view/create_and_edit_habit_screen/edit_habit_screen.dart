@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:select_form_field/select_form_field.dart';
@@ -46,7 +47,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1E212A),
+      backgroundColor: AppColors.cFF1E,
       // resizeToAvoidBottomInset: false,
       body: _createHabitScreenBody(),
     );
@@ -83,16 +84,16 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                 cursorColor: _editHabitScreenController.fillColor.value,
                 style: TextStyle(
                   fontSize: 22.0,
-                  color: Colors.white,
+                  color: AppColors.cFFFF,
                 ),
                 onChanged: (value) {},
                 decoration: InputDecoration(
                   hintText: 'Name of the _habit',
                   hintStyle: TextStyle(
                     fontSize: 22.0,
-                    color: Colors.white54,
+                    color: AppColors.c8AFF,
                   ),
-                  fillColor: Colors.white24,
+                  fillColor: AppColors.c3DFF,
                   filled: true,
                   enabledBorder: _textFieldBorder(),
                   focusedBorder: _textFieldBorder(),
@@ -159,7 +160,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                             color: _editHabitScreenController
                                         .selectedIndex.value !=
                                     index
-                                ? Colors.white24
+                                ? AppColors.c3DFF
                                 : _editHabitScreenController.fillColor.value,
                           ),
                         ),
@@ -198,7 +199,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                             counterText: '',
                             hintText: '0',
                             hintStyle: TextStyle(fontSize: 20.0),
-                            fillColor: Colors.white24,
+                            fillColor: AppColors.c3DFF,
                             filled: true,
                             enabledBorder: _textFieldBorder(),
                             focusedBorder: _textFieldBorder(),
@@ -225,18 +226,18 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                               parent: BouncingScrollPhysics(),
                             ),
                             decoration: InputDecoration(
-                              fillColor: Colors.white24,
+                              fillColor: AppColors.c3DFF,
                               filled: true,
                               hintText: _editHabitScreenController
                                   .selectedUnitType.value,
                               hintStyle: TextStyle(
                                 fontSize: 20.0,
-                                color: Colors.white,
+                                color: AppColors.cFFFF,
                               ),
                               suffixIcon: Icon(
                                 Icons.arrow_drop_down,
                                 size: 35.0,
-                                color: Colors.white,
+                                color: AppColors.cFFFF,
                               ),
                               enabledBorder: _textFieldBorder(),
                               focusedBorder: _textFieldBorder(),
@@ -275,7 +276,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                             _editHabitScreenController.repeatTypeChoice.value ==
                                     index
                                 ? _editHabitScreenController.fillColor.value
-                                : Colors.white24,
+                                : AppColors.c3DFF,
                         index: index,
                       ),
                     ),
@@ -322,7 +323,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                                                   true
                                               ? _editHabitScreenController
                                                   .fillColor.value
-                                              : Colors.white24,
+                                              : AppColors.c3DFF,
                                         ),
                                         alignment: Alignment.center,
                                         width: 50.0,
@@ -372,7 +373,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                                                   true
                                               ? _editHabitScreenController
                                                   .fillColor.value
-                                              : Colors.white24,
+                                              : AppColors.c3DFF,
                                         ),
                                         alignment: Alignment.center,
                                         width: 50.0,
@@ -457,7 +458,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                                           true
                                       ? _editHabitScreenController
                                           .fillColor.value
-                                      : Colors.white24,
+                                      : AppColors.c3DFF,
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 width: Get.width * 0.285,
@@ -490,7 +491,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                           color: _editHabitScreenController.notiTimeChoice[3] ==
                                   true
                               ? _editHabitScreenController.fillColor.value
-                              : Colors.white24,
+                              : AppColors.c3DFF,
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Text(
@@ -508,7 +509,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
             SizedBox(height: 30.0),
             Divider(
               thickness: 0.5,
-              color: Colors.black,
+              color: AppColors.cFF00,
             ),
             SizedBox(height: 5.0),
             Container(
@@ -563,7 +564,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
   OutlineInputBorder _textFieldBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
-      borderSide: BorderSide(color: Colors.transparent),
+      borderSide: BorderSide(color: AppColors.c0000),
     );
   }
 
@@ -579,7 +580,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
               padding: EdgeInsets.only(right: 10.0),
               child: Divider(
                 thickness: 0.5,
-                color: Colors.black,
+                color: AppColors.cFF00,
               ),
             ),
           ),
@@ -601,7 +602,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
               padding: EdgeInsets.only(left: 10.0),
               child: Divider(
                 thickness: 0.5,
-                color: Colors.black,
+                color: AppColors.cFF00,
               ),
             ),
           ),
@@ -623,7 +624,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
             height: 60.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white24,
+              color: AppColors.c3DFF,
             ),
             alignment: Alignment.center,
             child: Icon(
@@ -656,7 +657,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
         height: 60.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: color != null ? color : Colors.white24,
+          color: color != null ? color : AppColors.c3DFF,
         ),
         child: Text(
           choiceType,
@@ -690,7 +691,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: Colors.black87,
+              color: AppColors.cDD00,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -700,7 +701,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                   style: TextStyle(
                     fontSize: 20.0,
                     decoration: TextDecoration.none,
-                    color: Colors.white,
+                    color: AppColors.cFFFF,
                   ),
                 ),
                 Container(
@@ -713,7 +714,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                           onTap: () {
                             Get.back();
                             _editHabitScreenController
-                                .changeFillColor(choiceColors[index]);
+                                .changeFillColor(AppColors.choiceColors[index]);
                           },
                           child: Obx(
                             () => Container(
@@ -723,14 +724,14 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 color: _editHabitScreenController
                                             .fillColor.value ==
-                                        choiceColors[index]
-                                    ? Colors.white24
-                                    : Colors.transparent,
+                                        AppColors.choiceColors[index]
+                                    ? AppColors.c3DFF
+                                    : AppColors.c0000,
                               ),
                               child: Icon(
                                 Icons.circle,
                                 size: 35.0,
-                                color: choiceColors[index],
+                                color: AppColors.choiceColors[index],
                               ),
                             ),
                           ),
@@ -748,8 +749,8 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                         (index) => InkWell(
                           onTap: () {
                             Get.back();
-                            _editHabitScreenController
-                                .changeFillColor(choiceColors[index + 3]);
+                            _editHabitScreenController.changeFillColor(
+                                AppColors.choiceColors[index + 3]);
                           },
                           child: Obx(
                             () => Container(
@@ -759,13 +760,13 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   color: _editHabitScreenController
                                               .fillColor.value ==
-                                          choiceColors[index + 3]
-                                      ? Colors.white24
-                                      : Colors.transparent),
+                                          AppColors.choiceColors[index + 3]
+                                      ? AppColors.c3DFF
+                                      : AppColors.c0000),
                               child: Icon(
                                 Icons.circle,
                                 size: 35.0,
-                                color: choiceColors[index + 3],
+                                color: AppColors.choiceColors[index + 3],
                               ),
                             ),
                           ),
@@ -788,7 +789,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
       context,
       iconPackMode: IconPack.material,
       iconSize: 30.0,
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.cFF00,
       closeChild: null,
       searchHintText: "Search icon...",
       searchIcon: Icon(

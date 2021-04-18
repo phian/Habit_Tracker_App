@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/view/login_screen.dart';
 import 'package:habit_tracker/view/notification_screen.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
@@ -15,7 +16,7 @@ class ScreenMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SideMenu(
-      background: Color(0xFF2F313E),
+      background: AppColors.cFF2F,
       key: menuKey,
       inverse: false,
       type: SideMenuType.slideNRotate,
@@ -42,7 +43,7 @@ class ScreenMenu extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.cFFFF,
                     radius: 35.0,
                     child: Icon(
                       Icons.account_circle,
@@ -60,7 +61,7 @@ class ScreenMenu extends StatelessWidget {
                   Text(
                     "Hello, User",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.cFFFF,
                       fontSize: 20.0,
                     ),
                   ),
@@ -68,19 +69,19 @@ class ScreenMenu extends StatelessWidget {
                   _menuListTile(
                     Icons.access_time,
                     "Notification",
-                    Color(0xFF11C480),
+                    AppColors.cFF11,
                   ),
                   SizedBox(height: 20.0),
                   _menuListTile(
                     Icons.settings,
                     "General",
-                    Color(0xFF933DFF),
+                    AppColors.cFF93,
                   ),
                   SizedBox(height: 20.0),
                   _menuListTile(
                     Icons.login,
                     "Login",
-                    Color(0xFFFABB37),
+                    AppColors.cFFFA,
                   ),
                 ],
               ),
@@ -126,7 +127,7 @@ class ScreenMenu extends StatelessWidget {
         title: Text(
           title,
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.cFFFF,
             fontSize: 20.0,
           ),
         ),

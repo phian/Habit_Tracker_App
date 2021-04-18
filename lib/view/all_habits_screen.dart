@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
+import 'package:habit_tracker/view/habit_statistic_screen.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/src/base.dart';
-import 'package:habit_tracker/view/habit_statistic_screen.dart';
 
 class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
   final AllHabitController _allHabitController = Get.put(AllHabitController());
@@ -16,7 +17,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
     return ScreenMenu(
       menuKey: AppConstant.allHabitScreenKey,
       child: Scaffold(
-        backgroundColor: Color(0xFF1E212A),
+        backgroundColor: AppColors.cFF1E,
         appBar: _allHabitScreenAppBar(),
         body: Obx(
           () => Container(
@@ -39,7 +40,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
           icon: Icon(
             Icons.menu_rounded,
             size: 30.0,
-            color: Colors.white,
+            color: AppColors.cFFFF,
           ),
           onPressed: () => openOrCloseSideMenu(
             AppConstant.allHabitScreenKey,
@@ -55,7 +56,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
           ),
         ),
       ),
-      backgroundColor: Colors.black12,
+      backgroundColor: AppColors.c1F00,
       elevation: 0.0,
     );
   }
@@ -75,7 +76,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-                color: Color(0xFF2F313E),
+                color: AppColors.cFF2F,
                 borderRadius: BorderRadius.circular(15)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

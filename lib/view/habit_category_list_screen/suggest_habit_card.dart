@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/habit_category_list_screen_controller.dart';
 
 import '../create_and_edit_habit_screen/create_habit_screen.dart';
@@ -28,7 +29,7 @@ class SuggestHabitCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
           side: BorderSide(
-            color: Colors.white24,
+            color: AppColors.c3DFF,
           ),
         ),
         onTap: () {
@@ -63,7 +64,7 @@ class SuggestHabitCard extends StatelessWidget {
             icon: Icon(
               Icons.info_sharp,
               size: 30.0,
-              color: Color(0xFFF8B83B),
+              color: AppColors.cFFF8,
             ),
             onPressed: () {},
           ),

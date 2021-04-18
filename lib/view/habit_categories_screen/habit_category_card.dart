@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 
 class HabitCateGoryCard extends StatelessWidget {
   final String title, subtitle, imagePath;
@@ -21,7 +22,7 @@ class HabitCateGoryCard extends StatelessWidget {
                   title,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.cFFFF,
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -34,7 +35,7 @@ class HabitCateGoryCard extends StatelessWidget {
                   subtitle,
                   maxLines: 2,
                   style: TextStyle(
-                    color: Color(0xFF9A9DA4),
+                    color: AppColors.cFF9A,
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold,
                   ),

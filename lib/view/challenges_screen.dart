@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/challenges_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
@@ -33,7 +34,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
     return ScreenMenu(
       menuKey: AppConstant.challengeScreenKey,
       child: Scaffold(
-        backgroundColor: Color(0xFF1E212A),
+        backgroundColor: AppColors.cFF1E,
         appBar: _challengesScreenAppBar(),
         body: _challengesScreenBody(),
       ),
@@ -48,7 +49,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
           icon: Icon(
             Icons.menu_rounded,
             size: 30.0,
-            color: Colors.white,
+            color: AppColors.cFFFF,
           ),
           onPressed: () => openOrCloseSideMenu(
             AppConstant.challengeScreenKey,
@@ -65,7 +66,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
         ),
       ),
       centerTitle: true,
-      backgroundColor: Colors.black12,
+      backgroundColor: AppColors.c1F00,
       elevation: 0.0,
     );
   }
@@ -81,19 +82,19 @@ class _ChallengesScreenState extends State<ChallengesScreen>
             "JOIN A CHALLENGE",
             style: TextStyle(
               fontSize: 15.0,
-              color: Color(0xFFA7AAB1),
+              color: AppColors.cFFA7,
             ),
           ),
           Hero(
             tag: 0,
             child: Material(
-              color: Colors.transparent,
+              color: AppColors.c0000,
               child: Container(
                 margin: EdgeInsets.only(top: 20.0),
                 height: Get.height * 0.22,
                 width: Get.width,
                 decoration: BoxDecoration(
-                  color: Color(0xFF2F313E),
+                  color: AppColors.cFF2F,
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: InkWell(
@@ -102,13 +103,13 @@ class _ChallengesScreenState extends State<ChallengesScreen>
                     tag: 0,
                     title: _controller.challengeTitles[7],
                     challengeAmount: "10345",
-                    imagePath: "images/morning_challenge.png",
+                    imagePath: "${AppConstant.imagePath}morning_challenge.png",
                   ),
                   child: Stack(
                     children: [
                       Container(
                         child: Image.asset(
-                          "${AppConstant.imagePath}/morning_challenge.png",
+                          "${AppConstant.imagePath}morning_challenge.png",
                           fit: BoxFit.contain,
                           width: Get.width * 0.45,
                           height: Get.height * 0.22,
@@ -136,7 +137,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
                               "7 days",
                               style: TextStyle(
                                 fontSize: 15.0,
-                                color: Color(0xFFA7AAB1),
+                                color: AppColors.cFFA7,
                               ),
                             ),
                             InkWell(
@@ -149,14 +150,14 @@ class _ChallengesScreenState extends State<ChallengesScreen>
                                     top: Get.height * 0.3 * 0.1),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: Colors.white24,
+                                  color: AppColors.c3DFF,
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
                                 child: Text(
                                   "10345 joined",
                                   style: TextStyle(
                                     fontSize: 15.0,
-                                    color: Color(0xFFE2C372),
+                                    color: AppColors.cFFE2,
                                   ),
                                 ),
                               ),
@@ -175,7 +176,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
             "ALL CHALLENGES",
             style: TextStyle(
               fontSize: 15.0,
-              color: Color(0xFFA7AAB1),
+              color: AppColors.cFFA7,
             ),
           ),
           Container(
@@ -219,12 +220,12 @@ class _ChallengesScreenState extends State<ChallengesScreen>
 
   Widget _allChallengeCard(String title, String joinAmount, String imagePath) {
     return Material(
-      color: Colors.transparent,
+      color: AppColors.c0000,
       elevation: 0.0,
       child: Container(
         width: Get.width * 0.75,
         decoration: BoxDecoration(
-          color: Color(0xFF2F313E),
+          color: AppColors.cFF2F,
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Stack(
@@ -257,7 +258,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
                     "7 days",
                     style: TextStyle(
                       fontSize: 15.0,
-                      color: Color(0xFFA7AAB1),
+                      color: AppColors.cFFA7,
                     ),
                   ),
                   InkWell(
@@ -269,14 +270,14 @@ class _ChallengesScreenState extends State<ChallengesScreen>
                       margin: EdgeInsets.only(top: Get.height * 0.3 * 0.2),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: Colors.white24,
+                        color: AppColors.c3DFF,
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: Text(
                         "$joinAmount joined",
                         style: TextStyle(
                           fontSize: 15.0,
-                          color: Color(0xFFE2C372),
+                          color: AppColors.cFFE2,
                         ),
                       ),
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 
 class DateDivider extends StatelessWidget {
   final String date;
@@ -16,7 +17,7 @@ class DateDivider extends StatelessWidget {
               padding: EdgeInsets.only(right: 10.0),
               child: Divider(
                 thickness: 0.5,
-                color: Colors.white24,
+                color: AppColors.c3DFF,
               ),
             ),
           ),
@@ -29,7 +30,7 @@ class DateDivider extends StatelessWidget {
               padding: EdgeInsets.only(left: 10.0),
               child: Divider(
                 thickness: 0.5,
-                color: Colors.white24,
+                color: AppColors.c3DFF,
               ),
             ),
           ),

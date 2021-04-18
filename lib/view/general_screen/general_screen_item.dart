@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/gernaral_screen_controller.dart';
 
 class GeneralScreenItem extends StatelessWidget {
@@ -25,7 +26,7 @@ class GeneralScreenItem extends StatelessWidget {
       alignment: Alignment.center,
       height: Get.height * 0.1,
       decoration: BoxDecoration(
-        color: Color(0xFF2F313E),
+        color: AppColors.cFF2F,
       ),
       child: ListTile(
         onTap: () => generalScreenController.changeSwitchData(title),

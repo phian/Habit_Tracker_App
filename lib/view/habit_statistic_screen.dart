@@ -2,6 +2,7 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/all_habit_controller.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -32,7 +33,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1E212A),
+      backgroundColor: AppColors.cFF1E,
       appBar: _habitStatisticScreenAppBar(),
       body: _habitStatisticScreenBody(),
     );
@@ -54,8 +55,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
             onStartIconPress: () => _onBackButtonPress(),
             onEndIconPress: () => true,
             duration: Duration(milliseconds: 200),
-            startIconColor: Colors.white,
-            endIconColor: Colors.white,
+            startIconColor: AppColors.cFFFF,
+            endIconColor: AppColors.cFFFF,
             clockwise: true,
           ),
           onPressed: null,
@@ -175,7 +176,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
           ],
         ),
       ],
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.c0000,
       elevation: 0.0,
     );
   }
@@ -246,7 +247,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: AppColors.cFFFE,
                         ),
                       ),
                       Text(
@@ -257,7 +258,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue.withOpacity(0.5),
+                          color: AppColors.cFF21.withOpacity(0.5),
                         ),
                       ),
                       Text(
@@ -265,7 +266,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFFA7AAB1),
+                          color: AppColors.cFFA7,
                         ),
                       ),
                     ],
@@ -279,9 +280,9 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                     currentValue: 0,
                     maxValue: _habitStatisticController.habit.value.soLan,
                     size: 5,
-                    backgroundColor: Color(0xFF2F313E),
-                    progressColor: Colors.blue,
-                    displayTextStyle: TextStyle(color: Colors.transparent),
+                    backgroundColor: AppColors.cFF2F,
+                    progressColor: AppColors.cFFFE,
+                    displayTextStyle: TextStyle(color: AppColors.c0000),
                   ),
                 ),
               ),
@@ -300,7 +301,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                       "Repeat:",
                       style: TextStyle(
                         fontSize: 15.0,
-                        color: Color(0xFFA7AAB1),
+                        color: AppColors.cFFA7,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -326,7 +327,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                       "Remind:",
                       style: TextStyle(
                         fontSize: 15.0,
-                        color: Color(0xFFA7AAB1),
+                        color: AppColors.cFFA7,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -347,14 +348,14 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
         Container(
           margin: EdgeInsets.only(top: 20.0),
           decoration: BoxDecoration(
-            color: Color(0xFF2F313E),
+            color: AppColors.cFF2F,
             borderRadius: BorderRadius.circular(30.0),
           ),
           height: Get.height * 0.55,
           child: TableCalendar(
             locale: 'vi_VN',
             calendarController: _calendarController,
-            calendarStyle: CalendarStyle(selectedColor: Colors.blue),
+            calendarStyle: CalendarStyle(selectedColor: AppColors.cFFFE),
             availableGestures: AvailableGestures.none,
             // headerVisible: false,
             initialSelectedDay: DateTime.now(),
@@ -366,7 +367,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
           margin: EdgeInsets.only(top: 20.0),
           height: Get.height * 0.3,
           decoration: BoxDecoration(
-            color: Color(0xFF0A6AED),
+            color: AppColors.cFF0A,
             borderRadius: BorderRadius.circular(30.0),
           ),
           child: Stack(
@@ -406,7 +407,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w500,
-                          color: Color(0xFFA7AAB1),
+                          color: AppColors.cFFA7,
                         ),
                       ),
                     ),
@@ -418,7 +419,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                             "images/trophy.png",
                             width: 30.0,
                             height: 30.0,
-                            color: Color(0xFFC7E436),
+                            color: AppColors.cFFC7,
                           ),
                           Container(
                             padding: EdgeInsets.only(left: 10.0),
@@ -441,7 +442,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w500,
-                          color: Color(0xFFA7AAB1),
+                          color: AppColors.cFFA7,
                         ),
                       ),
                     ),
@@ -460,13 +461,13 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                 icon: Icons.show_chart,
                 title: _habitStatisticController.completeRate,
                 description: "Habit complete rate",
-                iconColor: Color(0xFFFE7352),
+                iconColor: AppColors.cFFFE,
               ),
               _completeRateAndTotalTimesWidget(
                 icon: Icons.check,
                 title: _habitStatisticController.totalTimeComplete,
                 description: "Total time completed",
-                iconColor: Color(0xFF11C480),
+                iconColor: AppColors.cFF11,
               ),
             ],
           ),
@@ -484,7 +485,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
         height: Get.height * 0.21,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          color: Color(0xFF2F313E),
+          color: AppColors.cFF2F,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -540,7 +541,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
 
   void _showPauseDialog() async {
     Dialog pauseDialog = Dialog(
-      backgroundColor: Color(0xFF2F313E),
+      backgroundColor: AppColors.cFF2F,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0)), //this right here
       child: Container(
@@ -554,7 +555,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
               child: Text(
                 "Paused a habit? It's still on your schedule and can be resued when you're ready",
                 style: TextStyle(
-                  color: Color(0xFFA7AAB1),
+                  color: AppColors.cFFA7,
                   fontSize: 18.0,
                 ),
               ),
@@ -569,7 +570,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                 onPressed: () => _onPauseItemButtonPressed(),
                 child: Text(
                   'Got it',
-                  style: TextStyle(color: Color(0xFF1C8EFE), fontSize: 18.0),
+                  style: TextStyle(color: AppColors.cFF1C, fontSize: 18.0),
                 ),
               ),
             )
@@ -591,7 +592,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   /// [Delete dialog]
   void _showDeleteDialog() async {
     Dialog deleteDialog = Dialog(
-      backgroundColor: Color(0xFF2F313E),
+      backgroundColor: AppColors.cFF2F,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0)), //this right here
       child: Container(
@@ -616,7 +617,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                 leading: Icon(
                   Icons.restore_outlined,
                   size: 20.0,
-                  color: Color(0xFFFE7352),
+                  color: AppColors.cFFFE,
                 ),
                 title: Text(
                   "Clear history",
@@ -629,7 +630,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
             ),
             Container(
               height: 1.0,
-              color: Color(0xFF1E212A),
+              color: AppColors.cFF1E,
             ),
             Container(
               child: ListTile(
@@ -643,7 +644,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                 leading: Icon(
                   Icons.auto_delete,
                   size: 20.0,
-                  color: Color(0xFFF53566),
+                  color: AppColors.cFFF5,
                 ),
                 title: Text(
                   "Delete habit and clear history",

@@ -2,6 +2,7 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 
 import '../challenge_timeline_screen/challenge_time_line_screen_variables.dart';
@@ -30,7 +31,7 @@ class _CreateAndEditHabitScreenAppBarState
     return SliverAppBar(
       expandedHeight: Get.size.height * 0.25,
       collapsedHeight: Get.size.height * 0.075,
-      backgroundColor: Color(0xFF2F313E),
+      backgroundColor: AppColors.cFF2F,
       pinned: true,
       flexibleSpace: Stack(
         children: [
@@ -63,8 +64,8 @@ class _CreateAndEditHabitScreenAppBarState
             onStartIconPress: () => _onBackIconButtonClick(),
             onEndIconPress: () => true,
             duration: Duration(milliseconds: 200),
-            startIconColor: Colors.white,
-            endIconColor: Colors.white,
+            startIconColor: AppColors.cFFFF,
+            endIconColor: AppColors.cFFFF,
             clockwise: true,
           ),
         ),

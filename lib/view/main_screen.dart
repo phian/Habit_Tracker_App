@@ -14,8 +14,7 @@ import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import '../model/habit.dart';
-import '../view/habit_note_screen.dart';
-import 'habit_statistic_screen.dart';
+
 
 class MainScreen extends StatefulWidget {
   @override

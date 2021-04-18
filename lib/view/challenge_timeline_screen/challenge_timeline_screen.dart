@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/challenge_time_line_controller.dart';
-import 'package:habit_tracker/view/manage_screen.dart';
 import 'package:timeline_list/timeline.dart';
 import 'package:timeline_list/timeline_model.dart';
 

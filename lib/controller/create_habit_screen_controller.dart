@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';

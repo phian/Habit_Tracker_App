@@ -5,7 +5,6 @@ import 'package:habit_tracker/constants/app_constant.dart';
 
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
-import 'package:habit_tracker/view/habit_statistic_screen.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/src/base.dart';

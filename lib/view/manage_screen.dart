@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/manage_screen_controller.dart';
 
-import 'habit_categories_screen/habit_categories_screen.dart';
+
 
 class ManageScreen extends StatelessWidget {
   final controller = Get.find<ManageScreenController>();

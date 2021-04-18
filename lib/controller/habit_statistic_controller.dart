@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/model/habit.dart';
 
 class HabitStatisticController extends GetxController {
-  // TODO: cái này không cần, thống kê thì lấy dữ liệu từ db
+  
   var habit = Habit().obs;
 
   var habitId = 1.obs;

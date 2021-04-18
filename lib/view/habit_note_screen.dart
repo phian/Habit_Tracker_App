@@ -22,9 +22,13 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
     _noteScreenController = Get.put(NoteScreenController());
     _noteScreenController.checkAndUpdateHabitId(Get.arguments);
     _noteScreenController.readDataForTextController().then((value) {
-      _noteController = TextEditingController(
-        text: _noteScreenController.initTextFieldData.value,
-      );
+      if (_noteScreenController.initTextFieldData.value.isNotEmpty) {
+        _noteController = TextEditingController(
+          text: _noteScreenController.initTextFieldData.value,
+        );
+      } else {
+        _noteController = TextEditingController();
+      }
     });
   }
 
@@ -98,7 +102,7 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
         ),
         controller: _noteController,
         onChanged: (value) {
-          _noteContent = _noteController.text;
+          _noteContent = value;
         },
         maxLines: Get.height.toInt(),
         keyboardType: TextInputType.multiline,

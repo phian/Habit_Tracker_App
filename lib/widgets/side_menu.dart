@@ -103,20 +103,11 @@ class ScreenMenu extends StatelessWidget {
         ),
         onTap: () {
           if (icon == Icons.access_time) {
-            Get.to(
-              NotificationScreen(),
-              transition: Transition.fadeIn,
-            );
+            Get.toNamed('/notification');
           } else if (icon == Icons.settings) {
-            Get.to(
-              GeneralScreen(),
-              transition: Transition.fadeIn,
-            );
+            Get.toNamed('/general');
           } else {
-            Get.to(
-              LoginScreen(),
-              transition: Transition.fadeIn,
-            );
+            Get.toNamed('/login');
           }
         },
         leading: Icon(

@@ -21,11 +21,7 @@ class CreateYourOwnCard extends StatelessWidget {
         highlightColor: AppColors.c0000,
         borderRadius: BorderRadius.circular(20.0),
         onTap: () {
-          Get.to(
-            () => CreateHabitScreen(),
-            duration: Duration(milliseconds: 500),
-            transition: Transition.fadeIn,
-          );
+          Get.toNamed('/create_habit');
         },
         child: Container(
           padding: EdgeInsets.only(left: 30.0),

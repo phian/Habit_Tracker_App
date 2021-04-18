@@ -22,14 +22,11 @@ class ChallengeTimeLineScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ChallengeTimeLineScreenState createState() =>
-      _ChallengeTimeLineScreenState();
+  _ChallengeTimeLineScreenState createState() => _ChallengeTimeLineScreenState();
 }
 
 class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
-  ChallengeTimelineScreenController _controller = Get.put(
-    ChallengeTimelineScreenController(),
-  );
+  final _controller = Get.put(ChallengeTimelineScreenController());
 
   @override
   void initState() {
@@ -245,8 +242,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                             child: ListTile(
                               leading: Icon(
                                 _controller.challengeList[index].icon,
-                                color:
-                                    _controller.challengeList[index].iconColor,
+                                color: _controller.challengeList[index].iconColor,
                                 size: 40.0,
                               ),
                               title: Container(
@@ -263,8 +259,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                                     ),
                                     SizedBox(height: 5.0),
                                     Text(
-                                      _controller
-                                          .challengeList[index].description,
+                                      _controller.challengeList[index].description,
                                       style: TextStyle(
                                         fontSize: 15.0,
                                         fontWeight: FontWeight.w500,
@@ -289,8 +284,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _controller.dateNamesList[
-                              _controller.dateNamesList.length - 1],
+                          _controller.dateNamesList[_controller.dateNamesList.length - 1],
                           style: TextStyle(
                             fontSize: 15.0,
                             color: AppColors.cFFA7,
@@ -360,10 +354,11 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
   bool _onBackButtonPress() {
     Future.delayed(
       Duration(milliseconds: 200),
-          () {
-        Future.delayed(Duration(milliseconds: 200), () {
-          Get.back();
-        });
+      () {
+        // Future.delayed(Duration(milliseconds: 200), () {
+        //   Get.back();
+        // });
+        Get.back();
       },
     );
 
@@ -371,12 +366,10 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
   }
 
   void _moveToMangeScreen() {
-    Future.delayed(Duration(milliseconds: 200), () {
-      Get.to(
-        ManageScreen(),
-        duration: Duration(milliseconds: 500),
-        transition: Transition.fadeIn,
-      );
-    });
+    // Future.delayed(Duration(milliseconds: 200), () {
+    //   Get.toNamed('/manage_screen');
+    // });
+    // print('back');
+    // Get.back();
   }
 }

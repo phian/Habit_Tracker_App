@@ -33,11 +33,12 @@ class SuggestHabitCard extends StatelessWidget {
           ),
         ),
         onTap: () {
-          Get.off(
-            CreateHabitScreen(),
+          Get.offNamed(
+            '/create_habit',
             arguments: this.habitCategoryListScreenController.suggestedHabitList[index],
-            transition: Transition.fadeIn,
+            
           );
+          
         },
         leading: Container(
           child: Icon(

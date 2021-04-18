@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/controller/all_habit_controller.dart';
+
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
+import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'create_and_edit_habit_screen/edit_habit_screen.dart';
@@ -17,10 +18,10 @@ class HabitStatisticScreen extends StatefulWidget {
 
 class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   AnimateIconController _controller = AnimateIconController();
-  HabitStatisticController _habitStatisticController =
-      Get.put(HabitStatisticController());
+  HabitStatisticController _habitStatisticController = Get.put(HabitStatisticController());
   CalendarController _calendarController = CalendarController();
-  AllHabitController _habitController = Get.put(AllHabitController());
+
+  final mainScreenController = Get.find<MainScreenController>();
 
   @override
   void initState() {
@@ -232,8 +233,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
           ),
         ),
         Visibility(
-          visible:
-              _habitStatisticController.habit.value.soLan == 0 ? false : true,
+          visible: _habitStatisticController.habit.value.soLan == 0 ? false : true,
           child: Column(
             children: [
               Container(
@@ -242,8 +242,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                   () => Row(
                     children: [
                       Text(
-                        _habitStatisticController.finishedAmount.value
-                            .toString(),
+                        _habitStatisticController.finishedAmount.value.toString(),
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
@@ -251,10 +250,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                         ),
                       ),
                       Text(
-                        "/" +
-                            _habitStatisticController.habit.value.soLan
-                                .toString() +
-                            " ",
+                        "/" + _habitStatisticController.habit.value.soLan.toString() + " ",
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
@@ -307,9 +303,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                     ),
                     SizedBox(height: 5.0),
                     Text(
-                      _habitStatisticController.habit.value.loaiLap == 0
-                          ? 'Daily'
-                          : 'Weekly',
+                      _habitStatisticController.habit.value.loaiLap == 0 ? 'Daily' : 'Weekly',
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -375,8 +369,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.0),
                 alignment: Alignment.centerRight,
-                transform:
-                    Matrix4.translationValues(Get.width * 0.02, 0.0, 0.0),
+                transform: Matrix4.translationValues(Get.width * 0.02, 0.0, 0.0),
                 child: ClipRRect(
                   child: Image.asset(
                     "images/medal.png",
@@ -424,8 +417,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                           Container(
                             padding: EdgeInsets.only(left: 10.0),
                             child: Text(
-                              _habitStatisticController.longestStreak.value +
-                                  " days",
+                              _habitStatisticController.longestStreak.value + " days",
                               style: TextStyle(
                                 fontSize: 25.0,
                                 fontWeight: FontWeight.bold,
@@ -526,7 +518,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
         Get.back();
       },
     );
-
+    
     return true;
   }
 
@@ -542,8 +534,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   void _showPauseDialog() async {
     Dialog pauseDialog = Dialog(
       backgroundColor: AppColors.cFF2F,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0)), //this right here
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)), //this right here
       child: Container(
         height: Get.height * 0.2,
         width: Get.width * 0.7,
@@ -593,8 +584,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   void _showDeleteDialog() async {
     Dialog deleteDialog = Dialog(
       backgroundColor: AppColors.cFF2F,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0)), //this right here
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)), //this right here
       child: Container(
         height: Get.height * 0.2,
         width: Get.width * 0.7,
@@ -666,16 +656,15 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   }
 
   void onDeleteHabitButtonPressed() {
-    _habitController.deleteHabit(_habitStatisticController.habit.value);
+    mainScreenController.deleteHabit(_habitStatisticController.habit.value);
     Get.back();
   }
 
   /// [Move to habit all note screen]
   void _moveToHabitAllNoteScreen() {
     Get.back();
-    Get.to(
-          () => HabitAllNoteScreen(),
-      transition: Transition.fadeIn,
+    Get.toNamed(
+      '/all_note',
       arguments: _habitStatisticController.habit.value.ma,
     );
   }
@@ -683,10 +672,9 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   /// [Move to edit habit screen]
   void _moveToEditHabitScreen() {
     Get.back();
-    Get.to(
-          () => EditHabitScreen(),
+    Get.toNamed(
+      '/edit_habit',
       arguments: _habitStatisticController.habit.value,
-      transition: Transition.fadeIn,
     );
   }
 }

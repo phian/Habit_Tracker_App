@@ -149,8 +149,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                     ...List.generate(
                       _categoriesScreenController.suggestTopicList.length,
                       (index) => Hero(
-                        tag: _categoriesScreenController
-                            .suggestTopicList[index].tenChuDeGoiY,
+                        tag: _categoriesScreenController.suggestTopicList[index].tenChuDeGoiY,
                         child: Container(
                           margin: index == 0
                               ? null
@@ -164,8 +163,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                               highlightColor: AppColors.c0000,
                               borderRadius: BorderRadius.circular(20.0),
                               onTap: () => _onCategoryCardPressed(index),
-                              child: _categoriesScreenController
-                                  .habitCategoryCards[index],
+                              child: _categoriesScreenController.habitCategoryCards[index],
                             ),
                           ),
                         ),
@@ -182,11 +180,10 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
   void _onCategoryCardPressed(int index) {
     if (index != 17) {
       Get.to(
-            () => HabitCategoryListScreen(
+        () => HabitCategoryListScreen(
           tag: _categoriesScreenController.suggestTopicList[index].tenChuDeGoiY,
           topicId: _categoriesScreenController.suggestTopicList[index].maChuDe,
-          imagePath:
-              _categoriesScreenController.suggestTopicList[index].hinhChuDe,
+          imagePath: _categoriesScreenController.suggestTopicList[index].hinhChuDe,
         ),
       );
     }

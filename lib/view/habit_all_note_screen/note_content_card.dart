@@ -16,10 +16,9 @@ class NoteContentCard extends StatelessWidget {
     return Obx(
       () => GestureDetector(
         onTap: () {
-          Get.to(
-            HabitNoteScreen(),
+          Get.toNamed(
+            '/note',
             arguments: controller.habitId.value,
-            transition: Transition.fadeIn,
           );
         },
         child: Container(

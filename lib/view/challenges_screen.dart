@@ -17,17 +17,8 @@ class ChallengesScreen extends StatefulWidget {
   _ChallengesScreenState createState() => _ChallengesScreenState();
 }
 
-class _ChallengesScreenState extends State<ChallengesScreen>
-    implements SideMenuModel {
-  ChallengesScreenController _controller = Get.put(
-    ChallengesScreenController(),
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.initData();
-  }
+class _ChallengesScreenState extends State<ChallengesScreen> implements SideMenuModel {
+  final controller = Get.find<ChallengesScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +92,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
                   borderRadius: BorderRadius.circular(20.0),
                   onTap: () => _moveToChallengeScreen(
                     tag: 0,
-                    title: _controller.challengeTitles[7],
+                    title: controller.challengeTitles[7],
                     challengeAmount: "10345",
                     imagePath: "${AppConstant.imagePath}morning_challenge.png",
                   ),
@@ -146,8 +137,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
                               child: Container(
                                 width: 120.0,
                                 height: 30.0,
-                                margin: EdgeInsets.only(
-                                    top: Get.height * 0.3 * 0.1),
+                                margin: EdgeInsets.only(top: Get.height * 0.3 * 0.1),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   color: AppColors.c3DFF,
@@ -192,17 +182,17 @@ class _ChallengesScreenState extends State<ChallengesScreen>
                 return InkWell(
                   onTap: () => _moveToChallengeScreen(
                     tag: index + 1,
-                    title: _controller.challengeTitles[index],
-                    challengeAmount: _controller.challengeAmounts[index],
-                    imagePath: _controller.imagePaths[index],
+                    title: controller.challengeTitles[index],
+                    challengeAmount: controller.challengeAmounts[index],
+                    imagePath: controller.imagePaths[index],
                   ),
                   borderRadius: BorderRadius.circular(20.0),
                   child: Hero(
                     tag: index + 1,
                     child: _allChallengeCard(
-                      _controller.challengeTitles[index],
-                      _controller.challengeAmounts[index],
-                      _controller.imagePaths[index],
+                      controller.challengeTitles[index],
+                      controller.challengeAmounts[index],
+                      controller.imagePaths[index],
                     ),
                   ),
                 );
@@ -210,7 +200,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
               separatorBuilder: (context, index) {
                 return SizedBox(width: 20.0);
               },
-              itemCount: _controller.challengeTitles.length,
+              itemCount: controller.challengeTitles.length,
             ),
           ),
         ],
@@ -307,7 +297,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
     String imagePath,
   }) {
     Get.to(
-      ChallengeTimeLineScreen(
+      () => ChallengeTimeLineScreen(
         tag: tag,
         title: title,
         challengeAmount: challengeAmount,

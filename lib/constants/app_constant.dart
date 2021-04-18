@@ -18,3 +18,9 @@ class AppConstant {
     debugLabel: "StepTrackingScreenKey",
   );
 }
+
+enum AllNoteLoadingState {
+  isLoading,
+  noDataAvailable,
+  isLoaded,
+}

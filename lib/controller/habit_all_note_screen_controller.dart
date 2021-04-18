@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:habit_tracker/view/habit_all_note_screen/date_divider.dart';
 import 'package:habit_tracker/view/habit_all_note_screen/note_content_card.dart';
@@ -7,6 +8,7 @@ import 'package:habit_tracker/view/habit_all_note_screen/note_content_card.dart'
 class HabitAllNoteScreenController extends GetxController {
   var habitId = 1.obs;
   var noteContentText = "".obs;
+  var loadingState = AllNoteLoadingState.isLoading.obs;
 
   var dateList = [].obs;
   var noteContent = [].obs;
@@ -38,6 +40,9 @@ class HabitAllNoteScreenController extends GetxController {
             );
           }
         }
+        loadingState.value = AllNoteLoadingState.isLoaded;
+      } else {
+        loadingState.value = AllNoteLoadingState.noDataAvailable;
       }
     }).catchError((err) => debugPrint(err.toString()));
   }

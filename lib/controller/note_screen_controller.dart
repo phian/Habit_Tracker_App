@@ -45,7 +45,7 @@ class NoteScreenController extends GetxController {
         Get.back();
         return;
       } else {
-        /// [Xét trường hợp nếu ng dùng sửa các noter cũ]
+        /// [Xét trường hợp nếu ng dùng sửa các note cũ]
         for (int i = 0; i < value.length - 1; i++) {
           databaseHelper.updateHabitNoteData(
             Diary(

@@ -4,10 +4,13 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
+import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/view/habit_all_note_screen/no_note_data_display_widget.dart';
 
 class HabitAllNoteScreen extends StatefulWidget {
-  HabitAllNoteScreen({Key key}) : super(key: key);
+  final Habit habit;
+
+  HabitAllNoteScreen({Key key, @required this.habit}) : super(key: key);
 
   @override
   _HabitAllNoteScreenState createState() => _HabitAllNoteScreenState();
@@ -41,13 +44,20 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _allNoteScreenController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.cFF1E,
       appBar: _habitAllNoteScreenAppBar(),
       body: Obx(
         () => _allNoteScreenController.loadingState.value ==
-                AllNoteLoadingState.isLoaded
+                    AllNoteLoadingState.isLoaded &&
+                _allNoteScreenController.dateList.length != 0
             ? ListView(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 physics: AlwaysScrollableScrollPhysics(

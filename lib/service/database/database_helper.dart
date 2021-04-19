@@ -389,16 +389,19 @@ class DatabaseHelper {
   }
 
   /// [Đọc data cho màn hình all note]
-  Future<List<Map<String, dynamic>>> readDataDataFromNoteTable() async {
+  Future<List<Map<String, dynamic>>> readDateDataFromNoteTable(
+      int habitId) async {
     Database database = await this.database;
-    var queryResult = database.rawQuery("select $ngay from $tabDiary");
+    var queryResult = await database
+        .rawQuery("select $ngay from $tabDiary where $maThoiQuen = '$habitId'");
 
     return queryResult;
   }
 
-  Future<List<Map<String, dynamic>>> readAllNoteData() async {
+  Future<List<Map<String, dynamic>>> readAllNoteData(int habitId) async {
     Database database = await this.database;
-    var queryResult = database.query(tabDiary);
+    var queryResult =
+        await database.query(tabDiary, where: "$maThoiQuen = '$habitId'");
 
     return queryResult;
   }

@@ -25,14 +25,18 @@ class HabitAllNoteScreenController extends GetxController {
 
   /// [Read date data]
   Future<Map<String, dynamic>> readDateData() async {
-    return databaseHelper.readDataDataFromNoteTable().then((value) {
+    return databaseHelper
+        .readDateDataFromNoteTable(habitId.value)
+        .then((value) {
       if (value.length != 0) {
         for (int i = 0; i < value.length; i++) {
           if (checkIfDateDataExist(value[i]['ngay'].toString()) == false) {
             dateList.add(value[i]['ngay'].toString());
-            dateListWidget.add(DateDivider(
-              date: value[i]['ngay'].toString().replaceAll(' ', '/'),
-            ));
+            dateListWidget.add(
+              DateDivider(
+                date: value[i]['ngay'].toString().replaceAll(' ', '/'),
+              ),
+            );
           } else {
             dateList[i] = value[i]['ngay'].toString();
             dateListWidget[i] = DateDivider(
@@ -49,7 +53,7 @@ class HabitAllNoteScreenController extends GetxController {
 
   /// [Read all note content]
   Future<Map<String, dynamic>> readAllNoteData() async {
-    return databaseHelper.readAllNoteData().then((value) {
+    return databaseHelper.readAllNoteData(habitId.value).then((value) {
       if (value.length != 0) {
         for (int i = 0; i < value.length; i++) {
           if (checkIfContentExist(value[i]['noi_dung'].toString()) == false) {
@@ -68,9 +72,12 @@ class HabitAllNoteScreenController extends GetxController {
             );
           }
         }
+        loadingState.value = AllNoteLoadingState.isLoaded;
         // print("Có vô đây");
+      } else {
+        loadingState.value = AllNoteLoadingState.noDataAvailable;
       }
-    }).catchError((err) => debugPrint(err.toString()));
+    }).catchError((err) => throw err);
   }
 
   bool checkIfDateDataExist(String date) {

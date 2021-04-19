@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -517,7 +516,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
         Get.back();
       },
     );
-    
+
     return true;
   }
 

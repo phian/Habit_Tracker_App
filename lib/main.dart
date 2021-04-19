@@ -1,23 +1,31 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/binding/controller_binding.dart';
-
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'constants/app_constant.dart';
+import 'controller/binding/controller_binding.dart';
 
-void main() => initializeDateFormatting().then(
-      (_) => runApp(
-        GetMaterialApp(
-          theme: ThemeData.dark(),
-          debugShowCheckedModeBanner: false,
-          initialBinding: ControllerBinding(),
-          initialRoute: '/splash_screen',
-          defaultTransition: Transition.cupertino,
-          getPages: AppConstant.listPage,
-        ),
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  initializeDateFormatting()
+      .then(
+    (_) => runApp(
+      GetMaterialApp(
+        theme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        initialBinding: ControllerBinding(),
+        initialRoute: '/splash_screen',
+        defaultTransition: Transition.cupertino,
+        getPages: AppConstant.listPage,
       ),
-    );
+    ),
+  )
+      .catchError((err) {
+    print(err.toString());
+  });
+}
 
 class IntroScreen extends StatefulWidget {
   @override
@@ -31,7 +39,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
     Future.delayed(
       Duration(milliseconds: 1500),
-      () {
+          () {
         Get.offAllNamed('/manage_screen');
       },
     );

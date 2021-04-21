@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
+import 'package:habit_tracker/constants/app_routes.dart';
 
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
-import 'package:shrink_sidemenu/src/base.dart';
+import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
   final mainScreenController = Get.put(MainScreenController());
@@ -138,8 +139,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
   /// Navigation
   void _moveToHabitStatisticScreen(int index) {
     Get.toNamed(
-      '/statistic',
-      
+      Routes.STATISTIC,
       arguments: mainScreenController.listAllHabit[index],
     );
   }

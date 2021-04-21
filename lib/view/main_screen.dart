@@ -5,6 +5,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
+import 'package:habit_tracker/constants/app_routes.dart';
 
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/process.dart';
@@ -443,7 +444,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
   /// Navigation
   void _moveToHabitStatisticScreen(Habit habit) {
     Get.toNamed(
-      '/statistic',
+      Routes.STATISTIC,
       arguments: habit,
     );
   }

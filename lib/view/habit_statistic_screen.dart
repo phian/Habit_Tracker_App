@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
+import 'package:habit_tracker/constants/app_routes.dart';
 
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
@@ -663,7 +664,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   void _moveToHabitAllNoteScreen() {
     Get.back();
     Get.toNamed(
-      '/all_note',
+      Routes.ALL_NOTE,
       arguments: _habitStatisticController.habit.value.ma,
     );
   }
@@ -672,7 +673,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   void _moveToEditHabitScreen() {
     Get.back();
     Get.toNamed(
-      '/edit_habit',
+      Routes.EDIT_HABIT,
       arguments: _habitStatisticController.habit.value,
     );
   }

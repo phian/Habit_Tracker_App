@@ -6,7 +6,8 @@ import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/step_tracking_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
-import 'package:shrink_sidemenu/src/base.dart';
+import 'package:shrink_sidemenu/shrink_sidemenu.dart';
+
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class StepTackingScreen extends StatelessWidget implements SideMenuModel {

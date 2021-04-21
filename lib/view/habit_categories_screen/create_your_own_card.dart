@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
+import 'package:habit_tracker/constants/app_routes.dart';
 
 
 class CreateYourOwnCard extends StatelessWidget {
@@ -19,7 +20,7 @@ class CreateYourOwnCard extends StatelessWidget {
         highlightColor: AppColors.c0000,
         borderRadius: BorderRadius.circular(20.0),
         onTap: () {
-          Get.toNamed('/create_habit');
+          Get.toNamed(Routes.CREATE_HABIT);
         },
         child: Container(
           padding: EdgeInsets.only(left: 30.0),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
+import 'package:habit_tracker/constants/app_routes.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 
@@ -100,11 +101,11 @@ class ScreenMenu extends StatelessWidget {
         ),
         onTap: () {
           if (icon == Icons.access_time) {
-            Get.toNamed('/notification');
+            Get.toNamed(Routes.NOTIFICATION);
           } else if (icon == Icons.settings) {
-            Get.toNamed('/general');
+            Get.toNamed(Routes.GENERAL);
           } else {
-            Get.toNamed('/login');
+            Get.toNamed(Routes.LOGIN);
           }
         },
         leading: Icon(

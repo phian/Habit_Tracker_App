@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_routes.dart';
 import 'package:habit_tracker/controller/binding/controller_binding.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
@@ -14,7 +15,7 @@ void main() => initializeDateFormatting().then(
           initialBinding: ControllerBinding(),
           initialRoute: '/splash_screen',
           defaultTransition: Transition.cupertino,
-          getPages: AppConstant.listPage,
+          getPages: Pages.pages,
         ),
       ),
     );

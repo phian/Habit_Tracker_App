@@ -4,13 +4,11 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
-import 'package:habit_tracker/model/habit.dart';
+
 import 'package:habit_tracker/view/habit_all_note_screen/no_note_data_display_widget.dart';
 
 class HabitAllNoteScreen extends StatefulWidget {
-  final Habit habit;
-
-  HabitAllNoteScreen({Key key, @required this.habit}) : super(key: key);
+  HabitAllNoteScreen({Key key}) : super(key: key);
 
   @override
   _HabitAllNoteScreenState createState() => _HabitAllNoteScreenState();
@@ -55,8 +53,7 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
       backgroundColor: AppColors.cFF1E,
       appBar: _habitAllNoteScreenAppBar(),
       body: Obx(
-        () => _allNoteScreenController.loadingState.value ==
-                    AllNoteLoadingState.isLoaded &&
+        () => _allNoteScreenController.loadingState.value == AllNoteLoadingState.isLoaded &&
                 _allNoteScreenController.dateList.length != 0
             ? ListView(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -80,8 +77,7 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
                   ),
                 ],
               )
-            : _allNoteScreenController.loadingState.value ==
-                    AllNoteLoadingState.isLoading
+            : _allNoteScreenController.loadingState.value == AllNoteLoadingState.isLoading
                 ? SpinKitFadingCube(color: AppColors.cFFFF)
                 : NoNoteDataDisplayWidget(),
       ),

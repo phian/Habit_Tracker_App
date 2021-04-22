@@ -18,7 +18,8 @@ class ManageScreen extends StatelessWidget {
         backgroundColor: AppColors.cFFFE,
         child: Icon(Icons.add),
         onPressed: () {
-          Get.toNamed('/suggest_category');
+          // Get.toNamed('/suggest_category');
+          Get.toNamed("/timer");
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

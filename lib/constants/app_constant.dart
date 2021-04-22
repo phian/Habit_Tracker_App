@@ -15,6 +15,7 @@ import 'package:habit_tracker/view/main_screen.dart';
 import 'package:habit_tracker/view/manage_screen.dart';
 import 'package:habit_tracker/view/notification_screen.dart';
 import 'package:habit_tracker/view/step_tracking_screen.dart';
+import 'package:habit_tracker/widgets/timer/timer.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import '../main.dart';
@@ -56,6 +57,7 @@ class AppConstant {
     GetPage(name: '/notification', page: () => NotificationScreen()),
     GetPage(name: '/general', page: () => GeneralScreen()),
     GetPage(name: '/login', page: () => LoginScreen()),
+    GetPage(name: '/timer', page: () => Timer())
   ];
 }
 

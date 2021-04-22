@@ -1,5 +1,6 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
@@ -12,7 +13,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginScreenController _loginScreenController = LoginScreenController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +103,13 @@ class _LoginScreenState extends State<LoginScreen> {
             case "Sign in with Google":
               var user = await _loginScreenController.signInWithGoogle();
               if (user != null) {
+                _showSignInNotificationDialog();
+              }
+              break;
+            case "Sign in with Facebook":
+              var loginState =
+                  await _loginScreenController.signInWithFacebook();
+              if (loginState == FacebookLoginStatus.loggedIn) {
                 _showSignInNotificationDialog();
               }
               break;

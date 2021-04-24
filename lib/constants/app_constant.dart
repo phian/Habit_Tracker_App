@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
+import 'package:habit_tracker/main.dart';
 import 'package:habit_tracker/view/all_habits_screen.dart';
 import 'package:habit_tracker/view/challenges_screen.dart';
 import 'package:habit_tracker/view/create_and_edit_habit_screen/create_habit_screen.dart';
@@ -19,7 +20,7 @@ import 'package:habit_tracker/view/step_tracking_screen.dart';
 import 'package:habit_tracker/widgets/timer/timer.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
+
 
 class AppConstant {
   static final String imagePath = "images/";

@@ -1,3 +1,5 @@
+
+
 import 'package:get/get.dart';
 
 import '../view/general_screen/general_screen_variables.dart';
@@ -11,7 +13,9 @@ class GeneralScreenController extends GetxController {
 
   GeneralScreenVariables variables;
 
-  GeneralScreenController() {
+  @override
+  void onInit() {
+    super.onInit();
     initListItems();
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/constants/app_routes.dart';
+import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/controller/manage_screen_controller.dart';
 
 

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
+import 'package:habit_tracker/routing/routes.dart';
+import 'package:habit_tracker/view/manage_screen.dart';
 
 import '../challenge_timeline_screen/challenge_time_line_screen_variables.dart';
 
@@ -11,21 +13,21 @@ class CreateAndEditHabitScreenAppBar extends StatefulWidget {
   final CreateHabitScreenController controller;
   final String title;
   final TextEditingController goalAmountController, habitNameController;
+  final habitId;
 
   CreateAndEditHabitScreenAppBar({
     this.controller,
     this.title,
     this.goalAmountController,
     this.habitNameController,
+    this.habitId,
   });
 
   @override
-  _CreateAndEditHabitScreenAppBarState createState() =>
-      _CreateAndEditHabitScreenAppBarState();
+  _CreateAndEditHabitScreenAppBarState createState() => _CreateAndEditHabitScreenAppBarState();
 }
 
-class _CreateAndEditHabitScreenAppBarState
-    extends State<CreateAndEditHabitScreenAppBar> {
+class _CreateAndEditHabitScreenAppBarState extends State<CreateAndEditHabitScreenAppBar> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -121,8 +123,7 @@ class _CreateAndEditHabitScreenAppBarState
         title: "Forgot to set a goal?",
         text: "Check your goal for this habit",
       );
-    } else if (widget.habitNameController.text == null ||
-        widget.habitNameController.text.isEmpty) {
+    } else if (widget.habitNameController.text == null || widget.habitNameController.text.isEmpty) {
       print(widget.habitNameController.text);
       CoolAlert.show(
         context: context,
@@ -132,13 +133,22 @@ class _CreateAndEditHabitScreenAppBarState
         text: "Check the name you want for this habit",
       );
     } else {
-      widget.controller.addHabit(
-        widget.habitNameController.text,
-        widget.goalAmountController.text,
-      );
-      Get.back();
-      widget.habitNameController.clear();
-      widget.controller.onClose();
+      if (widget.habitId != null) {
+        widget.controller.editHabit(
+          widget.habitNameController.text,
+          widget.habitId,
+          widget.goalAmountController.text,
+        );
+        Get.back();
+      } else {
+        widget.controller.addHabit(
+          widget.habitNameController.text,
+          widget.goalAmountController.text,
+        );
+        Get.back();
+        Get.back();
+        //Get.offNamedUntil(Routes.MANAGE_SCRREN, (route) => Get.currentRoute == Routes.MANAGE_SCRREN,);
+      }
     }
   }
 

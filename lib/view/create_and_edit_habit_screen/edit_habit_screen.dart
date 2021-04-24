@@ -63,6 +63,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
           title: "Edit habit",
           habitNameController: _habitNameController,
           goalAmountController: _goalAmountController,
+          habitId: _habit.ma,
         ),
         _habitScreenBody(),
       ],

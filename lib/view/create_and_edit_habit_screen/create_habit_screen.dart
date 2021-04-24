@@ -71,6 +71,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
           title: "New habit",
           habitNameController: _habitNameController,
           goalAmountController: _goalAmountController,
+          
         ),
         _habitScreenBody(),
       ],

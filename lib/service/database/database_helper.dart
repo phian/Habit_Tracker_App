@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:habit_tracker/model/diary.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
@@ -67,8 +68,7 @@ class DatabaseHelper {
 
   _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
-    return await openDatabase(path,
-        version: _databaseVersion, onCreate: _onCreate);
+    return await openDatabase(path, version: _databaseVersion, onCreate: _onCreate);
   }
 
   Future _onCreate(Database db, int version) async {
@@ -154,8 +154,7 @@ class DatabaseHelper {
     ''');
 
     // insert data suggested topic
-    await db.execute(
-        '''INSERT INTO $tabSuggestedTopic ($tenChuDeGoiY, $moTa, $hinhChuDe) 
+    await db.execute('''INSERT INTO $tabSuggestedTopic ($tenChuDeGoiY, $moTa, $hinhChuDe) 
         VALUES 
         ('Trending habits', 'Take a step in a right direction', 'images/trending_habits.png'),
         ('Staying at home', 'Use this time to do something new', 'images/at_home.png'),
@@ -319,8 +318,8 @@ class DatabaseHelper {
 
   Future<int> updateHabit(Habit habit) async {
     Database db = await instance.database;
-    return await db.update(tabHabit, habit.toMap(),
-        where: '$ma = ?', whereArgs: [habit.ma]);
+    await db.delete(tabProcess, where: '$maThoiQuen = ?', whereArgs: [habit.ma]);
+    return await db.update(tabHabit, habit.toMap(), where: '$ma = ?', whereArgs: [habit.ma]);
   }
 
   Future<int> deleteHabit(int id) async {
@@ -332,28 +331,23 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> selectHabitProcess(String date) async {
     Database db = await instance.database;
-    var res = await db.query(tabProcess,
-        where: '$ngay = ?', orderBy: '$maThoiQuen DESC', whereArgs: [date]);
+    var res = await db
+        .query(tabProcess, where: '$ngay = ?', orderBy: '$maThoiQuen DESC', whereArgs: [date]);
     return res;
   }
 
   Future<void> insertProcess(int idHabit, String date) async {
     Database db = await instance.database;
-    try {
-      await db.rawInsert(
-        "INSERT INTO $tabProcess ($maThoiQuen,$ngay) VALUES (?,?)",
-        [idHabit, date],
-      );
-    } catch (e) {
-      print('da ton tai');
-    }
+    await db.rawInsert(
+      'INSERT OR IGNORE INTO $tabProcess ($maThoiQuen,$ngay) VALUES (?,?)',
+      [idHabit, date],
+    );
   }
 
   Future<int> updateProcess(Process process) async {
     Database db = await instance.database;
     return await db.update(tabProcess, process.toMap(),
-        where: '$maThoiQuen = ? and $ngay = ?',
-        whereArgs: [process.maThoiQuen, process.ngay]);
+        where: '$maThoiQuen = ? and $ngay = ?', whereArgs: [process.maThoiQuen, process.ngay]);
   }
 
   Future<List<Map<String, dynamic>>> selectHabitNote(int habitId) async {
@@ -389,19 +383,17 @@ class DatabaseHelper {
   }
 
   /// [Đọc data cho màn hình all note]
-  Future<List<Map<String, dynamic>>> readDateDataFromNoteTable(
-      int habitId) async {
+  Future<List<Map<String, dynamic>>> readDateDataFromNoteTable(int habitId) async {
     Database database = await this.database;
-    var queryResult = await database
-        .rawQuery("select $ngay from $tabDiary where $maThoiQuen = '$habitId'");
+    var queryResult =
+        await database.rawQuery("select $ngay from $tabDiary where $maThoiQuen = '$habitId'");
 
     return queryResult;
   }
 
   Future<List<Map<String, dynamic>>> readAllNoteData(int habitId) async {
     Database database = await this.database;
-    var queryResult =
-        await database.query(tabDiary, where: "$maThoiQuen = '$habitId'");
+    var queryResult = await database.query(tabDiary, where: "$maThoiQuen = '$habitId'");
 
     return queryResult;
   }

@@ -5,6 +5,8 @@ import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/controller/manage_screen_controller.dart';
 
+import '../routing/routes.dart';
+
 
 
 class ManageScreen extends StatelessWidget {
@@ -19,8 +21,7 @@ class ManageScreen extends StatelessWidget {
         backgroundColor: AppColors.cFFFE,
         child: Icon(Icons.add),
         onPressed: () {
-          // Get.toNamed('/suggest_category');
-          Get.toNamed("/timer");
+          Get.toNamed(Routes.SUGGEST_CATEGORY);      
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

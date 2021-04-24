@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/constants/app_routes.dart';
+import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/controller/binding/controller_binding.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
@@ -33,9 +33,11 @@ void main() async {
       ),
     ),
   )
-      .catchError((err) {
-    print(err.toString());
-  },);
+      .catchError(
+    (err) {
+      print(err.toString());
+    },
+  );
 }
 
 class IntroScreen extends StatefulWidget {

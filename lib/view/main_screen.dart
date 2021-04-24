@@ -5,7 +5,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
-import 'package:habit_tracker/constants/app_routes.dart';
+import 'package:habit_tracker/routing/routes.dart';
 
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/process.dart';
@@ -15,7 +15,6 @@ import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import '../model/habit.dart';
-
 
 class MainScreen extends StatefulWidget {
   @override
@@ -73,33 +72,32 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       height: Get.height,
       child: Column(
         children: [
-          Obx(
-            // calendar
-            () => Container(
-              color: AppColors.c1F00,
-              padding: const EdgeInsets.only(top: 11, bottom: 11),
-              child: FlutterDatePickerTimeline(
-                startDate: DateTime.now().subtract(Duration(days: 14)),
-                endDate: DateTime.now().add(Duration(days: 14)),
-                initialSelectedDate: mainScreenController.selectedDay.value,
-                onSelectedDateChange: (DateTime dateTime) async {
-                  mainScreenController.updateFlagValue(false);
-                  mainScreenController.changeSelectedDay(dateTime);
-                  mainScreenController.getHabitByWeekDate(dateTime.weekday);
-                  mainScreenController.updateFlagValue(true);
-                },
-                selectedItemBackgroundColor: AppColors.c3DFF,
-                selectedItemTextStyle: TextStyle(
-                  color: AppColors.cFFFF,
-                  fontSize: 18.0,
-                ),
-                unselectedItemBackgroundColor: AppColors.c0000,
-                unselectedItemTextStyle: TextStyle(
-                  fontSize: 18.0,
-                ),
+          // calendar
+          Container(
+            color: AppColors.c1F00,
+            padding: const EdgeInsets.only(top: 11, bottom: 11),
+            child: FlutterDatePickerTimeline(
+              startDate: DateTime.now().subtract(Duration(days: 14)),
+              endDate: DateTime.now().add(Duration(days: 14)),
+              initialSelectedDate: mainScreenController.selectedDay.value,
+              onSelectedDateChange: (DateTime dateTime) {
+                mainScreenController.updateFlagValue(false);
+                mainScreenController.changeSelectedDay(dateTime);
+                mainScreenController.getHabitByWeekDate(dateTime.weekday);
+                mainScreenController.updateFlagValue(true);
+              },
+              selectedItemBackgroundColor: AppColors.c3DFF,
+              selectedItemTextStyle: TextStyle(
+                color: AppColors.cFFFF,
+                fontSize: 18.0,
+              ),
+              unselectedItemBackgroundColor: AppColors.c0000,
+              unselectedItemTextStyle: TextStyle(
+                fontSize: 18.0,
               ),
             ),
           ),
+
           Expanded(
             child: Obx(
               () => DefaultTabController(

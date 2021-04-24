@@ -80,11 +80,11 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
               startDate: DateTime.now().subtract(Duration(days: 14)),
               endDate: DateTime.now().add(Duration(days: 14)),
               initialSelectedDate: mainScreenController.selectedDay.value,
-              onSelectedDateChange: (DateTime dateTime) {
-                mainScreenController.updateFlagValue(false);
-                mainScreenController.changeSelectedDay(dateTime);
-                mainScreenController.getHabitByWeekDate(dateTime.weekday);
+              onSelectedDateChange: (DateTime dateTime) async {
                 mainScreenController.updateFlagValue(true);
+                mainScreenController.changeSelectedDay(dateTime);
+                await mainScreenController.getHabitByWeekDate(dateTime.weekday);
+                mainScreenController.updateFlagValue(false);
               },
               selectedItemBackgroundColor: AppColors.c3DFF,
               selectedItemTextStyle: TextStyle(
@@ -128,18 +128,18 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                         child: TabBarView(
                           physics: NeverScrollableScrollPhysics(),
                           children: <Widget>[
-                            mainScreenController.flag.value == true
+                            mainScreenController.isLoading.value == false
                                 ? _listHabit(mainScreenController.listAnytimeHabit)
-                                : Container(),
-                            mainScreenController.flag.value == true
+                                : NoneHabitDisplayWidget(),
+                            mainScreenController.isLoading.value == false
                                 ? _listHabit(mainScreenController.listMorningHabit)
-                                : Container(),
-                            mainScreenController.flag.value == true
+                                : NoneHabitDisplayWidget(),
+                            mainScreenController.isLoading.value == false
                                 ? _listHabit(mainScreenController.listAfternoonHabit)
-                                : Container(),
-                            mainScreenController.flag.value == true
+                                : NoneHabitDisplayWidget(),
+                            mainScreenController.isLoading.value == false
                                 ? _listHabit(mainScreenController.listEveningHabit)
-                                : Container(),
+                                : NoneHabitDisplayWidget(),
                           ],
                         ),
                       ),

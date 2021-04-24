@@ -9,6 +9,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'constants/app_constant.dart';
 import 'controller/binding/controller_binding.dart';
+import 'routing/pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

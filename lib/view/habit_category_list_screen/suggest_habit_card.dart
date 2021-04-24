@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
+import 'package:habit_tracker/constants/app_routes.dart';
 import 'package:habit_tracker/controller/habit_category_list_screen_controller.dart';
 
 
@@ -33,7 +34,7 @@ class SuggestHabitCard extends StatelessWidget {
         ),
         onTap: () {
           Get.offNamed(
-            '/create_habit',
+            Routes.CREATE_HABIT,
             arguments: this.habitCategoryListScreenController.suggestedHabitList[index],
             
           );

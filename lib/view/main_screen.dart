@@ -451,7 +451,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
 
   void _moveToHabitNoteScreen(Habit habit) {
     Get.toNamed(
-      '/note',
+      Routes.NOTE,
       arguments: habit.ma,
     );
   }

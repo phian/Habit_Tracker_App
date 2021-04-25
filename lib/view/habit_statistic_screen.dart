@@ -9,8 +9,6 @@ import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
-
 class HabitStatisticScreen extends StatefulWidget {
   @override
   _HabitStatisticScreenState createState() => _HabitStatisticScreenState();
@@ -586,9 +584,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
       backgroundColor: AppColors.cFF2F,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)), //this right here
       child: Container(
-        height: Get.height * 0.2,
-        width: Get.width * 0.7,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(top: Get.height * 0.2 * 0.1),
@@ -657,7 +654,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
 
   void onDeleteHabitButtonPressed() {
     mainScreenController.deleteHabit(_habitStatisticController.habit.value);
-    Get.back();
+    Get.close(3);
   }
 
   /// [Move to habit all note screen]

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
-import 'package:habit_tracker/routing/routes.dart';
-
+import 'package:habit_tracker/constants/app_routes.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';

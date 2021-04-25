@@ -2,14 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/routing/routes.dart';
+import 'package:habit_tracker/constants/app_routes.dart';
 import 'package:habit_tracker/controller/binding/controller_binding.dart';
-
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'constants/app_constant.dart';
 import 'controller/binding/controller_binding.dart';
-import 'routing/pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

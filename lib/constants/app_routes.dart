@@ -2,7 +2,6 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:habit_tracker/widgets/timer/timer.dart';
 
 import '../main.dart';
-import '../routing/routes.dart';
 import '../view/all_habits_screen.dart';
 import '../view/challenges_screen.dart';
 import '../view/create_and_edit_habit_screen/create_habit_screen.dart';
@@ -18,6 +17,28 @@ import '../view/main_screen.dart';
 import '../view/manage_screen.dart';
 import '../view/notification_screen.dart';
 import '../view/step_tracking_screen.dart';
+import '../widgets/timer/timer_second.dart';
+
+class Routes {
+  static const SPLASH_SCREEN = '/splash_screen';
+  static const MANAGE_SCRREN = '/manage_screen';
+  static const MAIN_SCRREEN = '/main_screen';
+  static const ALL_HABIT = '/all_habit';
+  static const CHALLENGE = '/challenge';
+  static const STEP_TRACKING = '/step_tracking';
+  static const STATISTIC = '/statistic';
+  static const NOTE = '/note';
+  static const ALL_NOTE = '/all_note';
+  static const CREATE_HABIT = '/create_habit';
+  static const EDIT_HABIT = '/edit_habit';
+  static const SUGGEST_CATEGORY = '/suggest_category';
+  static const SUGGEST_CATEGORY_LIST = '/suggest_category_list';
+  static const NOTIFICATION = '/notification';
+  static const GENERAL = '/general';
+  static const LOGIN = '/login';
+  static const TIMER = '/timer';
+  static const TIMER_SECOND = '/timer_second';
+}
 
 class Pages {
   static final List<GetPage> pages = [
@@ -45,7 +66,8 @@ class Pages {
     GetPage(name: Routes.NOTIFICATION, page: () => NotificationScreen()),
     GetPage(name: Routes.GENERAL, page: () => GeneralScreen()),
     GetPage(name: Routes.LOGIN, page: () => LoginScreen()),
-    //
     GetPage(name: Routes.TIMER, page: () => Timer()),
+    GetPage(name: Routes.TIMER_SECOND, page: () => TimerSecond()),
   ];
 }
+

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 
 class NoneHabitDisplayWidget extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class NoneHabitDisplayWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                "images/plant_pot.png",
+                "${AppConstant.imagePath}plant_pot.png",
                 width: Get.width * 0.27,
                 height: Get.height * 0.27,
               ),

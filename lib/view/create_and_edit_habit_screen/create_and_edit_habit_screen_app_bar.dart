@@ -145,9 +145,7 @@ class _CreateAndEditHabitScreenAppBarState extends State<CreateAndEditHabitScree
           widget.habitNameController.text,
           widget.goalAmountController.text,
         );
-        Get.back();
-        Get.back();
-        //Get.offNamedUntil(Routes.MANAGE_SCRREN, (route) => Get.currentRoute == Routes.MANAGE_SCRREN,);
+        Get.close(2);
       }
     }
   }

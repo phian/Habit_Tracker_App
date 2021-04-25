@@ -2,12 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/routing/routes.dart';
+import 'package:habit_tracker/constants/app_routes.dart';
 import 'package:habit_tracker/controller/manage_screen_controller.dart';
-
-import '../routing/routes.dart';
-
-
 
 class ManageScreen extends StatelessWidget {
   final controller = Get.find<ManageScreenController>();
@@ -21,7 +17,7 @@ class ManageScreen extends StatelessWidget {
         backgroundColor: AppColors.cFFFE,
         child: Icon(Icons.add),
         onPressed: () {
-          Get.toNamed(Routes.SUGGEST_CATEGORY);      
+          Get.toNamed(Routes.TIMER);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

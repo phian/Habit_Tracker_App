@@ -21,6 +21,8 @@ class HabitAllNoteScreenController extends GetxController {
     if (data != null) habitId.value = data;
   }
 
+  void initData() async {}
+
   /// [Read date data]
   Future<Map<String, dynamic>> readDateData() async {
     return databaseHelper

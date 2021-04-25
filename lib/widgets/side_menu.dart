@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/routing/routes.dart';
+import 'package:habit_tracker/constants/app_routes.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
-
 
 class ScreenMenu extends StatelessWidget {
   final Widget child;

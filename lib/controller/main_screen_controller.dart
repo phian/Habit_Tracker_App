@@ -11,7 +11,7 @@ class MainScreenController extends GetxController {
   var listMorningHabit = <Habit>[].obs;
   var listAfternoonHabit = <Habit>[].obs;
   var listEveningHabit = <Habit>[].obs;
-  var flag = false.obs;
+  var isLoading = true.obs;
   var listHabitProcess = <Process>[].obs;
 
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
@@ -32,12 +32,11 @@ class MainScreenController extends GetxController {
   @override
   void onInit() {
     getAllHabit();
-    //getHabitByWeekDate(DateTime.now().weekday + 1);
     super.onInit();
   }
 
   Future<void> getAllHabit() async {
-    flag.value = false;
+    isLoading.value = true;
     listAllHabit.clear();
     await DatabaseHelper.instance.selectAllHabit().then((value) {
       value.forEach((element) {
@@ -59,12 +58,13 @@ class MainScreenController extends GetxController {
         );
       });
     });
-    getHabitByWeekDate(selectedDay.value.weekday);
-    flag.value = true;
+    await getHabitByWeekDate(selectedDay.value.weekday);
+    isLoading.value = false;
   }
 
-  void getHabitByWeekDate(int weekdate) async {
+  Future<void> getHabitByWeekDate(int weekdate) async {
     listAnytimeHabit.clear();
+
     for (int i = 0; i < listAllHabit.length; i++) {
       if (listAllHabit[i].ngayTrongTuan.contains((weekdate + 1).toString())) {
         listAnytimeHabit.add(listAllHabit[i]);
@@ -77,7 +77,7 @@ class MainScreenController extends GetxController {
       // 2 cái không đồng bộ => thiếu process
       // => tạo
       for (int i = 0; i < listAnytimeHabit.length; i++) {
-        DatabaseHelper.instance.insertProcess(
+        await DatabaseHelper.instance.insertProcess(
           listAnytimeHabit[i].ma,
           formatter.format(selectedDay.value),
         );
@@ -90,22 +90,17 @@ class MainScreenController extends GetxController {
     listAfternoonHabit.clear();
     listEveningHabit.clear();
     for (int i = 0; i < listAnytimeHabit.length; i++) {
-      if (listAnytimeHabit[i].buoi.contains('1'))
-        listMorningHabit.add(listAnytimeHabit[i]);
+      if (listAnytimeHabit[i].buoi.contains('1')) listMorningHabit.add(listAnytimeHabit[i]);
 
-      if (listAnytimeHabit[i].buoi.contains('2'))
-        listAfternoonHabit.add(listAnytimeHabit[i]);
+      if (listAnytimeHabit[i].buoi.contains('2')) listAfternoonHabit.add(listAnytimeHabit[i]);
 
-      if (listAnytimeHabit[i].buoi.contains('3'))
-        listEveningHabit.add(listAnytimeHabit[i]);
+      if (listAnytimeHabit[i].buoi.contains('3')) listEveningHabit.add(listAnytimeHabit[i]);
     }
   }
 
   Future<void> getHabitProcess(DateTime date) async {
     listHabitProcess.clear();
-    await DatabaseHelper.instance
-        .selectHabitProcess(formatter.format(date))
-        .then((value) {
+    await DatabaseHelper.instance.selectHabitProcess(formatter.format(date)).then((value) {
       value.forEach((element) {
         listHabitProcess.add(Process(
           maThoiQuen: element['ma_thoi_quen'],
@@ -118,13 +113,11 @@ class MainScreenController extends GetxController {
   }
 
   Process findProcess(int maThoiQuen) {
-    return listHabitProcess
-        .firstWhere((element) => element.maThoiQuen == maThoiQuen);
+    return listHabitProcess.firstWhere((element) => element.maThoiQuen == maThoiQuen);
   }
 
   Future<void> updateProcess(Process p) async {
-    int index = listHabitProcess
-        .indexWhere((element) => element.maThoiQuen == p.maThoiQuen);
+    int index = listHabitProcess.indexWhere((element) => element.maThoiQuen == p.maThoiQuen);
     listHabitProcess[index] = p;
     //updateListView.value = true;
     await DatabaseHelper.instance.updateProcess(p);
@@ -136,6 +129,6 @@ class MainScreenController extends GetxController {
   }
 
   void updateFlagValue(bool value) {
-    flag.value = value;
+    isLoading.value = value;
   }
 }

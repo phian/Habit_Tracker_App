@@ -1,21 +1,24 @@
 import 'package:get/get.dart';
 
 class TimerController extends GetxController {
-  var canStart = true.obs;
-  var canReset = false.obs;
+  var isStarted = false.obs;
+  var isPaused = true.obs;
+  var isStopped = true.obs;
 
   void onBegin() {
-    canStart.value = false;
-    canReset.value = true;
+    isStarted.value = true;
+    isPaused.value = false;
+    isStopped.value = false;
   }
 
   void onPause() {
-    canStart.value = true;
-    canReset.value = true;
+    isPaused.value = true;
+    isStarted.value = false;
   }
 
   void onStop() {
-    canStart.value = true;
-    canReset.value = false;
+    isStarted.value = false;
+    isPaused.value = true;
+    isStopped.value = true;
   }
 }

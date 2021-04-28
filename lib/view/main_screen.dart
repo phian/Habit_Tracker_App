@@ -5,7 +5,8 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
-import 'package:habit_tracker/constants/app_routes.dart';
+import 'package:habit_tracker/routing/routes.dart';
+
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
@@ -71,33 +72,32 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       height: Get.height,
       child: Column(
         children: [
-          Obx(
-            // calendar
-            () => Container(
-              color: AppColors.c1F00,
-              padding: const EdgeInsets.only(top: 11, bottom: 11),
-              child: FlutterDatePickerTimeline(
-                startDate: DateTime.now().subtract(Duration(days: 14)),
-                endDate: DateTime.now().add(Duration(days: 14)),
-                initialSelectedDate: mainScreenController.selectedDay.value,
-                onSelectedDateChange: (DateTime dateTime) async {
-                  mainScreenController.updateFlagValue(false);
-                  mainScreenController.changeSelectedDay(dateTime);
-                  mainScreenController.getHabitByWeekDate(dateTime.weekday);
-                  mainScreenController.updateFlagValue(true);
-                },
-                selectedItemBackgroundColor: AppColors.c3DFF,
-                selectedItemTextStyle: TextStyle(
-                  color: AppColors.cFFFF,
-                  fontSize: 18.0,
-                ),
-                unselectedItemBackgroundColor: AppColors.c0000,
-                unselectedItemTextStyle: TextStyle(
-                  fontSize: 18.0,
-                ),
+          // calendar
+          Container(
+            color: AppColors.c1F00,
+            padding: const EdgeInsets.only(top: 11, bottom: 11),
+            child: FlutterDatePickerTimeline(
+              startDate: DateTime.now().subtract(Duration(days: 14)),
+              endDate: DateTime.now().add(Duration(days: 14)),
+              initialSelectedDate: mainScreenController.selectedDay.value,
+              onSelectedDateChange: (DateTime dateTime) async {
+                mainScreenController.updateFlagValue(true);
+                mainScreenController.changeSelectedDay(dateTime);
+                await mainScreenController.getHabitByWeekDate(dateTime.weekday);
+                mainScreenController.updateFlagValue(false);
+              },
+              selectedItemBackgroundColor: AppColors.c3DFF,
+              selectedItemTextStyle: TextStyle(
+                color: AppColors.cFFFF,
+                fontSize: 18.0,
+              ),
+              unselectedItemBackgroundColor: AppColors.c0000,
+              unselectedItemTextStyle: TextStyle(
+                fontSize: 18.0,
               ),
             ),
           ),
+
           Expanded(
             child: Obx(
               () => DefaultTabController(
@@ -128,16 +128,16 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                         child: TabBarView(
                           physics: NeverScrollableScrollPhysics(),
                           children: <Widget>[
-                            mainScreenController.flag.value == false
+                            mainScreenController.isLoading.value == false
                                 ? _listHabit(mainScreenController.listAnytimeHabit)
                                 : NoneHabitDisplayWidget(),
-                            mainScreenController.flag.value == false
+                            mainScreenController.isLoading.value == false
                                 ? _listHabit(mainScreenController.listMorningHabit)
                                 : NoneHabitDisplayWidget(),
-                            mainScreenController.flag.value == false
+                            mainScreenController.isLoading.value == false
                                 ? _listHabit(mainScreenController.listAfternoonHabit)
                                 : NoneHabitDisplayWidget(),
-                            mainScreenController.flag.value == false
+                            mainScreenController.isLoading.value == false
                                 ? _listHabit(mainScreenController.listEveningHabit)
                                 : NoneHabitDisplayWidget(),
                           ],

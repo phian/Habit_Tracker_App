@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/constants/app_routes.dart';
+import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/controller/habit_category_list_screen_controller.dart';
+
 
 class SuggestHabitCard extends StatelessWidget {
   final int iconCode, color, index;

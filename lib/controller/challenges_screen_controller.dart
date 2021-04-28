@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:habit_tracker/constants/app_constant.dart';
 
 class ChallengesScreenController extends GetxController {
   List<String> challengeTitles, challengeAmounts, imagePaths;
@@ -26,14 +25,14 @@ class ChallengesScreenController extends GetxController {
       "10355",
     ];
     imagePaths = [
-      "${AppConstant.imagePath}social_media_challenge.png",
-      "${AppConstant.imagePath}bedtime_routine_challenge.png",
-      "${AppConstant.imagePath}sugar_free_challenge.png",
-      "${AppConstant.imagePath}intermittent_fasting_challenge.png",
-      "${AppConstant.imagePath}no_alcohol_challenge.png",
-      "${AppConstant.imagePath}mindfulness_chllenge.png",
-      "${AppConstant.imagePath}relationship_challenge.png",
-      "${AppConstant.imagePath}morning_challenge.png",
+      "images/social_media_challenge.png",
+      "images/bedtime_routine_challenge.png",
+      "images/sugar_free_challenge.png",
+      "images/intermittent_fasting_challenge.png",
+      "images/no_alcohol_challenge.png",
+      "images/mindfulness_chllenge.png",
+      "images/relationship_challenge.png",
+      "images/morning_challenge.png",
     ];
     super.onInit();
   }

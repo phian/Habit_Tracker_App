@@ -53,15 +53,18 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
         ),
       ),
       title: Container(
-        child: Text(
-          "Today",
-          style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
+        child: Obx(
+          () => Text(
+            mainScreenController.appBarTitle.value,
+            style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
       centerTitle: true,
+      
       backgroundColor: AppColors.c1F00,
       elevation: 0.0,
     );
@@ -79,11 +82,11 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             child: FlutterDatePickerTimeline(
               startDate: DateTime.now().subtract(Duration(days: 14)),
               endDate: DateTime.now().add(Duration(days: 14)),
-              initialSelectedDate: mainScreenController.selectedDay.value,
-              onSelectedDateChange: (DateTime dateTime) async {
+              initialFocusedDate: mainScreenController.selectedDay.value,
+              onSelectedDateChange: (DateTime dateTime) {
                 mainScreenController.updateFlagValue(true);
                 mainScreenController.changeSelectedDay(dateTime);
-                await mainScreenController.getHabitByWeekDate(dateTime.weekday);
+                mainScreenController.getHabitByWeekDate(dateTime.weekday);
                 mainScreenController.updateFlagValue(false);
               },
               selectedItemBackgroundColor: AppColors.c3DFF,
@@ -97,33 +100,32 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
               ),
             ),
           ),
-
           Expanded(
-            child: Obx(
-              () => DefaultTabController(
-                length: 4, // length of tabs
-                initialIndex: 0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(top: 10.0),
-                      color: AppColors.c1F00,
-                      child: TabBar(
-                        isScrollable: true,
-                        labelColor: AppColors.cFFFF,
-                        unselectedLabelColor: AppColors.c3DFF,
-                        indicatorColor: AppColors.c0000,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        tabs: [
-                          _mainScreenDateTimeTab('All day'),
-                          _mainScreenDateTimeTab('Morning'),
-                          _mainScreenDateTimeTab('Afternoon'),
-                          _mainScreenDateTimeTab('Evening'),
-                        ],
-                      ),
+            child: DefaultTabController(
+              length: 4, // length of tabs
+              initialIndex: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: 10.0),
+                    color: AppColors.c1F00,
+                    child: TabBar(
+                      isScrollable: true,
+                      labelColor: AppColors.cFFFF,
+                      unselectedLabelColor: AppColors.c3DFF,
+                      indicatorColor: AppColors.c0000,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      tabs: [
+                        _mainScreenDateTimeTab('All day'),
+                        _mainScreenDateTimeTab('Morning'),
+                        _mainScreenDateTimeTab('Afternoon'),
+                        _mainScreenDateTimeTab('Evening'),
+                      ],
                     ),
-                    Expanded(
+                  ),
+                  Obx(
+                    () => Expanded(
                       child: Container(
                         child: TabBarView(
                           physics: NeverScrollableScrollPhysics(),
@@ -143,9 +145,9 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                           ],
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -158,7 +160,9 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
   Widget _listHabit(List<Habit> _habitDataList) {
     return _habitDataList.length > 0
         ? mainScreenController.listHabitProcess.length > 0
-            ? Obx(() => ListView.separated(
+            ? Obx(
+                () => ListView.separated(
+                  key: UniqueKey(),
                   padding: EdgeInsets.only(top: 20, bottom: 20),
                   itemCount: _habitDataList.length,
                   physics: AlwaysScrollableScrollPhysics(
@@ -181,7 +185,8 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                           _habitDataList[index], mainScreenController.listHabitProcess[i]);
                     }
                   },
-                ))
+                ),
+              )
             : Center(
                 child: SpinKitFadingCube(
                   color: AppColors.cFFFF,

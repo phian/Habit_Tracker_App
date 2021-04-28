@@ -24,7 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-
+  flutter_date_picker_timeline:
+    git:
+      url: https://github.com/khduy/flutter_date_picker_timeline
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
@@ -40,7 +42,7 @@ dependencies:
   select_form_field: ^1.1.0
   sqflite: ^2.0.0+3
   cool_alert: ^1.0.3
-  flutter_date_picker_timeline: ^0.3.1
+  #flutter_date_picker_timeline: ^0.3.1
   #scroll_snap_list: ^0.6.0
   timeline_list: ^0.0.3
   flutter_animation_progress_bar: ^1.0.6

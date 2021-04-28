@@ -3,6 +3,7 @@ import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:intl/intl.dart';
+import 'utils/ultis.dart';
 
 class MainScreenController extends GetxController {
   var selectedDay = DateTime.now().obs;
@@ -13,12 +14,24 @@ class MainScreenController extends GetxController {
   var listEveningHabit = <Habit>[].obs;
   var isLoading = true.obs;
   var listHabitProcess = <Process>[].obs;
+  var appBarTitle = 'Today'.obs;
 
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat appBarFormatter = DateFormat('MMMM, d');
 
   changeSelectedDay(DateTime date) {
     if (selectedDay.value != date) {
       selectedDay.value = date;
+
+      if (date.isToday()) {
+        appBarTitle.value = 'Today';
+      } else if (date.isTomorrow()) {
+        appBarTitle.value = 'Tomorrow';
+      } else if (date.isYesterday()) {
+        appBarTitle.value = 'Yesterday';
+      } else {
+        appBarTitle.value = appBarFormatter.format(selectedDay.value);
+      }
     }
   }
 

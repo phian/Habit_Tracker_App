@@ -17,7 +17,7 @@ class ManageScreen extends StatelessWidget {
         backgroundColor: AppColors.cFFFE,
         child: Icon(Icons.add),
         onPressed: () {
-          Get.toNamed(Routes.TIMER);
+          Get.toNamed(Routes.SUGGEST_CATEGORY);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

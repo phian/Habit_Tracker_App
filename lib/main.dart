@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_routes.dart';
 import 'package:habit_tracker/controller/binding/controller_binding.dart';
+import 'package:habit_tracker/service/notification_service/notification_service.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'constants/app_constant.dart';
@@ -37,6 +38,8 @@ void main() async {
       print(err.toString());
     },
   );
+
+  await NotificationService.instance.initNotification();
 }
 
 class IntroScreen extends StatefulWidget {

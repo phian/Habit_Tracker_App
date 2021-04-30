@@ -20,7 +20,7 @@ void main() async {
     ),
   );
 
-  initializeDateFormatting()
+  await initializeDateFormatting()
       .then(
     (_) => runApp(
       GetMaterialApp(
@@ -39,7 +39,7 @@ void main() async {
     },
   );
 
-  await NotificationService.instance.initNotification();
+  NotificationService.instance.initNotification();
 }
 
 class IntroScreen extends StatefulWidget {

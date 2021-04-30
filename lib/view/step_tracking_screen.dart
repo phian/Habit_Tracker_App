@@ -7,7 +7,6 @@ import 'package:habit_tracker/controller/step_tracking_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
-
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class StepTackingScreen extends StatelessWidget implements SideMenuModel {
@@ -149,7 +148,7 @@ class StepTackingScreen extends StatelessWidget implements SideMenuModel {
                   Container(
                     alignment: Alignment.center,
                     child: Image.asset(
-                      "images/running.png",
+                      "${AppConstant.imagePath}running.png",
                       fit: BoxFit.contain,
                       width: Get.width * 0.4 * 0.8,
                       height: Get.width * 0.4 * 0.8,

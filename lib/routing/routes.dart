@@ -1,5 +1,3 @@
-
-
 class Routes {
   static const SPLASH_SCREEN = '/splash_screen';
   static const MANAGE_SCRREN = '/manage_screen';
@@ -18,8 +16,5 @@ class Routes {
   static const GENERAL = '/general';
   static const LOGIN = '/login';
   static const TIMER = '/timer';
-
+  static const STEP = '/step';
 }
-
-
-

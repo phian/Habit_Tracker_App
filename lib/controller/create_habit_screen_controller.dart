@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
@@ -13,6 +12,7 @@ class CreateHabitScreenController extends GetxController {
   var isGetReminder = true.obs;
   var fillColor = Color(0xFFF53566).obs;
   var habitIcon = Icons.star.obs;
+  var reminderTimeList = <TimeOfDay>[].obs;
 
   var weekDateList = [
     false,
@@ -43,13 +43,6 @@ class CreateHabitScreenController extends GetxController {
   ].obs;
 
   final mainScreenController = Get.find<MainScreenController>();
-
-  //final statisticController = Get.put(HabitStatisticController());
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   void initDataAndController(var habit) {
     if (habit != null) {
@@ -87,6 +80,7 @@ class CreateHabitScreenController extends GetxController {
     isGetReminder = true.obs;
     fillColor = Color(0xFFF53566).obs;
     habitIcon = Icons.star.obs;
+    reminderTimeList = <TimeOfDay>[].obs;
     resetWeekDateChoice();
     resetWeeklyListChoice();
     resetNotiTimeChoice();
@@ -103,7 +97,7 @@ class CreateHabitScreenController extends GetxController {
   }
 
   void onDayMonthYearRepeatChoiceClick(int index) {
-    if (index != 2) changeRepeatTypeIndex(RxInt(index));
+    changeRepeatTypeIndex(index);
 
     if (index == 1) {
       resetWeekDateChoice();
@@ -181,11 +175,12 @@ class CreateHabitScreenController extends GetxController {
     }
   }
 
-  changeSelectedIndex(RxInt index) {
-    selectedIndex.value = selectedIndex.value == index.value ? selectedIndex.value : index.value;
+  changeSelectedIndex(int index) {
+    selectedIndex.value =
+        selectedIndex.value == index ? selectedIndex.value : index;
 
     // Nếu off thì reset thành giá trị mặc định
-    if (index.value == 1) {
+    if (index == 1) {
       selectedUnitType = "of times".obs;
     }
   }
@@ -196,9 +191,9 @@ class CreateHabitScreenController extends GetxController {
     }
   }
 
-  changeRepeatTypeIndex(RxInt index) {
-    if (repeatTypeChoice.value != index.value) {
-      repeatTypeChoice.value = index.value;
+  changeRepeatTypeIndex(int index) {
+    if (repeatTypeChoice.value != index) {
+      repeatTypeChoice.value = index;
     }
   }
 

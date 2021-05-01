@@ -2,6 +2,7 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:habit_tracker/widgets/timer/timer.dart';
 
 import '../main.dart';
+import '../routing/routes.dart';
 import '../view/all_habits_screen.dart';
 import '../view/challenges_screen.dart';
 import '../view/create_and_edit_habit_screen/create_habit_screen.dart';
@@ -16,8 +17,8 @@ import '../view/login_screen.dart';
 import '../view/main_screen.dart';
 import '../view/manage_screen.dart';
 import '../view/notification_screen.dart';
+import '../view/step_tracking.dart';
 import '../view/step_tracking_screen.dart';
-import '../routing/routes.dart';
 
 class Pages {
   static final List<GetPage> pages = [
@@ -37,13 +38,17 @@ class Pages {
     GetPage(name: Routes.EDIT_HABIT, page: () => EditHabitScreen()),
     //
     GetPage(name: Routes.SUGGEST_CATEGORY, page: () => HabitCategoriesScreen()),
-    GetPage(name: Routes.SUGGEST_CATEGORY_LIST, page: () => HabitCategoryListScreen()),
+    GetPage(
+        name: Routes.SUGGEST_CATEGORY_LIST,
+        page: () => HabitCategoryListScreen()),
     //
     GetPage(name: Routes.NOTIFICATION, page: () => NotificationScreen()),
     GetPage(name: Routes.GENERAL, page: () => GeneralScreen()),
     GetPage(name: Routes.LOGIN, page: () => LoginScreen()),
     //
     GetPage(name: Routes.TIMER, page: () => Timer()),
+    //
+    GetPage(name: Routes.STEP, page: () => StepTracking()),
   ];
 }
 

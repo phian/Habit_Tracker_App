@@ -60,6 +60,9 @@ dependencies:
   flutter_facebook_login: ^3.0.0
   wave: ^0.2.0
   flutter_local_notifications: ^5.0.0+2
+  pedometer: ^3.0.0
+  day_night_time_picker: ^1.0.1+1
+  syncfusion_flutter_datepicker: ^19.1.58-beta
 
 flutter_icons:
   android: "habit_tracker"

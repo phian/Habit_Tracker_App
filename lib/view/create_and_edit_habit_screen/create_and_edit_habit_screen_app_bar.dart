@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
-import 'package:habit_tracker/routing/routes.dart';
-import 'package:habit_tracker/view/manage_screen.dart';
 
 import '../challenge_timeline_screen/challenge_time_line_screen_variables.dart';
 
@@ -115,7 +113,7 @@ class _CreateAndEditHabitScreenAppBarState extends State<CreateAndEditHabitScree
   void _saveHabitData() async {
     if ((widget.goalAmountController.text == '' ||
             int.parse(widget.goalAmountController.text) == 0) &&
-        widget.controller.selectedIndex.value == 0) {
+        widget.controller.isSetGoal.value == true) {
       CoolAlert.show(
         context: context,
         type: CoolAlertType.error,

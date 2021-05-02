@@ -28,17 +28,17 @@ class HabitAllNoteScreenController extends GetxController {
         .then((value) {
       if (value.length != 0) {
         for (int i = 0; i < value.length; i++) {
-          if (checkIfDateDataExist(value[i]['ngay'].toString()) == false) {
-            dateList.add(value[i]['ngay'].toString());
+          if (checkIfDateDataExist(value[i]['date'].toString()) == false) {
+            dateList.add(value[i]['date'].toString());
             dateListWidget.add(
               DateDivider(
-                date: value[i]['ngay'].toString().replaceAll(' ', '/'),
+                date: value[i]['date'].toString().replaceAll(' ', '/'),
               ),
             );
           } else {
-            dateList[i] = value[i]['ngay'].toString();
+            dateList[i] = value[i]['date'].toString();
             dateListWidget[i] = DateDivider(
-              date: value[i]['ngay'].toString().replaceAll(' ', '/'),
+              date: value[i]['date'].toString().replaceAll(' ', '/'),
             );
           }
         }
@@ -54,16 +54,16 @@ class HabitAllNoteScreenController extends GetxController {
     return databaseHelper.readAllNoteData(habitId.value).then((value) {
       if (value.length != 0) {
         for (int i = 0; i < value.length; i++) {
-          if (checkIfContentExist(value[i]['noi_dung'].toString()) == false) {
-            noteContent.add(value[i]['noi_dung'].toString());
-            noteContentText.value = value[i]['noi_dung'].toString();
+          if (checkIfContentExist(value[i]['content'].toString()) == false) {
+            noteContent.add(value[i]['content'].toString());
+            noteContentText.value = value[i]['content'].toString();
             noteContentBoxes.add(NoteContentCard(
               content: noteContentText,
               controller: this,
             ));
           } else {
-            noteContent[i] = value[i]['noi_dung'].toString();
-            noteContentText.value = value[i]['noi_dung'].toString();
+            noteContent[i] = value[i]['content'].toString();
+            noteContentText.value = value[i]['content'].toString();
             noteContentBoxes[i] = NoteContentCard(
               content: noteContentText,
               controller: this,

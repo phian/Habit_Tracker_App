@@ -149,7 +149,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                     ...List.generate(
                       _categoriesScreenController.suggestTopicList.length,
                       (index) => Hero(
-                        tag: _categoriesScreenController.suggestTopicList[index].tenChuDeGoiY,
+                        tag: _categoriesScreenController.suggestTopicList[index].topicName,
                         child: Container(
                           margin: index == 0
                               ? null
@@ -181,9 +181,9 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
     if (index != 17) {
       Get.to(
         () => HabitCategoryListScreen(
-          tag: _categoriesScreenController.suggestTopicList[index].tenChuDeGoiY,
-          topicId: _categoriesScreenController.suggestTopicList[index].maChuDe,
-          imagePath: _categoriesScreenController.suggestTopicList[index].hinhChuDe,
+          tag: _categoriesScreenController.suggestTopicList[index].topicName,
+          topicId: _categoriesScreenController.suggestTopicList[index].topicId,
+          imagePath: _categoriesScreenController.suggestTopicList[index].image,
         ),
       );
     }

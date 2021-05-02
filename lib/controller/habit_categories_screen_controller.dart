@@ -10,32 +10,18 @@ class HabitCategoriesScreenController extends GetxController {
   RxBool isLoadingCompleted = false.obs;
   DatabaseHelper databaseHelper = DatabaseHelper.instance;
 
-  Future<Map<String, dynamic>> initCategoriesCardInfo() async {
-    return await databaseHelper.getSuggestTopicMap().then((value) {
-      if (value != null && value.length != 0) {
-        suggestTopicList = [];
-        habitCategoryCards = [];
-
-        for (int i = 0; i < value.length; i++) {
-          suggestTopicList.add(
-            SuggestedTopic(
-              maChuDe: value[i]['ma_chu_de'],
-              tenChuDeGoiY: value[i]['ten_chu_de_goi_y'],
-              moTa: value[i]['mo_ta'],
-              hinhChuDe: value[i]['hinh_chu_de'],
-            ),
-          );
-
-          habitCategoryCards.add(
-            HabitCateGoryCard(
-              title: value[i]['ten_chu_de_goi_y'],
-              subtitle: value[i]['mo_ta'],
-              imagePath: value[i]['hinh_chu_de'],
-            ),
-          );
-        }
-        isLoadingCompleted.value = !isLoadingCompleted.value;
-      }
-    }).catchError((err) => debugPrint(err.toString()));
+  Future<void> initCategoriesCardInfo() async {
+    suggestTopicList = await databaseHelper.getAllSuggestTopic();
+    habitCategoryCards = [];
+    for (int i = 0; i < suggestTopicList.length; i++) {
+      habitCategoryCards.add(
+        HabitCateGoryCard(
+          title: suggestTopicList[i].topicName,
+          subtitle: suggestTopicList[i].description,
+          imagePath: suggestTopicList[i].image,
+        ),
+      );
+    }
+    isLoadingCompleted.value = !isLoadingCompleted.value;
   }
 }

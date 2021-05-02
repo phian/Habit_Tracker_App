@@ -30,9 +30,8 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
       _habit = Get.arguments;
       _editHabitScreenController.initDataAndController(_habit);
 
-      _habitNameController = TextEditingController(text: _habit.ten);
-      _goalAmountController =
-          TextEditingController(text: _habit.soLan.toString());
+      _habitNameController = TextEditingController(text: _habit.habitName);
+      _goalAmountController = TextEditingController(text: _habit.amount.toString());
     }
   }
 
@@ -65,7 +64,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
           title: "Edit habit",
           habitNameController: _habitNameController,
           goalAmountController: _goalAmountController,
-          habitId: (Get.arguments as Habit).ma,
+          habitId: _habit.habitId,
         ),
         _habitScreenBody(),
       ],
@@ -194,10 +193,12 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: _editHabitScreenController.selectedIndex.value !=
-                                index
-                            ? AppColors.c3DFF
-                            : _editHabitScreenController.fillColor.value,
+                        color: _editHabitScreenController.isSetGoal.value == false &&
+                                        index == 1 ||
+                                    _editHabitScreenController.isSetGoal.value == true &&
+                                        index == 0
+                                ? _editHabitScreenController.fillColor.value
+                                : AppColors.c3DFF,
                       ),
                     ),
                   ),
@@ -210,9 +211,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
         /// [Phần chọn giá trị theo đơn vị]
         Obx(
           () => Visibility(
-            visible: _editHabitScreenController.selectedIndex.value == 0
-                ? true
-                : false,
+            visible: _editHabitScreenController.isSetGoal.value ,
             child: Container(
               padding: EdgeInsets.only(top: 20.0),
               child: Row(
@@ -300,29 +299,29 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
           canChange: false,
         ),
 
-        /// [3 option Daily, Monthly, Weekly]
-        Container(
-          padding: EdgeInsets.only(top: 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ...List.generate(
-                3,
-                (index) => Obx(
-                  () => _repeatChoiceWidget(
-                    index == 0
-                        ? "daily"
-                        : index == 1
-                            ? "weekly"
-                            : "monthly",
-                    color: _editHabitScreenController.repeatTypeChoice.value ==
-                            index
-                        ? _editHabitScreenController.fillColor.value
-                        : AppColors.c3DFF,
-                    index: index,
+            /// [3 option Daily, Monthly, Weekly]
+            Container(
+              padding: EdgeInsets.only(top: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ...List.generate(
+                    3,
+                    (index) => Obx(
+                      () => _repeatChoiceWidget(
+                        index == 0
+                            ? "daily"
+                            : index == 1
+                                ? "weekly"
+                                : "monthly",
+                        color: _editHabitScreenController.repeatMode.value == index
+                            ? _editHabitScreenController.fillColor.value
+                            : AppColors.c3DFF,
+                        index: index,
+                      ),
+                    ),
                   ),
-                ),
-              ),
+               
             ],
           ),
         ),
@@ -349,7 +348,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                   Obx(
                     () => Visibility(
                       visible:
-                          _editHabitScreenController.repeatTypeChoice.value == 0
+                          _editHabitScreenController.repeatMode.value == 0
                               ? true
                               : false,
                       child: Container(
@@ -394,7 +393,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                   Obx(
                     () => Visibility(
                       visible:
-                          _editHabitScreenController.repeatTypeChoice.value == 1
+                          _editHabitScreenController.repeatMode.value == 1
                               ? true
                               : false,
                       child: Container(
@@ -441,7 +440,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                   Obx(
                     () => Visibility(
                       visible:
-                          _editHabitScreenController.repeatTypeChoice.value ==
+                          _editHabitScreenController.repeatMode.value ==
                               2,
                       child: SfDateRangePicker(
                         selectionMode: DateRangePickerSelectionMode.multiple,
@@ -455,7 +454,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
               Obx(
                 () => Visibility(
                   visible:
-                      _editHabitScreenController.repeatTypeChoice.value != 2,
+                      _editHabitScreenController.repeatMode.value != 2,
                   child: InkWell(
                     onTap: () =>
                         _editHabitScreenController.onRepeatTypeChoiceClick(),
@@ -471,7 +470,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                       ),
                       child: Obx(
                         () => Text(
-                          _editHabitScreenController.repeatTypeChoice.value == 0
+                          _editHabitScreenController.repeatMode.value == 0
                               ? 'everyday'
                               : 'once every two weeks',
                           style: TextStyle(
@@ -692,9 +691,9 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                 )
               : Obx(
                   () => Text(
-                    _editHabitScreenController.repeatTypeChoice.value == 0
+                    _editHabitScreenController.repeatMode.value == 0
                         ? 'on these week days'
-                        : _editHabitScreenController.repeatTypeChoice.value == 1
+                        : _editHabitScreenController.repeatMode.value == 1
                             ? 'as often as'
                             : "on these days",
                     style: TextStyle(fontSize: 20.0),
@@ -953,10 +952,11 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
   }
 
   void _onOnOrOffButtonClick(int index) {
-    _editHabitScreenController.changeSelectedIndex(index);
+    bool isOn = index == 0 ? true : false;
+    _editHabitScreenController.changeSelectedIndex(isOn);
 
     /// [Nếu người dùng off goal thì sẽ reset lại text trong TextField]
-    if (_editHabitScreenController.selectedIndex.value == 1) {
+    if (!_editHabitScreenController.isSetGoal.value) {
       _goalAmountController.text = '';
     }
   }

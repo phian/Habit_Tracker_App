@@ -88,7 +88,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
                     size: 50,
                     color: Color(
                       int.parse(
-                        mainScreenController.listAllHabit[index].mau,
+                        mainScreenController.listAllHabit[index].color,
                         radix: 16,
                       ),
                     ),
@@ -98,7 +98,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: Text(
-                      mainScreenController.listAllHabit[index].ten,
+                      mainScreenController.listAllHabit[index].habitName,
                       style: TextStyle(
                         fontSize: 22,
                         //fontWeight: FontWeight.bold,

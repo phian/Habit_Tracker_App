@@ -1,25 +1,27 @@
 class Diary {
-  int maThoiQuen;
-  String ngay;
-  String noiDung;
+  int habitId;
+  String date;
+  String content;
 
   Diary({
-    this.maThoiQuen,
-    this.noiDung,
-    this.ngay,
+    this.habitId,
+    this.content,
+    this.date,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'ma_thoi_quen': maThoiQuen,
-      'ngay': ngay,
-      'noi_dung': noiDung,
+      'habit_id': habitId,
+      'date': date,
+      'content': content,
     };
   }
 
-  void fromMap(Map<String, dynamic> map) {
-    map['ma_thoi_quen'] = maThoiQuen;
-    map['ngay'] = ngay;
-    map['noi_dung'] = noiDung;
+  factory Diary.fromMap(Map<String, dynamic> map) {
+    return Diary(
+      habitId: map['habit_id'],
+      date: map['date'],
+      content: map['content'],
+    );
   }
 }

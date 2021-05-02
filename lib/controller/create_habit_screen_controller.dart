@@ -6,9 +6,10 @@ import 'package:habit_tracker/model/suggested_habit.dart';
 import 'package:habit_tracker/service/database/database_helper.dart';
 
 class CreateHabitScreenController extends GetxController {
-  var selectedIndex = 1.obs;
+  var isSetGoal = false.obs;
+
   var selectedUnitType = "of times".obs;
-  var repeatTypeChoice = 0.obs;
+  var repeatMode = 0.obs;
   var isGetReminder = true.obs;
   var fillColor = Color(0xFFF53566).obs;
   var habitIcon = Icons.star.obs;
@@ -53,43 +54,42 @@ class CreateHabitScreenController extends GetxController {
       );
       // mau
       if (habit is SuggestedHabit) {
-        fillColor.value = Color(int.parse(habit.mau));
+        fillColor.value = Color(int.parse(habit.color));
       } else {
-        fillColor.value = Color(int.parse(habit.mau, radix: 16));
+        fillColor.value = Color(int.parse(habit.color, radix: 16));
       }
       // bat muc tieu
-      selectedIndex.value = habit.batMucTieu == true ? 1 : 0;
+      isSetGoal.value = habit.isSetGoal;
       // don vi
-      selectedUnitType.value = habit.donVi;
+      selectedUnitType.value = habit.unit;
       // loai lap
-      repeatTypeChoice.value = habit.loaiLap;
+      repeatMode.value = habit.repeatMode;
       // ngay trong tuan
-      setDailyList(habit.ngayTrongTuan);
+      setDailyList(habit.dayOfWeek);
       // so lan trong tuan
-      setWeeklyList(habit.soLanTrongTuan);
+      setWeeklyList(habit.timesPerWeek);
       // buoi
-      setNotiTimeChoice(habit.buoi);
+      setNotiTimeChoice(habit.timeOfDay);
     }
   }
 
   @override
   void onClose() {
-    selectedIndex = 1.obs;
-    selectedUnitType = "of times".obs;
-    repeatTypeChoice = 0.obs;
-    isGetReminder = true.obs;
-    fillColor = Color(0xFFF53566).obs;
-    habitIcon = Icons.star.obs;
-    reminderTimeList = <TimeOfDay>[].obs;
-    resetWeekDateChoice();
-    resetWeeklyListChoice();
-    resetNotiTimeChoice();
+    // isSetGoal = 1.obs;
+    // selectedUnitType = "of times".obs;
+    // repeatTypeChoice = 0.obs;
+    // isGetReminder = true.obs;
+    // fillColor = Color(0xFFF53566).obs;
+    // habitIcon = Icons.star.obs;
+    // resetWeekDateChoice();
+    // resetWeeklyListChoice();
+    // resetNotiTimeChoice();
     super.onClose();
   }
 
   /// [Handle click]
   void onRepeatTypeChoiceClick() {
-    if (repeatTypeChoice.value == 0) {
+    if (repeatMode.value == 0) {
       changeWeekdateChoice(7);
     } else {
       changeWeeklyListChoice(6);
@@ -111,16 +111,16 @@ class CreateHabitScreenController extends GetxController {
   Future<void> addHabit(String name, String amount) async {
     await DatabaseHelper.instance.insertHabit(
       Habit(
-        ten: name,
+        habitName: name,
         icon: habitIcon.value.codePoint,
-        mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
-        batMucTieu: selectedIndex.value,
-        soLan: amount == '' ? 0 : int.parse(amount),
-        donVi: selectedUnitType.value,
-        loaiLap: repeatTypeChoice.value,
-        ngayTrongTuan: getDailyList(),
-        soLanTrongTuan: getWeeklyList(),
-        buoi: getNotiTimeChoice(),
+        color: fillColor.value.toString().split('(0x')[1].split(')')[0],
+        isSetGoal: isSetGoal.value,
+        amount: amount == '' ? 0 : int.parse(amount),
+        unit: selectedUnitType.value,
+        repeatMode: repeatMode.value,
+        dayOfWeek: getDailyList(),
+        timesPerWeek: getWeeklyList(),
+        timeOfDay: getNotiTimeChoice(),
       ),
     );
     if (mainScreenController != null) await mainScreenController.getAllHabit();
@@ -128,18 +128,17 @@ class CreateHabitScreenController extends GetxController {
 
   Future<void> editHabit(String name, int id, String amount) async {
     var habit = Habit(
-      ma: id,
-      ten: name,
+      habitId: id,
+      habitName: name,
       icon: habitIcon.value.codePoint,
-      mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
-      batMucTieu: selectedIndex.value,
-      soLan: amount == '' ? 0 : int.parse(amount),
-      donVi: selectedUnitType.value,
-      loaiLap: repeatTypeChoice.value,
-      ngayTrongTuan: getDailyList(),
-      soLanTrongTuan: getWeeklyList(),
-      buoi: getNotiTimeChoice(),
-      trangThai: 0,
+      color: fillColor.value.toString().split('(0x')[1].split(')')[0],
+      isSetGoal: isSetGoal.value,
+      amount: amount == '' ? 0 : int.parse(amount),
+      unit: selectedUnitType.value,
+      repeatMode: repeatMode.value,
+      dayOfWeek: getDailyList(),
+      timesPerWeek: getWeeklyList(),
+      timeOfDay: getNotiTimeChoice(),
     );
     await DatabaseHelper.instance.updateHabit(habit);
     // if (statisticController != null)
@@ -162,7 +161,7 @@ class CreateHabitScreenController extends GetxController {
   }
 
   Color getRepeatTypeChoiceColor() {
-    if (repeatTypeChoice.value == 0) {
+    if (repeatMode.value == 0) {
       if (weekDateList[7]) {
         return fillColor.value;
       } else
@@ -175,12 +174,11 @@ class CreateHabitScreenController extends GetxController {
     }
   }
 
-  changeSelectedIndex(int index) {
-    selectedIndex.value =
-        selectedIndex.value == index ? selectedIndex.value : index;
+  changeSelectedIndex(bool isOn) {
+    isSetGoal.value = isOn;
 
     // Nếu off thì reset thành giá trị mặc định
-    if (index == 1) {
+    if (!isOn) {
       selectedUnitType = "of times".obs;
     }
   }
@@ -192,8 +190,8 @@ class CreateHabitScreenController extends GetxController {
   }
 
   changeRepeatTypeIndex(int index) {
-    if (repeatTypeChoice.value != index) {
-      repeatTypeChoice.value = index;
+    if (repeatMode.value != index) {
+      repeatMode.value = index;
     }
   }
 
@@ -466,24 +464,5 @@ class CreateHabitScreenController extends GetxController {
     if (color != fillColor.value) {
       fillColor.value = color;
     }
-  }
-
-  // Reset createHabitController
-  resetController() {
-    resetWeekDateChoice();
-    resetWeeklyListChoice();
-    notiTimeChoice = [
-      true,
-      false,
-      false,
-      false,
-    ].obs;
-
-    selectedIndex = 1.obs;
-    selectedUnitType = "of times".obs;
-    repeatTypeChoice = 0.obs;
-    isGetReminder = true.obs;
-    fillColor = Color(0xFFF53566).obs;
-    habitIcon = Icons.star.obs;
   }
 }

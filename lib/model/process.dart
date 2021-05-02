@@ -1,26 +1,31 @@
 class Process {
-  int maThoiQuen;
-  String ngay;
-  int ketQua;
-  bool skip;
+  int habitId;
+  String date;
+  int result;
+  bool isSkip;
 
   Process({
-    this.maThoiQuen,
-    this.ngay,
-    this.ketQua,
-    this.skip,
+    this.habitId,
+    this.date,
+    this.result,
+    this.isSkip,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'ma_thoi_quen': maThoiQuen,
-      'ngay': ngay,
-      'ket_qua': ketQua,
-      'skip': skip ? 1 : 0,
+      'habit_id': habitId,
+      'date': date,
+      'result': result,
+      'is_skip': isSkip ? 1 : 0,
     };
   }
 
-  void fromMap(Map<String, dynamic> data) {
-
+  factory Process.fromMap(Map<String, dynamic> map) {
+    return Process(
+      habitId: map['habit_id'],
+      date: map['date'],
+      result: map['result'],
+      isSkip: map['is_skip'] == 1 ? true : false,
+    );
   }
 }

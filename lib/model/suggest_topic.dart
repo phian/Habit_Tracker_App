@@ -1,16 +1,31 @@
 class SuggestedTopic {
-  int maChuDe;
-  String tenChuDeGoiY;
-  String moTa;
-  String hinhChuDe;
+  int topicId;
+  String topicName;
+  String description;
+  String image;
 
-  SuggestedTopic({this.maChuDe, this.tenChuDeGoiY, this.moTa, this.hinhChuDe});
+  SuggestedTopic({
+    this.topicId,
+    this.topicName,
+    this.description,
+    this.image,
+  });
 
   Map<String, dynamic> toMap() {
-    return {};
+    return {
+      'topic_id': topicId,
+      'topic_name': topicName,
+      'description': description,
+      'image': image,
+    };
   }
 
-  void fromMap(Map<String, dynamic> data) {
-
+  factory SuggestedTopic.fromMap(Map<String, dynamic> map) {
+    return SuggestedTopic(
+      topicId: map['topic_id'],
+      topicName: map['topic_name'],
+      description: map['description'],
+      image: map['image'],
+    );
   }
 }

@@ -50,28 +50,13 @@ class MainScreenController extends GetxController {
 
   Future<void> getAllHabit() async {
     isLoading.value = true;
+
     listAllHabit.clear();
-    await DatabaseHelper.instance.selectAllHabit().then((value) {
-      value.forEach((element) {
-        listAllHabit.add(
-          Habit(
-            habitId: element['habit_id'],
-            habitName: element['habit_name'],
-            icon: element['icon'],
-            color: element['color'],
-            isSetGoal: element['is_set_goal'] == 1 ? true : false,
-            amount: element['amount'],
-            unit: element['unit'],
-            repeatMode: element['repeat_mode'],
-            dayOfWeek: element['day_of_week'],
-            timesPerWeek: element['times_per_week'],
-            timeOfDay: element['time_of_day'],
-            status: element['status'] == 1 ? true : false,
-          ),
-        );
-      });
-    });
+
+    listAllHabit.value = await DatabaseHelper.instance.getAllHabit();
+
     await getHabitByWeekDate(selectedDay.value.weekday);
+
     isLoading.value = false;
   }
 
@@ -113,16 +98,9 @@ class MainScreenController extends GetxController {
 
   Future<void> getHabitProcess(DateTime date) async {
     listHabitProcess.clear();
-    await DatabaseHelper.instance.selectHabitProcess(formatter.format(date)).then((value) {
-      value.forEach((element) {
-        listHabitProcess.add(Process(
-          habitId: element['habit_id'],
-          date: element['date'],
-          result: element['result'],
-          isSkip: element['is_skip'] == 1 ? true : false,
-        ));
-      });
-    });
+    listHabitProcess.value = await DatabaseHelper.instance.getListHabitProcessByDate(
+      formatter.format(date),
+    );
   }
 
   Process findProcess(int maThoiQuen) {

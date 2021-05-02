@@ -10,32 +10,18 @@ class HabitCategoriesScreenController extends GetxController {
   RxBool isLoadingCompleted = false.obs;
   DatabaseHelper databaseHelper = DatabaseHelper.instance;
 
-  Future<Map<String, dynamic>> initCategoriesCardInfo() async {
-    return await databaseHelper.getSuggestTopicMap().then((value) {
-      if (value != null && value.length != 0) {
-        suggestTopicList = [];
-        habitCategoryCards = [];
-
-        for (int i = 0; i < value.length; i++) {
-          suggestTopicList.add(
-            SuggestedTopic(
-              topicId: value[i]['topic_id'],
-              topicName: value[i]['topic_name'],
-              description: value[i]['description'],
-              image: value[i]['image'],
-            ),
-          );
-
-          habitCategoryCards.add(
-            HabitCateGoryCard(
-              title: value[i]['topic_name'],
-              subtitle: value[i]['description'],
-              imagePath: value[i]['image'],
-            ),
-          );
-        }
-        isLoadingCompleted.value = !isLoadingCompleted.value;
-      }
-    }).catchError((err) => debugPrint(err.toString()));
+  Future<void> initCategoriesCardInfo() async {
+    suggestTopicList = await databaseHelper.getAllSuggestTopic();
+    habitCategoryCards = [];
+    for (int i = 0; i < suggestTopicList.length; i++) {
+      habitCategoryCards.add(
+        HabitCateGoryCard(
+          title: suggestTopicList[i].topicName,
+          subtitle: suggestTopicList[i].description,
+          imagePath: suggestTopicList[i].image,
+        ),
+      );
+    }
+    isLoadingCompleted.value = !isLoadingCompleted.value;
   }
 }

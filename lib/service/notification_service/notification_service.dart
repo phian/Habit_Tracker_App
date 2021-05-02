@@ -43,7 +43,8 @@ class NotificationService {
 
   void _onBackgroundMessageHandler() {
     // Set the background messaging handler early on, as a named top-level function
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // TODO: Tạm comment
+    //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
   /// Create a [AndroidNotificationChannel] for heads up notifications

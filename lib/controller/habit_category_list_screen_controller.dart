@@ -10,43 +10,23 @@ class HabitCategoryListScreenController extends GetxController {
   DatabaseHelper databaseHelper = DatabaseHelper.instance;
   RxBool isLoaded = false.obs;
 
-  Future<Map<String, dynamic>> getSuggestHabitFromDb(int topicId) async {
-    return await databaseHelper.getSussgestHabitMap(topicId).then((value) {
-      if (value != null && value.length != 0) {
-        suggestedHabitList = [];
-        suggestHabitCards = [];
+  Future<void> getSuggestHabitFromDb(int topicId) async {
+    suggestedHabitList = await databaseHelper.getSussgestHabit(topicId);
 
-        for (int i = 0; i < value.length; i++) {
-          suggestedHabitList.add(
-            SuggestedHabit(
-              topicId: value[i]['topic_id'],
-              habitName: value[i]['habit_name'],
-              description: value[i]['description'],
-              icon: value[i]['icon'],
-              color: value[i]['color'],
-              isSetGoal: value[i]['is_set_goal'] == 1 ? true : false,
-              amount: value[i]['amount'],
-              unit: value[i]['unit'],
-              repeatMode: value[i]['repeat_mode'],
-              dayOfWeek: value[i]['day_of_week'],
-              timesPerWeek: value[i]['times_per_week'],
-              timeOfDay: value[i]['time_of_day'],
-            ),
-          );
+    suggestHabitCards = [];
 
-          suggestHabitCards.add(
-            SuggestHabitCard(
-              iconCode: value[i]['icon'],
-              title: value[i]['habit_name'],
-              subTitle: value[i]['description'],
-              color: int.parse(value[i]['color']),
-              index: i,
-              habitCategoryListScreenController: this,
-            ),
-          );
-        }
-        isLoaded.value = !isLoaded.value;
-      }
-    }).catchError((err) => debugPrint(err.toString()));
+    for (int i = 0; i < suggestedHabitList.length; i++) {
+      suggestHabitCards.add(
+        SuggestHabitCard(
+          iconCode: suggestedHabitList[i].icon,
+          title: suggestedHabitList[i].habitName,
+          subTitle: suggestedHabitList[i].description,
+          color: int.parse(suggestedHabitList[i].color),
+          index: i,
+          habitCategoryListScreenController: this,
+        ),
+      );
+    }
+    isLoaded.value = !isLoaded.value;
   }
 }

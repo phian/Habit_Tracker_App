@@ -26,6 +26,7 @@ class DatabaseHelper {
   final timePerWeek = 'times_per_week';
   final dateOfMonth = 'date_of_month';
   final timeOfDay = 'time_of_day';
+  final isSetReminder = 'is_set_reminder';
   final status = 'status';
 
   //
@@ -40,13 +41,6 @@ class DatabaseHelper {
   final tableProcess = 'process';
   final result = 'result';
   final isSkip = 'is_skip';
-
-  // table NOTIFICATION
-  final tabNotification = 'notification';
-  final batThongBaoDauNgay = 'bat_thong_bao_dau_ngay';
-  final gioThongBaoDauNgay = 'gio_thong_bao_dau_ngay';
-  final batThongBaoCuoiNgay = 'bat_thong_bao_cuoi_ngay';
-  final gioThongBaoCuoiNgay = 'gio_thong_bao_cuoi_ngay';
 
   // table SUGGESTED TOPIC
   final tableSuggestedTopic = 'suggested_topic';
@@ -90,6 +84,7 @@ class DatabaseHelper {
       $timePerWeek INTEGER,
       $dateOfMonth TEXT,
       $timeOfDay TEXT,
+      $isSetReminder INTEGER DEFAULT 0,
       $status INTEGER DEFAULT 0
     )
     ''');
@@ -285,7 +280,7 @@ class DatabaseHelper {
     try {
       rs = await db.insert(tableHabit, habit.toMap());
     } catch (e) {
-      print(e);
+      throw e;
     }
     return rs;
   }
@@ -299,7 +294,7 @@ class DatabaseHelper {
         listTopic.add(SuggestedTopic.fromMap(element));
       });
     } catch (e) {
-      print(e);
+      throw e;
     }
     return listTopic;
   }
@@ -317,7 +312,7 @@ class DatabaseHelper {
         listSuggestedHabit.add(SuggestedHabit.fromMap(element));
       });
     } catch (e) {
-      print(e);
+      throw e;
     }
     return listSuggestedHabit;
   }
@@ -334,7 +329,7 @@ class DatabaseHelper {
         habits.add(habit);
       });
     } catch (e) {
-      print(e);
+      throw e;
     }
     return habits;
   }
@@ -356,7 +351,7 @@ class DatabaseHelper {
         whereArgs: [habit.habitId],
       );
     } catch (e) {
-      print(e);
+      throw e;
     }
     return rs;
   }
@@ -371,7 +366,7 @@ class DatabaseHelper {
 
       rs = await db.delete(tableHabit, where: '$habitId = ?', whereArgs: [idHabit]);
     } catch (e) {
-      print(e);
+      throw e;
     }
     return rs;
   }
@@ -392,7 +387,7 @@ class DatabaseHelper {
         listProcess.add(process);
       });
     } catch (e) {
-      print(e);
+      throw e;
     }
     return listProcess;
   }
@@ -406,7 +401,7 @@ class DatabaseHelper {
         [idHabit, date],
       );
     } catch (e) {
-      print(e);
+      throw e;
     }
     return rs;
   }
@@ -422,7 +417,7 @@ class DatabaseHelper {
         whereArgs: [process.habitId, process.date],
       );
     } catch (e) {
-      print(e);
+      throw e;
     }
     return rs;
   }
@@ -437,7 +432,7 @@ class DatabaseHelper {
         orderBy: '$date DESC',
       );
     } catch (e) {
-      print(e);
+      throw e;
     }
 
     return rs;

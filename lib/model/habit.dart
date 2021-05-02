@@ -11,6 +11,7 @@ class Habit {
   int timesPerWeek;
   String dateOfMonth;
   String timeOfDay;
+  bool isSetReminder;
   bool status;
 
   Habit({
@@ -26,6 +27,7 @@ class Habit {
     this.timesPerWeek,
     this.dateOfMonth,
     this.timeOfDay,
+    this.isSetReminder,
     this.status = false,
   });
 
@@ -43,6 +45,7 @@ class Habit {
     map['times_per_week'] = timesPerWeek;
     map['date_of_month'] = dateOfMonth;
     map['time_of_day'] = timeOfDay;
+    if (isSetReminder != null) map['is_set_reminder'] = isSetReminder ? 1 : 0;
     if (status != null) map['status'] = status ? 1 : 0;
     return map;
   }
@@ -61,6 +64,7 @@ class Habit {
       timesPerWeek: map['times_per_week'],
       dateOfMonth: map['date_of_month'],
       timeOfDay: map['time_of_day'],
+      isSetReminder: map['is_set_reminder'] == 1 ? true : false,
       status: map['status'] == 1 ? true : false,
     );
   }

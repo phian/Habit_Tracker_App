@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/service/database/shared_preference_service.dart';
 
 class NotificationController extends GetxController {
   var isHabitsOrChallenge = 1.obs;
@@ -13,6 +14,9 @@ class NotificationController extends GetxController {
   var isOnChallengeNoti = true.obs;
   var challengeTodayPlanTime = "00:00".obs;
   var challengeProgressCheckUpTime = "00:00".obs;
+
+  SharedPreferenceService _sharedPreferenceService =
+      SharedPreferenceService.instance;
 
   /// [Habit notification]
   ///
@@ -54,16 +58,29 @@ class NotificationController extends GetxController {
     }
   }
 
-  changePickedTime(int index, TimeOfDay timeOfDay) {
-    index == 0
-        ? todayPlanPickedTime.value = (timeOfDay.hour.toString() +
+  changePickedTime(int index, TimeOfDay timeOfDay) async {
+    var pref = await _sharedPreferenceService.getPref();
+    switch (index) {
+      case 0:
+        todayPlanPickedTime.value = (timeOfDay.hour.toString().padLeft(2, '0') +
             ":" +
-            (timeOfDay.minute < 10 ? "0" : "") +
-            timeOfDay.minute.toString())
-        : resultNotiPickedTime.value = (timeOfDay.hour.toString() +
-            ":" +
-            (timeOfDay.minute < 10 ? "0" : "") +
-            timeOfDay.minute.toString());
+            timeOfDay.minute.toString().padLeft(2, '0'));
+        pref.setString(
+          "today_plan_reminder_time",
+          todayPlanPickedTime.value,
+        );
+        break;
+      case 1:
+        resultNotiPickedTime.value =
+            (timeOfDay.hour.toString().padLeft(2, '0') +
+                ":" +
+                timeOfDay.minute.toString().padLeft(2, '0'));
+        pref.setString(
+          "today_result_reminder_time",
+          resultNotiPickedTime.value,
+        );
+        break;
+    }
   }
 
   /// [Challenge notification]

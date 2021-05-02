@@ -19,18 +19,18 @@ class HabitCategoriesScreenController extends GetxController {
         for (int i = 0; i < value.length; i++) {
           suggestTopicList.add(
             SuggestedTopic(
-              maChuDe: value[i]['ma_chu_de'],
-              tenChuDeGoiY: value[i]['ten_chu_de_goi_y'],
-              moTa: value[i]['mo_ta'],
-              hinhChuDe: value[i]['hinh_chu_de'],
+              topicId: value[i]['topic_id'],
+              topicName: value[i]['topic_name'],
+              description: value[i]['description'],
+              image: value[i]['image'],
             ),
           );
 
           habitCategoryCards.add(
             HabitCateGoryCard(
-              title: value[i]['ten_chu_de_goi_y'],
-              subtitle: value[i]['mo_ta'],
-              imagePath: value[i]['hinh_chu_de'],
+              title: value[i]['topic_name'],
+              subtitle: value[i]['description'],
+              imagePath: value[i]['image'],
             ),
           );
         }

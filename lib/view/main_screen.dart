@@ -171,13 +171,13 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                   separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10),
                   itemBuilder: (context, index) {
                     int i = mainScreenController.listHabitProcess
-                        .indexWhere((e) => e.maThoiQuen == _habitDataList[index].ma);
+                        .indexWhere((e) => e.habitId == _habitDataList[index].habitId);
 
-                    if (mainScreenController.listHabitProcess[i].ketQua == -1 ||
-                        mainScreenController.listHabitProcess[i].ketQua ==
-                                _habitDataList[index].soLan &&
-                            _habitDataList[index].batMucTieu == 0 ||
-                        mainScreenController.listHabitProcess[i].skip == true) {
+                    if (mainScreenController.listHabitProcess[i].result == -1 ||
+                        mainScreenController.listHabitProcess[i].result ==
+                                _habitDataList[index].amount &&
+                            _habitDataList[index].isSetGoal == true ||
+                        mainScreenController.listHabitProcess[i].isSkip == true) {
                       return swipeRightHabit(
                           _habitDataList[index], mainScreenController.listHabitProcess[i]);
                     } else {
@@ -230,8 +230,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           ),
           onTap: (CompletionHandler handler) async {
             handler(false);
-            process.ketQua = mainScreenController.updateHabitProcess(
-              habitGoal: habit.batMucTieu,
+            process.result = mainScreenController.updateHabitProcess(
               habit: habit,
             );
             mainScreenController.updateProcess(process);
@@ -240,7 +239,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           },
           color: AppColors.c0000,
         ),
-        if (habit.batMucTieu == 0)
+        if (habit.isSetGoal)
           SwipeAction(
             paddingToBoundary: 0,
             content: Container(
@@ -253,7 +252,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             ),
             onTap: (CompletionHandler handler) async {
               handler(false);
-              process.ketQua++;
+              process.result++;
               mainScreenController.updateProcess(process);
               print('1');
               setState(() {});
@@ -274,7 +273,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           ),
           onTap: (CompletionHandler handler) async {
             handler(false);
-            process.skip = true;
+            process.isSkip = true;
             mainScreenController.updateProcess(process);
             print('Skip');
             setState(() {});
@@ -285,7 +284,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       child: _habitTile(
           habit,
           mainScreenController.listHabitProcess
-              .indexWhere((element) => element.maThoiQuen == process.maThoiQuen)),
+              .indexWhere((element) => element.habitId == process.habitId)),
     );
   }
 
@@ -308,7 +307,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           ),
           onTap: (CompletionHandler handler) async {
             handler(false);
-            process.skip = true;
+            process.isSkip = true;
             _moveToHabitNoteScreen(habit);
             print('Note');
             setState(() {});
@@ -327,8 +326,8 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           ),
           onTap: (CompletionHandler handler) async {
             handler(false);
-            process.skip = false;
-            process.ketQua = 0;
+            process.isSkip = false;
+            process.result = 0;
             mainScreenController.updateProcess(process);
             print('Undo');
             setState(() {});
@@ -339,7 +338,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       child: _habitTile(
         habit,
         mainScreenController.listHabitProcess
-            .indexWhere((element) => element.maThoiQuen == process.maThoiQuen),
+            .indexWhere((element) => element.habitId == process.habitId),
       ),
     );
   }
@@ -360,14 +359,14 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                 child: Icon(
                   IconData(habit.icon, fontFamily: 'MaterialIcons'),
                   size: 50,
-                  color: mainScreenController.listHabitProcess[index].skip == true ||
-                          mainScreenController.listHabitProcess[index].ketQua == -1 ||
-                          mainScreenController.listHabitProcess[index].ketQua == habit.soLan &&
-                              habit.soLan != 0
+                  color: mainScreenController.listHabitProcess[index].isSkip == true ||
+                          mainScreenController.listHabitProcess[index].result == -1 ||
+                          mainScreenController.listHabitProcess[index].result == habit.amount &&
+                              habit.amount != 0
                       ? AppColors.cFF9E
                       : Color(
                           int.parse(
-                            habit.mau,
+                            habit.color,
                             radix: 16,
                           ),
                         ),
@@ -381,19 +380,19 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        habit.ten,
+                        habit.habitName,
                         style: TextStyle(
                           fontSize: 22,
-                          decoration: mainScreenController.listHabitProcess[index].ketQua == -1 ||
-                                  mainScreenController.listHabitProcess[index].ketQua ==
-                                          habit.soLan &&
-                                      habit.soLan != 0
+                          decoration: mainScreenController.listHabitProcess[index].result == -1 ||
+                                  mainScreenController.listHabitProcess[index].result ==
+                                          habit.amount &&
+                                      habit.amount != 0
                               ? TextDecoration.lineThrough
                               : TextDecoration.none,
                         ),
                         maxLines: 2,
                       ),
-                      if (mainScreenController.listHabitProcess[index].skip == true)
+                      if (mainScreenController.listHabitProcess[index].isSkip == true)
                         Text(
                           'Skipped',
                           style: TextStyle(
@@ -403,7 +402,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                   ),
                 ),
               ),
-              if (habit.batMucTieu == 0)
+              if (habit.isSetGoal)
                 Padding(
                   // process
                   padding: EdgeInsets.only(right: 20),
@@ -411,18 +410,18 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        mainScreenController.listHabitProcess[index].ketQua.toString() +
+                        mainScreenController.listHabitProcess[index].result.toString() +
                             '/' +
-                            habit.soLan.toString(),
+                            habit.amount.toString(),
                         style: TextStyle(
                           fontSize: 20,
                           color: Color(
-                            int.parse(habit.mau, radix: 16),
+                            int.parse(habit.color, radix: 16),
                           ),
                         ),
                       ),
                       Text(
-                        habit.donVi,
+                        habit.unit,
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -455,7 +454,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
   void _moveToHabitNoteScreen(Habit habit) {
     Get.toNamed(
       Routes.NOTE,
-      arguments: habit.ma,
+      arguments: habit.habitId,
     );
   }
 }

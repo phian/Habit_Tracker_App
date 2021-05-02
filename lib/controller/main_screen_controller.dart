@@ -35,9 +35,9 @@ class MainScreenController extends GetxController {
     }
   }
 
-  int updateHabitProcess({int habitGoal, Habit habit}) {
-    if (habit.batMucTieu == 0)
-      return habit.soLan;
+  int updateHabitProcess({Habit habit}) {
+    if (habit.isSetGoal)
+      return habit.amount;
     else
       return -1;
   }
@@ -55,18 +55,18 @@ class MainScreenController extends GetxController {
       value.forEach((element) {
         listAllHabit.add(
           Habit(
-            ma: element['ma'],
-            ten: element['ten'],
+            habitId: element['habit_id'],
+            habitName: element['habit_name'],
             icon: element['icon'],
-            mau: element['mau'],
-            batMucTieu: element['bat_muc_tieu'],
-            soLan: element['so_lan'],
-            donVi: element['don_vi'],
-            loaiLap: element['loai_lap'],
-            ngayTrongTuan: element['ngay_trong_tuan'],
-            soLanTrongTuan: element['so_lan_trong_tuan'],
-            buoi: element['buoi'],
-            trangThai: element['trang_thai'],
+            color: element['color'],
+            isSetGoal: element['is_set_goal'] == 1 ? true : false,
+            amount: element['amount'],
+            unit: element['unit'],
+            repeatMode: element['repeat_mode'],
+            dayOfWeek: element['day_of_week'],
+            timesPerWeek: element['times_per_week'],
+            timeOfDay: element['time_of_day'],
+            status: element['status'] == 1 ? true : false,
           ),
         );
       });
@@ -79,7 +79,7 @@ class MainScreenController extends GetxController {
     listAnytimeHabit.clear();
 
     for (int i = 0; i < listAllHabit.length; i++) {
-      if (listAllHabit[i].ngayTrongTuan.contains((weekdate + 1).toString())) {
+      if (listAllHabit[i].dayOfWeek.contains((weekdate + 1).toString())) {
         listAnytimeHabit.add(listAllHabit[i]);
       }
     }
@@ -91,7 +91,7 @@ class MainScreenController extends GetxController {
       // => tạo
       for (int i = 0; i < listAnytimeHabit.length; i++) {
         await DatabaseHelper.instance.insertProcess(
-          listAnytimeHabit[i].ma,
+          listAnytimeHabit[i].habitId,
           formatter.format(selectedDay.value),
         );
       }
@@ -103,11 +103,11 @@ class MainScreenController extends GetxController {
     listAfternoonHabit.clear();
     listEveningHabit.clear();
     for (int i = 0; i < listAnytimeHabit.length; i++) {
-      if (listAnytimeHabit[i].buoi.contains('1')) listMorningHabit.add(listAnytimeHabit[i]);
+      if (listAnytimeHabit[i].timeOfDay.contains('1')) listMorningHabit.add(listAnytimeHabit[i]);
 
-      if (listAnytimeHabit[i].buoi.contains('2')) listAfternoonHabit.add(listAnytimeHabit[i]);
+      if (listAnytimeHabit[i].timeOfDay.contains('2')) listAfternoonHabit.add(listAnytimeHabit[i]);
 
-      if (listAnytimeHabit[i].buoi.contains('3')) listEveningHabit.add(listAnytimeHabit[i]);
+      if (listAnytimeHabit[i].timeOfDay.contains('3')) listEveningHabit.add(listAnytimeHabit[i]);
     }
   }
 
@@ -116,28 +116,28 @@ class MainScreenController extends GetxController {
     await DatabaseHelper.instance.selectHabitProcess(formatter.format(date)).then((value) {
       value.forEach((element) {
         listHabitProcess.add(Process(
-          maThoiQuen: element['ma_thoi_quen'],
-          ngay: element['ngay'],
-          ketQua: element['ket_qua'],
-          skip: element['skip'] == 1 ? true : false,
+          habitId: element['habit_id'],
+          date: element['date'],
+          result: element['result'],
+          isSkip: element['is_skip'] == 1 ? true : false,
         ));
       });
     });
   }
 
   Process findProcess(int maThoiQuen) {
-    return listHabitProcess.firstWhere((element) => element.maThoiQuen == maThoiQuen);
+    return listHabitProcess.firstWhere((element) => element.habitId == maThoiQuen);
   }
 
   Future<void> updateProcess(Process p) async {
-    int index = listHabitProcess.indexWhere((element) => element.maThoiQuen == p.maThoiQuen);
+    int index = listHabitProcess.indexWhere((element) => element.habitId == p.habitId);
     listHabitProcess[index] = p;
     //updateListView.value = true;
     await DatabaseHelper.instance.updateProcess(p);
   }
 
   Future<void> deleteHabit(Habit habit) async {
-    await DatabaseHelper.instance.deleteHabit(habit.ma);
+    await DatabaseHelper.instance.deleteHabit(habit.habitId);
     await getAllHabit();
   }
 

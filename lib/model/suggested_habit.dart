@@ -1,37 +1,67 @@
 class SuggestedHabit {
-  int maChuDe;
-  String ten;
-  String moTa;
+  int topicId;
+  String habitName;
+  String description;
   int icon;
-  String mau;
-  bool batMucTieu;
-  int soLan;
-  String donVi;
-  int loaiLap;
-  String ngayTrongTuan;
-  int soLanTrongTuan;
-  String buoi;
+  String color;
+  bool isSetGoal;
+  int amount;
+  String unit;
+  int repeatMode;
+  String dayOfWeek;
+  int timesPerWeek;
+  String dateOfMonth;
+  String timeOfDay;
 
   SuggestedHabit({
-    this.maChuDe,
-    this.ten,
-    this.moTa,
+    this.topicId,
+    this.habitName,
+    this.description,
     this.icon,
-    this.mau,
-    this.batMucTieu,
-    this.soLan,
-    this.donVi,
-    this.loaiLap,
-    this.ngayTrongTuan,
-    this.soLanTrongTuan,
-    this.buoi,
+    this.color,
+    this.isSetGoal,
+    this.amount,
+    this.unit,
+    this.repeatMode,
+    this.dayOfWeek,
+    this.dateOfMonth,
+    this.timesPerWeek,
+    this.timeOfDay,
   });
 
   Map<String, dynamic> toMap() {
-    return {};
+    return {
+      'topic_id': topicId,
+      'habit_name': habitName,
+      'description': description,
+      'icon': icon,
+      'color': color,
+      'is_set_goal': isSetGoal ? 1 : 0,
+      'amount': amount,
+      'unit': unit,
+      'repeat_mode': repeatMode,
+      'day_of_week': dayOfWeek,
+      'times_per_week': timesPerWeek,
+      'date_of_month': dateOfMonth,
+      'time_of_day': timeOfDay,
+    };
   }
 
-  void fromMap(Map<String, dynamic> data) {
-
+  factory SuggestedHabit.fromMap(Map<String, dynamic> map) {
+    return SuggestedHabit(
+      topicId: map['topic_id'],
+      habitName: map['habit_name'],
+      description: map['description'],
+      icon: map['icon'],
+      color: map['color'],
+      isSetGoal: map['is_set_goal'] == 1 ? true : false,
+      amount: map['amount'],
+      unit: map['unit'],
+      repeatMode: map['repeat_mode'],
+      dayOfWeek: map['day_of_week'],
+      timesPerWeek: map['times_per_week'],
+      dateOfMonth: map['date_of_month'],
+      timeOfDay: map['time_of_day'],
+    );
   }
 }

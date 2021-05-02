@@ -35,11 +35,11 @@ class NoteScreenController extends GetxController {
         print("content is: $noteContent");
         databaseHelper.insertHabitNote(
           Diary(
-            maThoiQuen: habitId.value,
-            ngay: DateFormat("dd MM yyyy").format(
+            habitId: habitId.value,
+            date: DateFormat("dd MM yyyy").format(
               DateTime.now(),
             ),
-            noiDung: noteContent,
+            content: noteContent,
           ),
         );
         Get.back();
@@ -49,9 +49,9 @@ class NoteScreenController extends GetxController {
         for (int i = 0; i < value.length - 1; i++) {
           databaseHelper.updateHabitNoteData(
             Diary(
-              maThoiQuen: habitId.value,
-              ngay: value[i]['ngay'],
-              noiDung: noteContent,
+              habitId: habitId.value,
+              date: value[i]['ngay'],
+              content: noteContent,
             ),
           );
           Get.back();
@@ -64,11 +64,11 @@ class NoteScreenController extends GetxController {
             )) {
           databaseHelper.updateHabitNoteData(
             Diary(
-              maThoiQuen: habitId.value,
-              ngay: DateFormat("dd MM yyyy").format(
+              habitId: habitId.value,
+              date: DateFormat("dd MM yyyy").format(
                 DateTime.now(),
               ),
-              noiDung: noteContent,
+              content: noteContent,
             ),
           );
           Get.back();
@@ -78,11 +78,11 @@ class NoteScreenController extends GetxController {
             )) {
           databaseHelper.insertHabitNote(
             Diary(
-              maThoiQuen: habitId.value,
-              ngay: DateFormat("dd MM yyyy").format(
+              habitId: habitId.value,
+              date: DateFormat("dd MM yyyy").format(
                 DateTime.now(),
               ),
-              noiDung: noteContent,
+              content: noteContent,
             ),
           );
           Get.back();

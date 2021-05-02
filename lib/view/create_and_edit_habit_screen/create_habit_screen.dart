@@ -34,8 +34,8 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
     if (Get.arguments != null) {
       _suggestedHabit = Get.arguments;
       _createHabitScreenController.initDataAndController(_suggestedHabit);
-      _habitNameController = TextEditingController(text: _suggestedHabit.ten);
-      _goalAmountController = TextEditingController(text: _suggestedHabit.soLan.toString());
+      _habitNameController = TextEditingController(text: _suggestedHabit.habitName);
+      _goalAmountController = TextEditingController(text: _suggestedHabit.amount.toString());
     } else {
       _habitNameController = TextEditingController();
       _goalAmountController = TextEditingController();
@@ -71,7 +71,6 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
           title: "New habit",
           habitNameController: _habitNameController,
           goalAmountController: _goalAmountController,
-          
         ),
         _habitScreenBody(),
       ],
@@ -164,9 +163,12 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            color: _createHabitScreenController.selectedIndex.value != index
-                                ? AppColors.c3DFF
-                                : _createHabitScreenController.fillColor.value,
+                            color: _createHabitScreenController.isSetGoal.value == false &&
+                                        index == 1 ||
+                                    _createHabitScreenController.isSetGoal.value == true &&
+                                        index == 0
+                                ? _createHabitScreenController.fillColor.value
+                                : AppColors.c3DFF,
                           ),
                         ),
                       ),
@@ -179,7 +181,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
             /// [Phần chọn giá trị theo đơn vị]
             Obx(
               () => Visibility(
-                visible: _createHabitScreenController.selectedIndex.value == 0 ? true : false,
+                visible: _createHabitScreenController.isSetGoal.value,
                 child: Container(
                   padding: EdgeInsets.only(top: 20.0),
                   child: Row(
@@ -272,7 +274,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                             : index == 1
                                 ? "weekly"
                                 : "monthly",
-                        color: _createHabitScreenController.repeatTypeChoice.value == index
+                        color: _createHabitScreenController.repeatMode.value == index
                             ? _createHabitScreenController.fillColor.value
                             : AppColors.c3DFF,
                         index: index,
@@ -296,7 +298,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                     children: [
                       Obx(
                         () => Visibility(
-                          visible: _createHabitScreenController.repeatTypeChoice.value == 0
+                          visible: _createHabitScreenController.repeatMode.value == 0
                               ? true
                               : false,
                           child: Container(
@@ -338,7 +340,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                       ),
                       Obx(
                         () => Visibility(
-                          visible: _createHabitScreenController.repeatTypeChoice.value == 1
+                          visible: _createHabitScreenController.repeatMode.value == 1
                               ? true
                               : false,
                           child: Container(
@@ -396,7 +398,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                         ),
                         child: Obx(
                           () => Text(
-                            _createHabitScreenController.repeatTypeChoice.value == 0
+                            _createHabitScreenController.repeatMode.value == 0
                                 ? 'everyday'
                                 : 'once every two weeks',
                             style: TextStyle(
@@ -567,7 +569,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                 )
               : Obx(
                   () => Text(
-                    _createHabitScreenController.repeatTypeChoice.value == 0
+                    _createHabitScreenController.repeatMode.value == 0
                         ? 'on these days'
                         : 'as often as',
                     style: TextStyle(fontSize: 20.0),
@@ -781,10 +783,11 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
   }
 
   void _onOnOrOffButtonClick(int index) {
-    _createHabitScreenController.changeSelectedIndex(RxInt(index));
+    var isOn = index == 0 ? true : false;
+    _createHabitScreenController.changeSelectedIndex(isOn);
 
     /// [Nếu người dùng off goal thì sẽ reset lại text trong TextField]
-    if (_createHabitScreenController.selectedIndex.value == 1) {
+    if (!_createHabitScreenController.isSetGoal.value) {
       _goalAmountController.text = '';
     }
   }

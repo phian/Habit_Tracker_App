@@ -207,7 +207,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                     size: 50.0,
                     color: Color(
                       int.parse(
-                        _habitStatisticController.habit.value.mau,
+                        _habitStatisticController.habit.value.color,
                         radix: 16,
                       ),
                     ),
@@ -217,7 +217,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                   child: Container(
                     padding: EdgeInsets.only(left: 20.0),
                     child: Text(
-                      _habitStatisticController.habit.value.ten,
+                      _habitStatisticController.habit.value.habitName,
                       style: TextStyle(
                         fontSize: 25.0,
                         fontWeight: FontWeight.bold,
@@ -231,7 +231,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
           ),
         ),
         Visibility(
-          visible: _habitStatisticController.habit.value.soLan == 0 ? false : true,
+          visible: _habitStatisticController.habit.value.amount == 0 ? false : true,
           child: Column(
             children: [
               Container(
@@ -248,7 +248,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                         ),
                       ),
                       Text(
-                        "/" + _habitStatisticController.habit.value.soLan.toString() + " ",
+                        "/" + _habitStatisticController.habit.value.amount.toString() + " ",
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
@@ -256,7 +256,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                         ),
                       ),
                       Text(
-                        _habitStatisticController.habit.value.donVi,
+                        _habitStatisticController.habit.value.unit,
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
@@ -272,7 +272,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                 child: Obx(
                   () => FAProgressBar(
                     currentValue: 0,
-                    maxValue: _habitStatisticController.habit.value.soLan,
+                    maxValue: _habitStatisticController.habit.value.amount,
                     size: 5,
                     backgroundColor: AppColors.cFF2F,
                     progressColor: AppColors.cFFFE,
@@ -301,7 +301,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                     ),
                     SizedBox(height: 5.0),
                     Text(
-                      _habitStatisticController.habit.value.loaiLap == 0 ? 'Daily' : 'Weekly',
+                      _habitStatisticController.habit.value.repeatMode == 0 ? 'Daily' : 'Weekly',
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -662,7 +662,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
     Get.back();
     Get.toNamed(
       Routes.ALL_NOTE,
-      arguments: _habitStatisticController.habit.value.ma,
+      arguments: _habitStatisticController.habit.value.habitId,
     );
   }
 

@@ -19,27 +19,27 @@ class HabitCategoryListScreenController extends GetxController {
         for (int i = 0; i < value.length; i++) {
           suggestedHabitList.add(
             SuggestedHabit(
-              maChuDe: value[i]['ma_chu_de'],
-              ten: value[i]['ten'],
-              moTa: value[i]['mo_ta'],
+              topicId: value[i]['topic_id'],
+              habitName: value[i]['habit_name'],
+              description: value[i]['description'],
               icon: value[i]['icon'],
-              mau: value[i]['mau'],
-              batMucTieu: value[i]['bat_muc_tieu'] == 1 ? false : true,
-              soLan: value[i]['so_lan'],
-              donVi: value[i]['don_vi'],
-              loaiLap: value[i]['loai_lap'],
-              ngayTrongTuan: value[i]['ngay_trong_tuan'],
-              soLanTrongTuan: value[i]['so_lan_trong_tuan'],
-              buoi: value[i]['buoi'],
+              color: value[i]['color'],
+              isSetGoal: value[i]['is_set_goal'] == 1 ? true : false,
+              amount: value[i]['amount'],
+              unit: value[i]['unit'],
+              repeatMode: value[i]['repeat_mode'],
+              dayOfWeek: value[i]['day_of_week'],
+              timesPerWeek: value[i]['times_per_week'],
+              timeOfDay: value[i]['time_of_day'],
             ),
           );
 
           suggestHabitCards.add(
             SuggestHabitCard(
               iconCode: value[i]['icon'],
-              title: value[i]['ten'],
-              subTitle: value[i]['mo_ta'],
-              color: int.parse(value[i]['mau']),
+              title: value[i]['habit_name'],
+              subTitle: value[i]['description'],
+              color: int.parse(value[i]['color']),
               index: i,
               habitCategoryListScreenController: this,
             ),

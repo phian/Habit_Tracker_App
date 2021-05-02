@@ -28,26 +28,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
         preferredSize: Size(Get.width, Get.height * 0.1),
         child: Container(
           height: 60.0,
-          child: Stack(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: EdgeInsets.only(
-                  left: Get.width * 0.45 * 0.9,
-                  bottom: 10.0,
-                ),
-                alignment: Alignment.center,
-                child: _changeNotificationScreenButton("Challenges", 2),
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                  left: Get.width * 0.08,
-                  bottom: 10.0,
-                ),
-                alignment: Alignment.centerLeft,
-                child: _changeNotificationScreenButton("Habits", 1),
-              ),
+              _changeNotificationScreenButton("Habits", 1),
+              Container(width: 1.0, color: AppColors.cFF00, height: 40.0),
+              _changeNotificationScreenButton("Challenges", 2),
             ],
-          ),
+          ).paddingSymmetric(horizontal: 24.0),
         ),
       ),
       title: Text(
@@ -65,32 +53,49 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   /// [Change notification type button]
   Widget _changeNotificationScreenButton(String title, int index) {
-    return Obx(
-      () => InkWell(
-        onTap: () => _notificationController.changeIsHabitsOrChallenge(
-          index,
-        ),
-        borderRadius: BorderRadius.circular(30.0),
-        child: Container(
-          width: Get.width * 0.45,
-          height: 40.0,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: _notificationController.isHabitsOrChallenge.value == index
-                ? AppColors.cFF1C
-                : AppColors.c3DFF,
-            borderRadius: BorderRadius.circular(30.0),
+    return Expanded(
+      child: Obx(
+        () => InkWell(
+          onTap: () => _notificationController.changeIsHabitsOrChallenge(
+            index,
           ),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 20.0),
+          borderRadius: index == 1
+              ? BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  bottomLeft: Radius.circular(30.0),
+                )
+              : BorderRadius.only(
+                  topRight: Radius.circular(30.0),
+                  bottomRight: Radius.circular(30.0),
+                ),
+          child: Container(
+            height: 40.0,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: _notificationController.isHabitsOrChallenge.value == index
+                  ? AppColors.cFF1C
+                  : AppColors.c3DFF,
+              borderRadius: index == 1
+                  ? BorderRadius.only(
+                      topLeft: Radius.circular(30.0),
+                      bottomLeft: Radius.circular(30.0),
+                    )
+                  : BorderRadius.only(
+                      topRight: Radius.circular(30.0),
+                      bottomRight: Radius.circular(30.0),
+                    ),
+            ),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 20.0),
+            ),
           ),
         ),
       ),
     );
   }
 
-  /// [Body]
+  /// Body
   Widget _notificationScreenBody() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -111,7 +116,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget _habitNotificationListColumn() {
     return Obx(
       () => Visibility(
-        visible: _notificationController.isHabitsOrChallenge.value == 1 ? true : false,
+        visible: _notificationController.isHabitsOrChallenge.value == 1
+            ? true
+            : false,
         child: Container(
           child: Column(
             children: [
@@ -132,11 +139,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 icon: Icons.assignment,
                 pickedTime: _notificationController.todayPlanPickedTime,
                 iconColor: AppColors.cFF11,
+                type: NotificationTimeType.todayPlan,
               ),
               SizedBox(height: 30.0),
               _dateTimeNotiWidget(
                 title: "Morning plan",
-                summaryText: "You have x habits for this morning and 4 more you can do",
+                summaryText:
+                    "You have x habits for this morning and 4 more you can do",
                 icon: Icons.wb_sunny,
                 value: _notificationController.isOnOrOffMorningPlan,
                 iconColor: AppColors.cFFFA,
@@ -144,14 +153,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
               SizedBox(height: 30.0),
               _dateTimeNotiWidget(
                 title: "Afternoon plan",
-                summaryText: "You have 1 habt for this afternoon and 4 more you can do",
+                summaryText:
+                    "You have 1 habt for this afternoon and 4 more you can do",
                 icon: Icons.cloud,
                 value: _notificationController.isOnOrOffAternoonPlan,
               ),
               SizedBox(height: 30.0),
               _dateTimeNotiWidget(
                 title: "Evening plan",
-                summaryText: "You have 1 habt for this afternoon and 4 more you can do",
+                summaryText:
+                    "You have 1 habt for this afternoon and 4 more you can do",
                 icon: Icons.nights_stay,
                 value: _notificationController.isOnOrOffEveningPlan,
                 iconColor: AppColors.cFFFFD9,
@@ -159,11 +170,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
               SizedBox(height: 30.0),
               _todayPlanAndResultWidget(
                 title: "Your results for today",
-                summaryText: "x habits completed, y habits skiped, z habits left",
+                summaryText:
+                    "x habits completed, y habits skiped, z habits left",
                 value: _notificationController.isOnOrOffTodayResult,
                 icon: Icons.view_list,
                 pickedTime: _notificationController.resultNotiPickedTime,
                 iconColor: AppColors.cFFF5,
+                type: NotificationTimeType.todayResult,
               ),
               SizedBox(height: 30.0),
               Text(
@@ -207,6 +220,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     RxBool value,
     RxString pickedTime,
     Color iconColor,
+    NotificationTimeType type,
   }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 25.0),
@@ -257,14 +271,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     () => Switch(
                       activeColor: AppColors.cFF1C,
                       value: value.value,
-                      onChanged: (value) =>
-                          _notificationController.onDateTimeNotificationSwitchPress(icon),
+                      onChanged: (value) => _notificationController
+                          .onDateTimeNotificationSwitchPress(icon),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: icon == Icons.assignment ? 15.0 : Get.height * 0.26 * 0.17),
+            SizedBox(
+                height:
+                    icon == Icons.assignment ? 15.0 : Get.height * 0.26 * 0.17),
             Divider(
               thickness: 0.5,
               color: AppColors.cFFFF,
@@ -277,7 +293,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
-                  onTap: () => _onHabitNotificationTilePress(icon),
+                  onTap: () => _onHabitNotificationTilePress(icon, type),
                   leading: Icon(
                     Icons.access_time,
                     size: 30.0,
@@ -359,8 +375,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         child: Switch(
                           activeColor: AppColors.cFFFE,
                           value: value.value,
-                          onChanged: (value) =>
-                              _notificationController.onNoneDateTimeNotificationSwitchPress(icon),
+                          onChanged: (value) => _notificationController
+                              .onNoneDateTimeNotificationSwitchPress(icon),
                         ),
                       ),
                     ),
@@ -378,7 +394,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget _challengeNotificationBox() {
     return Obx(
       () => Visibility(
-        visible: _notificationController.isHabitsOrChallenge.value == 2 ? true : false,
+        visible: _notificationController.isHabitsOrChallenge.value == 2
+            ? true
+            : false,
         child: Container(
           child: Column(
             children: [
@@ -519,15 +537,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
     }).catchError((err) => debugPrint(err.toString()));
   }
 
-  void _onHabitNotificationTilePress(IconData icon) async {
+  void _onHabitNotificationTilePress(
+      IconData icon, NotificationTimeType type) async {
     await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     ).then((value) {
-      if (icon == Icons.assignment)
-        _notificationController.changePickedTime(0, value);
-      else
-        _notificationController.changePickedTime(1, value);
-    });
+      if (value != null) {
+        switch (type) {
+          case NotificationTimeType.todayPlan:
+            _notificationController.changePickedTime(0, value);
+            break;
+          case NotificationTimeType.todayResult:
+            _notificationController.changePickedTime(1, value);
+            break;
+        }
+      }
+    }).catchError((err) => print(err.toString()));
   }
+}
+
+enum NotificationTimeType {
+  todayPlan,
+  todayResult,
 }

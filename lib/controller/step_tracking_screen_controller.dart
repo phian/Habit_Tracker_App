@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:habit_tracker/service/database/shared_preference_service.dart';
 
 class StepTrackingScreenController extends GetxController {
   var touchedIndex = (-1).obs;
@@ -9,11 +9,12 @@ class StepTrackingScreenController extends GetxController {
   var timeData = "1h19m".obs;
   var caloriesData = "603".obs;
   var distanceData = "2.11".obs;
-  var totalSteps = "500".obs;
-  var goalSteps = 600.obs;
+  var totalSteps = "0".obs;
+  var goalSteps = 0.obs;
   var selectedTabIndex = 0.obs;
-
   var _selectedIndex = 0;
+
+  SharedPreferenceService _sharedPrefService = SharedPreferenceService.instance;
 
   changeTouchedIndex(int index) {
     if (index != touchedIndex.value) {
@@ -215,7 +216,6 @@ class StepTrackingScreenController extends GetxController {
     }
   }
 
-
   /// [Month chart]
   String initMonthChartText(int value) {
     switch (value) {
@@ -242,5 +242,25 @@ class StepTrackingScreenController extends GetxController {
       default:
         return '';
     }
+  }
+
+  Future<int> getStepsValue(String key) async {
+    var pref = await _sharedPrefService.getPref();
+    return pref.getInt(key);
+  }
+
+  void saveStepsValue(var key, int value) async {
+    var pref = await _sharedPrefService.getPref();
+    pref.setInt(key, value);
+  }
+
+  void updateTotalSteps(int newSteps) {
+    totalSteps.value = newSteps.toString();
+  }
+
+  void updateGoalSteps(int currentSteps) {
+    /// Calculate how many time does the current step larger than 100
+    /// and multiple that value with 100 and add 100 more steps for new goal
+    goalSteps.value = (currentSteps ~/ 100) * 100 + 100;
   }
 }

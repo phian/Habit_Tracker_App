@@ -18,7 +18,7 @@ import '../view/main_screen.dart';
 import '../view/manage_screen.dart';
 import '../view/notification_screen.dart';
 import '../view/step_tracking.dart';
-import '../view/step_tracking_screen.dart';
+import '../view/step_tracking_screen/step_tracking_screen.dart';
 
 class Pages {
   static final List<GetPage> pages = [

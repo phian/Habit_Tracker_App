@@ -24,9 +24,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   @override
   void initState() {
     super.initState();
-    if (Get.arguments != null) {
-      _habitStatisticController.habit.value = Get.arguments;
-    }
+
+    _habitStatisticController.habit.value = Get.arguments;
   }
 
   @override

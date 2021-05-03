@@ -16,7 +16,7 @@ class MainScreenController extends GetxController {
   var listHabitProcess = <Process>[].obs;
   var appBarTitle = 'Today'.obs;
 
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  // format appbar title
   final DateFormat appBarFormatter = DateFormat('MMMM, d');
 
   changeSelectedDay(DateTime date) {
@@ -77,7 +77,7 @@ class MainScreenController extends GetxController {
       for (int i = 0; i < listAnytimeHabit.length; i++) {
         await DatabaseHelper.instance.insertProcess(
           listAnytimeHabit[i].habitId,
-          formatter.format(selectedDay.value),
+          selectedDay.value,
         );
       }
       // selecte lại
@@ -98,9 +98,7 @@ class MainScreenController extends GetxController {
 
   Future<void> getHabitProcess(DateTime date) async {
     listHabitProcess.clear();
-    listHabitProcess.value = await DatabaseHelper.instance.getListHabitProcessByDate(
-      formatter.format(date),
-    );
+    listHabitProcess.value = await DatabaseHelper.instance.getListHabitProcessByDate(date);
   }
 
   Process findProcess(int maThoiQuen) {

@@ -5,6 +5,7 @@ import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/model/suggest_topic.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -51,6 +52,8 @@ class DatabaseHelper {
 
   // table SUGGESTED HABIT
   final tableSuggestedHabit = 'suggested_habit';
+
+  final DateFormat dateFormatter = DateFormat('yyyy-MM-dd');
 
   DatabaseHelper._privateConstructor();
 
@@ -371,15 +374,17 @@ class DatabaseHelper {
     return rs;
   }
 
-  Future<List<Process>> getListHabitProcessByDate(String date) async {
+  Future<List<Process>> getListHabitProcessByDate(DateTime date) async {
     Database db = await instance.database;
+    // convert Datetime sang Sting đúng format
+    String formatedDate = dateFormatter.format(date);
     List<Process> listProcess = [];
     try {
       var res = await db.query(
         tableProcess,
         where: '${this.date} = ?',
         orderBy: '$habitId DESC',
-        whereArgs: [date],
+        whereArgs: [formatedDate],
       );
 
       res.forEach((element) {
@@ -392,13 +397,15 @@ class DatabaseHelper {
     return listProcess;
   }
 
-  Future<int> insertProcess(int idHabit, String date) async {
+  Future<int> insertProcess(int idHabit, DateTime date) async {
     Database db = await instance.database;
+    // convert Datetime sang Sting đúng format
+    String formatedDate = dateFormatter.format(date);
     int rs = 0;
     try {
       rs = await db.rawInsert(
         'INSERT OR IGNORE INTO $tableProcess ($habitId,${this.date}) VALUES (?,?)',
-        [idHabit, date],
+        [idHabit, formatedDate],
       );
     } catch (e) {
       throw e;
@@ -422,54 +429,73 @@ class DatabaseHelper {
     return rs;
   }
 
-  Future<List<Map<String, dynamic>>> selectHabitNote(int idHabit) async {
+  Future<List<Diary>> getNote(int idHabit, DateTime date) async {
     Database db = await instance.database;
-    var rs;
+    // convert Datetime sang Sting đúng format
+    String formatedDate = dateFormatter.format(date);
+    List<Diary> diarys = [];
     try {
-      rs = await db.query(
+      var rs = await db.query(
         tableDiary,
-        where: "$habitId = $idHabit",
-        orderBy: '$date DESC',
+        where: '$habitId = ? and ${this.date} = ?',
+        whereArgs: [idHabit, formatedDate],
       );
+
+      rs.forEach((element) {
+        diarys.add(Diary.fromMap(element));
+      });
     } catch (e) {
       throw e;
     }
 
-    return rs;
+    return diarys;
   }
 
-  Future<void> insertHabitNote(Diary diary) async {
-    Database database = await this.database;
-    var result = database.insert(tableDiary, diary.toMap());
+  Future<int> insertHabitNote(Diary diary) async {
+    Database db = await this.database;
+    int result = 0;
+
+    try {
+      result = await db.insert(tableDiary, diary.toMap());
+    } catch (e) {
+      throw e;
+    }
+
     return result;
   }
 
-  Future<void> updateHabitNoteData(Diary diary) async {
+  Future<int> updateHabitNoteData(Diary diary) async {
     Database database = await this.database;
-    var result = database.rawUpdate(
-      "update $tableDiary set $content = ? where $habitId = ? and $date = ?",
-      [
-        diary.content,
-        diary.habitId,
-        diary.date,
-      ],
-    );
+    int result = 0;
+
+    try {
+      result = await database.rawUpdate(
+        "update $tableDiary set $content = ? where $habitId = ? and $date = ?",
+        [
+          diary.content,
+          diary.habitId,
+          diary.date,
+        ],
+      );
+    } catch (e) {
+      throw e;
+    }
     return result;
   }
 
-  /// [Đọc data cho màn hình all note]
-  Future<List<Map<String, dynamic>>> readDateDataFromNoteTable(int idHabit) async {
-    Database database = await this.database;
-    var queryResult =
-        await database.rawQuery("select $date from $tableDiary where $habitId = '$idHabit'");
+  Future<List<Diary>> getAllNote(int idHabit) async {
+    Database db = await instance.database;
+    List<Diary> diarys = [];
+    try {
+      var queryResult = await db.rawQuery("select * from $tableDiary where $habitId = '$idHabit'");
 
-    return queryResult;
+      queryResult.forEach((element) {
+        diarys.add(Diary.fromMap(element));
+      });
+    } catch (e) {
+      throw e;
+    }
+    return diarys;
   }
 
-  Future<List<Map<String, dynamic>>> readAllNoteData(int idHabit) async {
-    Database database = await this.database;
-    var queryResult = await database.query(tableDiary, where: "$habitId = '$idHabit'");
-
-    return queryResult;
-  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/constants/app_color.dart';
+import 'package:intl/intl.dart';
 
 class DateDivider extends StatelessWidget {
   final String date;
@@ -22,7 +23,7 @@ class DateDivider extends StatelessWidget {
             ),
           ),
           Text(
-            this.date,
+            DateFormat("dd/MM/yyyy").format(DateTime.parse(date)),
             style: TextStyle(fontSize: 20.0),
           ),
           Expanded(

@@ -64,7 +64,6 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
         ),
       ),
       centerTitle: true,
-      
       backgroundColor: AppColors.c1F00,
       elevation: 0.0,
     );
@@ -454,7 +453,10 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
   void _moveToHabitNoteScreen(Habit habit) {
     Get.toNamed(
       Routes.NOTE,
-      arguments: habit.habitId,
+      arguments: [
+        habit.habitId,
+        mainScreenController.selectedDay.value,
+      ],
     );
   }
 }

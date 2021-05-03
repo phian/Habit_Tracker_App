@@ -4,39 +4,27 @@ import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
 
-
 class NoteContentCard extends StatelessWidget {
-  final RxString content;
-  final HabitAllNoteScreenController controller;
+  final String content;
 
-  NoteContentCard({this.content, this.controller});
+  NoteContentCard({this.content});
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => GestureDetector(
-        onTap: () {
-          Get.toNamed(
-            Routes.NOTE,
-            arguments: controller.habitId.value,
-          );
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
-          alignment: Alignment.centerLeft,
-          width: Get.width - 20.0,
-          height: Get.height * 0.12,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: AppColors.cFF2F,
-          ),
-          child: Text(
-            content.value,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 20.0),
-          ),
-        ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15.0),
+      alignment: Alignment.centerLeft,
+      width: Get.width - 20.0,
+      height: Get.height * 0.12,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: AppColors.cFF2F,
+      ),
+      child: Text(
+        content,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: 20.0),
       ),
     );
   }

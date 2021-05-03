@@ -11,47 +11,49 @@ class HabitNoteScreen extends StatefulWidget {
 }
 
 class _HabitNoteScreenState extends State<HabitNoteScreen> {
-  NoteScreenController _noteScreenController;
-  TextEditingController _noteController;
-  String _noteContent = "";
+  NoteScreenController noteScreenController;
+  var noteController = TextEditingController();
+  int habitId;
+  DateTime date;
 
   @override
   void initState() {
     super.initState();
+    initData();
+  }
 
-    _noteScreenController = Get.put(NoteScreenController());
-    _noteScreenController.checkAndUpdateHabitId(Get.arguments);
-    _noteScreenController.readDataForTextController().then((value) {
-      if (_noteScreenController.initTextFieldData.value.isNotEmpty) {
-        _noteController = TextEditingController(
-          text: _noteScreenController.initTextFieldData.value,
-        );
-      } else {
-        _noteController = TextEditingController();
-      }
-    });
+  void initData() async {
+    noteScreenController = Get.put(NoteScreenController());
+    habitId = Get.arguments[0];
+    date = Get.arguments[1];
+    var content = await noteScreenController.getNoteContent(habitId, date);
+    noteController.text = content;
+    // cho con trỏ về cuối text
+    noteController.selection = TextSelection.collapsed(offset: noteController.text.length);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.cFF1E,
-      appBar: _habitNoteScreenAppBar(),
-      body: Obx(
-        () =>
-            _habitNoteScreenBody(_noteScreenController.initTextFieldData.value),
-      ),
+      appBar: habitNoteScreenAppBar(),
+      body: habitNoteScreenBody(),
     );
   }
 
   /// [App Bar]
-  Widget _habitNoteScreenAppBar() {
+  Widget habitNoteScreenAppBar() {
     return AppBar(
       backgroundColor: AppColors.c0000,
       elevation: 0.0,
       centerTitle: true,
       leading: IconButton(
         onPressed: () {
+          noteScreenController.saveNote(
+            habitId,
+            date,
+            noteController.text,
+          );
           Get.back();
         },
         icon: Icon(
@@ -75,10 +77,13 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
             ),
           ),
           onPressed: () {
-            print("conteroller text: ${_noteController.text}");
-            _noteScreenController.saveHabitNoteData(
-              _noteContent,
+            print("controller text: ${noteController.text}");
+            noteScreenController.saveNote(
+              habitId,
+              date,
+              noteController.text,
             );
+            Get.back();
           },
           child: Text(
             "Done",
@@ -92,7 +97,7 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
   }
 
   /// [Body]
-  Widget _habitNoteScreenBody(String value) {
+  Widget habitNoteScreenBody() {
     return Container(
       height: Get.height,
       child: TextField(
@@ -100,10 +105,7 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
         scrollPhysics: AlwaysScrollableScrollPhysics(
           parent: BouncingScrollPhysics(),
         ),
-        controller: _noteController,
-        onChanged: (value) {
-          _noteContent = value;
-        },
+        controller: noteController,
         maxLines: Get.height.toInt(),
         keyboardType: TextInputType.multiline,
         style: TextStyle(fontSize: 22.0),

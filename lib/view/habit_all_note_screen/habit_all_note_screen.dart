@@ -4,8 +4,11 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
+import 'package:habit_tracker/routing/routes.dart';
+import 'package:habit_tracker/view/habit_all_note_screen/date_divider.dart';
 
 import 'package:habit_tracker/view/habit_all_note_screen/no_note_data_display_widget.dart';
+import 'package:habit_tracker/view/habit_all_note_screen/note_content_card.dart';
 
 class HabitAllNoteScreen extends StatefulWidget {
   HabitAllNoteScreen({Key key}) : super(key: key);
@@ -16,35 +19,14 @@ class HabitAllNoteScreen extends StatefulWidget {
 
 class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
   HabitAllNoteScreenController _allNoteScreenController;
-
+  int habitId;
   @override
   void initState() {
     super.initState();
+    habitId = Get.arguments;
     _allNoteScreenController = Get.put(HabitAllNoteScreenController());
 
-    _allNoteScreenController.updateHabitId(Get.arguments);
-    // print(_allNoteScreenController.habitId.value);
-
-    _allNoteScreenController.readDateData().then((value) {
-      setState(() {});
-    }).catchError((err) => debugPrint(err.toString()));
-
-    _allNoteScreenController.readAllNoteData().then((value) {
-      if (value != null && value.length != 0) {
-        setState(() {});
-      }
-    }).catchError((err) => debugPrint(err.toString()));
-  }
-
-  @override
-  void setState(fn) {
-    if (this.mounted) super.setState(fn);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _allNoteScreenController.dispose();
+    _allNoteScreenController.getAllNote(habitId);
   }
 
   @override
@@ -54,28 +36,33 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
       appBar: _habitAllNoteScreenAppBar(),
       body: Obx(
         () => _allNoteScreenController.loadingState.value == AllNoteLoadingState.isLoaded &&
-                _allNoteScreenController.dateList.length != 0
-            ? ListView(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                physics: AlwaysScrollableScrollPhysics(
-                  parent: BouncingScrollPhysics(),
-                ),
-                children: [
-                  ...List.generate(
-                    _allNoteScreenController.dateList.length,
-                    (index) {
-                      return Container(
-                        child: Column(
-                          children: [
-                            _allNoteScreenController.dateListWidget[index],
-                            SizedBox(height: 20.0),
-                            _allNoteScreenController.noteContentBoxes[index],
-                          ],
+                _allNoteScreenController.listNote.length != 0
+            ? ListView.builder(
+                itemCount: _allNoteScreenController.listNote.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    child: Column(
+                      children: [
+                        DateDivider(
+                          date: _allNoteScreenController.listNote[index].date,
                         ),
-                      );
-                    },
-                  ),
-                ],
+                        SizedBox(height: 20.0),
+                        GestureDetector(
+                          child: NoteContentCard(
+                            content: _allNoteScreenController.listNote[index].content,
+                          ),
+                          onTap: () => Get.toNamed(
+                            Routes.NOTE,
+                            arguments: [
+                              habitId,
+                              DateTime.parse(_allNoteScreenController.listNote[index].date),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
               )
             : _allNoteScreenController.loadingState.value == AllNoteLoadingState.isLoading
                 ? SpinKitFadingCube(color: AppColors.cFFFF)

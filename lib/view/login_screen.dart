@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 alignment: Alignment.center,
                 child: Image.asset(
-                  "images/register2.png",
+                  "${AppConstants.imagePath}register2.png",
                   fit: BoxFit.contain,
                   width: Get.width * 0.71,
                   height: Get.height * 0.32,

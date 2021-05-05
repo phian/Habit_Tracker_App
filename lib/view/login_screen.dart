@@ -35,11 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   /// [Body]
   Widget _loginScreenBody() {
-    return _signUpForm();
+    return _signInForm();
   }
 
   /// [Sign up form]
-  Widget _signUpForm() {
+  Widget _signInForm() {
     return Container(
       child: Stack(
         children: [
@@ -73,12 +73,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 40.0),
               _signInBox(
-                  "${AppConstant.imagePath}google.png", "Sign in with Google"),
-              SizedBox(height: 10.0),
-              _signInBox("${AppConstant.imagePath}facebook.png",
-                  "Sign in with Facebook"),
+                "${AppConstants.imagePath}google.png",
+                "Sign in with Google",
+              ).marginOnly(top: 40.0),
+              _signInBox(
+                "${AppConstants.imagePath}facebook.png",
+                "Sign in with Facebook",
+              ).marginOnly(top: 10.0),
+              _signInBox(
+                "${AppConstants.imagePath}ic_apple.png",
+                "Sign in with Facebook",
+              ).marginOnly(top: 10.0),
             ],
           ),
         ],

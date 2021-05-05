@@ -8,7 +8,6 @@ import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
-
 import 'challenge_timeline_screen/challenge_timeline_screen.dart';
 
 class ChallengesScreen extends StatefulWidget {
@@ -24,7 +23,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> implements SideMenu
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: AppConstant.challengeScreenKey,
+      menuKey: AppConstants.challengeScreenKey,
       child: Scaffold(
         backgroundColor: AppColors.cFF1E,
         appBar: _challengesScreenAppBar(),
@@ -44,7 +43,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> implements SideMenu
             color: AppColors.cFFFF,
           ),
           onPressed: () => openOrCloseSideMenu(
-            AppConstant.challengeScreenKey,
+            AppConstants.challengeScreenKey,
           ),
         ),
       ),
@@ -95,13 +94,13 @@ class _ChallengesScreenState extends State<ChallengesScreen> implements SideMenu
                     tag: 0,
                     title: controller.challengeTitles[7],
                     challengeAmount: "10345",
-                    imagePath: "${AppConstant.imagePath}morning_challenge.png",
+                    imagePath: "${AppConstants.imagePath}morning_challenge.png",
                   ),
                   child: Stack(
                     children: [
                       Container(
                         child: Image.asset(
-                          "${AppConstant.imagePath}morning_challenge.png",
+                          "${AppConstants.imagePath}morning_challenge.png",
                           fit: BoxFit.contain,
                           width: Get.width * 0.45,
                           height: Get.height * 0.22,

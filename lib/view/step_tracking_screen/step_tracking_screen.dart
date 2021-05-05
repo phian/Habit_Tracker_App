@@ -39,7 +39,7 @@ class _StepTackingScreenState extends State<StepTackingScreen>
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: AppConstant.stepTrackingScreenKey,
+      menuKey: AppConstants.stepTrackingScreenKey,
       child: Scaffold(
         appBar: _stepTrackingScreenAppBar(),
         body: _stepTrackingScreenBody(),
@@ -66,7 +66,7 @@ class _StepTackingScreenState extends State<StepTackingScreen>
             color: AppColors.cFFFF,
           ),
           onPressed: () => openOrCloseSideMenu(
-            AppConstant.stepTrackingScreenKey,
+            AppConstants.stepTrackingScreenKey,
           ),
         ),
       ),
@@ -169,7 +169,7 @@ class _StepTackingScreenState extends State<StepTackingScreen>
                     padding: EdgeInsets.all(8.0),
                     alignment: Alignment.center,
                     child: Image.asset(
-                      "${AppConstant.imagePath}running.png",
+                      "${AppConstants.imagePath}running.png",
                       fit: BoxFit.contain,
                     ),
                   ),

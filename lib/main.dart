@@ -2,8 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/controller/binding/controller_binding.dart';
+import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/service/notification_service/notification_service.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -68,7 +68,7 @@ class _IntroScreenState extends State<IntroScreen> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Image.asset(
-            "${AppConstant.imagePath}habit_tracker.png",
+            "${AppConstants.imagePath}habit_tracker.png",
             width: 100.0,
             height: 100.0,
           ),

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
-import 'package:habit_tracker/routing/routes.dart';
-
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
+import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
@@ -16,7 +15,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: AppConstant.allHabitScreenKey,
+      menuKey: AppConstants.allHabitScreenKey,
       child: Scaffold(
         backgroundColor: AppColors.cFF1E,
         appBar: _allHabitScreenAppBar(),
@@ -44,7 +43,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
             color: AppColors.cFFFF,
           ),
           onPressed: () => openOrCloseSideMenu(
-            AppConstant.allHabitScreenKey,
+            AppConstants.allHabitScreenKey,
           ),
         ),
       ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/model/diary.dart';
 import 'package:habit_tracker/model/habit.dart';
@@ -146,26 +145,27 @@ class DatabaseHelper {
     ''');
 
     // INSERT DATA SUGGESTED TOPIC
-    await db.execute('''INSERT INTO $tableSuggestedTopic ($topicName, $description, $image) 
+    await db.execute(
+        '''INSERT INTO $tableSuggestedTopic ($topicName, $description, $image) 
         VALUES 
-        ('Trending habits', 'Take a step in a right direction', '${AppConstant.imagePath}trending_habits.png'),
-        ('Staying at home', 'Use this time to do something new', '${AppConstant.imagePath}at_home.png'),
-        ('Preventive care', 'Protect yourself and others', '${AppConstant.imagePath}preventive_care.png'),
-        ('Must-have habits', 'Small efforts, big results', '${AppConstant.imagePath}must_have_habit.png'),
-        ('Morning routine', 'Get started on a productive day', '${AppConstant.imagePath}morning_routine.png'),
-        ('Nighttime rituals', 'Sleep tight for better health', '${AppConstant.imagePath}nighttime_rituals.png'),
-        ('Getting stuff done', 'Boost your every day productivity', '${AppConstant.imagePath}getting_stuff_done.png'),
-        ('Healthy body', 'The foundation of your health well-being', '${AppConstant.imagePath}healthy_body.png'),
-        ('Stress relief', 'Release tension and increase and increase calm', '${AppConstant.imagePath}stress_relief.png'),
-        ('Mindful-self care', 'Take care with daily activities', '${AppConstant.imagePath}self_care.png'),
-        ('Learn and explore', 'Expand your knowledge', '${AppConstant.imagePath}learn_and_explore.png'),
-        ('Staying fit', 'Feel strong and increase enrgy', '${AppConstant.imagePath}staying_fit.png'),
-        ('Personal finance', 'Take constrol of your budget', '${AppConstant.imagePath}personal_finance.png'),
-        ('Loved ones', 'Nature inportant relationships', '${AppConstant.imagePath}loved_ones.png'),
-        ('Around the house', 'Clean your space and your mind', '${AppConstant.imagePath}around_the_house.png'),
-        ('Tracking the diet', 'Keep your tidy body', '${AppConstant.imagePath}tracking_the_diet.png'),
-        ('Live with hobbies', 'Spend this time to do what you like', '${AppConstant.imagePath}live_with_hobbies.png'),
-        ('Remove bad habits', 'Make your life better', '${AppConstant.imagePath}bad_habit.png')
+        ('Trending habits', 'Take a step in a right direction', '${AppConstants.imagePath}trending_habits.png'),
+        ('Staying at home', 'Use this time to do something new', '${AppConstants.imagePath}at_home.png'),
+        ('Preventive care', 'Protect yourself and others', '${AppConstants.imagePath}preventive_care.png'),
+        ('Must-have habits', 'Small efforts, big results', '${AppConstants.imagePath}must_have_habit.png'),
+        ('Morning routine', 'Get started on a productive day', '${AppConstants.imagePath}morning_routine.png'),
+        ('Nighttime rituals', 'Sleep tight for better health', '${AppConstants.imagePath}nighttime_rituals.png'),
+        ('Getting stuff done', 'Boost your every day productivity', '${AppConstants.imagePath}getting_stuff_done.png'),
+        ('Healthy body', 'The foundation of your health well-being', '${AppConstants.imagePath}healthy_body.png'),
+        ('Stress relief', 'Release tension and increase and increase calm', '${AppConstants.imagePath}stress_relief.png'),
+        ('Mindful-self care', 'Take care with daily activities', '${AppConstants.imagePath}self_care.png'),
+        ('Learn and explore', 'Expand your knowledge', '${AppConstants.imagePath}learn_and_explore.png'),
+        ('Staying fit', 'Feel strong and increase enrgy', '${AppConstants.imagePath}staying_fit.png'),
+        ('Personal finance', 'Take constrol of your budget', '${AppConstants.imagePath}personal_finance.png'),
+        ('Loved ones', 'Nature inportant relationships', '${AppConstants.imagePath}loved_ones.png'),
+        ('Around the house', 'Clean your space and your mind', '${AppConstants.imagePath}around_the_house.png'),
+        ('Tracking the diet', 'Keep your tidy body', '${AppConstants.imagePath}tracking_the_diet.png'),
+        ('Live with hobbies', 'Spend this time to do what you like', '${AppConstants.imagePath}live_with_hobbies.png'),
+        ('Remove bad habits', 'Make your life better', '${AppConstants.imagePath}bad_habit.png')
          ''');
 
     // INSERT DATA SUGGESTED HABIT

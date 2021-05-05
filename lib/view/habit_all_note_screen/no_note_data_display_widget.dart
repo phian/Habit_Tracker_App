@@ -11,7 +11,7 @@ class NoNoteDataDisplayWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
-            "${AppConstant.imagePath}note.png",
+            "${AppConstants.imagePath}note.png",
             width: context.width / 3,
             fit: BoxFit.cover,
             color: AppColors.cFFFF,

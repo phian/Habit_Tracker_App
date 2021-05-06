@@ -65,6 +65,7 @@ dependencies:
   shared_preferences: ^2.0.5
   percent_indicator: ^3.0.1
   jiffy: ^4.1.0
+  sign_in_with_apple: ^3.0.0
 
 flutter_icons:
   android: "habit_tracker"

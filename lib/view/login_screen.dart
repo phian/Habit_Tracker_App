@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ).marginOnly(top: 10.0),
               _signInBox(
                 "${AppConstants.imagePath}ic_apple.png",
-                "Sign in with Facebook",
+                "Sign in with Apple",
               ).marginOnly(top: 10.0),
             ],
           ),

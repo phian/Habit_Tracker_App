@@ -24,6 +24,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
     super.initState();
     _categoriesScreenController = Get.put(HabitCategoriesScreenController());
     _categoriesScreenController.initCategoriesCardInfo();
+    _controller = AnimateIconController();
   }
 
   @override
@@ -60,13 +61,14 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
 
               return true;
             },
-            onEndIconPress: () {
-              return true;
-            },
             duration: Duration(milliseconds: 200),
             startIconColor: AppColors.cFFFF,
             endIconColor: AppColors.cFFFF,
             clockwise: true,
+            onEndIconPress: () {
+              print("End icon press");
+              return true;
+            },
           ),
           onPressed: null,
         ),
@@ -149,7 +151,8 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                     ...List.generate(
                       _categoriesScreenController.suggestTopicList.length,
                       (index) => Hero(
-                        tag: _categoriesScreenController.suggestTopicList[index].topicName,
+                        tag: _categoriesScreenController
+                            .suggestTopicList[index].topicName,
                         child: Container(
                           margin: index == 0
                               ? null
@@ -163,7 +166,8 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                               highlightColor: AppColors.c0000,
                               borderRadius: BorderRadius.circular(20.0),
                               onTap: () => _onCategoryCardPressed(index),
-                              child: _categoriesScreenController.habitCategoryCards[index],
+                              child: _categoriesScreenController
+                                  .habitCategoryCards[index],
                             ),
                           ),
                         ),

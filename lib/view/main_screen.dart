@@ -63,7 +63,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
         ),
       ),
       centerTitle: true,
-      backgroundColor: AppColors.c1F00,
+      backgroundColor: AppColors.c1C1C,
       elevation: 0.0,
     );
   }
@@ -81,7 +81,8 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
               startDate: DateTime.now().subtract(Duration(days: 14)),
               endDate: DateTime.now().add(Duration(days: 14)),
               initialFocusedDate: mainScreenController.selectedDay.value,
-              onSelectedDateChange: (DateTime dateTime) {
+              initialSelectedDate: mainScreenController.selectedDay.value,
+              onSelectedDateChange: (dateTime) {
                 mainScreenController.updateFlagValue(true);
                 mainScreenController.changeSelectedDay(dateTime);
                 mainScreenController.getHabitByWeekDate(dateTime.weekday);
@@ -213,7 +214,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       key: ObjectKey(habit),
       leadingActions: [
         SwipeAction(
-          paddingToBoundary: 0,
+          widthSpace: 0,
           content: Container(
             width: 70,
             decoration: BoxDecoration(
@@ -239,7 +240,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
         ),
         if (habit.isSetGoal)
           SwipeAction(
-            paddingToBoundary: 0,
+            widthSpace: 0,
             content: Container(
               width: 70,
               decoration: BoxDecoration(
@@ -260,7 +261,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       ],
       trailingActions: [
         SwipeAction(
-          paddingToBoundary: 0,
+          widthSpace: 0,
           content: Container(
             width: 70,
             decoration: BoxDecoration(
@@ -292,7 +293,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       key: ObjectKey(habit),
       trailingActions: [
         SwipeAction(
-          paddingToBoundary: 0,
+          widthSpace: 0,
           content: Container(
             width: 70,
             decoration: BoxDecoration(
@@ -313,7 +314,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           color: AppColors.c0000,
         ),
         SwipeAction(
-          paddingToBoundary: 0,
+          widthSpace: 0,
           content: Container(
             width: 70,
             decoration: BoxDecoration(

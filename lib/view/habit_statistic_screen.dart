@@ -16,8 +16,8 @@ class HabitStatisticScreen extends StatefulWidget {
 
 class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   AnimateIconController _controller = AnimateIconController();
-  HabitStatisticController _habitStatisticController = Get.put(HabitStatisticController());
-  CalendarController _calendarController = CalendarController();
+  HabitStatisticController _habitStatisticController =
+      Get.put(HabitStatisticController());
 
   final mainScreenController = Get.find<MainScreenController>();
 
@@ -230,7 +230,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
           ),
         ),
         Visibility(
-          visible: _habitStatisticController.habit.value.amount == 0 ? false : true,
+          visible:
+              _habitStatisticController.habit.value.amount == 0 ? false : true,
           child: Column(
             children: [
               Container(
@@ -239,7 +240,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                   () => Row(
                     children: [
                       Text(
-                        _habitStatisticController.finishedAmount.value.toString(),
+                        _habitStatisticController.finishedAmount.value
+                            .toString(),
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
@@ -247,7 +249,10 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                         ),
                       ),
                       Text(
-                        "/" + _habitStatisticController.habit.value.amount.toString() + " ",
+                        "/" +
+                            _habitStatisticController.habit.value.amount
+                                .toString() +
+                            " ",
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
@@ -300,7 +305,9 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                     ),
                     SizedBox(height: 5.0),
                     Text(
-                      _habitStatisticController.habit.value.repeatMode == 0 ? 'Daily' : 'Weekly',
+                      _habitStatisticController.habit.value.repeatMode == 0
+                          ? 'Daily'
+                          : 'Weekly',
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -345,13 +352,16 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
           height: Get.height * 0.55,
           child: TableCalendar(
             locale: 'vi_VN',
-            calendarController: _calendarController,
-            calendarStyle: CalendarStyle(selectedColor: AppColors.cFFFE),
+            calendarStyle: CalendarStyle(
+              selectedDecoration: BoxDecoration(
+                color: AppColors.cFFFE,
+              ),
+            ),
             availableGestures: AvailableGestures.none,
             // headerVisible: false,
-            initialSelectedDay: DateTime.now(),
-            startDay: DateTime.now(),
-            endDay: DateTime.now(),
+            focusedDay: DateTime.now(),
+            firstDay: DateTime.now(),
+            lastDay: DateTime.now(),
           ),
         ),
         Container(
@@ -366,7 +376,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.0),
                 alignment: Alignment.centerRight,
-                transform: Matrix4.translationValues(Get.width * 0.02, 0.0, 0.0),
+                transform:
+                    Matrix4.translationValues(Get.width * 0.02, 0.0, 0.0),
                 child: ClipRRect(
                   child: Image.asset(
                     "images/medal.png",
@@ -414,7 +425,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                           Container(
                             padding: EdgeInsets.only(left: 10.0),
                             child: Text(
-                              _habitStatisticController.longestStreak.value + " days",
+                              _habitStatisticController.longestStreak.value +
+                                  " days",
                               style: TextStyle(
                                 fontSize: 25.0,
                                 fontWeight: FontWeight.bold,
@@ -531,7 +543,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   void _showPauseDialog() async {
     Dialog pauseDialog = Dialog(
       backgroundColor: AppColors.cFF2F,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)), //this right here
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      //this right here
       child: Container(
         height: Get.height * 0.2,
         width: Get.width * 0.7,
@@ -581,7 +594,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   void _showDeleteDialog() async {
     Dialog deleteDialog = Dialog(
       backgroundColor: AppColors.cFF2F,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)), //this right here
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      //this right here
       child: Container(
         child: Column(
           mainAxisSize: MainAxisSize.min,

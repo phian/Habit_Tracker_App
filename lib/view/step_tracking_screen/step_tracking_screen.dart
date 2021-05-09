@@ -1,8 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
+import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/step_tracking_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/view/step_tracking_screen/widgets/daily_chart.dart';
@@ -168,8 +170,8 @@ class _StepTackingScreenState extends State<StepTackingScreen>
                   Container(
                     padding: EdgeInsets.all(8.0),
                     alignment: Alignment.center,
-                    child: Image.asset(
-                      "${AppConstants.imagePath}running.png",
+                    child: SvgPicture.asset(
+                      AppImages.imgRunning,
                       fit: BoxFit.contain,
                     ),
                   ),

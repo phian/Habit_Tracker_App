@@ -1,9 +1,10 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/constants/app_constant.dart';
+import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/login_screen_controller.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -56,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 alignment: Alignment.center,
                 child: Image.asset(
-                  "${AppConstants.imagePath}register2.png",
+                  AppImages.imgRegister2,
                   fit: BoxFit.contain,
                   width: Get.width * 0.71,
                   height: Get.height * 0.32,
@@ -74,15 +75,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               _signInBox(
-                "${AppConstants.imagePath}google.png",
+                AppImages.icGoogle,
                 "Sign in with Google",
               ).marginOnly(top: 40.0),
               _signInBox(
-                "${AppConstants.imagePath}facebook.png",
+                AppImages.icFacebook,
                 "Sign in with Facebook",
               ).marginOnly(top: 10.0),
               _signInBox(
-                "${AppConstants.imagePath}ic_apple.png",
+                AppImages.icApple,
                 "Sign in with Apple",
               ).marginOnly(top: 10.0),
             ],
@@ -121,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
               break;
           }
         },
-        leading: Image.asset(
+        leading: SvgPicture.asset(
           imagePath,
           width: 35.0,
           height: 35.0,

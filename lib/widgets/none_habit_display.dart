@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/constants/app_constant.dart';
+import 'package:habit_tracker/constants/app_images.dart';
 
 class NoneHabitDisplayWidget extends StatelessWidget {
   @override
@@ -12,11 +13,10 @@ class NoneHabitDisplayWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                "${AppConstants.imagePath}plant_pot.png",
+              SvgPicture.asset(
+                AppImages.imgPlantPot,
                 width: Get.width * 0.27,
-                height: Get.height * 0.27,
-              ),
+              ).marginOnly(bottom: 16.0),
               Text(
                 "All tree grown.\nPlant new by clicking \"+\" button",
                 textAlign: TextAlign.center,

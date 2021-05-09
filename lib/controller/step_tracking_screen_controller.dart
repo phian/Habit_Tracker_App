@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/service/database/shared_preference_service.dart';
@@ -208,8 +209,8 @@ class StepTrackingScreenController extends GetxController {
 
   void onChartBarTouchResponse(BarTouchResponse barTouchResponse) {
     if (barTouchResponse.spot != null &&
-        barTouchResponse.touchInput is! FlPanEnd &&
-        barTouchResponse.touchInput is! FlLongPressEnd) {
+        barTouchResponse.touchInput is! PointerUpEvent &&
+        barTouchResponse.touchInput is! PointerExitEvent) {
       changeTouchedIndex(barTouchResponse.spot.touchedBarGroupIndex);
     } else {
       changeTouchedIndex(-1);

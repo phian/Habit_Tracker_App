@@ -1,5 +1,6 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/challenge_time_line_controller.dart';
@@ -79,7 +80,7 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
         children: [
           Container(
             alignment: Alignment.bottomRight,
-            child: Image.asset(
+            child: SvgPicture.asset(
               widget.imagePath,
               fit: BoxFit.contain,
               width: Get.width * 0.45,

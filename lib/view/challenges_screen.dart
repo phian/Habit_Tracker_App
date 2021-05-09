@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
+import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/challenges_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/side_menu.dart';
@@ -17,7 +19,8 @@ class ChallengesScreen extends StatefulWidget {
   _ChallengesScreenState createState() => _ChallengesScreenState();
 }
 
-class _ChallengesScreenState extends State<ChallengesScreen> implements SideMenuModel {
+class _ChallengesScreenState extends State<ChallengesScreen>
+    implements SideMenuModel {
   final controller = Get.find<ChallengesScreenController>();
 
   @override
@@ -94,13 +97,13 @@ class _ChallengesScreenState extends State<ChallengesScreen> implements SideMenu
                     tag: 0,
                     title: controller.challengeTitles[7],
                     challengeAmount: "10345",
-                    imagePath: "${AppConstants.imagePath}morning_challenge.png",
+                    imagePath: AppImages.imgMorningChallenge,
                   ),
                   child: Stack(
                     children: [
                       Container(
-                        child: Image.asset(
-                          "${AppConstants.imagePath}morning_challenge.png",
+                        child: SvgPicture.asset(
+                          AppImages.imgMorningChallenge,
                           fit: BoxFit.contain,
                           width: Get.width * 0.45,
                           height: Get.height * 0.22,
@@ -137,7 +140,8 @@ class _ChallengesScreenState extends State<ChallengesScreen> implements SideMenu
                               child: Container(
                                 width: 120.0,
                                 height: 30.0,
-                                margin: EdgeInsets.only(top: Get.height * 0.3 * 0.1),
+                                margin: EdgeInsets.only(
+                                    top: Get.height * 0.3 * 0.1),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   color: AppColors.c3DFF,
@@ -224,7 +228,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> implements SideMenu
               margin: EdgeInsets.only(right: 5.0),
               padding: EdgeInsets.only(top: Get.height * 0.27 * 0.18),
               alignment: Alignment.centerRight,
-              child: Image.asset(
+              child: SvgPicture.asset(
                 imagePath,
                 height: Get.height * 0.27 * 0.65,
                 width: Get.width * 0.75 * 0.5,

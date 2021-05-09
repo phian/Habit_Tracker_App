@@ -1,13 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/binding/controller_binding.dart';
 import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/service/notification_service/notification_service.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-import 'constants/app_constant.dart';
 import 'controller/binding/controller_binding.dart';
 import 'routing/pages.dart';
 
@@ -67,8 +68,8 @@ class _IntroScreenState extends State<IntroScreen> {
       body: Center(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
-          child: Image.asset(
-            "${AppConstants.imagePath}habit_tracker.png",
+          child: SvgPicture.asset(
+            AppImages.icHabiTracker,
             width: 100.0,
             height: 100.0,
           ),

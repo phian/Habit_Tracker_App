@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/model/diary.dart';
 import 'package:habit_tracker/service/database/database_helper.dart';

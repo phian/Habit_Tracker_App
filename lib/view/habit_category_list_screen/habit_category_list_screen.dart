@@ -1,6 +1,7 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/habit_category_list_screen_controller.dart';
@@ -87,7 +88,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
           ),
           Container(
             padding: EdgeInsets.only(left: Get.width * 0.5, top: 30.0),
-            child: Image.asset(
+            child: SvgPicture.asset(
               widget.imagePath,
               fit: BoxFit.contain,
               width: Get.size.width * 0.6,

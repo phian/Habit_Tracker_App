@@ -47,7 +47,7 @@ dependencies:
   timeline_list: ^0.0.5
   flutter_animation_progress_bar: ^2.0.0
   table_calendar: ^3.0.0
-  fl_chart: ^0.12.2
+  fl_chart: ^0.36.1
   # percent_indicator: ^2.1.9
   flutter_swipe_action_cell: ^2.0.7
   flutter_launcher_icons: ^0.9.0
@@ -66,11 +66,12 @@ dependencies:
   percent_indicator: ^3.0.1
   jiffy: ^4.1.0
 #  sign_in_with_apple: ^3.0.0
+  flutter_svg: ^0.22.0
 
 flutter_icons:
   android: "habit_tracker"
   ios: true
-  image_path: "assets/app_icon/habit_tracker.png"
+  image_path: "assets/icons/ic_habit_tracker.svg"
 
 dev_dependencies:
   flutter_test:
@@ -92,7 +93,9 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-      - assets/
+    - assets/images/
+    - assets/icons/
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

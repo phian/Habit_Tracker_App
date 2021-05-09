@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 
 class HabitCateGoryCard extends StatelessWidget {
@@ -45,7 +46,7 @@ class HabitCateGoryCard extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(right: 15.0),
-            child: Image.asset(
+            child: SvgPicture.asset(
               imagePath,
               width: 100.0,
               height: 100.0,

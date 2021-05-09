@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/constants/app_constant.dart';
+import 'package:habit_tracker/constants/app_images.dart';
 
 class NoNoteDataDisplayWidget extends StatelessWidget {
   @override
@@ -10,8 +11,8 @@ class NoNoteDataDisplayWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(
-            "${AppConstants.imagePath}note.png",
+          SvgPicture.asset(
+            AppImages.icNote,
             width: context.width / 3,
             fit: BoxFit.cover,
             color: AppColors.cFFFF,

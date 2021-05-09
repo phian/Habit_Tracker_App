@@ -1,8 +1,10 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
+import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/create_habit_screen_controller.dart';
 
 import '../challenge_timeline_screen/challenge_time_line_screen_variables.dart';
@@ -40,8 +42,8 @@ class _CreateAndEditHabitScreenAppBarState extends State<CreateAndEditHabitScree
               bottomLeft: Radius.circular(20.0),
               bottomRight: Radius.circular(20.0),
             ),
-            child: Image.asset(
-              "images/forest.png",
+            child: SvgPicture.asset(
+              AppImages.imgForest,
               fit: BoxFit.cover,
               width: Get.size.width,
               height: Get.size.height * 0.3,

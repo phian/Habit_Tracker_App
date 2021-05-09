@@ -1,12 +1,13 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/routing/routes.dart';
-
+import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
+import 'package:habit_tracker/routing/routes.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HabitStatisticScreen extends StatefulWidget {
@@ -379,8 +380,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                 transform:
                     Matrix4.translationValues(Get.width * 0.02, 0.0, 0.0),
                 child: ClipRRect(
-                  child: Image.asset(
-                    "images/medal.png",
+                  child: SvgPicture.asset(
+                    AppImages.imgMedal,
                     fit: BoxFit.contain,
                     height: Get.height * 0.3 * 0.9,
                   ),
@@ -416,8 +417,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                       padding: EdgeInsets.only(top: 30.0),
                       child: Row(
                         children: [
-                          Image.asset(
-                            "images/trophy.png",
+                          SvgPicture.asset(
+                            AppImages.icTrophy,
                             width: 30.0,
                             height: 30.0,
                             color: AppColors.cFFC7,
@@ -552,7 +553,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(15.0),
+              padding: EdgeInsets.all(12.0),
               child: Text(
                 "Paused a habit? It's still on your schedule and can be resued when you're ready",
                 style: TextStyle(
@@ -564,16 +565,18 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
             SizedBox(height: 10.0),
             Container(
               alignment: Alignment.bottomRight,
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
                 ),
                 onPressed: () => _onPauseItemButtonPressed(),
                 child: Text(
                   'Got it',
                   style: TextStyle(color: AppColors.cFF1C, fontSize: 18.0),
                 ),
-              ),
+              ).marginOnly(right: 12.0),
             )
           ],
         ),

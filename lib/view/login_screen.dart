@@ -4,6 +4,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/login_screen_controller.dart';
 
@@ -56,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Container(
                 alignment: Alignment.center,
-                child: Image.asset(
+                child: SvgPicture.asset(
                   AppImages.imgRegister2,
                   fit: BoxFit.contain,
                   width: Get.width * 0.71,
@@ -75,16 +76,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               _signInBox(
-                AppImages.icGoogle,
-                "Sign in with Google",
+                LoginType.google,
               ).marginOnly(top: 40.0),
               _signInBox(
-                AppImages.icFacebook,
-                "Sign in with Facebook",
+                LoginType.facebook,
               ).marginOnly(top: 10.0),
               _signInBox(
-                AppImages.icApple,
-                "Sign in with Apple",
+                LoginType.apple,
               ).marginOnly(top: 10.0),
             ],
           ),
@@ -93,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _signInBox(String imagePath, String title) {
+  Widget _signInBox(LoginType type) {
     return Container(
       alignment: Alignment.center,
       height: Get.height * 0.1,
@@ -106,29 +104,33 @@ class _LoginScreenState extends State<LoginScreen> {
           borderRadius: BorderRadius.circular(100.0),
         ),
         onTap: () async {
-          switch (title) {
-            case "Sign in with Google":
+          switch (type) {
+            case LoginType.google:
               var user = await _loginScreenController.signInWithGoogle();
               if (user != null) {
+                Get.back(result: "Success");
                 _showSignInNotificationDialog();
               }
               break;
-            case "Sign in with Facebook":
+            case LoginType.facebook:
               var loginState =
                   await _loginScreenController.signInWithFacebook();
               if (loginState == FacebookLoginStatus.loggedIn) {
                 _showSignInNotificationDialog();
               }
               break;
+            case LoginType.apple:
+              break;
           }
         },
         leading: SvgPicture.asset(
-          imagePath,
+          type.loginTypeIcon,
           width: 35.0,
           height: 35.0,
+          color: type == LoginType.apple ? AppColors.cFFFF : null,
         ),
         title: Text(
-          title,
+          type.loginTypeText,
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.w500,

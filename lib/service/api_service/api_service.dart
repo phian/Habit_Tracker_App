@@ -3,27 +3,46 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class APIService {
+  static APIService _apiService;
+
+  static APIService get instance {
+    if (_apiService == null) {
+      _apiService = APIService();
+      return _apiService;
+    } else {
+      return _apiService;
+    }
+  }
+
+  /// Google
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User currentGoogleUser;
+  GoogleSignIn googleSignIn;
+  GoogleSignInAccount googleSignInAccount;
+  UserCredential userCredential;
+  AuthCredential credential;
+  GoogleSignInAuthentication googleSignInAuthentication;
+
+  User get googleUser => currentGoogleUser;
+
   Future<User> signInWithGoogle() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User user;
+    auth = FirebaseAuth.instance;
 
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    googleSignIn = GoogleSignIn();
+    googleSignInAccount = await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
+      googleSignInAuthentication = await googleSignInAccount.authentication;
 
-      final AuthCredential credential = GoogleAuthProvider.credential(
+      credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
 
       try {
-        final UserCredential userCredential = await auth.signInWithCredential(credential);
+        userCredential = await auth.signInWithCredential(credential);
 
-        user = userCredential.user;
+        currentGoogleUser = userCredential.user;
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           // handle the error here
@@ -36,12 +55,16 @@ class APIService {
       }
     }
 
-    return user;
+    return currentGoogleUser;
   }
 
+  /// Facebook
+  FacebookLogin facebookLogin;
+  FacebookLoginResult facebookLoginResult;
+
   Future<FacebookLoginStatus> signInWithFacebook() async {
-    var facebookLogin = FacebookLogin();
-    var facebookLoginResult = await facebookLogin.logIn(['email']);
+    facebookLogin = FacebookLogin();
+    facebookLoginResult = await facebookLogin.logIn(['email']);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.cancelledByUser:
         print("CancelledByUser");
@@ -53,5 +76,13 @@ class APIService {
         print("Error");
         return FacebookLoginStatus.error;
     }
+  }
+
+  Future<void> googleSignOut() async {
+    await auth.signOut();
+  }
+
+  Future<void> facebookSignOut() async {
+    await facebookLogin.logOut();
   }
 }

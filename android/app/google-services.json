@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1009484410181:android:63d366980247e502e0a22c",
+        "android_client_info": {
+          "package_name": "com.app.flutter.habitracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009484410181-i82ag99d48pouglcpf2g8ug1b2lvpsv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUTZjUeZGGulJM4JYcRAxfFpE0POplNTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009484410181-i82ag99d48pouglcpf2g8ug1b2lvpsv2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1009484410181-bdiigm82v946dm2793faatiajaarj91c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.flutter.habitracker"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1009484410181:android:4ebeb131a17cd466e0a22c",
         "android_client_info": {
           "package_name": "com.example.habit_tracker"
@@ -37,6 +73,13 @@
             {
               "client_id": "1009484410181-i82ag99d48pouglcpf2g8ug1b2lvpsv2.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1009484410181-bdiigm82v946dm2793faatiajaarj91c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.flutter.habitracker"
+              }
             }
           ]
         }

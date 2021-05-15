@@ -24,17 +24,17 @@ dependencies:
   flutter:
     sdk: flutter
 
-  #  flutter_date_picker_timeline:
-  #    git:
-  #      url: https://github.com/khduy/flutter_date_picker_timeline
+  flutter_date_picker_timeline:
+    git:
+      url: https://github.com/khduy/flutter_date_picker_timeline
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3
   intl: ^0.17.0
-  #morpheus: ^1.2.2+1
-  #line_icons: ^0.2.0
+  # morpheus: ^1.2.2+1
+  # line_icons: ^0.2.0
   shrink_sidemenu: ^1.0.0+3
-  #liquid_ui: ^1.0.0+9
+  # liquid_ui: ^1.0.0+9
   # page_transition: ^1.1.7+3
   animate_icons: ^2.0.0
   get:
@@ -42,8 +42,8 @@ dependencies:
   select_form_field: ^2.0.0
   sqflite: ^2.0.0+3
   cool_alert: ^1.1.0
-  flutter_date_picker_timeline: ^0.3.1
-  #scroll_snap_list: ^0.6.0
+  # flutter_date_picker_timeline: ^0.3.1
+  # scroll_snap_list: ^0.6.0
   timeline_list: ^0.0.5
   flutter_animation_progress_bar: ^2.0.0
   table_calendar: ^3.0.0
@@ -65,7 +65,7 @@ dependencies:
   shared_preferences: ^2.0.5
   percent_indicator: ^3.0.1
   jiffy: ^4.1.0
-#  sign_in_with_apple: ^3.0.0
+  # sign_in_with_apple: ^3.0.0
   flutter_svg: ^0.22.0
 
 flutter_icons:
@@ -76,7 +76,7 @@ flutter_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+#  change_app_package_name: ^1.0.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

@@ -81,7 +81,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
               startDate: DateTime.now().subtract(Duration(days: 14)),
               endDate: DateTime.now().add(Duration(days: 14)),
               initialFocusedDate: mainScreenController.selectedDay.value,
-              initialSelectedDate: mainScreenController.selectedDay.value,
+              // initialSelectedDate: mainScreenController.selectedDay.value,
               onSelectedDateChange: (dateTime) {
                 mainScreenController.updateFlagValue(true);
                 mainScreenController.changeSelectedDay(dateTime);

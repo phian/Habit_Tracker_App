@@ -19,6 +19,8 @@ class AppConstants {
 
   static const googleUserNameKey = "GOOGLE_USER_NAME_KEY";
   static const googleUserPhotoURLKey = "GOOGLE_USER_PHOTO_KEY";
+  static const facebookUserNameKey = "FACEBOOK_USER_NAME_KEY";
+  static const facebookUserPhotoURLKey = "FACEBOOK_USER_PHOTO_KEY";
 }
 
 enum AllNoteLoadingState {

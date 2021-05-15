@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class APIService {
@@ -32,7 +32,11 @@ class APIService {
     googleSignInAccount = await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
-      googleSignInAuthentication = await googleSignInAccount.authentication;
+      try {
+        googleSignInAuthentication = await googleSignInAccount.authentication;
+      } catch (e, r) {
+        print("$e, $r");
+      }
 
       credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
@@ -59,23 +63,40 @@ class APIService {
   }
 
   /// Facebook
+  // Create an instance of FacebookLogin
   FacebookLogin facebookLogin;
   FacebookLoginResult facebookLoginResult;
 
   Future<FacebookLoginStatus> signInWithFacebook() async {
     facebookLogin = FacebookLogin();
-    facebookLoginResult = await facebookLogin.logIn(['email']);
+    try {
+      facebookLoginResult = await facebookLogin.expressLogin();
+    } catch (e, r) {
+      throw e;
+    }
+
     switch (facebookLoginResult.status) {
-      case FacebookLoginStatus.cancelledByUser:
+      case FacebookLoginStatus.cancel:
         print("CancelledByUser");
-        return FacebookLoginStatus.cancelledByUser;
-      case FacebookLoginStatus.loggedIn:
+        return FacebookLoginStatus.cancel;
+      case FacebookLoginStatus.success:
         print("LoggedIn");
-        return FacebookLoginStatus.loggedIn;
+        return FacebookLoginStatus.success;
       default:
         print("Error");
         return FacebookLoginStatus.error;
     }
+  }
+
+  Future<String> getFacebookUserPhotoURL() async {
+    final imageUrl = await facebookLogin.getProfileImageUrl(width: 100);
+    return imageUrl;
+  }
+
+  Future<String> getFacebookUserProfileName() async {
+    // Get profile data
+    final profile = await facebookLogin.getUserProfile();
+    return profile.name;
   }
 
   Future<void> googleSignOut() async {

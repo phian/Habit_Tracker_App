@@ -58,16 +58,16 @@ class _ScreenMenuState extends State<ScreenMenu> {
                   Container(
                     width: 70.0,
                     child: ClipOval(
-                      child: _menuController.imagePath.value == ""
-                          ? Icon(
-                              Icons.account_circle,
-                              size: 60.0,
-                            )
-                          : Obx(
-                              () => Image.network(
+                      child: Obx(
+                        () => _menuController.imagePath.value.isEmpty
+                            ? Icon(
+                                Icons.account_circle,
+                                size: 60.0,
+                              )
+                            : Image.network(
                                 _menuController.imagePath.value,
                               ),
-                            ),
+                      ),
                     ),
                   ),
                   SizedBox(height: 16.0),

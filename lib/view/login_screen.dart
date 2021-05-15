@@ -1,6 +1,6 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
@@ -115,7 +115,8 @@ class _LoginScreenState extends State<LoginScreen> {
             case LoginType.facebook:
               var loginState =
                   await _loginScreenController.signInWithFacebook();
-              if (loginState == FacebookLoginStatus.loggedIn) {
+              if (loginState == FacebookLoginStatus.success) {
+                Get.back(result: "Success");
                 _showSignInNotificationDialog();
               }
               break;

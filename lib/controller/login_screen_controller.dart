@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/service/api_service/api_service.dart';
@@ -24,7 +24,7 @@ class LoginScreenController extends GetxController {
   Future<User> signInWithGoogle() async {
     var user = await apiService.signInWithGoogle();
     if (user != null) {
-      _saveUserData(user);
+      _saveUserData(LoginType.google);
     }
 
     return user;
@@ -32,20 +32,40 @@ class LoginScreenController extends GetxController {
 
   Future<FacebookLoginStatus> signInWithFacebook() async {
     var facebookStatus = await apiService.signInWithFacebook();
+    if (facebookStatus == FacebookLoginStatus.success) {
+      _saveUserData(LoginType.facebook);
+    }
     return facebookStatus;
   }
 
-  void _saveUserData(var data) async {
+  void _saveUserData(LoginType type) async {
     var pref = await _preferenceService.getPref();
-    if (data is User) {
-      pref.setString(
-        AppConstants.googleUserNameKey,
-        apiService.currentGoogleUser.displayName,
-      );
-      pref.setString(
-        AppConstants.googleUserPhotoURLKey,
-        apiService.currentGoogleUser.photoURL,
-      );
+    switch (type) {
+      case LoginType.google:
+        pref.setString(
+          AppConstants.googleUserNameKey,
+          apiService.googleUser.displayName,
+        );
+        pref.setString(
+          AppConstants.googleUserPhotoURLKey,
+          apiService.googleUser.photoURL,
+        );
+        break;
+      case LoginType.facebook:
+        var userProfileName = await apiService.getFacebookUserProfileName();
+        var userPhoto = await apiService.getFacebookUserPhotoURL();
+        pref.setString(
+          AppConstants.facebookUserNameKey,
+          userProfileName,
+        );
+        pref.setString(
+          AppConstants.facebookUserPhotoURLKey,
+          userPhoto,
+        );
+
+        break;
+      case LoginType.apple:
+        break;
     }
   }
 }

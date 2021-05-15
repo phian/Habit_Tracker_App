@@ -6,7 +6,7 @@ import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
-import 'package:habit_tracker/widgets/side_menu.dart';
+import 'package:habit_tracker/widgets/side_menu/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class AllHabitsScreen extends StatelessWidget implements SideMenuModel {

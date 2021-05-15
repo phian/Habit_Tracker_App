@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/service/api_service/api_service.dart';
+import 'package:habit_tracker/service/database/shared_preference_service.dart';
 
 class LoginScreenController extends GetxController {
-  APIService apiService = APIService();
+  APIService apiService = APIService.instance;
+  SharedPreferenceService _preferenceService = SharedPreferenceService.instance;
 
   var isLoginOrSignup = 1.obs;
   var isLoginVisible = true.obs;
@@ -19,10 +22,50 @@ class LoginScreenController extends GetxController {
   }
 
   Future<User> signInWithGoogle() async {
-    return await apiService.signInWithGoogle();
+    var user = await apiService.signInWithGoogle();
+    if (user != null) {
+      _saveUserData(LoginType.google);
+    }
+
+    return user;
   }
 
   Future<FacebookLoginStatus> signInWithFacebook() async {
-    return await apiService.signInWithFacebook();
+    var facebookStatus = await apiService.signInWithFacebook();
+    if (facebookStatus == FacebookLoginStatus.success) {
+      _saveUserData(LoginType.facebook);
+    }
+    return facebookStatus;
+  }
+
+  void _saveUserData(LoginType type) async {
+    var pref = await _preferenceService.getPref();
+    switch (type) {
+      case LoginType.google:
+        pref.setString(
+          AppConstants.googleUserNameKey,
+          apiService.googleUser.displayName,
+        );
+        pref.setString(
+          AppConstants.googleUserPhotoURLKey,
+          apiService.googleUser.photoURL,
+        );
+        break;
+      case LoginType.facebook:
+        var userProfileName = await apiService.getFacebookUserProfileName();
+        var userPhoto = await apiService.getFacebookUserPhotoURL();
+        pref.setString(
+          AppConstants.facebookUserNameKey,
+          userProfileName,
+        );
+        pref.setString(
+          AppConstants.facebookUserPhotoURLKey,
+          userPhoto,
+        );
+
+        break;
+      case LoginType.apple:
+        break;
+    }
   }
 }

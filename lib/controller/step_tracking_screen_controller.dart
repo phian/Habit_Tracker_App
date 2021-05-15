@@ -41,28 +41,21 @@ class StepTrackingScreenController extends GetxController {
     if (_selectedIndex != index) {
       _selectedIndex = index;
 
-      this.currentData.value = this.currentData.value != currentData
-          ? currentData
-          : this.currentData.value;
+      this.currentData.value =
+          this.currentData.value != currentData ? currentData : this.currentData.value;
 
-      this.timeData.value =
-          this.timeData.value != timeData ? timeData : this.timeData.value;
+      this.timeData.value = this.timeData.value != timeData ? timeData : this.timeData.value;
 
-      this.caloriesData.value = this.caloriesData.value != caloriesData
-          ? caloriesData
-          : this.caloriesData.value;
+      this.caloriesData.value =
+          this.caloriesData.value != caloriesData ? caloriesData : this.caloriesData.value;
 
-      this.distanceData.value = this.distanceData.value != distanceData
-          ? distanceData
-          : this.distanceData.value;
+      this.distanceData.value =
+          this.distanceData.value != distanceData ? distanceData : this.distanceData.value;
 
-      this.totalSteps.value = this.totalSteps.value != totalSteps
-          ? totalSteps
-          : this.totalSteps.value;
+      this.totalSteps.value =
+          this.totalSteps.value != totalSteps ? totalSteps : this.totalSteps.value;
 
-      this.goalSteps.value = this.goalSteps.value != goalSteps
-          ? goalSteps
-          : this.currentData.value;
+      this.goalSteps.value = this.goalSteps.value != goalSteps ? goalSteps : this.currentData.value;
     }
   }
 
@@ -252,7 +245,7 @@ class StepTrackingScreenController extends GetxController {
 
   void saveStepsValue(var key, int value) async {
     var pref = await _sharedPrefService.getPref();
-    pref.setInt(key, value);
+    pref.setInt(key.toString(), value);
   }
 
   void updateTotalSteps(int newSteps) {

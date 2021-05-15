@@ -219,9 +219,11 @@ packages:
   flutter_date_picker_timeline:
     dependency: "direct main"
     description:
-      name: flutter_date_picker_timeline
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "407ebfa576c4c85d5b8eaa86db521c5e98590061"
+      url: "https://github.com/khduy/flutter_date_picker_timeline"
+    source: git
     version: "0.3.1"
   flutter_iconpicker:
     dependency: "direct main"

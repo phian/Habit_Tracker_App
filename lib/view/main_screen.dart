@@ -10,7 +10,7 @@ import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
-import 'package:habit_tracker/widgets/side_menu.dart';
+import 'package:habit_tracker/widgets/side_menu/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import '../model/habit.dart';
@@ -81,7 +81,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
               startDate: DateTime.now().subtract(Duration(days: 14)),
               endDate: DateTime.now().add(Duration(days: 14)),
               initialFocusedDate: mainScreenController.selectedDay.value,
-              initialSelectedDate: mainScreenController.selectedDay.value,
+              // initialSelectedDate: mainScreenController.selectedDay.value,
               onSelectedDateChange: (dateTime) {
                 mainScreenController.updateFlagValue(true);
                 mainScreenController.changeSelectedDay(dateTime);

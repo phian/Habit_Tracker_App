@@ -2,29 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/routing/routes.dart';
+import 'package:habit_tracker/widgets/side_menu/side_menu_controller.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
-
-class ScreenMenu extends StatelessWidget {
+class ScreenMenu extends StatefulWidget {
   final Widget child;
   final GlobalKey menuKey;
 
   ScreenMenu({this.child, this.menuKey});
 
   @override
+  _ScreenMenuState createState() => _ScreenMenuState();
+}
+
+class _ScreenMenuState extends State<ScreenMenu> {
+  final SideMenuController _menuController = Get.put(SideMenuController());
+
+  @override
+  void initState() {
+    super.initState();
+    _menuController.initUserInfo();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SideMenu(
       background: AppColors.cFF2F,
-      key: menuKey,
+      key: widget.menuKey,
       inverse: false,
       type: SideMenuType.slideNRotate,
       menu: _buildMenu(),
-      child: child,
+      child: widget.child,
     );
   }
 
   /// [Side menu]
   Widget _buildMenu() {
+    _menuController.initUserInfo();
+
     return Container(
       child: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(
@@ -40,27 +55,29 @@ class ScreenMenu extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: AppColors.cFFFF,
-                    radius: 35.0,
-                    child: Icon(
-                      Icons.account_circle,
-                      size: 60.0,
+                  Container(
+                    width: 70.0,
+                    child: ClipOval(
+                      child: Obx(
+                        () => _menuController.imagePath.value.isEmpty
+                            ? Icon(
+                                Icons.account_circle,
+                                size: 60.0,
+                              )
+                            : Image.network(
+                                _menuController.imagePath.value,
+                              ),
+                      ),
                     ),
                   ),
                   SizedBox(height: 16.0),
-                  // LText(
-                  //   "\l.lead{Hello},\n\l.lead.bold{User}",
-                  //   baseStyle: TextStyle(
-                  //     color: Colors.white,
-                  //     fontSize: 20.0,
-                  //   ),
-                  // ),
-                  Text(
-                    "Hello, User",
-                    style: TextStyle(
-                      color: AppColors.cFFFF,
-                      fontSize: 20.0,
+                  Obx(
+                    () => Text(
+                      "Hello, ${_menuController.userName.value}",
+                      style: TextStyle(
+                        color: AppColors.cFFFF,
+                        fontSize: 20.0,
+                      ),
                     ),
                   ),
                   SizedBox(height: 20.0),
@@ -99,13 +116,16 @@ class ScreenMenu extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
-        onTap: () {
+        onTap: () async {
           if (icon == Icons.access_time) {
             Get.toNamed(Routes.NOTIFICATION);
           } else if (icon == Icons.settings) {
             Get.toNamed(Routes.GENERAL);
           } else {
-            Get.toNamed(Routes.LOGIN);
+            var result = await Get.toNamed(Routes.LOGIN);
+            if (result != null) {
+              _menuController.initUserInfo();
+            }
           }
         },
         leading: Icon(

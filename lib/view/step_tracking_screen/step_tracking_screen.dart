@@ -10,7 +10,7 @@ import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/view/step_tracking_screen/widgets/daily_chart.dart';
 import 'package:habit_tracker/view/step_tracking_screen/widgets/monthly_chart.dart';
 import 'package:habit_tracker/view/step_tracking_screen/widgets/weekly_chart.dart';
-import 'package:habit_tracker/widgets/side_menu.dart';
+import 'package:habit_tracker/widgets/side_menu/side_menu.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';

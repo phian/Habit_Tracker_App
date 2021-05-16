@@ -7,7 +7,7 @@ import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/challenges_screen_controller.dart';
 import 'package:habit_tracker/model/side_menu_model.dart';
-import 'package:habit_tracker/widgets/side_menu.dart';
+import 'package:habit_tracker/widgets/side_menu/side_menu.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import 'challenge_timeline_screen/challenge_timeline_screen.dart';

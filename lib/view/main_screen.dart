@@ -214,7 +214,6 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       key: ObjectKey(habit),
       leadingActions: [
         SwipeAction(
-          widthSpace: 0,
           content: Container(
             width: 70,
             decoration: BoxDecoration(
@@ -240,7 +239,6 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
         ),
         if (habit.isSetGoal)
           SwipeAction(
-            widthSpace: 0,
             content: Container(
               width: 70,
               decoration: BoxDecoration(
@@ -261,7 +259,6 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       ],
       trailingActions: [
         SwipeAction(
-          widthSpace: 0,
           content: Container(
             width: 70,
             decoration: BoxDecoration(
@@ -280,7 +277,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           color: AppColors.c0000,
         ),
       ],
-      child: _habitTile(
+      child: habitTile(
           habit,
           mainScreenController.listHabitProcess
               .indexWhere((element) => element.habitId == process.habitId)),
@@ -293,7 +290,6 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
       key: ObjectKey(habit),
       trailingActions: [
         SwipeAction(
-          widthSpace: 0,
           content: Container(
             width: 70,
             decoration: BoxDecoration(
@@ -314,7 +310,6 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           color: AppColors.c0000,
         ),
         SwipeAction(
-          widthSpace: 0,
           content: Container(
             width: 70,
             decoration: BoxDecoration(
@@ -334,7 +329,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           color: AppColors.c0000,
         ),
       ],
-      child: _habitTile(
+      child: habitTile(
         habit,
         mainScreenController.listHabitProcess
             .indexWhere((element) => element.habitId == process.habitId),
@@ -342,9 +337,13 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
     );
   }
 
-  Widget _habitTile(Habit habit, int index) {
-    return Obx(
-      () => GestureDetector(
+  Widget habitTile(Habit habit, int index) {
+    return Obx(() {
+      bool isSkiped = mainScreenController.listHabitProcess[index].isSkip;
+      bool isCompleted = mainScreenController.listHabitProcess[index].result == habit.amount &&
+          mainScreenController.listHabitProcess[index].result > 0;
+      bool isNotSetGoalAndCompleted = mainScreenController.listHabitProcess[index].result == -1;
+      return GestureDetector(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
           decoration:
@@ -358,17 +357,9 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                 child: Icon(
                   IconData(habit.icon, fontFamily: 'MaterialIcons'),
                   size: 50,
-                  color: mainScreenController.listHabitProcess[index].isSkip == true ||
-                          mainScreenController.listHabitProcess[index].result == -1 ||
-                          mainScreenController.listHabitProcess[index].result == habit.amount &&
-                              habit.amount != 0
+                  color: isSkiped || isCompleted || isNotSetGoalAndCompleted
                       ? AppColors.cFF9E
-                      : Color(
-                          int.parse(
-                            habit.color,
-                            radix: 16,
-                          ),
-                        ),
+                      : Color(int.parse(habit.color, radix: 16)),
                 ),
               ),
               Expanded(
@@ -382,20 +373,32 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                         habit.habitName,
                         style: TextStyle(
                           fontSize: 22,
-                          decoration: mainScreenController.listHabitProcess[index].result == -1 ||
-                                  mainScreenController.listHabitProcess[index].result ==
-                                          habit.amount &&
-                                      habit.amount != 0
+                          decoration: isCompleted || isNotSetGoalAndCompleted
                               ? TextDecoration.lineThrough
                               : TextDecoration.none,
                         ),
                         maxLines: 2,
                       ),
-                      if (mainScreenController.listHabitProcess[index].isSkip == true)
+                      if (isSkiped)
                         Text(
                           'Skipped',
                           style: TextStyle(
                               color: AppColors.cFFFE, fontSize: 15, fontStyle: FontStyle.italic),
+                        ),
+                      if (isCompleted || isNotSetGoalAndCompleted)
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.check,
+                              size: 18,
+                              color: AppColors.cFF11,
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              '11 day streak !!',
+                              style: TextStyle(color: AppColors.cFF11, fontSize: 16),
+                            ),
+                          ],
                         )
                     ],
                   ),
@@ -414,6 +417,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                             habit.amount.toString(),
                         style: TextStyle(
                           fontSize: 20,
+                          fontWeight: FontWeight.bold,
                           color: Color(
                             int.parse(habit.color, radix: 16),
                           ),
@@ -430,8 +434,8 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
           ),
         ),
         onTap: () => _moveToHabitStatisticScreen(habit),
-      ),
-    );
+      );
+    });
   }
 
   @override

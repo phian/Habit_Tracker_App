@@ -1,10 +1,10 @@
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/model/diary.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/model/suggest_topic.dart';
 import 'package:habit_tracker/model/suggested_habit.dart';
-import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -52,7 +52,7 @@ class DatabaseHelper {
   // table SUGGESTED HABIT
   final tableSuggestedHabit = 'suggested_habit';
 
-  final DateFormat dateFormatter = DateFormat('yyyy-MM-dd');
+  
 
   DatabaseHelper._privateConstructor();
 
@@ -377,7 +377,7 @@ class DatabaseHelper {
   Future<List<Process>> getListHabitProcessByDate(DateTime date) async {
     Database db = await instance.database;
     // convert Datetime sang Sting đúng format
-    String formatedDate = dateFormatter.format(date);
+    String formatedDate = AppConstants.dateFormatter.format(date);
     List<Process> listProcess = [];
     try {
       var res = await db.query(
@@ -397,10 +397,10 @@ class DatabaseHelper {
     return listProcess;
   }
 
-  Future<int> insertProcess(int idHabit, DateTime date) async {
+  Future<int> createNewProcess(int idHabit, DateTime date) async {
     Database db = await instance.database;
     // convert Datetime sang Sting đúng format
-    String formatedDate = dateFormatter.format(date);
+    String formatedDate = AppConstants.dateFormatter.format(date);
     int rs = 0;
     try {
       rs = await db.rawInsert(
@@ -432,7 +432,7 @@ class DatabaseHelper {
   Future<List<Diary>> getNote(int idHabit, DateTime date) async {
     Database db = await instance.database;
     // convert Datetime sang Sting đúng format
-    String formatedDate = dateFormatter.format(date);
+    String formatedDate = AppConstants.dateFormatter.format(date);
     List<Diary> diarys = [];
     try {
       var rs = await db.query(

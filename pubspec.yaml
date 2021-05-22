@@ -47,7 +47,7 @@ dependencies:
   table_calendar: ^3.0.0
   fl_chart: ^0.36.1
   # percent_indicator: ^2.1.9
-  flutter_swipe_action_cell: ^2.0.7
+  flutter_swipe_action_cell: ^2.1.0
   flutter_launcher_icons: ^0.9.0
   flutter_spinkit: ^5.0.0
   firebase_core: ^1.1.1

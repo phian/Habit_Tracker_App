@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/service/database/database_helper.dart';
@@ -6,22 +7,31 @@ import 'package:intl/intl.dart';
 import 'utils/ultis.dart';
 
 class MainScreenController extends GetxController {
-  var selectedDay = DateTime.now().obs;
+  var selectedDate = DateTime.now().obs;
   var listAllHabit = <Habit>[].obs;
   var listAnytimeHabit = <Habit>[].obs;
   var listMorningHabit = <Habit>[].obs;
   var listAfternoonHabit = <Habit>[].obs;
   var listEveningHabit = <Habit>[].obs;
   var isLoading = true.obs;
-  var listHabitProcess = <Process>[].obs;
+
+  /// Danh sách process theo ngày
+  var listProcessByDay = <Process>[].obs;
   var appBarTitle = 'Today'.obs;
 
   // format appbar title
   final DateFormat appBarFormatter = DateFormat('MMMM, d');
 
-  changeSelectedDay(DateTime date) {
-    if (selectedDay.value != date) {
-      selectedDay.value = date;
+  @override
+  void onInit() {
+    getAllHabit();
+    super.onInit();
+  }
+
+  /// Set lại selectedDay và
+  void changeSelectedDay(DateTime date) {
+    if (selectedDate.value != date) {
+      selectedDate.value = date;
 
       if (date.isToday()) {
         appBarTitle.value = 'Today';
@@ -30,63 +40,48 @@ class MainScreenController extends GetxController {
       } else if (date.isYesterday()) {
         appBarTitle.value = 'Yesterday';
       } else {
-        appBarTitle.value = appBarFormatter.format(selectedDay.value);
+        appBarTitle.value = appBarFormatter.format(selectedDate.value);
       }
     }
   }
 
-  int updateHabitProcess({Habit habit}) {
-    if (habit.isSetGoal)
-      return habit.amount;
-    else
-      return -1;
+  /// Tìm ngày bắt đầu của tuần dựa vào 1 ngày xác định
+  String firstDateOfWeek(DateTime date) {
+    // tuần bắt đầu bằng thứ 2 nên trừ 1
+    DateTime firstDate = date.subtract(Duration(days: date.weekday - 1));
+    return AppConstants.dateFormatter.format(firstDate);
   }
 
-  @override
-  void onInit() {
-    getAllHabit();
-    super.onInit();
+  /// Tìm ngày cuối của tuần dựa vào 1 ngày xác định
+  String lastDateOfWeek(DateTime date) {
+    DateTime lastDate = date.add(Duration(days: DateTime.daysPerWeek - date.weekday));
+    return AppConstants.dateFormatter.format(lastDate);
   }
 
   Future<void> getAllHabit() async {
     isLoading.value = true;
 
     listAllHabit.clear();
-
     listAllHabit.value = await DatabaseHelper.instance.getAllHabit();
-
-    await getHabitByWeekDate(selectedDay.value.weekday);
-
+    await getHabitByWeekDate(selectedDate.value.weekday);
+    await getHabitProcessByDate(selectedDate.value);
     isLoading.value = false;
   }
 
   Future<void> getHabitByWeekDate(int weekdate) async {
     listAnytimeHabit.clear();
-
     for (int i = 0; i < listAllHabit.length; i++) {
       if (listAllHabit[i].dayOfWeek.contains((weekdate + 1).toString())) {
         listAnytimeHabit.add(listAllHabit[i]);
       }
     }
 
-    await getHabitProcess(selectedDay.value);
-    // nếu
-    if (listHabitProcess.length != listAnytimeHabit.length) {
-      // 2 cái không đồng bộ => thiếu process
-      // => tạo
-      for (int i = 0; i < listAnytimeHabit.length; i++) {
-        await DatabaseHelper.instance.insertProcess(
-          listAnytimeHabit[i].habitId,
-          selectedDay.value,
-        );
-      }
-      // selecte lại
-      await getHabitProcess(selectedDay.value);
-    }
+    listProcessByDay.value = await getHabitProcessByDate(selectedDate.value);
 
     listMorningHabit.clear();
     listAfternoonHabit.clear();
     listEveningHabit.clear();
+
     for (int i = 0; i < listAnytimeHabit.length; i++) {
       if (listAnytimeHabit[i].timeOfDay.contains('1')) listMorningHabit.add(listAnytimeHabit[i]);
 
@@ -96,20 +91,25 @@ class MainScreenController extends GetxController {
     }
   }
 
-  Future<void> getHabitProcess(DateTime date) async {
-    listHabitProcess.clear();
-    listHabitProcess.value = await DatabaseHelper.instance.getListHabitProcessByDate(date);
+  Future<List<Process>> getHabitProcessByDate(DateTime date) async {
+    try {
+      return await DatabaseHelper.instance.getListHabitProcessByDate(date);
+    } catch (e) {
+      throw e;
+    }
   }
 
-  Process findProcess(int maThoiQuen) {
-    return listHabitProcess.firstWhere((element) => element.habitId == maThoiQuen);
+  Future<void> updateProcess(Process process) async {
+    try {
+      await DatabaseHelper.instance.updateProcess(process);
+      listProcessByDay.value = await getHabitProcessByDate(selectedDate.value);
+    } catch (e) {
+      throw e;
+    }
   }
 
-  Future<void> updateProcess(Process p) async {
-    int index = listHabitProcess.indexWhere((element) => element.habitId == p.habitId);
-    listHabitProcess[index] = p;
-    //updateListView.value = true;
-    await DatabaseHelper.instance.updateProcess(p);
+  Future<int> creatNewProcess({int habitId, DateTime date}) async {
+    return await DatabaseHelper.instance.createNewProcess(habitId, date);
   }
 
   Future<void> deleteHabit(Habit habit) async {

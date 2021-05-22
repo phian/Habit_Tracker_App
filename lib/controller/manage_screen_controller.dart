@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/view/all_habits_screen.dart';
 import 'package:habit_tracker/view/challenges_screen.dart';
-import 'package:habit_tracker/view/main_screen.dart';
+import 'package:habit_tracker/view/main_screen/main_screen.dart';
 import 'package:habit_tracker/view/step_tracking_screen/step_tracking_screen.dart';
 
 class ManageScreenController extends GetxController {

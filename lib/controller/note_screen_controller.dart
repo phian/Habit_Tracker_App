@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/model/diary.dart';
 import 'package:habit_tracker/service/database/database_helper.dart';
-import 'package:intl/intl.dart';
+
 
 class NoteScreenController extends GetxController {
   DatabaseHelper databaseHelper = DatabaseHelper.instance;
@@ -17,13 +18,13 @@ class NoteScreenController extends GetxController {
     if (isCreatedNote) {
       databaseHelper.updateHabitNoteData(Diary(
         habitId: habitId,
-        date: DateFormat('yyyy-MM-dd').format(date),
+        date: AppConstants.dateFormatter.format(date),
         content: noteContent,
       ));
     } else {
       databaseHelper.insertHabitNote(Diary(
         habitId: habitId,
-        date: DateFormat('yyyy-MM-dd').format(date),
+        date: AppConstants.dateFormatter.format(date),
         content: noteContent,
       ));
     }

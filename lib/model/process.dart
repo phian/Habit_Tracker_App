@@ -7,8 +7,8 @@ class Process {
   Process({
     this.habitId,
     this.date,
-    this.result,
-    this.isSkip,
+    this.result=0,
+    this.isSkip=false,
   });
 
   Map<String, dynamic> toMap() {

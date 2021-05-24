@@ -27,6 +27,7 @@ class AppColors {
   static final c8AFF = Color(0x8AFFFFFF); // white 54
   static final cDD00 = Color(0xDD000000); // black 87
   static final c1F00 = Color(0x1F000000); // black 12
+  static final c6100 = Color(0x61000000); // black 38
   static final cFF49 = Color(0xFF4949f4);
   static final cFF9A = Color(0xFF9A9DA4);
   static final cFFF8 = Color(0xFFF8B83B);
@@ -43,20 +44,17 @@ class AppColors {
   static final cFF69 = Color(0xFF69F0AE); // green accent
   static final cFFEE = Color(0xFFEEEEEE); // grey[200]
   static final cFF60 = Color(0xFF607D8B); // blue grey
+  static const cFF3A = Color(0xFF3AD0D4);
 
   static List<Color> appColors = [
     Color(0xFF2196F3),
     Color(0xFF9E9E9E),
-    Color(0xFFFFFFFF),
-    Color(0xFF60626B),
-    Color(0xFF2E323D),
-    Color(0xFF2296F3),
-    Color(0xFF1C1C27),
-    Color(0xFF1C222B),
+    Color(0xFF11C480),
     Color(0xFFFABB37),
     Color(0xFFFE7352),
-    Color(0xFF11C480),
+    Color(0xFF933DFF),
     Color(0xFF1C8EFE),
+    Color(0xFFF53566),
     Color(0xFFF53566),
     Color(0xFF933DFF),
   ];

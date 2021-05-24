@@ -5,13 +5,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 class APIService {
   static APIService _apiService;
 
+  APIService._();
+
   static APIService get instance {
     if (_apiService == null) {
-      _apiService = APIService();
-      return _apiService;
-    } else {
+      _apiService = APIService._();
       return _apiService;
     }
+    return _apiService;
   }
 
   /// Google
@@ -72,7 +73,7 @@ class APIService {
     try {
       facebookLoginResult = await facebookLogin.expressLogin();
     } catch (e, r) {
-      throw e;
+      print("$e, $r");
     }
 
     switch (facebookLoginResult.status) {
@@ -100,10 +101,11 @@ class APIService {
   }
 
   Future<void> googleSignOut() async {
-    await auth.signOut();
+    auth.signOut();
+    googleSignIn.signOut();
   }
 
   Future<void> facebookSignOut() async {
-    await facebookLogin.logOut();
+    facebookLogin.logOut();
   }
 }

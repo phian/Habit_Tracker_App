@@ -51,6 +51,10 @@ class AppImages {
   static const imgTrendingHabits = "$baseImagesFolder/img_trending_habits.svg";
   static const imgTimerMountain = "$baseImagesFolder/img_timer_mountain.svg";
 
+  /// flares
+  static const baseFlareFolder = "assets/images/flare";
+  static const flRating = "$baseFlareFolder/fl_rating.flr";
+
   /// icons
   static const baseIconsFolder = "assets/icons";
   static const icApple = "$baseIconsFolder/ic_apple.svg";

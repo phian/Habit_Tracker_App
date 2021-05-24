@@ -142,7 +142,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 type: NotificationTimeType.todayPlan,
               ),
               SizedBox(height: 30.0),
-              _dateTimeNotiWidget(
+              _dateTimeNotificationWidget(
                 title: "Morning plan",
                 summaryText:
                     "You have x habits for this morning and 4 more you can do",
@@ -151,7 +151,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 iconColor: AppColors.cFFFA,
               ),
               SizedBox(height: 30.0),
-              _dateTimeNotiWidget(
+              _dateTimeNotificationWidget(
                 title: "Afternoon plan",
                 summaryText:
                     "You have 1 habt for this afternoon and 4 more you can do",
@@ -159,7 +159,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 value: _notificationController.isOnOrOffAternoonPlan,
               ),
               SizedBox(height: 30.0),
-              _dateTimeNotiWidget(
+              _dateTimeNotificationWidget(
                 title: "Evening plan",
                 summaryText:
                     "You have 1 habt for this afternoon and 4 more you can do",
@@ -212,7 +212,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  /// [Widget have time picker]
+  /// Widget have time picker
   Widget _todayPlanAndResultWidget({
     String title,
     IconData icon,
@@ -222,170 +222,176 @@ class _NotificationScreenState extends State<NotificationScreen> {
     Color iconColor,
     NotificationTimeType type,
   }) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
-      decoration: BoxDecoration(
+    return Material(
+      child: InkWell(
         borderRadius: BorderRadius.circular(10.0),
-        color: AppColors.cFF2F,
-      ),
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: Get.height * 0.25 * 0.08),
-              child: Row(
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
+        onTap: () {
+          _notificationController.onDateTimeNotificationSwitchPress(icon);
+        },
+        child: Container(
+          padding: EdgeInsets.only(
+            left: 24.0,
+            right: 24.0,
+            top: 24.0,
+            bottom: 8.0,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: AppColors.cFF2F,
+          ),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Icon(
+                                icon,
+                                size: 30.0,
+                                color: iconColor,
+                              ),
+                            ),
+                          ],
+                        ).marginOnly(bottom: 8.0),
+                        Container(
+                          width: Get.width * 0.6,
+                          child: Text(
+                            summaryText,
+                            maxLines: 5,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                        ).marginOnly(
+                          bottom: icon == Icons.assignment ? 16.0 : 32.0,
+                        ),
+                      ],
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 5.0),
-                    child: Icon(
-                      icon,
-                      size: 30.0,
-                      color: iconColor,
+                    Obx(
+                      () => Switch(
+                        activeColor: AppColors.cFFFE,
+                        value: value.value,
+                        onChanged: (value) => _notificationController
+                            .onDateTimeNotificationSwitchPress(icon),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 5.0),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: Get.width * 0.6,
-                    child: Text(
-                      summaryText,
-                      maxLines: 5,
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                  ),
-                  Obx(
-                    () => Switch(
-                      activeColor: AppColors.cFF1C,
-                      value: value.value,
-                      onChanged: (value) => _notificationController
-                          .onDateTimeNotificationSwitchPress(icon),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-                height:
-                    icon == Icons.assignment ? 15.0 : Get.height * 0.26 * 0.17),
-            Divider(
-              thickness: 0.5,
-              color: AppColors.cFFFF,
-            ),
-            Container(
-              child: Material(
-                color: AppColors.c0000,
-                borderRadius: BorderRadius.circular(5.0),
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  onTap: () => _onHabitNotificationTilePress(icon, type),
-                  leading: Icon(
-                    Icons.access_time,
-                    size: 30.0,
-                    color: AppColors.cFF1C,
-                  ),
-                  title: Obx(
-                    () => Text(
-                      pickedTime.value,
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                  ),
-                  trailing: Icon(Icons.keyboard_arrow_right),
+                  ],
                 ),
-              ),
+                Container(
+                  height: 0.5,
+                  color: AppColors.cFFFF,
+                ),
+                Material(
+                  color: AppColors.c0000,
+                  borderRadius: BorderRadius.circular(5.0),
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    onTap: () => _onHabitNotificationTilePress(icon, type),
+                    leading: Icon(
+                      Icons.access_time,
+                      size: 30.0,
+                      color: AppColors.cFF1C,
+                    ),
+                    title: Obx(
+                      () => Text(
+                        pickedTime.value,
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                  ).marginOnly(top: 4.0),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  /// [Widget without time picker]
-  Widget _dateTimeNotiWidget({
+  /// Widget without time picker
+  Widget _dateTimeNotificationWidget({
     String title,
     String summaryText,
     IconData icon,
     RxBool value,
     Color iconColor,
   }) {
-    return Container(
-      height: Get.height * 0.17,
-      padding: EdgeInsets.symmetric(horizontal: 23.0),
-      decoration: BoxDecoration(
+    return Material(
+      color: AppColors.cFF2F,
+      borderRadius: BorderRadius.circular(10.0),
+      child: InkWell(
+        onTap: () {
+          _notificationController.onNoneDateTimeNotificationSwitchPress(icon);
+        },
         borderRadius: BorderRadius.circular(10.0),
-        color: AppColors.cFF2F,
-      ),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: Get.height * 0.17 * 0.13),
-                child: Row(
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Icon(
-                        icon,
-                        size: 30.0,
-                        color: iconColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 5.0),
-              Container(
-                child: Row(
-                  children: [
-                    Container(
-                      width: Get.width * 0.6,
-                      child: Text(
-                        summaryText,
-                        maxLines: 5,
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                    ),
-                    Obx(
-                      () => Container(
-                        padding: EdgeInsets.only(left: Get.width * 0.03),
-                        child: Switch(
-                          activeColor: AppColors.cFFFE,
-                          value: value.value,
-                          onChanged: (value) => _notificationController
-                              .onNoneDateTimeNotificationSwitchPress(icon),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  child: Row(
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
+                      Container(
+                        padding: EdgeInsets.only(left: 10.0),
+                        child: Icon(
+                          icon,
+                          size: 30.0,
+                          color: iconColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ).marginOnly(bottom: 5.0),
+                Container(
+                  child: Row(
+                    children: [
+                      Container(
+                        width: Get.width * 0.6,
+                        child: Text(
+                          summaryText,
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+            Obx(
+              () => Switch(
+                activeColor: AppColors.cFFFE,
+                value: value.value,
+                onChanged: (value) => _notificationController
+                    .onNoneDateTimeNotificationSwitchPress(icon),
+              ).paddingOnly(left: 32.0),
+            ),
+          ],
+        ).paddingSymmetric(horizontal: 16.0, vertical: 24.0),
       ),
     );
   }
@@ -447,6 +453,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
                 Obx(
                   () => Switch(
+                    activeColor: AppColors.cFFFE,
                     value: _notificationController.isOnChallengeNoti.value,
                     onChanged: (value) {
                       _notificationController.changeIsOnChallengeNoti();

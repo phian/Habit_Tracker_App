@@ -23,7 +23,7 @@ class DatabaseHelper {
   final unit = 'unit';
   final repeatMode = 'repeat_mode';
   final dayOfWeek = 'day_of_week';
-  final timePerWeek = 'times_per_week';
+  final timesPerWeek = 'times_per_week';
   final dateOfMonth = 'date_of_month';
   final timeOfDay = 'time_of_day';
   final isSetReminder = 'is_set_reminder';
@@ -67,7 +67,8 @@ class DatabaseHelper {
 
   _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
-    return await openDatabase(path, version: _databaseVersion, onCreate: _onCreate);
+    return await openDatabase(path,
+        version: _databaseVersion, onCreate: _onCreate);
   }
 
   Future _onCreate(Database db, int version) async {
@@ -83,7 +84,7 @@ class DatabaseHelper {
       $unit TEXT,
       $repeatMode INTEGER,
       $dayOfWeek TEXT,
-      $timePerWeek INTEGER,
+      $timesPerWeek INTEGER,
       $dateOfMonth TEXT,
       $timeOfDay TEXT,
       $isSetReminder INTEGER DEFAULT 0,
@@ -137,7 +138,7 @@ class DatabaseHelper {
       $unit TEXT,
       $repeatMode INTEGER,
       $dayOfWeek TEXT,
-      $timePerWeek INTEGER,
+      $timesPerWeek INTEGER,
       $timeOfDay TEXT,
       PRIMARY KEY ($topicId, $habitName),
       FOREIGN KEY($topicId) REFERENCES $tableSuggestedTopic ($topicId)
@@ -170,7 +171,7 @@ class DatabaseHelper {
 
     // INSERT DATA SUGGESTED HABIT
     await db.execute('''INSERT INTO $tableSuggestedHabit 
-    ($topicId, $habitName, $description, $icon, $color, $isSetGoal, $amount, $unit, $repeatMode, $dayOfWeek, $timePerWeek, $timeOfDay)
+    ($topicId, $habitName, $description, $icon, $color, $isSetGoal, $amount, $unit, $repeatMode, $dayOfWeek, $timesPerWeek, $timeOfDay)
     VALUES
     ('1', 'Study online', 'A world of new discoveries awaits', '58998', '0xFF933DFF', '0', '0', 'of times', '0', '2,3,4,5,6,7,8', '6', '1,2,3'),
     ('1', 'Learn a new language', 'Think of all a things that make you happy. Dream big!', '59730', '0xFF11C480', '0', '0', 'of times', '0', '2,3,4,5,6,7,8', '6', '1,2,3'),
@@ -365,9 +366,11 @@ class DatabaseHelper {
     try {
       await db.delete(tableDiary, where: '$habitId = ?', whereArgs: [idHabit]);
 
-      await db.delete(tableProcess, where: '$habitId = ?', whereArgs: [idHabit]);
+      await db
+          .delete(tableProcess, where: '$habitId = ?', whereArgs: [idHabit]);
 
-      rs = await db.delete(tableHabit, where: '$habitId = ?', whereArgs: [idHabit]);
+      rs = await db
+          .delete(tableHabit, where: '$habitId = ?', whereArgs: [idHabit]);
     } catch (e) {
       throw e;
     }
@@ -485,17 +488,29 @@ class DatabaseHelper {
 
   Future<List<Diary>> getAllNote(int idHabit) async {
     Database db = await instance.database;
-    List<Diary> diarys = [];
+    List<Diary> diaries = [];
     try {
-      var queryResult = await db.rawQuery("select * from $tableDiary where $habitId = '$idHabit'");
+      var queryResult = await db
+          .rawQuery("select * from $tableDiary where $habitId = '$idHabit'");
 
       queryResult.forEach((element) {
-        diarys.add(Diary.fromMap(element));
+        diaries.add(Diary.fromMap(element));
       });
     } catch (e) {
       throw e;
     }
-    return diarys;
+    return diaries;
   }
 
+  Future<void> deleteAllHabit() async {
+    Database database = await instance.database;
+
+    try {
+      database.execute("Delete from $tableHabit");
+      database.close();
+    } catch (e, s) {
+      print("$e, $s");
+      database.close();
+    }
+  }
 }

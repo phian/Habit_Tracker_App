@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/service/database/database_helper.dart';
+import 'package:habit_tracker/utils/ultis.dart';
 import 'package:intl/intl.dart';
-import 'utils/ultis.dart';
 
 class MainScreenController extends GetxController {
   var selectedDay = DateTime.now().obs;

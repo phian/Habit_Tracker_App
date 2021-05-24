@@ -1,4 +1,6 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:habit_tracker/view/help_screen.dart';
+import 'package:habit_tracker/view/time_of_day_screen.dart';
 import 'package:habit_tracker/widgets/timer/timer.dart';
 
 import '../main.dart';
@@ -49,6 +51,10 @@ class Pages {
     GetPage(name: Routes.TIMER, page: () => Timer()),
     //
     GetPage(name: Routes.STEP, page: () => StepTracking()),
+    //
+    GetPage(name: Routes.TIME_OF_DAY, page: () => TimeOfDayScreen()),
+    //
+    GetPage(name: Routes.HELP, page: () => HelpScreen()),
   ];
 }
 

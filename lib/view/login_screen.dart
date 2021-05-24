@@ -7,6 +7,7 @@ import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/login_screen_controller.dart';
+import 'package:habit_tracker/widgets/alert_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -92,16 +93,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _signInBox(LoginType type) {
-    return Container(
-      alignment: Alignment.center,
-      height: Get.height * 0.1,
-      decoration: BoxDecoration(
-        color: AppColors.cFF2F,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
+    return Material(
+      color: AppColors.cFF2F,
+      borderRadius: BorderRadius.circular(10.0),
       child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         onTap: () async {
           switch (type) {
@@ -109,15 +107,25 @@ class _LoginScreenState extends State<LoginScreen> {
               var user = await _loginScreenController.signInWithGoogle();
               if (user != null) {
                 Get.back(result: "Success");
-                _showSignInNotificationDialog();
+                showAlert(
+                  text: "Sign in success",
+                  title: "Alert!",
+                  type: CoolAlertType.success,
+                  context: context,
+                );
               }
               break;
             case LoginType.facebook:
               var loginState =
-                  await _loginScreenController.signInWithFacebook();
+              await _loginScreenController.signInWithFacebook();
               if (loginState == FacebookLoginStatus.success) {
                 Get.back(result: "Success");
-                _showSignInNotificationDialog();
+                showAlert(
+                  text: "Sign in success",
+                  title: "Alert!",
+                  type: CoolAlertType.success,
+                  context: context,
+                );
               }
               break;
             case LoginType.apple:
@@ -138,19 +146,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  void _showSignInNotificationDialog({
-    String title,
-    String text,
-  }) async {
-    CoolAlert.show(
-      context: context,
-      type: CoolAlertType.success,
-      animType: CoolAlertAnimType.slideInUp,
-      title: title,
-      text: text,
     );
   }
 }

@@ -29,13 +29,11 @@ class GeneralScreen extends StatelessWidget {
           _generalScreenSeparateWidget(height: 50, isSizedBox: true),
           _generalScreenController.variables.generalScreenItems[3],
           _generalScreenAnnotationWidget(
-              content: "Hide animation from the main screen and remove sloth"),
-          _generalScreenSeparateWidget(height: 50, isSizedBox: true),
-          _generalScreenController.variables.generalScreenItems[4],
-          _generalScreenAnnotationWidget(
               content:
                   "Enable vacation mode to pause all your habits and keep your stats"),
           _generalScreenSeparateWidget(height: 50, isSizedBox: true),
+          _generalScreenController.variables.generalScreenItems[4],
+          _generalScreenSeparateWidget(color: AppColors.c3DFF),
           _generalScreenController.variables.generalScreenItems[5],
           _generalScreenSeparateWidget(height: 1, color: AppColors.c3DFF),
           _generalScreenController.variables.generalScreenItems[6],
@@ -43,10 +41,8 @@ class GeneralScreen extends StatelessWidget {
           _generalScreenController.variables.generalScreenItems[7],
           _generalScreenSeparateWidget(height: 1, color: AppColors.c3DFF),
           _generalScreenController.variables.generalScreenItems[8],
-          _generalScreenSeparateWidget(height: 1, color: AppColors.c3DFF),
-          _generalScreenController.variables.generalScreenItems[9],
           _generalScreenSeparateWidget(height: 40.0, isSizedBox: true),
-          _generalScreenController.variables.generalScreenItems[10],
+          _generalScreenController.variables.generalScreenItems[9],
         ],
       ),
     );

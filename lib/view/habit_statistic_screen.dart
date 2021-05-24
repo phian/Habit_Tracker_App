@@ -8,6 +8,7 @@ import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/habit_statistic_controller.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
 import 'package:habit_tracker/routing/routes.dart';
+import 'package:habit_tracker/widgets/custom_confirm_dialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HabitStatisticScreen extends StatefulWidget {
@@ -542,49 +543,19 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   }
 
   void _showPauseDialog() async {
-    Dialog pauseDialog = Dialog(
-      backgroundColor: AppColors.cFF2F,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      //this right here
-      child: Container(
-        height: Get.height * 0.2,
-        width: Get.width * 0.7,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(12.0),
-              child: Text(
-                "Paused a habit? It's still on your schedule and can be resued when you're ready",
-                style: TextStyle(
-                  color: AppColors.cFFA7,
-                  fontSize: 18.0,
-                ),
-              ),
-            ),
-            SizedBox(height: 10.0),
-            Container(
-              alignment: Alignment.bottomRight,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                ),
-                onPressed: () => _onPauseItemButtonPressed(),
-                child: Text(
-                  'Got it',
-                  style: TextStyle(color: AppColors.cFF1C, fontSize: 18.0),
-                ),
-              ).marginOnly(right: 12.0),
-            )
-          ],
-        ),
-      ),
-    );
     showDialog(
       context: context,
-      builder: (BuildContext context) => pauseDialog,
+      builder: (_) {
+        return CustomConfirmDialog(
+          title:
+              "Paused a habit? It's still on your schedule and can be resued when you're ready",
+          onNegativeButtonTap: () {
+            Navigator.pop(context);
+          },
+          negativeButtonText: 'Got it',
+          positiveButtonText: '',
+        );
+      },
     );
   }
 
@@ -612,8 +583,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            SizedBox(height: 10.0),
+            ).marginOnly(bottom: 12.0),
             Container(
               child: ListTile(
                 onTap: () => onDeleteHabitButtonPressed(),
@@ -632,8 +602,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
               ),
             ),
             Container(
-              height: 1.0,
-              color: AppColors.cFF1E,
+              height: 0.5,
+              color: AppColors.cFF9E,
             ),
             Container(
               child: ListTile(

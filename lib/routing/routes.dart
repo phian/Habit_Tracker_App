@@ -17,4 +17,6 @@ class Routes {
   static const LOGIN = '/login';
   static const TIMER = '/timer';
   static const STEP = '/step';
+  static const TIME_OF_DAY = '/time_of_day';
+  static const HELP = '/help';
 }

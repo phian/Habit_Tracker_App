@@ -14,6 +14,7 @@ class CreateHabitScreenController extends GetxController {
   var fillColor = Color(0xFFF53566).obs;
   var habitIcon = Icons.star.obs;
   var reminderTimeList = <TimeOfDay>[].obs;
+  var listDateOfMonthlyHabit = <DateTime>[].obs;
 
   var weekDateList = [
     false,
@@ -115,7 +116,7 @@ class CreateHabitScreenController extends GetxController {
         icon: habitIcon.value.codePoint,
         color: fillColor.value.toString().split('(0x')[1].split(')')[0],
         isSetGoal: isSetGoal.value,
-        amount: amount == '' ? 0 : int.parse(amount),
+        amount: isSetGoal.value ? int.parse(amount) : -1,
         unit: selectedUnitType.value,
         repeatMode: repeatMode.value,
         dayOfWeek: getDailyList(),
@@ -123,7 +124,8 @@ class CreateHabitScreenController extends GetxController {
         timeOfDay: getNotiTimeChoice(),
       ),
     );
-    if (mainScreenController != null) await mainScreenController.getAllHabit();
+
+    await mainScreenController.getAllHabit();
   }
 
   Future<void> editHabit(String name, int id, String amount) async {
@@ -133,7 +135,7 @@ class CreateHabitScreenController extends GetxController {
       icon: habitIcon.value.codePoint,
       color: fillColor.value.toString().split('(0x')[1].split(')')[0],
       isSetGoal: isSetGoal.value,
-      amount: amount == '' ? 0 : int.parse(amount),
+      amount: isSetGoal.value ? int.parse(amount) : -1,
       unit: selectedUnitType.value,
       repeatMode: repeatMode.value,
       dayOfWeek: getDailyList(),
@@ -141,23 +143,8 @@ class CreateHabitScreenController extends GetxController {
       timeOfDay: getNotiTimeChoice(),
     );
     await DatabaseHelper.instance.updateHabit(habit);
-    // if (statisticController != null)
-    //   statisticController.habit.value = Habit(
-    //     ma: id,
-    //     ten: name,
-    //     icon: habitIcon.value.codePoint,
-    //     mau: fillColor.value.toString().split('(0x')[1].split(')')[0],
-    //     batMucTieu: selectedIndex.value,
-    //     soLan: amount == '' ? 0 : int.parse(amount),
-    //     donVi: selectedUnitType.value,
-    //     loaiLap: repeatTypeChoice.value,
-    //     ngayTrongTuan: getDailyList(),
-    //     soLanTrongTuan: getWeeklyList(),
-    //     buoi: getNotiTimeChoice(),
-    //     trangThai: 0,
-    //   );
 
-    if (mainScreenController != null) await mainScreenController.getAllHabit();
+    await mainScreenController.getAllHabit();
   }
 
   Color getRepeatTypeChoiceColor() {
@@ -308,7 +295,7 @@ class CreateHabitScreenController extends GetxController {
     return a;
   }
 
-  setWeeklyList(int a) {
+  void setWeeklyList(int a) {
     if (a != 6) {
       weeklyChoiceList[a] = true;
       weeklyChoiceList[6] = false;

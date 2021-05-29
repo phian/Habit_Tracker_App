@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:habit_tracker/constants/app_images.dart';
+import 'package:intl/intl.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class AppConstants {
@@ -34,6 +35,8 @@ class AppConstants {
 
   static const playStoreId = 'com.android.chrome';
   static const appStoreId = 'com.apple.mobilesafari';
+
+  static final DateFormat dateFormatter = DateFormat('yyyy-MM-dd');
 }
 
 enum AllNoteLoadingState {

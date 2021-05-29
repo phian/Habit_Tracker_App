@@ -31,8 +31,7 @@ class NotificationService {
   /// call.
   ///
   /// To verify things are working, check out the native platform logs.
-  Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
+  Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
 
@@ -43,8 +42,7 @@ class NotificationService {
 
   void _onBackgroundMessageHandler() {
     // Set the background messaging handler early on, as a named top-level function
-    // TODO: Tạm comment
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
   /// Create a [AndroidNotificationChannel] for heads up notifications
@@ -73,16 +71,14 @@ class NotificationService {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
   }
 
   Future<void> _initIOSForegroundNotification() async {
     /// Update the iOS foreground notification presentation options to allow
     /// heads up notifications.
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
@@ -91,7 +87,7 @@ class NotificationService {
 
   void _onLocalMessageHandler() {
     FirebaseMessaging.onMessage.listen(
-          (RemoteMessage message) {
+      (RemoteMessage message) {
         RemoteNotification notification = message.notification;
         AndroidNotification android = message.notification?.android;
         if (notification != null && android != null) {

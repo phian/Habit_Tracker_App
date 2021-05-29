@@ -35,8 +35,8 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
       _createHabitScreenController.initDataAndController(Get.arguments);
       _habitNameController =
           TextEditingController(text: (Get.arguments as SuggestedHabit).habitName);
-      _goalAmountController = TextEditingController(
-          text: (Get.arguments as SuggestedHabit).amount.toString());
+      _goalAmountController =
+          TextEditingController(text: (Get.arguments as SuggestedHabit).amount.toString());
     } else {
       _habitNameController = TextEditingController();
       _goalAmountController = TextEditingController();
@@ -199,13 +199,11 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color:
-                            _createHabitScreenController.isSetGoal.value == false &&
-                                        index == 1 ||
-                                    _createHabitScreenController.isSetGoal.value == true &&
-                                        index == 0
-                                ? _createHabitScreenController.fillColor.value
-                                : AppColors.c3DFF,
+                        color: _createHabitScreenController.isSetGoal.value == false &&
+                                    index == 1 ||
+                                _createHabitScreenController.isSetGoal.value == true && index == 0
+                            ? _createHabitScreenController.fillColor.value
+                            : AppColors.c3DFF,
                       ),
                     ),
                   ),
@@ -254,14 +252,12 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                     height: 60.0,
                     child: Obx(
                       () => SelectFormField(
-                        initialValue:
-                            _createHabitScreenController.selectedUnitType.value,
+                        initialValue: _createHabitScreenController.selectedUnitType.value,
                         items: unitTypes,
-                        hintText:
-                            _createHabitScreenController.selectedUnitType.value,
+                        hintText: _createHabitScreenController.selectedUnitType.value,
                         style: TextStyle(fontSize: 20.0),
-                        onChanged: (val) => _createHabitScreenController
-                            .changeSelectedUnitType(val),
+                        onChanged: (val) =>
+                            _createHabitScreenController.changeSelectedUnitType(val),
                         onSaved: (val) => print(val),
                         scrollPhysics: AlwaysScrollableScrollPhysics(
                           parent: BouncingScrollPhysics(),
@@ -269,8 +265,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                         decoration: InputDecoration(
                           fillColor: AppColors.c3DFF,
                           filled: true,
-                          hintText: _createHabitScreenController
-                              .selectedUnitType.value,
+                          hintText: _createHabitScreenController.selectedUnitType.value,
                           hintStyle: TextStyle(
                             fontSize: 20.0,
                             color: AppColors.cFFFF,
@@ -306,24 +301,24 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
           canChange: false,
         ),
 
-            /// [3 option Daily, Monthly, Weekly]
-            Container(
-              padding: EdgeInsets.only(top: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ...List.generate(
-                    3,
-                    (index) => Obx(
-                      () => _repeatChoiceWidget(
-                        index == 0
-                            ? "daily"
-                            : index == 1
-                                ? "weekly"
-                                : "monthly",
-                        color: _createHabitScreenController.repeatMode.value == index
-                            ? _createHabitScreenController.fillColor.value
-                            : AppColors.c3DFF,
+        /// [3 option Daily, Monthly, Weekly]
+        Container(
+          padding: EdgeInsets.only(top: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ...List.generate(
+                3,
+                (index) => Obx(
+                  () => _repeatChoiceWidget(
+                    index == 0
+                        ? "daily"
+                        : index == 1
+                            ? "weekly"
+                            : "monthly",
+                    color: _createHabitScreenController.repeatMode.value == index
+                        ? _createHabitScreenController.fillColor.value
+                        : AppColors.c3DFF,
                     index: index,
                   ),
                 ),
@@ -352,9 +347,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                 children: [
                   Obx(
                     () => Visibility(
-                      visible:
-                          _createHabitScreenController.repeatMode.value ==
-                              0,
+                      visible: _createHabitScreenController.repeatMode.value == 0,
                       child: Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -363,18 +356,16 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                               7,
                               (index) => InkWell(
                                 borderRadius: BorderRadius.circular(10.0),
-                                onTap: () => _createHabitScreenController
-                                    .changeWeekdateChoice(index),
+                                onTap: () =>
+                                    _createHabitScreenController.changeWeekdateChoice(index),
                                 child: Obx(
                                   () => Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      color: _createHabitScreenController
-                                                  .weekDateList[index] ==
-                                              true
-                                          ? _createHabitScreenController
-                                              .fillColor.value
-                                          : AppColors.c3DFF,
+                                      color:
+                                          _createHabitScreenController.weekDateList[index] == true
+                                              ? _createHabitScreenController.fillColor.value
+                                              : AppColors.c3DFF,
                                     ),
                                     alignment: Alignment.center,
                                     width: 50.0,
@@ -396,9 +387,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                   ),
                   Obx(
                     () => Visibility(
-                      visible:
-                          _createHabitScreenController.repeatMode.value ==
-                              1,
+                      visible: _createHabitScreenController.repeatMode.value == 1,
                       child: Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -407,17 +396,15 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                               6,
                               (index) => InkWell(
                                 borderRadius: BorderRadius.circular(10.0),
-                                onTap: () => _createHabitScreenController
-                                    .changeWeeklyListChoice(index),
+                                onTap: () =>
+                                    _createHabitScreenController.changeWeeklyListChoice(index),
                                 child: Obx(
                                   () => Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      color: _createHabitScreenController
-                                                  .weeklyChoiceList[index] ==
+                                      color: _createHabitScreenController.weeklyChoiceList[index] ==
                                               true
-                                          ? _createHabitScreenController
-                                              .fillColor.value
+                                          ? _createHabitScreenController.fillColor.value
                                           : AppColors.c3DFF,
                                     ),
                                     alignment: Alignment.center,
@@ -440,12 +427,14 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                   ),
                   Obx(
                     () => Visibility(
-                      visible:
-                          _createHabitScreenController.repeatMode.value ==
-                              2,
+                      visible: _createHabitScreenController.repeatMode.value == 2,
                       child: SfDateRangePicker(
                         selectionMode: DateRangePickerSelectionMode.multiple,
-                        onSelectionChanged: (arguments) {},
+                        onSelectionChanged: (arguments) {
+                          if (arguments is List<DateTime>) {
+                            _createHabitScreenController.listDateOfMonthlyHabit = arguments.value;
+                          }
+                        },
                       ),
                     ),
                   )
@@ -454,11 +443,9 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
               SizedBox(height: 10.0),
               Obx(
                 () => Visibility(
-                  visible:
-                      _createHabitScreenController.repeatMode.value != 2,
+                  visible: _createHabitScreenController.repeatMode.value != 2,
                   child: InkWell(
-                    onTap: () =>
-                        _createHabitScreenController.onRepeatTypeChoiceClick(),
+                    onTap: () => _createHabitScreenController.onRepeatTypeChoiceClick(),
                     borderRadius: BorderRadius.circular(10.0),
                     child: Obx(
                       () => Container(
@@ -512,16 +499,13 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                     ...List.generate(
                       3,
                       (index) => InkWell(
-                        onTap: () =>
-                            _createHabitScreenController.changeNotiTime(index),
+                        onTap: () => _createHabitScreenController.changeNotiTime(index),
                         borderRadius: BorderRadius.circular(10.0),
                         child: Obx(
                           () => Container(
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: _createHabitScreenController
-                                          .notiTimeChoice[index] ==
-                                      true
+                              color: _createHabitScreenController.notiTimeChoice[index] == true
                                   ? _createHabitScreenController.fillColor.value
                                   : AppColors.c3DFF,
                               borderRadius: BorderRadius.circular(10.0),
@@ -553,10 +537,9 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                     width: Get.width,
                     height: 60.0,
                     decoration: BoxDecoration(
-                      color:
-                          _createHabitScreenController.notiTimeChoice[3] == true
-                              ? _createHabitScreenController.fillColor.value
-                              : AppColors.c3DFF,
+                      color: _createHabitScreenController.notiTimeChoice[3] == true
+                          ? _createHabitScreenController.fillColor.value
+                          : AppColors.c3DFF,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Text(
@@ -595,8 +578,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                 () => Switch(
                   activeColor: _createHabitScreenController.fillColor.value,
                   value: _createHabitScreenController.isGetReminder.value,
-                  onChanged: (value) =>
-                      _createHabitScreenController.changeIsGetReminder(),
+                  onChanged: (value) => _createHabitScreenController.changeIsGetReminder(),
                 ).paddingZero,
               ),
             ],
@@ -628,10 +610,9 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
             onTap: () {
               showTimePicker(
                 context: context,
-                initialTime:
-                    _createHabitScreenController.reminderTimeList.length != 0
-                        ? _createHabitScreenController.reminderTimeList.last
-                        : TimeOfDay.now(),
+                initialTime: _createHabitScreenController.reminderTimeList.length != 0
+                    ? _createHabitScreenController.reminderTimeList.last
+                    : TimeOfDay.now(),
               ).then((time) {
                 if (time != null) {
                   _createHabitScreenController.reminderTimeList.add(time);
@@ -644,8 +625,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                 width: 30.0,
                 height: 30.0,
                 decoration: BoxDecoration(
-                  color: _createHabitScreenController.fillColor.value
-                      .withOpacity(0.2),
+                  color: _createHabitScreenController.fillColor.value.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(90.0),
                 ),
               ),
@@ -690,8 +670,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                   () => Text(
                     _createHabitScreenController.repeatMode.value == 0
                         ? 'on these week days'
-                        : _createHabitScreenController.repeatMode.value ==
-                                1
+                        : _createHabitScreenController.repeatMode.value == 1
                             ? 'as often as'
                             : "on these days",
                     style: TextStyle(fontSize: 20.0),
@@ -712,8 +691,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
   }
 
   /// [Widget icon và color]
-  Widget _iconAndColorOptionWidget(
-      IconData icon, String text, Color color, int index) {
+  Widget _iconAndColorOptionWidget(IconData icon, String text, Color color, int index) {
     return Row(
       children: [
         InkWell(
@@ -758,8 +736,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
   /// [Widget cho phần chọn daily, weekly, monthy]
   Widget _repeatChoiceWidget(String choiceType, {Color color, int index}) {
     return InkWell(
-      onTap: () =>
-          _createHabitScreenController.onDayMonthYearRepeatChoiceClick(index),
+      onTap: () => _createHabitScreenController.onDayMonthYearRepeatChoiceClick(index),
       borderRadius: BorderRadius.circular(10.0),
       child: Container(
         alignment: Alignment.center,
@@ -832,8 +809,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                               height: 60.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
-                                color: _createHabitScreenController
-                                            .fillColor.value ==
+                                color: _createHabitScreenController.fillColor.value ==
                                         AppColors.choiceColors[index]
                                     ? AppColors.c3DFF
                                     : AppColors.c0000,
@@ -859,8 +835,8 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                         (index) => InkWell(
                           onTap: () {
                             Get.back();
-                            _createHabitScreenController.changeFillColor(
-                                AppColors.choiceColors[index + 3]);
+                            _createHabitScreenController
+                                .changeFillColor(AppColors.choiceColors[index + 3]);
                           },
                           child: Obx(
                             () => Container(
@@ -868,8 +844,7 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
                               height: 60.0,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  color: _createHabitScreenController
-                                              .fillColor.value ==
+                                  color: _createHabitScreenController.fillColor.value ==
                                           AppColors.choiceColors[index + 3]
                                       ? AppColors.c3DFF
                                       : AppColors.c0000),

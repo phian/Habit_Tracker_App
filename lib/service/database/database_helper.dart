@@ -52,8 +52,6 @@ class DatabaseHelper {
   // table SUGGESTED HABIT
   final tableSuggestedHabit = 'suggested_habit';
 
-  
-
   DatabaseHelper._privateConstructor();
 
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -145,8 +143,7 @@ class DatabaseHelper {
     ''');
 
     // INSERT DATA SUGGESTED TOPIC
-    await db.execute(
-        '''INSERT INTO $tableSuggestedTopic ($topicName, $description, $image) 
+    await db.execute('''INSERT INTO $tableSuggestedTopic ($topicName, $description, $image) 
         VALUES 
         ('Trending habits', 'Take a step in a right direction', '${AppImages.imgTrendingHabits}'),
         ('Staying at home', 'Use this time to do something new', '${AppImages.imgAtHome}'),
@@ -374,18 +371,16 @@ class DatabaseHelper {
     return rs;
   }
 
-  Future<List<Process>> getListHabitProcessByDate(DateTime date) async {
+  Future<List<Process>> getListProcess(DateTime date) async {
     Database db = await instance.database;
     // convert Datetime sang Sting đúng format
     String formatedDate = AppConstants.dateFormatter.format(date);
     List<Process> listProcess = [];
     try {
-      var res = await db.query(
-        tableProcess,
-        where: '${this.date} = ?',
-        orderBy: '$habitId DESC',
-        whereArgs: [formatedDate],
-      );
+      var res = await db.rawQuery('''
+        SELECT * FROM $tableProcess
+        WHERE ${this.date} = '$formatedDate' 
+        ''');
 
       res.forEach((element) {
         Process process = Process.fromMap(element);
@@ -394,7 +389,26 @@ class DatabaseHelper {
     } catch (e) {
       throw e;
     }
+
     return listProcess;
+  }
+
+  Future<int> countProcessCompleteInRange(int habitID, DateTime beginDate, DateTime endDate) async {
+    Database db = await instance.database;
+    String begin = AppConstants.dateFormatter.format(beginDate);
+    String end = AppConstants.dateFormatter.format(endDate);
+    try {
+      var rs = await db.rawQuery('''
+      SELECT COUNT(*) FROM $tableProcess, $tableHabit
+      WHERE $tableProcess.$habitId = $tableHabit.$habitId
+      AND $date BETWEEN '$begin' AND '$end'
+      AND $tableProcess.$habitId = $habitID
+      AND $tableProcess.$result = $tableHabit.$amount
+      ''');
+      return Sqflite.firstIntValue(rs);
+    } catch (e) {
+      throw e;
+    }
   }
 
   Future<int> createNewProcess(int idHabit, DateTime date) async {
@@ -404,7 +418,7 @@ class DatabaseHelper {
     int rs = 0;
     try {
       rs = await db.rawInsert(
-        'INSERT OR IGNORE INTO $tableProcess ($habitId,${this.date}) VALUES (?,?)',
+        'INSERT INTO $tableProcess ($habitId,${this.date}) VALUES (?,?)',
         [idHabit, formatedDate],
       );
     } catch (e) {
@@ -497,5 +511,4 @@ class DatabaseHelper {
     }
     return diarys;
   }
-
 }

@@ -23,11 +23,9 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
 
   bool checkIfSkipedOrCompleted() {
     if (widget.process != null) {
-      bool isSkip = widget.process.isSkip;
-      bool isSetGoalAndComplete =
-          widget.process.result == widget.habit.amount && widget.habit.isSetGoal;
-      bool isNotSetGoalAndComplete = widget.process.result == -1 && widget.habit.isSetGoal == false;
-      return isSkip || isSetGoalAndComplete || isNotSetGoalAndComplete;
+      bool isSkiped = widget.process.isSkip;
+      bool isCompleted = widget.process.result == widget.habit.amount;
+      return isSkiped || isCompleted;
     }
     return false;
   }
@@ -47,9 +45,9 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
                 onTap: (CompletionHandler handler) async {
                   handler(false);
                   createProcessIfNull();
-                  widget.process.result = widget.habit.isSetGoal ? widget.habit.amount : -1;
+                  widget.process.result = widget.habit.amount;
                   controller.updateProcess(widget.process);
-                  controller.getHabitProcessByDate(controller.selectedDate.value);
+                  controller.getListProcess(controller.selectedDate.value);
                   setState(() {});
                   print('done');
                 },
@@ -64,7 +62,7 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
                     createProcessIfNull();
                     widget.process.result++;
                     controller.updateProcess(widget.process);
-                    controller.getHabitProcessByDate(controller.selectedDate.value);
+                    controller.getListProcess(controller.selectedDate.value);
                     setState(() {});
                     print('+1');
                   },
@@ -91,7 +89,7 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
                   widget.process.isSkip = false;
                   widget.process.result = 0;
                   controller.updateProcess(widget.process);
-                  controller.getHabitProcessByDate(controller.selectedDate.value);
+                  controller.getListProcess(controller.selectedDate.value);
                   setState(() {});
                   print('undo');
                 },
@@ -107,7 +105,7 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
                   createProcessIfNull();
                   widget.process.isSkip = true;
                   controller.updateProcess(widget.process);
-                  controller.getHabitProcessByDate(controller.selectedDate.value);
+                  controller.getListProcess(controller.selectedDate.value);
                   setState(() {});
                   print('skip');
                 },
@@ -138,7 +136,7 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
 
   void createProcessIfNull() {
     if (widget.process == null) {
-      print("create");
+      print("create process");
       var date = controller.selectedDate.value;
       widget.process = Process(
         habitId: widget.habit.habitId,
@@ -167,13 +165,12 @@ class HabitTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isSkiped = false;
-    bool isSetGoalAndCompleted = false;
-    bool isNotSetGoalAndCompleted = false;
+    bool isCompleted = false;
+   
 
     if (process != null) {
       isSkiped = process.isSkip;
-      isSetGoalAndCompleted = process.result == habit.amount && habit.isSetGoal;
-      isNotSetGoalAndCompleted = process.result == -1 && habit.isSetGoal == false;
+      isCompleted = process.result == habit.amount;
     }
 
     return GestureDetector(
@@ -192,7 +189,7 @@ class HabitTile extends StatelessWidget {
               child: Icon(
                 IconData(habit.icon, fontFamily: 'MaterialIcons'),
                 size: 50,
-                color: isSkiped || isSetGoalAndCompleted || isNotSetGoalAndCompleted
+                color: isSkiped || isCompleted
                     ? AppColors.cFF9E
                     : Color(int.parse(habit.color, radix: 16)),
               ),
@@ -208,7 +205,7 @@ class HabitTile extends StatelessWidget {
                       habit.habitName,
                       style: TextStyle(
                         fontSize: 22,
-                        decoration: isSetGoalAndCompleted || isNotSetGoalAndCompleted
+                        decoration: isCompleted
                             ? TextDecoration.lineThrough
                             : TextDecoration.none,
                         decorationThickness: 1.7,
@@ -236,7 +233,7 @@ class HabitTile extends StatelessWidget {
                           ],
                         ),
                       ),
-                    if (isSetGoalAndCompleted || isNotSetGoalAndCompleted)
+                    if (isCompleted)
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Row(
@@ -289,7 +286,7 @@ class HabitTile extends StatelessWidget {
       ),
       onTap: () {
         _moveToHabitStatisticScreen(habit);
-      }, //=> _moveToHabitStatisticScreen(habit),
+      },
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:habit_tracker/constants/app_images.dart';
+import 'package:intl/intl.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class AppConstants {
@@ -37,6 +38,7 @@ class AppConstants {
 
   static const currentLoginType = "CURRENT_LOGIN_KEY";
 
+  
   /// Notification keys
   static const todayPlanKey = "TODAY_PLAN_KEY";
   static const todayPlanSwitchKey = "TODAY_PLAN_KEY";
@@ -45,6 +47,9 @@ class AppConstants {
   static const morningPlanKey = "MORNING_PLAN_KEY";
   static const afternoonPlanKey = "AFTERNOON_PLAN_KEY";
   static const eveningPlanKey = "EVENING_PLAN_KEY";
+
+  static final DateFormat dateFormatter = DateFormat('yyyy-MM-dd');
+
 }
 
 enum AllNoteLoadingState {

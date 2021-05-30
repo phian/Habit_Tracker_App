@@ -24,9 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_date_picker_timeline:
-    git:
-      url: https://github.com/khduy/flutter_date_picker_timeline
+  
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3
@@ -68,6 +66,10 @@ dependencies:
   url_launcher: ^6.0.4
   rate_my_app: ^1.1.0+1
   fluttertoast: ^8.0.7
+  # custom package ===========================================
+  flutter_date_picker_timeline:
+    git:
+      url: https://github.com/khduy/flutter_date_picker_timeline
 
 flutter_icons:
   android: "habit_tracker"
@@ -77,7 +79,7 @@ flutter_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-#  change_app_package_name: ^1.0.0
+  # change_app_package_name: ^1.0.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

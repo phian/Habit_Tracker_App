@@ -6,7 +6,7 @@ import 'package:habit_tracker/service/api_service/api_service.dart';
 import 'package:habit_tracker/service/database/shared_preference_service.dart';
 
 class LoginScreenController extends GetxController {
-  APIService apiService = APIService.instance;
+  APIService _apiService = APIService.instance;
   SharedPreferenceService _preferenceService = SharedPreferenceService.instance;
 
   var isLoginOrSignup = 1.obs;
@@ -22,7 +22,7 @@ class LoginScreenController extends GetxController {
   }
 
   Future<User> signInWithGoogle() async {
-    var user = await apiService.signInWithGoogle();
+    var user = await _apiService.signInWithGoogle();
     if (user != null) {
       _saveUserData(LoginType.google);
     }
@@ -31,7 +31,7 @@ class LoginScreenController extends GetxController {
   }
 
   Future<FacebookLoginStatus> signInWithFacebook() async {
-    var facebookStatus = await apiService.signInWithFacebook();
+    var facebookStatus = await _apiService.signInWithFacebook();
     if (facebookStatus == FacebookLoginStatus.success) {
       _saveUserData(LoginType.facebook);
     }
@@ -44,16 +44,18 @@ class LoginScreenController extends GetxController {
       case LoginType.google:
         pref.setString(
           AppConstants.googleUserNameKey,
-          apiService.googleUser.displayName,
+          _apiService.googleUser.displayName,
         );
         pref.setString(
           AppConstants.googleUserPhotoURLKey,
-          apiService.googleUser.photoURL,
+          _apiService.googleUser.photoURL,
         );
+
+        pref.setString(AppConstants.currentLoginType, "google");
         break;
       case LoginType.facebook:
-        var userProfileName = await apiService.getFacebookUserProfileName();
-        var userPhoto = await apiService.getFacebookUserPhotoURL();
+        var userProfileName = await _apiService.getFacebookUserProfileName();
+        var userPhoto = await _apiService.getFacebookUserPhotoURL();
         pref.setString(
           AppConstants.facebookUserNameKey,
           userProfileName,
@@ -63,6 +65,7 @@ class LoginScreenController extends GetxController {
           userPhoto,
         );
 
+        pref.setString(AppConstants.currentLoginType, "facebook");
         break;
       case LoginType.apple:
         break;

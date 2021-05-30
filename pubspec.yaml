@@ -31,38 +31,32 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3
   intl: ^0.17.0
-  # morpheus: ^1.2.2+1
-  # line_icons: ^0.2.0
   shrink_sidemenu: ^1.0.0+3
-  # liquid_ui: ^1.0.0+9
-  # page_transition: ^1.1.7+3
   animate_icons: ^2.0.0
   get:
-  flutter_iconpicker: ^3.0.1+2
+  flutter_iconpicker: 3.0.1+2
   select_form_field: ^2.0.0
   sqflite: ^2.0.0+3
   cool_alert: ^1.1.0
   # flutter_date_picker_timeline: ^0.3.1
-  # scroll_snap_list: ^0.6.0
   timeline_list: ^0.0.5
   flutter_animation_progress_bar: ^2.0.0
   table_calendar: ^3.0.0
   fl_chart: ^0.36.1
-  # percent_indicator: ^2.1.9
   flutter_swipe_action_cell: ^2.1.0
   flutter_launcher_icons: ^0.9.0
   flutter_spinkit: ^5.0.0
   firebase_core: ^1.2.0
   firebase_messaging: ^10.0.0
   firebase_auth: ^1.2.0
-  google_sign_in: ^5.0.3
+  google_sign_in: ^5.0.4
   flutter_login_facebook: ^1.0.1
   wave: ^0.2.0
   flutter_local_notifications: ^5.0.0+4
   pedometer: ^3.0.0
   day_night_time_picker: ^1.0.2
-  syncfusion_flutter_datepicker: ^19.1.64-beta
-  shared_preferences: ^2.0.5
+  syncfusion_flutter_datepicker: ^19.1.65-beta
+  shared_preferences: ^2.0.6
   percent_indicator: ^3.0.1
   jiffy: ^4.1.0
   #  sign_in_with_apple: ^3.0.0

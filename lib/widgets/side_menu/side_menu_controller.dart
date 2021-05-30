@@ -17,27 +17,41 @@ class SideMenuController extends GetxController {
 
   void initUserInfo() async {
     var pref = await _preferenceService.getPref();
-    if (pref.getString(AppConstants.googleUserNameKey) != null &&
-        pref.getString(AppConstants.googleUserPhotoURLKey) != null) {
-      userName.value = pref.getString(AppConstants.googleUserNameKey);
-      imagePath.value = pref.getString(AppConstants.googleUserPhotoURLKey);
-    }
-    if (pref.getString(AppConstants.facebookUserNameKey) != null &&
-        pref.getString(AppConstants.facebookUserPhotoURLKey) != null) {
-      userName.value = pref.getString(AppConstants.facebookUserNameKey);
-      imagePath.value = pref.getString(AppConstants.facebookUserPhotoURLKey);
+    var currentLoginType = pref.getString(AppConstants.currentLoginType);
+
+    if (currentLoginType != null && currentLoginType.isNotEmpty) {
+      switch (currentLoginType) {
+        case "google":
+          userName.value = pref.getString(AppConstants.googleUserNameKey);
+          imagePath.value = pref.getString(AppConstants.googleUserPhotoURLKey);
+          break;
+        case "facebook":
+          userName.value = pref.getString(AppConstants.facebookUserNameKey);
+          imagePath.value =
+              pref.getString(AppConstants.facebookUserPhotoURLKey);
+          break;
+        case "apple":
+          break;
+      }
     }
   }
 
   Future<void> signOutUserAccount() async {
     var pref = await _preferenceService.getPref();
-    if (pref.getString(AppConstants.googleUserNameKey) != null &&
-        pref.getString(AppConstants.googleUserPhotoURLKey) != null) {
-      await _googleSignOut();
-    } else if (pref.getString(AppConstants.facebookUserNameKey) != null &&
-        pref.getString(AppConstants.facebookUserPhotoURLKey) != null) {
-      await _facebookSignOut();
+    var currentLoginType = pref.getString(AppConstants.currentLoginType);
+
+    switch (currentLoginType) {
+      case "google":
+        await _googleSignOut();
+        break;
+      case "facebook":
+        await _facebookSignOut();
+        break;
+      case "apple":
+        break;
     }
+
+    removeUserInfo();
   }
 
   Future<void> _googleSignOut() async {
@@ -46,7 +60,6 @@ class SideMenuController extends GetxController {
             err.toString(),
           ),
         );
-    removeUserInfo();
   }
 
   Future<void> _facebookSignOut() async {
@@ -55,26 +68,28 @@ class SideMenuController extends GetxController {
             err.toString(),
           ),
         );
-    removeUserInfo();
   }
 
   void removeUserInfo() async {
     var pref = await _preferenceService.getPref();
-    if (pref.getString(AppConstants.googleUserNameKey) != null &&
-        pref.getString(AppConstants.googleUserPhotoURLKey) != null) {
-      pref.setString(AppConstants.googleUserNameKey, "User");
-      pref.setString(AppConstants.googleUserPhotoURLKey, "");
+    var currentLoginType = pref.getString(AppConstants.currentLoginType);
 
-      userName.value = "User";
-      imagePath.value = "";
+    switch (currentLoginType) {
+      case "google":
+        pref.setString(AppConstants.googleUserNameKey, "User");
+        pref.setString(AppConstants.googleUserPhotoURLKey, "");
+        pref.setString(AppConstants.currentLoginType, "");
+        break;
+      case "facebook":
+        pref.setString(AppConstants.facebookUserNameKey, "User");
+        pref.setString(AppConstants.facebookUserPhotoURLKey, "");
+        pref.setString(AppConstants.currentLoginType, "");
+        break;
+      case "apple":
+        break;
     }
-    if (pref.getString(AppConstants.facebookUserNameKey) != null &&
-        pref.getString(AppConstants.facebookUserPhotoURLKey) != null) {
-      pref.setString(AppConstants.facebookUserNameKey, "User");
-      pref.setString(AppConstants.facebookUserPhotoURLKey, "");
 
-      userName.value = "User";
-      imagePath.value = "";
-    }
+    userName.value = "User";
+    imagePath.value = "";
   }
 }

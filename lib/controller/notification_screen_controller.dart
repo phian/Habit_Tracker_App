@@ -1,36 +1,93 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/service/database/shared_preference_service.dart';
+import 'package:habit_tracker/view/notification_screen.dart';
 
 class NotificationController extends GetxController {
   var isHabitsOrChallenge = 1.obs;
-  var isOnOrOffTodayPlanNoti = true.obs;
-  var isOnOrOffMorningPlan = false.obs;
-  var isOnOrOffAternoonPlan = false.obs;
-  var isOnOrOffEveningPlan = false.obs;
-  var isOnOrOffTodayResult = true.obs;
+  var todayPlanSwitch = true.obs;
+  var morningPlanSwitch = false.obs;
+  var afternoonPlanSwitch = false.obs;
+  var eveningPlanSwitch = false.obs;
+  var todayResultSwitch = true.obs;
 
-  /// [Challenge]
-  var isOnChallengeNoti = true.obs;
+  /// Challenge
+  var challengeNotificationSwitch = true.obs;
   var challengeTodayPlanTime = "00:00".obs;
   var challengeProgressCheckUpTime = "00:00".obs;
 
   SharedPreferenceService _sharedPreferenceService =
       SharedPreferenceService.instance;
 
+  @override
+  void onInit() {
+    super.onInit();
+    initData();
+  }
+
   /// [Habit notification]
   ///
-  var todayPlanPickedTime = (TimeOfDay.now().hour.toString() +
+  var todayPlanPickedTime = (TimeOfDay.now().hour.toString().padLeft(2, "0") +
           ":" +
-          (TimeOfDay.now().minute < 10 ? "0" : "") +
-          TimeOfDay.now().minute.toString())
+          TimeOfDay.now().minute.toString().padLeft(2, "0"))
+      .obs;
+  var resultPickedTime = (TimeOfDay.now().hour.toString().padLeft(2, "0") +
+          ":" +
+          TimeOfDay.now().minute.toString().padLeft(2, "0"))
       .obs;
 
-  var resultNotiPickedTime = (TimeOfDay.now().hour.toString() +
-          ":" +
-          (TimeOfDay.now().minute < 10 ? "0" : "") +
-          TimeOfDay.now().minute.toString())
-      .obs;
+  NotificationController() {
+    initData();
+  }
+
+  void initData() {
+    initPickedTimeSwitchValue();
+    initPlanSwitches();
+    initSelectedTime();
+  }
+
+  void initSelectedTime() async {
+    var pref = await _sharedPreferenceService.getPref();
+
+    todayPlanPickedTime.value = pref.getString(AppConstants.todayPlanKey) ??
+        TimeOfDay.now().hour.toString().padLeft(2, "0") +
+            ":" +
+            TimeOfDay.now().minute.toString().padLeft(2, "0");
+
+    resultPickedTime.value = pref.getString(AppConstants.todayResultKey) ??
+        TimeOfDay.now().hour.toString().padLeft(2, "0") +
+            ":" +
+            TimeOfDay.now().minute.toString().padLeft(2, "0");
+  }
+
+  void initPlanSwitches() async {
+    var pref = await _sharedPreferenceService.getPref();
+
+    if (pref.getBool(AppConstants.morningPlanKey) != null) {
+      morningPlanSwitch.value = pref.getBool(AppConstants.morningPlanKey);
+    }
+    if (pref.getBool(AppConstants.afternoonPlanKey) != null) {
+      afternoonPlanSwitch.value = pref.getBool(AppConstants.afternoonPlanKey);
+    }
+    if (pref.getBool(AppConstants.eveningPlanKey) != null) {
+      eveningPlanSwitch.value = pref.getBool(AppConstants.eveningPlanKey);
+    }
+  }
+
+  void initPickedTimeSwitchValue() async {
+    var pref = await _sharedPreferenceService.getPref();
+    var todayPlanResult = pref.getBool(AppConstants.todayPlanSwitchKey);
+
+    if (todayPlanResult != null) {
+      todayPlanSwitch.value = pref.getBool(AppConstants.todayPlanSwitchKey);
+    }
+
+    var todayResult = pref.getBool(AppConstants.todayPlanSwitchKey);
+    if (todayResult != null) {
+      todayResultSwitch.value = pref.getBool(AppConstants.todayResultSwitchKey);
+    }
+  }
 
   changeIsHabitsOrChallenge(int index) {
     if (isHabitsOrChallenge.value != index) {
@@ -38,55 +95,71 @@ class NotificationController extends GetxController {
     }
   }
 
-  changeIsOnOrOffTodayPlanOrResultNoti(int index) {
-    index == 0
-        ? isOnOrOffTodayPlanNoti.value = !isOnOrOffTodayPlanNoti.value
-        : isOnOrOffTodayResult.value = !isOnOrOffTodayResult.value;
-  }
+  void changePickedTime(PickedTimeType type, TimeOfDay result) async {
+    switch (type) {
+      case PickedTimeType.todayPlan:
+        todayPlanPickedTime.value =
+            "${result.hour.toString().padLeft(2, '0')}:${result.minute.toString().padLeft(2, '0')}";
 
-  changeIsOnOrOffDAteTimePlanNotice(int index) {
-    switch (index) {
-      case 0:
-        isOnOrOffMorningPlan.value = !isOnOrOffMorningPlan.value;
-        break;
-      case 1:
-        isOnOrOffAternoonPlan.value = !isOnOrOffAternoonPlan.value;
-        break;
-      case 2:
-        isOnOrOffEveningPlan.value = !isOnOrOffEveningPlan.value;
-        break;
-    }
-  }
-
-  changePickedTime(int index, TimeOfDay timeOfDay) async {
-    var pref = await _sharedPreferenceService.getPref();
-    switch (index) {
-      case 0:
-        todayPlanPickedTime.value = (timeOfDay.hour.toString().padLeft(2, '0') +
-            ":" +
-            timeOfDay.minute.toString().padLeft(2, '0'));
-        pref.setString(
-          "today_plan_reminder_time",
+        savePickedTimeValue(
+          AppConstants.todayPlanKey,
           todayPlanPickedTime.value,
         );
         break;
-      case 1:
-        resultNotiPickedTime.value =
-            (timeOfDay.hour.toString().padLeft(2, '0') +
-                ":" +
-                timeOfDay.minute.toString().padLeft(2, '0'));
-        pref.setString(
-          "today_result_reminder_time",
-          resultNotiPickedTime.value,
+      case PickedTimeType.todayResult:
+        resultPickedTime.value =
+            "${result.hour.toString().padLeft(2, '0')}:${result.minute.toString().padLeft(2, '0')}";
+
+        savePickedTimeValue(
+          AppConstants.todayResultKey,
+          resultPickedTime.value,
         );
         break;
     }
+  }
+
+  void savePickedTimeValue(String key, String value) async {
+    var pref = await _sharedPreferenceService.getPref();
+    pref.setString(key, value);
+  }
+
+  ///
+  void onDateTimeNotificationSwitchPress(PickedTimeType type) async {
+    var pref = await _sharedPreferenceService.getPref();
+
+    switch (type) {
+      case PickedTimeType.todayPlan:
+        todayPlanSwitch.value = !todayPlanSwitch.value;
+
+        pref.setBool(AppConstants.todayPlanSwitchKey, todayPlanSwitch.value);
+
+        // saveTodayPlanOrResultSwitchValue(
+        //   AppConstants.todayPlanSwitchKey,
+        //   todayPlanSwitch.value,
+        // );
+        break;
+      case PickedTimeType.todayResult:
+        todayResultSwitch.value = !todayResultSwitch.value;
+        pref.setBool(
+            AppConstants.todayResultSwitchKey, todayResultSwitch.value);
+
+        // saveTodayPlanOrResultSwitchValue(
+        //   AppConstants.todayResultSwitchKey,
+        //   todayResultSwitch.value,
+        // );
+        break;
+    }
+  }
+
+  void saveTodayPlanOrResultSwitchValue(String key, bool value) async {
+    var pref = await _sharedPreferenceService.getPref();
+    pref.setBool(key, value);
   }
 
   /// [Challenge notification]
   ///
-  changeIsOnChallengeNoti() {
-    isOnChallengeNoti.value = !isOnChallengeNoti.value;
+  changeChallengeSwitchValue() {
+    challengeNotificationSwitch.value = !challengeNotificationSwitch.value;
   }
 
   changeChallengeTodayPlanTime(TimeOfDay time) {
@@ -111,20 +184,30 @@ class NotificationController extends GetxController {
     }
   }
 
-  void onNoneDateTimeNotificationSwitchPress(IconData icon) {
-    if (icon == Icons.wb_sunny) {
-      changeIsOnOrOffDAteTimePlanNotice(0);
-    } else if (Icons.cloud == icon) {
-      changeIsOnOrOffDAteTimePlanNotice(1);
-    } else {
-      changeIsOnOrOffDAteTimePlanNotice(2);
+  void onNoneDateTimeNotificationSwitchPress(NotificationPlanType type) async {
+    var pref = await _sharedPreferenceService.getPref();
+
+    switch (type) {
+      case NotificationPlanType.morning:
+        morningPlanSwitch.value = !morningPlanSwitch.value;
+
+        pref.setBool(AppConstants.morningPlanKey, morningPlanSwitch.value);
+        break;
+      case NotificationPlanType.afternoon:
+        afternoonPlanSwitch.value = !afternoonPlanSwitch.value;
+
+        pref.setBool(AppConstants.afternoonPlanKey, afternoonPlanSwitch.value);
+        break;
+      case NotificationPlanType.evening:
+        eveningPlanSwitch.value = !eveningPlanSwitch.value;
+
+        pref.setBool(AppConstants.eveningPlanKey, eveningPlanSwitch.value);
+        break;
     }
   }
 
-  void onDateTimeNotificationSwitchPress(IconData icon) {
-    if (icon == Icons.assignment)
-      changeIsOnOrOffTodayPlanOrResultNoti(0);
-    else
-      changeIsOnOrOffTodayPlanOrResultNoti(1);
+  void saveDateTimePlanNotificationValue(String key, bool value) async {
+    var pref = await _sharedPreferenceService.getPref();
+    pref.setBool(key, value);
   }
 }

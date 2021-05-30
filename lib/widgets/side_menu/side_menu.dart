@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
+import 'package:habit_tracker/controller/login_screen_controller.dart';
 import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/widgets/custom_confirm_dialog.dart';
 import 'package:habit_tracker/widgets/init_rate_my_app_widget.dart';
@@ -27,6 +28,7 @@ class _ScreenMenuState extends State<ScreenMenu> {
   void initState() {
     super.initState();
     _menuController.initUserInfo();
+    Get.lazyPut(() => LoginScreenController());
   }
 
   @override
@@ -70,12 +72,12 @@ class _ScreenMenuState extends State<ScreenMenu> {
                       child: Obx(
                             () => _menuController.imagePath.value.isEmpty
                             ? Icon(
-                          Icons.account_circle,
-                          size: 60.0,
-                        )
+                                Icons.account_circle,
+                                size: 60.0,
+                              )
                             : Image.network(
-                          _menuController.imagePath.value,
-                        ),
+                                _menuController.imagePath.value,
+                              ),
                       ),
                     ),
                   ),
@@ -213,7 +215,7 @@ class _ScreenMenuState extends State<ScreenMenu> {
         }
         break;
       case MenuItemsType.logout:
-        _menuController.signOutUserAccount().whenComplete(() {
+        await _menuController.signOutUserAccount().whenComplete(() {
           _showSignInNotificationDialog(
             text: "Sign out success",
             title: "Alert!",

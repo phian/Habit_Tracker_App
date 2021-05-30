@@ -33,11 +33,7 @@ class APIService {
     googleSignInAccount = await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
-      try {
-        googleSignInAuthentication = await googleSignInAccount.authentication;
-      } catch (e, r) {
-        print("$e, $r");
-      }
+      googleSignInAuthentication = await googleSignInAccount.authentication;
 
       credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
@@ -70,11 +66,7 @@ class APIService {
 
   Future<FacebookLoginStatus> signInWithFacebook() async {
     facebookLogin = FacebookLogin();
-    try {
-      facebookLoginResult = await facebookLogin.expressLogin();
-    } catch (e, r) {
-      print("$e, $r");
-    }
+    facebookLoginResult = await facebookLogin.expressLogin();
 
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.cancel:

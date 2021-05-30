@@ -10,10 +10,13 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  final _notificationController = Get.put(NotificationController());
+  NotificationController _notificationController =
+      Get.put(NotificationController());
 
   @override
   Widget build(BuildContext context) {
+    _notificationController.initData();
+
     return Scaffold(
       appBar: _notificationScreenAppBar(),
       backgroundColor: AppColors.cFF1E,
@@ -131,52 +134,59 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
               ),
               SizedBox(height: 30.0),
-              _todayPlanAndResultWidget(
-                title: "Plan for today",
-                summaryText:
-                    "Morning: x habits, Afternoon: y habit, Evening: z habits, Do anytime: n habits",
-                value: _notificationController.isOnOrOffTodayPlanNoti,
-                icon: Icons.assignment,
-                pickedTime: _notificationController.todayPlanPickedTime,
-                iconColor: AppColors.cFF11,
-                type: NotificationTimeType.todayPlan,
+              Obx(
+                () => _planWithTimeNotificationWidget(
+                  title: "Plan for today",
+                  summaryText:
+                      "Morning: x habits, Afternoon: y habit, Evening: z habits, Do anytime: n habits",
+                  value: _notificationController.todayPlanSwitch.value,
+                  icon: Icons.assignment,
+                  pickedTime: _notificationController.todayPlanPickedTime.value,
+                  iconColor: AppColors.cFF11,
+                  type: PickedTimeType.todayPlan,
+                ),
               ),
               SizedBox(height: 30.0),
-              _dateTimeNotificationWidget(
+              _planWithoutTimeNotificationWidget(
                 title: "Morning plan",
                 summaryText:
                     "You have x habits for this morning and 4 more you can do",
                 icon: Icons.wb_sunny,
-                value: _notificationController.isOnOrOffMorningPlan,
+                value: _notificationController.morningPlanSwitch,
                 iconColor: AppColors.cFFFA,
+                type: NotificationPlanType.morning,
               ),
               SizedBox(height: 30.0),
-              _dateTimeNotificationWidget(
+              _planWithoutTimeNotificationWidget(
                 title: "Afternoon plan",
                 summaryText:
                     "You have 1 habt for this afternoon and 4 more you can do",
                 icon: Icons.cloud,
-                value: _notificationController.isOnOrOffAternoonPlan,
+                value: _notificationController.afternoonPlanSwitch,
+                type: NotificationPlanType.afternoon,
               ),
               SizedBox(height: 30.0),
-              _dateTimeNotificationWidget(
+              _planWithoutTimeNotificationWidget(
                 title: "Evening plan",
                 summaryText:
                     "You have 1 habt for this afternoon and 4 more you can do",
                 icon: Icons.nights_stay,
-                value: _notificationController.isOnOrOffEveningPlan,
+                value: _notificationController.eveningPlanSwitch,
                 iconColor: AppColors.cFFFFD9,
+                type: NotificationPlanType.evening,
               ),
               SizedBox(height: 30.0),
-              _todayPlanAndResultWidget(
-                title: "Your results for today",
-                summaryText:
-                    "x habits completed, y habits skiped, z habits left",
-                value: _notificationController.isOnOrOffTodayResult,
-                icon: Icons.view_list,
-                pickedTime: _notificationController.resultNotiPickedTime,
-                iconColor: AppColors.cFFF5,
-                type: NotificationTimeType.todayResult,
+              Obx(
+                () => _planWithTimeNotificationWidget(
+                  title: "Your results for today",
+                  summaryText:
+                      "x habits completed, y habits skiped, z habits left",
+                  value: _notificationController.todayResultSwitch.value,
+                  icon: Icons.view_list,
+                  pickedTime: _notificationController.resultPickedTime.value,
+                  iconColor: AppColors.cFFF5,
+                  type: PickedTimeType.todayResult,
+                ),
               ),
               SizedBox(height: 30.0),
               Text(
@@ -213,111 +223,105 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   /// Widget have time picker
-  Widget _todayPlanAndResultWidget({
+  Widget _planWithTimeNotificationWidget({
     String title,
     IconData icon,
     String summaryText,
-    RxBool value,
-    RxString pickedTime,
+    bool value,
+    String pickedTime,
     Color iconColor,
-    NotificationTimeType type,
+    PickedTimeType type,
   }) {
     return Material(
-      child: InkWell(
-        borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.circular(10.0),
+      color: AppColors.cFF2F,
+      child: ListTile(
         onTap: () {
-          _notificationController.onDateTimeNotificationSwitchPress(icon);
+          _notificationController.onDateTimeNotificationSwitchPress(type);
         },
-        child: Container(
-          padding: EdgeInsets.only(
-            left: 24.0,
-            right: 24.0,
-            top: 24.0,
-            bottom: 8.0,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: AppColors.cFF2F,
-          ),
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              title,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.bold,
-                              ),
+        contentPadding: EdgeInsets.only(
+          left: 24.0,
+          right: 24.0,
+          top: 24.0,
+          bottom: 8.0,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        title: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Container(
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Icon(
-                                icon,
-                                size: 30.0,
-                                color: iconColor,
-                              ),
-                            ),
-                          ],
-                        ).marginOnly(bottom: 8.0),
-                        Container(
-                          width: Get.width * 0.6,
-                          child: Text(
-                            summaryText,
-                            maxLines: 5,
-                            style: TextStyle(fontSize: 18.0),
                           ),
-                        ).marginOnly(
-                          bottom: icon == Icons.assignment ? 16.0 : 32.0,
+                          Container(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: Icon(
+                              icon,
+                              size: 30.0,
+                              color: iconColor,
+                            ),
+                          ),
+                        ],
+                      ).marginOnly(bottom: 8.0),
+                      Container(
+                        width: Get.width * 0.6,
+                        child: Text(
+                          summaryText,
+                          maxLines: 5,
+                          style: TextStyle(fontSize: 18.0),
                         ),
-                      ],
-                    ),
-                    Obx(
-                      () => Switch(
-                        activeColor: AppColors.cFFFE,
-                        value: value.value,
-                        onChanged: (value) => _notificationController
-                            .onDateTimeNotificationSwitchPress(icon),
+                      ).marginOnly(
+                        bottom: icon == Icons.assignment ? 16.0 : 32.0,
                       ),
-                    ),
-                  ],
-                ),
-                Container(
-                  height: 0.5,
-                  color: AppColors.cFFFF,
-                ),
-                Material(
-                  color: AppColors.c0000,
-                  borderRadius: BorderRadius.circular(5.0),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    onTap: () => _onHabitNotificationTilePress(icon, type),
-                    leading: Icon(
-                      Icons.access_time,
-                      size: 30.0,
-                      color: AppColors.cFF1C,
-                    ),
-                    title: Obx(
-                      () => Text(
-                        pickedTime.value,
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                    ),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                  ).marginOnly(top: 4.0),
-                ),
-              ],
-            ),
+                    ],
+                  ),
+                  Switch(
+                    activeColor: AppColors.cFFFE,
+                    value: value,
+                    onChanged: (value) => _notificationController
+                        .onDateTimeNotificationSwitchPress(type),
+                  ),
+                ],
+              ),
+              Container(
+                height: 0.5,
+                color: AppColors.cFFFF,
+              ),
+              Material(
+                color: AppColors.c0000,
+                borderRadius: BorderRadius.circular(5.0),
+                child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  onTap: () => _onHabitNotificationTimeTilePress(type),
+                  leading: Icon(
+                    Icons.access_time,
+                    size: 30.0,
+                    color: AppColors.cFF1C,
+                  ),
+                  title: Text(
+                    pickedTime,
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                ).marginOnly(top: 4.0),
+              ),
+            ],
           ),
         ),
       ),
@@ -325,19 +329,20 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   /// Widget without time picker
-  Widget _dateTimeNotificationWidget({
+  Widget _planWithoutTimeNotificationWidget({
     String title,
     String summaryText,
     IconData icon,
     RxBool value,
     Color iconColor,
+    NotificationPlanType type,
   }) {
     return Material(
       color: AppColors.cFF2F,
       borderRadius: BorderRadius.circular(10.0),
       child: InkWell(
         onTap: () {
-          _notificationController.onNoneDateTimeNotificationSwitchPress(icon);
+          _notificationController.onNoneDateTimeNotificationSwitchPress(type);
         },
         borderRadius: BorderRadius.circular(10.0),
         child: Row(
@@ -387,7 +392,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 activeColor: AppColors.cFFFE,
                 value: value.value,
                 onChanged: (value) => _notificationController
-                    .onNoneDateTimeNotificationSwitchPress(icon),
+                    .onNoneDateTimeNotificationSwitchPress(type),
               ).paddingOnly(left: 32.0),
             ),
           ],
@@ -408,7 +413,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             children: [
               SizedBox(height: 30.0),
               Text(
-                "Set notification to get infromation about Challenges you need to complete",
+                "Set notification to get information about Challenges you need to complete",
                 style: TextStyle(
                   fontSize: 20.0,
                   color: AppColors.cFFA7,
@@ -420,6 +425,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ),
       ),
     );
+  }
+
+  void _onHabitNotificationTimeTilePress(PickedTimeType type) async {
+    await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      if (value != null) {
+        _notificationController.changePickedTime(type, value);
+      }
+    }, onError: (err) {
+      print(err.toString());
+    }).catchError((err) => print(err.toString()));
   }
 
   /// [Challenge notification card]
@@ -454,9 +472,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 Obx(
                   () => Switch(
                     activeColor: AppColors.cFFFE,
-                    value: _notificationController.isOnChallengeNoti.value,
+                    value: _notificationController
+                        .challengeNotificationSwitch.value,
                     onChanged: (value) {
-                      _notificationController.changeIsOnChallengeNoti();
+                      _notificationController.changeChallengeSwitchValue();
                     },
                   ),
                 ),
@@ -543,28 +562,20 @@ class _NotificationScreenState extends State<NotificationScreen> {
       }
     }).catchError((err) => debugPrint(err.toString()));
   }
-
-  void _onHabitNotificationTilePress(
-      IconData icon, NotificationTimeType type) async {
-    await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-      if (value != null) {
-        switch (type) {
-          case NotificationTimeType.todayPlan:
-            _notificationController.changePickedTime(0, value);
-            break;
-          case NotificationTimeType.todayResult:
-            _notificationController.changePickedTime(1, value);
-            break;
-        }
-      }
-    }).catchError((err) => print(err.toString()));
-  }
 }
 
 enum NotificationTimeType {
+  todayPlan,
+  todayResult,
+}
+
+enum NotificationPlanType {
+  morning,
+  afternoon,
+  evening,
+}
+
+enum PickedTimeType {
   todayPlan,
   todayResult,
 }

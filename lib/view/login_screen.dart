@@ -15,7 +15,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  LoginScreenController _loginScreenController = LoginScreenController();
+  LoginScreenController _loginScreenController =
+      Get.put<LoginScreenController>(LoginScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
               right: 15.0,
               bottom: Get.height * 0.15,
             ),
-            physics: AlwaysScrollableScrollPhysics(
-              parent: BouncingScrollPhysics(),
-            ),
+            physics: BouncingScrollPhysics(),
             children: [
               Container(
                 alignment: Alignment.center,
@@ -106,26 +105,30 @@ class _LoginScreenState extends State<LoginScreen> {
             case LoginType.google:
               var user = await _loginScreenController.signInWithGoogle();
               if (user != null) {
-                Get.back(result: "Success");
-                showAlert(
-                  text: "Sign in success",
-                  title: "Alert!",
-                  type: CoolAlertType.success,
-                  context: context,
-                );
+                await Future.delayed(Duration(milliseconds: 300), () {
+                  Get.back(result: "Success");
+                  showAlert(
+                    text: "Sign in success",
+                    title: "Alert!",
+                    type: CoolAlertType.success,
+                    context: context,
+                  );
+                });
               }
               break;
             case LoginType.facebook:
               var loginState =
-              await _loginScreenController.signInWithFacebook();
+                  await _loginScreenController.signInWithFacebook();
               if (loginState == FacebookLoginStatus.success) {
-                Get.back(result: "Success");
-                showAlert(
-                  text: "Sign in success",
-                  title: "Alert!",
-                  type: CoolAlertType.success,
-                  context: context,
-                );
+                await Future.delayed(Duration(milliseconds: 300), () {
+                  Get.back(result: "Success");
+                  showAlert(
+                    text: "Sign in success",
+                    title: "Alert!",
+                    type: CoolAlertType.success,
+                    context: context,
+                  );
+                });
               }
               break;
             case LoginType.apple:

@@ -36,7 +36,20 @@ class AppConstants {
   static const playStoreId = 'com.android.chrome';
   static const appStoreId = 'com.apple.mobilesafari';
 
+  static const currentLoginType = "CURRENT_LOGIN_KEY";
+
+  
+  /// Notification keys
+  static const todayPlanKey = "TODAY_PLAN_KEY";
+  static const todayPlanSwitchKey = "TODAY_PLAN_KEY";
+  static const todayResultKey = "TODAY_RESULT_KEY";
+  static const todayResultSwitchKey = "TODAY_RESULT_KEY";
+  static const morningPlanKey = "MORNING_PLAN_KEY";
+  static const afternoonPlanKey = "AFTERNOON_PLAN_KEY";
+  static const eveningPlanKey = "EVENING_PLAN_KEY";
+
   static final DateFormat dateFormatter = DateFormat('yyyy-MM-dd');
+
 }
 
 enum AllNoteLoadingState {

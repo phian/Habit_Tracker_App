@@ -4,17 +4,17 @@ import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/note_screen_controller.dart';
 
 class HabitNoteScreen extends StatefulWidget {
-  HabitNoteScreen({Key key}) : super(key: key);
+  HabitNoteScreen({Key? key}) : super(key: key);
 
   @override
   _HabitNoteScreenState createState() => _HabitNoteScreenState();
 }
 
 class _HabitNoteScreenState extends State<HabitNoteScreen> {
-  NoteScreenController noteScreenController;
+  late NoteScreenController noteScreenController;
   var noteController = TextEditingController();
-  int habitId;
-  DateTime date;
+  late int habitId;
+  late DateTime date;
 
   @override
   void initState() {
@@ -24,12 +24,16 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
 
   void initData() async {
     noteScreenController = Get.put(NoteScreenController());
-    habitId = Get.arguments[0];
-    date = Get.arguments[1];
+    if (Get.arguments != null) {
+      habitId = Get.arguments[0];
+      date = Get.arguments[1];
+    }
+
     var content = await noteScreenController.getNoteContent(habitId, date);
     noteController.text = content;
     // cho con trỏ về cuối text
-    noteController.selection = TextSelection.collapsed(offset: noteController.text.length);
+    noteController.selection =
+        TextSelection.collapsed(offset: noteController.text.length);
   }
 
   @override
@@ -42,7 +46,7 @@ class _HabitNoteScreenState extends State<HabitNoteScreen> {
   }
 
   /// [App Bar]
-  Widget habitNoteScreenAppBar() {
+  PreferredSizeWidget habitNoteScreenAppBar() {
     return AppBar(
       backgroundColor: AppColors.c0000,
       elevation: 0.0,

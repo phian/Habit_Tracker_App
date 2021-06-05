@@ -4,19 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
-  static NotificationService _notificationService;
+  static NotificationService? _notificationService;
+
+  NotificationService._();
 
   static NotificationService get instance {
     if (_notificationService == null) {
-      _notificationService = NotificationService();
-      return _notificationService;
+      _notificationService = NotificationService._();
+      return _notificationService!;
     } else {
-      return _notificationService;
+      return _notificationService!;
     }
-  }
-
-  NotificationService() {
-    FirebaseMessaging.instance;
   }
 
   Future<void> initNotification() async {
@@ -37,16 +35,16 @@ class NotificationService {
 
     // If you're going to use other Firebase services in the background, such as Firestore,
     // make sure you call `initializeApp` before using other Firebase services.
-    print('Handling a background message ${message?.messageId}');
+    print('Handling a background message ${message.messageId}');
   }
 
   void _onBackgroundMessageHandler() {
     // Set the background messaging handler early on, as a named top-level function
-    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
   /// Create a [AndroidNotificationChannel] for heads up notifications
-  AndroidNotificationChannel channel;
+  late AndroidNotificationChannel channel;
 
   void _initAndroidNotificationChannel() {
     channel = AndroidNotificationChannel(
@@ -60,7 +58,7 @@ class NotificationService {
   }
 
   /// Initialize the [FlutterLocalNotificationsPlugin] package.
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   Future<void> _initNotificationPlugin() async {
     /// Create an Android Notification Channel.
@@ -88,8 +86,8 @@ class NotificationService {
   void _onLocalMessageHandler() {
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
-        RemoteNotification notification = message.notification;
-        AndroidNotification android = message.notification?.android;
+        RemoteNotification? notification = message.notification;
+        AndroidNotification? android = message.notification?.android;
         if (notification != null && android != null) {
           flutterLocalNotificationsPlugin.show(
             notification.hashCode,

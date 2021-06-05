@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/challenges_screen_controller.dart';
-import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/widgets/side_menu/side_menu.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import 'challenge_timeline_screen/challenge_timeline_screen.dart';
 
 class ChallengesScreen extends StatefulWidget {
-  ChallengesScreen({Key key}) : super(key: key);
+  ChallengesScreen({Key? key}) : super(key: key);
 
   @override
   _ChallengesScreenState createState() => _ChallengesScreenState();
 }
 
-class _ChallengesScreenState extends State<ChallengesScreen>
-    implements SideMenuModel {
+class _ChallengesScreenState extends State<ChallengesScreen> {
   final controller = Get.find<ChallengesScreenController>();
+  final ZoomDrawerController _challengeScreenController =
+      ZoomDrawerController();
 
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: AppConstants.challengeScreenKey,
+      menuController: _challengeScreenController,
       child: Scaffold(
         backgroundColor: AppColors.cFF1E,
         appBar: _challengesScreenAppBar(),
@@ -35,7 +34,7 @@ class _ChallengesScreenState extends State<ChallengesScreen>
     );
   }
 
-  Widget _challengesScreenAppBar() {
+  PreferredSizeWidget _challengesScreenAppBar() {
     return AppBar(
       leading: Container(
         alignment: Alignment.center,
@@ -45,9 +44,9 @@ class _ChallengesScreenState extends State<ChallengesScreen>
             size: 30.0,
             color: AppColors.cFFFF,
           ),
-          onPressed: () => openOrCloseSideMenu(
-            AppConstants.challengeScreenKey,
-          ),
+          onPressed: () {
+            _challengeScreenController.toggle!();
+          },
         ),
       ),
       title: Container(
@@ -285,20 +284,12 @@ class _ChallengesScreenState extends State<ChallengesScreen>
     );
   }
 
-  @override
-  void openOrCloseSideMenu(GlobalKey<SideMenuState> key) {
-    if (key.currentState.isOpened)
-      key.currentState.closeSideMenu();
-    else
-      key.currentState.openSideMenu();
-  }
-
   /// Navigation
   void _moveToChallengeScreen({
-    int tag,
-    String title,
-    String challengeAmount,
-    String imagePath,
+    required int tag,
+    required String title,
+    required String challengeAmount,
+    required String imagePath,
   }) {
     Get.to(
       () => ChallengeTimeLineScreen(

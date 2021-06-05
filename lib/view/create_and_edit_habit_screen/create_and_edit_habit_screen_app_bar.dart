@@ -16,10 +16,10 @@ class CreateAndEditHabitScreenAppBar extends StatefulWidget {
   final habitId;
 
   CreateAndEditHabitScreenAppBar({
-    this.controller,
-    this.title,
-    this.goalAmountController,
-    this.habitNameController,
+    required this.controller,
+    required this.title,
+    required this.goalAmountController,
+    required this.habitNameController,
     this.habitId,
   });
 
@@ -123,7 +123,7 @@ class _CreateAndEditHabitScreenAppBarState extends State<CreateAndEditHabitScree
         title: "Forgot to set a goal?",
         text: "Check your goal for this habit",
       );
-    } else if (widget.habitNameController.text == null || widget.habitNameController.text.isEmpty) {
+    } else if (widget.habitNameController.text.isEmpty) {
       print(widget.habitNameController.text);
       CoolAlert.show(
         context: context,

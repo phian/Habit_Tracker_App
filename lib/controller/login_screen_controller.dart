@@ -6,8 +6,8 @@ import 'package:habit_tracker/service/api_service/api_service.dart';
 import 'package:habit_tracker/service/database/shared_preference_service.dart';
 
 class LoginScreenController extends GetxController {
-  APIService _apiService = APIService.instance;
-  SharedPreferenceService _preferenceService = SharedPreferenceService.instance;
+  APIService _apiService = APIService();
+  SharedPreferenceService _preferenceService = SharedPreferenceService();
 
   var isLoginOrSignup = 1.obs;
   var isLoginVisible = true.obs;
@@ -21,7 +21,7 @@ class LoginScreenController extends GetxController {
     isSignUpVisible.value = !isSignUpVisible.value;
   }
 
-  Future<User> signInWithGoogle() async {
+  Future<User?> signInWithGoogle() async {
     var user = await _apiService.signInWithGoogle();
     if (user != null) {
       _saveUserData(LoginType.google);
@@ -44,11 +44,11 @@ class LoginScreenController extends GetxController {
       case LoginType.google:
         pref.setString(
           AppConstants.googleUserNameKey,
-          _apiService.googleUser.displayName,
+          _apiService.googleUser?.displayName ?? "",
         );
         pref.setString(
           AppConstants.googleUserPhotoURLKey,
-          _apiService.googleUser.photoURL,
+          _apiService.googleUser?.photoURL ?? "",
         );
 
         pref.setString(AppConstants.currentLoginType, "google");
@@ -58,11 +58,11 @@ class LoginScreenController extends GetxController {
         var userPhoto = await _apiService.getFacebookUserPhotoURL();
         pref.setString(
           AppConstants.facebookUserNameKey,
-          userProfileName,
+          userProfileName ?? "",
         );
         pref.setString(
           AppConstants.facebookUserPhotoURLKey,
-          userPhoto,
+          userPhoto ?? "",
         );
 
         pref.setString(AppConstants.currentLoginType, "facebook");

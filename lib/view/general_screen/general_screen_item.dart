@@ -18,12 +18,12 @@ class GeneralScreenItem extends StatefulWidget {
   final GeneralItemType type;
 
   GeneralScreenItem({
-    this.generalScreenController,
-    this.icon,
-    this.iconColor,
-    this.isSwitch,
-    this.title,
-    this.type,
+    required this.generalScreenController,
+    required this.icon,
+    required this.iconColor,
+    required this.isSwitch,
+    required this.title,
+    required this.type,
   });
 
   @override
@@ -31,7 +31,15 @@ class GeneralScreenItem extends StatefulWidget {
 }
 
 class _GeneralScreenItemState extends State<GeneralScreenItem> {
-  GeneralScreenVariables _variables = GeneralScreenVariables();
+  late GeneralScreenVariables _variables;
+
+  @override
+  void initState() {
+    super.initState();
+    _variables = GeneralScreenVariables(
+      controller: widget.generalScreenController,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +138,6 @@ class _GeneralScreenItemState extends State<GeneralScreenItem> {
                     default:
                       return widget.generalScreenController
                           .notificationToneCurrentIndex.value;
-                      break;
                   }
                 }(),
                 child: SelectionStartItem(
@@ -138,11 +145,13 @@ class _GeneralScreenItemState extends State<GeneralScreenItem> {
                   title: widget.generalScreenController.getCurrentValue(type),
                 ),
                 onSelectedItemChanged: (index) {
-                  widget.generalScreenController
-                      .updateCurrentIndex(index, type);
+                  if (index != null) {
+                    widget.generalScreenController
+                        .updateCurrentIndex(index, type);
 
-                  widget.generalScreenController
-                      .updateCurrentChoseValue(data[index], type);
+                    widget.generalScreenController
+                        .updateCurrentChoseValue(data[index], type);
+                  }
                 },
                 items: data
                     .map(

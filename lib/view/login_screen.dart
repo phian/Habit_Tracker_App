@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   /// [App Bar]
-  Widget _loginScreenAppBar() {
+  PreferredSizeWidget _loginScreenAppBar() {
     return AppBar(
       backgroundColor: AppColors.cFF1E,
       centerTitle: true,

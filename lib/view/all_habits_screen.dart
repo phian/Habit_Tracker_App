@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
-import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu/side_menu.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
-class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
+class AllHabitsScreen extends StatelessWidget {
   final mainScreenController = Get.put(MainScreenController());
+  final ZoomDrawerController _allHabitController = ZoomDrawerController();
 
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: AppConstants.allHabitScreenKey,
+      menuController: _allHabitController,
       child: Scaffold(
         backgroundColor: AppColors.cFF1E,
         appBar: _allHabitScreenAppBar(),
@@ -31,7 +30,7 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
   }
 
   /// [App Bar]
-  Widget _allHabitScreenAppBar() {
+  PreferredSizeWidget _allHabitScreenAppBar() {
     return AppBar(
       centerTitle: true,
       leading: Container(
@@ -42,9 +41,9 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
             size: 30.0,
             color: AppColors.cFFFF,
           ),
-          onPressed: () => openOrCloseSideMenu(
-            AppConstants.allHabitScreenKey,
-          ),
+          onPressed: () {
+            _allHabitController.toggle!();
+          },
         ),
       ),
       title: Container(
@@ -125,14 +124,6 @@ class AllHabitsScreen extends StatelessWidget implements SideMenuModel {
         );
       },
     );
-  }
-
-  @override
-  void openOrCloseSideMenu(GlobalKey<SideMenuState> key) {
-    if (key.currentState.isOpened)
-      key.currentState.closeSideMenu();
-    else
-      key.currentState.openSideMenu();
   }
 
   /// Navigation

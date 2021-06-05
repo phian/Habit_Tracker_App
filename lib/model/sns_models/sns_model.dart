@@ -1,9 +1,9 @@
 abstract class SNSModel {
-  String id;
-  String name;
-  String email;
-  String profileImage;
-  String profileThumbnail;
+  String? id;
+  String? name;
+  String? email;
+  String? profileImage;
+  String? profileThumbnail;
 
   SNSModel({
     this.id,

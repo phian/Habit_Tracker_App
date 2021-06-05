@@ -2,13 +2,13 @@ import 'package:habit_tracker/model/sns_models/error_type.dart';
 import 'package:habit_tracker/model/sns_models/sns_model.dart';
 
 class FacebookUserModel extends SNSModel {
-  String firstName, lastName;
-  ErrorType facebookError;
-  String errorMessage;
+  String? firstName, lastName;
+  ErrorType? facebookError;
+  String? errorMessage;
 
   ///
-  String lastMessage;
-  String pushToken;
+  String? lastMessage;
+  String? pushToken;
 
   FacebookUserModel({
     this.firstName,
@@ -17,11 +17,11 @@ class FacebookUserModel extends SNSModel {
     this.errorMessage,
     this.lastMessage,
     this.pushToken,
-    String id,
-    String name,
-    String email,
-    String profileImage,
-    String profileThumbnail,
+    String? id,
+    String? name,
+    String? email,
+    String? profileImage,
+    String? profileThumbnail,
   }) : super(
           id: id,
           name: name,

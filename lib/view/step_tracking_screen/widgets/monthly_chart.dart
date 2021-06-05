@@ -6,7 +6,7 @@ import 'package:habit_tracker/controller/step_tracking_screen_controller.dart';
 class MonthlyChart {
   final StepTrackingScreenController controller;
 
-  MonthlyChart({@required this.controller});
+  MonthlyChart({required this.controller});
 
   final List<Color> _gradientColors = [
     const Color(0xff23b6e6),

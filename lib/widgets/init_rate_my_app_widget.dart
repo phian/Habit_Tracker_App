@@ -8,8 +8,8 @@ class InitRateMyAppWidget extends StatefulWidget {
   final Widget Function(RateMyApp) builder;
 
   const InitRateMyAppWidget({
-    Key key,
-    @required this.builder,
+    Key? key,
+    required this.builder,
   }) : super(key: key);
 
   @override
@@ -17,7 +17,7 @@ class InitRateMyAppWidget extends StatefulWidget {
 }
 
 class _InitRateMyAppWidgetState extends State<InitRateMyAppWidget> {
-  RateMyApp rateMyApp;
+  RateMyApp? rateMyApp;
 
   @override
   Widget build(BuildContext context) => RateMyAppBuilder(
@@ -38,6 +38,6 @@ class _InitRateMyAppWidgetState extends State<InitRateMyAppWidget> {
         },
         builder: (context) => rateMyApp == null
             ? Center(child: SpinKitFadingCube(color: AppColors.cFFFF))
-            : widget.builder(rateMyApp),
+            : widget.builder(rateMyApp!),
       );
 }

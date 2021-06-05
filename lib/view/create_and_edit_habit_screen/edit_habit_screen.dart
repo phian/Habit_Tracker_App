@@ -19,9 +19,9 @@ class EditHabitScreen extends StatefulWidget {
 }
 
 class _EditHabitScreenState extends State<EditHabitScreen> {
-  Habit _habit;
+  late Habit _habit;
   final _editHabitScreenController = Get.put(CreateHabitScreenController());
-  TextEditingController _habitNameController, _goalAmountController;
+  late TextEditingController _habitNameController, _goalAmountController;
 
   @override
   void initState() {
@@ -31,7 +31,8 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
       _editHabitScreenController.initDataAndController(_habit);
 
       _habitNameController = TextEditingController(text: _habit.habitName);
-      _goalAmountController = TextEditingController(text: _habit.amount.toString());
+      _goalAmountController =
+          TextEditingController(text: _habit.amount.toString());
     }
   }
 
@@ -639,7 +640,9 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                 if (time != null) {
                   _editHabitScreenController.reminderTimeList.add(time);
                 }
-              }).catchError((err) => print(err.toString()));
+              }).catchError((err) {
+                print(err.toString());
+              });
             },
             leading: Obx(
               () => Container(
@@ -669,7 +672,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
   }
 
   /// [Section text]
-  Widget _sectionText({String content, bool canChange}) {
+  Widget _sectionText({String? content, required bool canChange}) {
     return Container(
       padding: EdgeInsets.only(top: 40.0),
       child: Row(
@@ -686,7 +689,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
           ),
           canChange == false
               ? Text(
-                  content,
+            content!,
                   style: TextStyle(fontSize: 20.0),
                 )
               : Obx(
@@ -748,7 +751,8 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
   }
 
   /// [Widget cho phần chọn daily, weekly, monthy]
-  Widget _repeatChoiceWidget(String choiceType, {Color color, int index}) {
+  Widget _repeatChoiceWidget(String choiceType,
+      {Color? color, required int index}) {
     return InkWell(
       onTap: () =>
           _editHabitScreenController.onDayMonthYearRepeatChoiceClick(index),
@@ -759,7 +763,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
         height: 60.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: color != null ? color : AppColors.c3DFF,
+          color: color ?? AppColors.c3DFF,
         ),
         child: Text(
           choiceType,
@@ -770,7 +774,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
   }
 
   /// Reminder time
-  Widget _buildReminderTimeList({@required List<Widget> reminderCardList}) {
+  Widget _buildReminderTimeList({required List<Widget> reminderCardList}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -779,7 +783,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
     );
   }
 
-  Widget _reminderCard({@required int index, @required String time}) {
+  Widget _reminderCard({required int index, required String time}) {
     return ListTile(
       onTap: () {},
       leading: Icon(
@@ -928,12 +932,11 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
 
   /// [Hàm hiển thị dialog cho người dụng chọn icon]
   Future<void> _pickIconForHabit() async {
-    IconData icon = await FlutterIconPicker.showIconPicker(
+    IconData? icon = await FlutterIconPicker.showIconPicker(
       context,
       iconPackMode: IconPack.material,
       iconSize: 30.0,
       backgroundColor: AppColors.cFF00,
-      closeChild: null,
       searchHintText: "Search icon...",
       searchIcon: Icon(
         Icons.search,

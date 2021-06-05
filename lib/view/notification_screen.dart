@@ -25,7 +25,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   /// [AppBar]
-  Widget _notificationScreenAppBar() {
+  PreferredSizeWidget _notificationScreenAppBar() {
     return AppBar(
       bottom: PreferredSize(
         preferredSize: Size(Get.width, Get.height * 0.1),
@@ -164,6 +164,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 icon: Icons.cloud,
                 value: _notificationController.afternoonPlanSwitch,
                 type: NotificationPlanType.afternoon,
+                iconColor: AppColors.cFFFF,
               ),
               SizedBox(height: 30.0),
               _planWithoutTimeNotificationWidget(
@@ -224,13 +225,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   /// Widget have time picker
   Widget _planWithTimeNotificationWidget({
-    String title,
-    IconData icon,
-    String summaryText,
-    bool value,
-    String pickedTime,
-    Color iconColor,
-    PickedTimeType type,
+    required String title,
+    required IconData icon,
+    required String summaryText,
+    required bool value,
+    required String pickedTime,
+    required Color iconColor,
+    required PickedTimeType type,
   }) {
     return Material(
       borderRadius: BorderRadius.circular(10.0),
@@ -330,12 +331,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   /// Widget without time picker
   Widget _planWithoutTimeNotificationWidget({
-    String title,
-    String summaryText,
-    IconData icon,
-    RxBool value,
-    Color iconColor,
-    NotificationPlanType type,
+    required String title,
+    required String summaryText,
+    required IconData icon,
+    required RxBool value,
+    required Color iconColor,
+    required NotificationPlanType type,
   }) {
     return Material(
       color: AppColors.cFF2F,
@@ -437,7 +438,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
       }
     }, onError: (err) {
       print(err.toString());
-    }).catchError((err) => print(err.toString()));
+    }).catchError((err) {
+      print(err.toString());
+    });
   }
 
   /// [Challenge notification card]
@@ -507,7 +510,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   /// [Challenge display time tile]
-  Widget _challengeNotificationDisplayTimeTile({String title, String time}) {
+  Widget _challengeNotificationDisplayTimeTile({
+    required String title,
+    required String time,
+  }) {
     return Material(
       color: AppColors.c0000,
       child: ListTile(
@@ -560,7 +566,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
           _notificationController.changeProgressCheckUpTime(value);
         }
       }
-    }).catchError((err) => debugPrint(err.toString()));
+    }).catchError((err) {
+      debugPrint(err.toString());
+    });
   }
 }
 

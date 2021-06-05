@@ -4,8 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/challenge_time_line_controller.dart';
-import 'package:timeline_list/timeline.dart';
-import 'package:timeline_list/timeline_model.dart';
+import 'package:timelines/timelines.dart';
 
 import 'challenge_time_line_screen_variables.dart';
 
@@ -14,15 +13,16 @@ class ChallengeTimeLineScreen extends StatefulWidget {
   final String title, challengeAmount, imagePath;
 
   ChallengeTimeLineScreen({
-    Key key,
-    this.tag,
-    this.title,
-    this.challengeAmount,
-    this.imagePath,
+    Key? key,
+    required this.tag,
+    required this.title,
+    required this.challengeAmount,
+    required this.imagePath,
   }) : super(key: key);
 
   @override
-  _ChallengeTimeLineScreenState createState() => _ChallengeTimeLineScreenState();
+  _ChallengeTimeLineScreenState createState() =>
+      _ChallengeTimeLineScreenState();
 }
 
 class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
@@ -209,113 +209,113 @@ class _ChallengeTimeLineScreenState extends State<ChallengeTimeLineScreen> {
           Container(
             height: Get.height * 0.58,
             padding: EdgeInsets.only(bottom: 20.0, top: 15.0),
-            child: Timeline(
-              position: TimelinePosition.Left,
-              lineColor: AppColors.c1FFF,
-              lineWidth: 0.7,
+            child: Timeline.tileBuilder(
               physics: AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
               ),
-              children: [
-                ...List.generate(
-                  _controller.challengeList.length,
-                  (index) => TimelineModel(
-                    Container(
-                      margin: EdgeInsets.only(bottom: 30.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _controller.dateNamesList[index],
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.cFFA7,
-                            ),
-                          ),
-                          SizedBox(height: 20.0),
-                          Container(
-                            height: Get.height * 0.14,
-                            decoration: BoxDecoration(
-                              color: AppColors.cFF2F,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: ListTile(
-                              leading: Icon(
-                                _controller.challengeList[index].icon,
-                                color: _controller.challengeList[index].iconColor,
-                                size: 40.0,
+              builder: TimelineTileBuilder.fromStyle(
+                itemCount: _controller.challengeList.length,
+                contentsBuilder: (_, index) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 30.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _controller.dateNamesList[index],
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.cFFA7,
                               ),
-                              title: Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      _controller.challengeList[index].title,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
+                            ),
+                            SizedBox(height: 20.0),
+                            Container(
+                              height: Get.height * 0.14,
+                              decoration: BoxDecoration(
+                                color: AppColors.cFF2F,
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: ListTile(
+                                leading: Icon(
+                                  _controller.challengeList[index].icon,
+                                  color: _controller
+                                      .challengeList[index].iconColor,
+                                  size: 40.0,
+                                ),
+                                title: Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        _controller.challengeList[index].title,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 5.0),
-                                    Text(
-                                      _controller.challengeList[index].description,
-                                      style: TextStyle(
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.cFFA7,
+                                      SizedBox(height: 5.0),
+                                      Text(
+                                        _controller
+                                            .challengeList[index].description,
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.cFFA7,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 30.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _controller.dateNamesList[
+                                  _controller.dateNamesList.length - 1],
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.cFFA7,
+                              ),
+                            ),
+                            SizedBox(height: 20.0),
+                            Container(
+                              height: Get.height * 0.1,
+                              decoration: BoxDecoration(
+                                color: AppColors.cFF2F,
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: ListTile(
+                                leading: Container(
+                                  margin: EdgeInsets.only(
+                                    top: Get.height * 0.1 * 0.28,
+                                  ),
+                                  child: Icon(
+                                    Icons.more_horiz,
+                                    color: AppColors.c1FFF,
+                                    size: 40.0,
+                                  ),
                                 ),
                               ),
                             ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    position: TimelineItemPosition.random,
-                  ),
-                ),
-                TimelineModel(
-                  Container(
-                    margin: EdgeInsets.only(bottom: 30.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _controller.dateNamesList[_controller.dateNamesList.length - 1],
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            color: AppColors.cFFA7,
-                          ),
-                        ),
-                        SizedBox(height: 20.0),
-                        Container(
-                          height: Get.height * 0.1,
-                          decoration: BoxDecoration(
-                            color: AppColors.cFF2F,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: ListTile(
-                            leading: Container(
-                              margin: EdgeInsets.only(
-                                top: Get.height * 0.1 * 0.28,
-                              ),
-                              child: Icon(
-                                Icons.more_horiz,
-                                color: AppColors.c1FFF,
-                                size: 40.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  position: TimelineItemPosition.random,
-                ),
-              ],
+                    ],
+                  );
+                },
+              ),
             ),
           ),
           Container(

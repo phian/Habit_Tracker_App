@@ -6,7 +6,7 @@ import 'package:habit_tracker/controller/step_tracking_screen_controller.dart';
 class WeeklyChart {
   final StepTrackingScreenController controller;
 
-  WeeklyChart({@required this.controller});
+  WeeklyChart({required this.controller});
 
   BarChartData weekChart(int data) {
     return BarChartData(
@@ -55,7 +55,7 @@ class WeeklyChart {
   List<BarChartGroupData> _showingGroups() => List.generate(
         7,
         (i) {
-          return controller.initBarChartGroupDataList(i);
+          return controller.initBarChartGroupDataList(i)!;
         },
       );
 }

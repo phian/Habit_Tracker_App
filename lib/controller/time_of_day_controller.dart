@@ -8,7 +8,7 @@ class TimeOfDayController extends GetxController {
   var afternoonStartTime = "".obs;
   var eveningStartTime = "".obs;
 
-  SharedPreferenceService _preferenceService = SharedPreferenceService.instance;
+  SharedPreferenceService _preferenceService = SharedPreferenceService();
 
   void saveTimeData(TimeType type, String value) async {
     var pref = await _preferenceService.getPref();
@@ -39,33 +39,33 @@ class TimeOfDayController extends GetxController {
       pref.setString(AppConstants.morningStartTimeKey, "00:00");
       morningStartTime.value = pref.getString(
         AppConstants.morningStartTimeKey,
-      );
+      )!;
     } else {
       morningStartTime.value = pref.getString(
         AppConstants.morningStartTimeKey,
-      );
+      )!;
     }
 
     if (pref.getString(AppConstants.afternoonStartTimeKey) == null) {
       pref.setString(AppConstants.afternoonStartTimeKey, "12:00");
       afternoonStartTime.value = pref.getString(
         AppConstants.afternoonStartTimeKey,
-      );
+      )!;
     } else {
       afternoonStartTime.value = pref.getString(
         AppConstants.afternoonStartTimeKey,
-      );
+      )!;
     }
 
     if (pref.getString(AppConstants.eveningStartTimeKey) == null) {
       pref.setString(AppConstants.eveningStartTimeKey, "17:00");
       eveningStartTime.value = pref.getString(
         AppConstants.eveningStartTimeKey,
-      );
+      )!;
     } else {
       eveningStartTime.value = pref.getString(
         AppConstants.eveningStartTimeKey,
-      );
+      )!;
     }
   }
 }

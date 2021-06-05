@@ -19,10 +19,10 @@ class GeneralScreenController extends GetxController {
   var notificationToneCurrentValue = "Ascending".obs;
   var notificationToneCurrentIndex = 0.obs;
 
-  GeneralScreenVariables variables;
+  late GeneralScreenVariables variables;
 
-  SharedPreferenceService _preferenceService = SharedPreferenceService.instance;
-  DatabaseHelper _databaseHelper = DatabaseHelper.instance;
+  SharedPreferenceService _preferenceService = SharedPreferenceService();
+  DatabaseHelper _databaseHelper = DatabaseHelper();
 
   @override
   void onInit() {
@@ -136,30 +136,32 @@ class GeneralScreenController extends GetxController {
     var pref = await _preferenceService.getPref();
 
     if (pref.getString(AppConstants.startWeekOnKey) != null) {
-      startWeekCurrentValue.value = pref.getString(AppConstants.startWeekOnKey);
+      startWeekCurrentValue.value =
+          pref.getString(AppConstants.startWeekOnKey)!;
     } else {
       pref.setString(AppConstants.startWeekOnKey, startWeekCurrentValue.value);
-      startWeekCurrentValue.value = pref.getString(AppConstants.startWeekOnKey);
+      startWeekCurrentValue.value =
+          pref.getString(AppConstants.startWeekOnKey)!;
     }
 
     if (pref.getString(AppConstants.unitOfMeasureKey) != null) {
       unitsOfMeasureCurrentValue.value =
-          pref.getString(AppConstants.unitOfMeasureKey);
+          pref.getString(AppConstants.unitOfMeasureKey)!;
     } else {
       pref.setString(
           AppConstants.unitOfMeasureKey, unitsOfMeasureCurrentValue.value);
       unitsOfMeasureCurrentValue.value =
-          pref.getString(AppConstants.unitOfMeasureKey);
+          pref.getString(AppConstants.unitOfMeasureKey)!;
     }
 
     if (pref.getString(AppConstants.notificationToneKey) != null) {
       notificationToneCurrentValue.value =
-          pref.getString(AppConstants.notificationToneKey);
+          pref.getString(AppConstants.notificationToneKey)!;
     } else {
       pref.setString(
           AppConstants.notificationToneKey, notificationToneCurrentValue.value);
       notificationToneCurrentValue.value =
-          pref.getString(AppConstants.notificationToneKey);
+          pref.getString(AppConstants.notificationToneKey)!;
     }
   }
 
@@ -175,34 +177,34 @@ class GeneralScreenController extends GetxController {
 
     /// Icon badge
     if (pref.getBool(AppConstants.iconBadgeKey) != null) {
-      isOnIconBadge.value = pref.getBool(AppConstants.iconBadgeKey);
+      isOnIconBadge.value = pref.getBool(AppConstants.iconBadgeKey)!;
     } else {
       pref.setBool(AppConstants.iconBadgeKey, isOnIconBadge.value);
-      isOnIconBadge.value = pref.getBool(AppConstants.iconBadgeKey);
+      isOnIconBadge.value = pref.getBool(AppConstants.iconBadgeKey)!;
     }
 
     /// Vacation mode
     if (pref.getBool(AppConstants.vacationModeKey) != null) {
-      isVacationMode.value = pref.getBool(AppConstants.vacationModeKey);
+      isVacationMode.value = pref.getBool(AppConstants.vacationModeKey)!;
     } else {
       pref.setBool(AppConstants.vacationModeKey, isVacationMode.value);
-      isVacationMode.value = pref.getBool(AppConstants.vacationModeKey);
+      isVacationMode.value = pref.getBool(AppConstants.vacationModeKey)!;
     }
 
     /// Sound
     if (pref.getBool(AppConstants.soundKey) != null) {
-      isOnSound.value = pref.getBool(AppConstants.soundKey);
+      isOnSound.value = pref.getBool(AppConstants.soundKey)!;
     } else {
       pref.setBool(AppConstants.soundKey, isOnSound.value);
-      isOnSound.value = pref.getBool(AppConstants.soundKey);
+      isOnSound.value = pref.getBool(AppConstants.soundKey)!;
     }
 
     /// Passcode lock
     if (pref.getBool(AppConstants.passcodeLockKey) != null) {
-      isPasscodeLock.value = pref.getBool(AppConstants.passcodeLockKey);
+      isPasscodeLock.value = pref.getBool(AppConstants.passcodeLockKey)!;
     } else {
       pref.setBool(AppConstants.passcodeLockKey, isPasscodeLock.value);
-      isPasscodeLock.value = pref.getBool(AppConstants.passcodeLockKey);
+      isPasscodeLock.value = pref.getBool(AppConstants.passcodeLockKey)!;
     }
   }
 

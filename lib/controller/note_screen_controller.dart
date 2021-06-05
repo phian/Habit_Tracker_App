@@ -5,7 +5,7 @@ import 'package:habit_tracker/service/database/database_helper.dart';
 
 
 class NoteScreenController extends GetxController {
-  DatabaseHelper databaseHelper = DatabaseHelper.instance;
+  DatabaseHelper databaseHelper = DatabaseHelper();
   bool isCreatedNote = false;
 
   Future<String> getNoteContent(int habitId, DateTime date) async {

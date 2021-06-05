@@ -6,27 +6,29 @@ import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/habit_all_note_screen_controller.dart';
 import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/view/habit_all_note_screen/date_divider.dart';
-
 import 'package:habit_tracker/view/habit_all_note_screen/no_note_data_display_widget.dart';
 import 'package:habit_tracker/view/habit_all_note_screen/note_content_card.dart';
 
 class HabitAllNoteScreen extends StatefulWidget {
-  HabitAllNoteScreen({Key key}) : super(key: key);
+  HabitAllNoteScreen({Key? key}) : super(key: key);
 
   @override
   _HabitAllNoteScreenState createState() => _HabitAllNoteScreenState();
 }
 
 class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
-  HabitAllNoteScreenController _allNoteScreenController;
-  int habitId;
+  late HabitAllNoteScreenController _allNoteScreenController;
+  late int habitId;
+
   @override
   void initState() {
     super.initState();
-    habitId = Get.arguments;
-    _allNoteScreenController = Get.put(HabitAllNoteScreenController());
+    if (Get.arguments != null) {
+      habitId = Get.arguments;
+      _allNoteScreenController.getAllNote(habitId);
+    }
 
-    _allNoteScreenController.getAllNote(habitId);
+    _allNoteScreenController = Get.put(HabitAllNoteScreenController());
   }
 
   @override
@@ -35,7 +37,8 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
       backgroundColor: AppColors.cFF1E,
       appBar: _habitAllNoteScreenAppBar(),
       body: Obx(
-        () => _allNoteScreenController.loadingState.value == AllNoteLoadingState.isLoaded &&
+        () => _allNoteScreenController.loadingState.value ==
+                    AllNoteLoadingState.isLoaded &&
                 _allNoteScreenController.listNote.length != 0
             ? ListView.builder(
                 itemCount: _allNoteScreenController.listNote.length,
@@ -49,13 +52,15 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
                         SizedBox(height: 20.0),
                         GestureDetector(
                           child: NoteContentCard(
-                            content: _allNoteScreenController.listNote[index].content,
+                            content: _allNoteScreenController
+                                .listNote[index].content,
                           ),
                           onTap: () => Get.toNamed(
                             Routes.NOTE,
                             arguments: [
                               habitId,
-                              DateTime.parse(_allNoteScreenController.listNote[index].date),
+                              DateTime.parse(_allNoteScreenController
+                                  .listNote[index].date),
                             ],
                           ),
                         )
@@ -64,7 +69,8 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
                   );
                 },
               )
-            : _allNoteScreenController.loadingState.value == AllNoteLoadingState.isLoading
+            : _allNoteScreenController.loadingState.value ==
+                    AllNoteLoadingState.isLoading
                 ? SpinKitFadingCube(color: AppColors.cFFFF)
                 : NoNoteDataDisplayWidget(),
       ),
@@ -72,7 +78,7 @@ class _HabitAllNoteScreenState extends State<HabitAllNoteScreen> {
   }
 
   /// [App Bar]
-  Widget _habitAllNoteScreenAppBar() {
+  PreferredSizeWidget _habitAllNoteScreenAppBar() {
     return AppBar(
       backgroundColor: AppColors.c0000,
       elevation: 0.0,

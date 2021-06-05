@@ -5,10 +5,10 @@ class SuggestedTopic {
   String image;
 
   SuggestedTopic({
-    this.topicId,
-    this.topicName,
-    this.description,
-    this.image,
+    required this.topicId,
+    required this.topicName,
+    required this.description,
+    required this.image,
   });
 
   Map<String, dynamic> toMap() {

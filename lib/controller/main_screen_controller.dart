@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/model/habit.dart';
 import 'package:habit_tracker/model/process.dart';
 import 'package:habit_tracker/service/database/database_helper.dart';
@@ -60,13 +59,13 @@ class MainScreenController extends GetxController {
     isLoading.value = true;
 
     listAllHabit.clear();
-    listAllHabit.value = await DatabaseHelper.instance.getAllHabit();
+    listAllHabit.value = await DatabaseHelper().getAllHabit();
     await getHabitByWeekDate(selectedDate.value.weekday);
     isLoading.value = false;
     print('get_all_habit');
   }
 
-  Future<void> getHabitByWeekDate(int weekdate) async {
+  Future<void> getHabitByWeekDate(int weekDay) async {
     listProcessByDay.value = await getListProcess(selectedDate.value);
     listAnytimeHabit.clear();
     listMorningHabit.clear();
@@ -74,11 +73,10 @@ class MainScreenController extends GetxController {
     listEveningHabit.clear();
 
     for (int i = 0; i < listAllHabit.length; i++) {
-      int count;
       // duyệt các thói quen daily
       switch (listAllHabit[i].repeatMode) {
         case 0:
-          if (listAllHabit[i].dayOfWeek.contains((weekdate + 1).toString())) {
+          if (listAllHabit[i].dayOfWeek!.contains((weekDay + 1).toString())) {
             listAnytimeHabit.add(listAllHabit[i]);
           }
           break;
@@ -87,7 +85,7 @@ class MainScreenController extends GetxController {
           // check nếu chưa đủ số lần thì thêm
           var begin = beginDateOfWeek(selectedDate.value);
           var end = endDateOfWeek(selectedDate.value);
-          int count = await DatabaseHelper.instance.countProcessCompleteInRange(
+          int? count = await DatabaseHelper().countProcessCompleteInRange(
             listAllHabit[i].habitId,
             begin,
             end,
@@ -103,8 +101,10 @@ class MainScreenController extends GetxController {
             }
           }
 
-          if (count < listAllHabit[i].timesPerWeek + 1 || isCompleted) {
-            listAnytimeHabit.add(listAllHabit[i]);
+          if (count != null) {
+            if (count < listAllHabit[i].timesPerWeek! + 1 || isCompleted) {
+              listAnytimeHabit.add(listAllHabit[i]);
+            }
           }
 
           break;
@@ -116,17 +116,20 @@ class MainScreenController extends GetxController {
     }
 
     for (int i = 0; i < listAnytimeHabit.length; i++) {
-      if (listAnytimeHabit[i].timeOfDay.contains('1')) listMorningHabit.add(listAnytimeHabit[i]);
+      if (listAnytimeHabit[i].timeOfDay!.contains('1'))
+        listMorningHabit.add(listAnytimeHabit[i]);
 
-      if (listAnytimeHabit[i].timeOfDay.contains('2')) listAfternoonHabit.add(listAnytimeHabit[i]);
+      if (listAnytimeHabit[i].timeOfDay!.contains('2'))
+        listAfternoonHabit.add(listAnytimeHabit[i]);
 
-      if (listAnytimeHabit[i].timeOfDay.contains('3')) listEveningHabit.add(listAnytimeHabit[i]);
+      if (listAnytimeHabit[i].timeOfDay!.contains('3'))
+        listEveningHabit.add(listAnytimeHabit[i]);
     }
   }
 
   Future<List<Process>> getListProcess(DateTime date) async {
     try {
-      return await DatabaseHelper.instance.getListProcess(date);
+      return await DatabaseHelper().getListProcess(date);
     } catch (e) {
       throw e;
     }
@@ -134,19 +137,20 @@ class MainScreenController extends GetxController {
 
   Future<void> updateProcess(Process process) async {
     try {
-      await DatabaseHelper.instance.updateProcess(process);
+      await DatabaseHelper().updateProcess(process);
       listProcessByDay.value = await getListProcess(selectedDate.value);
     } catch (e) {
       throw e;
     }
   }
 
-  Future<int> creatNewProcess({int habitId, DateTime date}) async {
-    return await DatabaseHelper.instance.createNewProcess(habitId, date);
+  Future<int?> createNewProcess(
+      {required int habitId, required DateTime date}) async {
+    return await DatabaseHelper().createNewProcess(habitId, date);
   }
 
   Future<void> deleteHabit(Habit habit) async {
-    await DatabaseHelper.instance.deleteHabit(habit.habitId);
+    await DatabaseHelper().deleteHabit(habit.habitId);
     await getAllHabit();
   }
 

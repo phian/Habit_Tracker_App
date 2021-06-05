@@ -13,13 +13,13 @@ class TimerSecond extends StatefulWidget {
 class _TimerSecondState extends State<TimerSecond>
     with TickerProviderStateMixin {
   TimerController _controller = Get.put(TimerController());
-  AnimationController _aniController;
+  late AnimationController _aniController;
 
   String get _timeValue {
-    Duration duration = _aniController.value != 0
-        ? _aniController.duration * _aniController.value
+    Duration? duration = _aniController.value != 0
+        ? _aniController.duration! * _aniController.value
         : _aniController.duration;
-    return "${duration.inHours.toString().padLeft(2, '0')}:"
+    return "${duration!.inHours.toString().padLeft(2, '0')}:"
         "${duration.inMinutes.toString().padLeft(2, '0')}:"
         "${(duration.inSeconds % 60).toString().padLeft(2, '0')}";
   }
@@ -46,7 +46,7 @@ class _TimerSecondState extends State<TimerSecond>
     );
   }
 
-  Widget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: AppColors.c0000,
       elevation: 0.0,
@@ -213,7 +213,7 @@ class _TimerSecondState extends State<TimerSecond>
             config: CustomConfig(
               gradients: [
                 // [Colors.red, Color(0xEEF44336)],
-                [Colors.red[800], Color(0x77E57373)],
+                [Colors.red[800]!, Color(0x77E57373)],
                 // [Colors.orange, Color(0x66FF9800)],
                 [Colors.yellow, Color(0x55FFEB3B)]
               ],

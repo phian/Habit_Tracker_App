@@ -5,7 +5,7 @@ import 'package:habit_tracker/constants/app_color.dart';
 class NoteContentCard extends StatelessWidget {
   final String content;
 
-  NoteContentCard({this.content});
+  NoteContentCard({required this.content});
 
   @override
   Widget build(BuildContext context) {

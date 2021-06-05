@@ -49,7 +49,7 @@ class GeneralScreen extends StatelessWidget {
   }
 
   /// [App Bar]
-  Widget _generalScreenAppBar() {
+  PreferredSizeWidget _generalScreenAppBar() {
     return AppBar(
       title: Text(
         "General",
@@ -66,16 +66,16 @@ class GeneralScreen extends StatelessWidget {
 
   /// [Separate widget]
   Widget _generalScreenSeparateWidget({
-    double height,
-    Color color,
-    bool isSizedBox,
+    double? height,
+    Color? color,
+    bool? isSizedBox,
   }) {
     return isSizedBox != null
         ? SizedBox(height: height)
-        : Container(height: 1, color: color == null ? AppColors.c0000 : color);
+        : Container(height: 1, color: color ?? AppColors.c0000);
   }
 
-  Widget _generalScreenAnnotationWidget({String content}) {
+  Widget _generalScreenAnnotationWidget({required String content}) {
     return Container(
       padding: EdgeInsets.only(left: 17.0, top: 5.0, right: 17.0),
       child: Text(

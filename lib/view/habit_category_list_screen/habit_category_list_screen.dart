@@ -7,12 +7,12 @@ import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/controller/habit_category_list_screen_controller.dart';
 
 class HabitCategoryListScreen extends StatefulWidget {
-  final String tag;
-  final int topicId;
-  final String imagePath;
+  final String? tag;
+  final int? topicId;
+  final String? imagePath;
 
   HabitCategoryListScreen({
-    Key key,
+    Key? key,
     this.tag,
     this.topicId,
     this.imagePath,
@@ -28,21 +28,21 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
     HabitCategoryListScreenController(),
   );
 
-  ScrollController _screenScrollController;
-  AnimateIconController _aniController;
+  late ScrollController _screenScrollController;
+  late AnimateIconController _aniController;
 
   @override
   void initState() {
     super.initState();
     _screenScrollController = ScrollController();
     _aniController = AnimateIconController();
-    _controller.getSuggestHabitFromDb(widget.topicId);
+    _controller.getSuggestHabitFromDb(widget.topicId!);
   }
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: widget.tag,
+      tag: widget.tag!,
       child: Scaffold(
         body: _createHabitScreenBody(),
       ),
@@ -78,7 +78,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
             padding: EdgeInsets.only(left: 15.0, top: 80.0),
             width: Get.width * 0.55,
             child: Text(
-              widget.tag,
+              widget.tag!,
               maxLines: 2,
               style: TextStyle(
                 fontSize: 30.0,
@@ -89,7 +89,7 @@ class _HabitCategoryListScreenState extends State<HabitCategoryListScreen> {
           Container(
             padding: EdgeInsets.only(left: Get.width * 0.5, top: 30.0),
             child: SvgPicture.asset(
-              widget.imagePath,
+              widget.imagePath!,
               fit: BoxFit.contain,
               width: Get.size.width * 0.6,
               height: Get.size.height * 0.22,

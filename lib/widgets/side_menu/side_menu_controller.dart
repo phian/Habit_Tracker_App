@@ -5,11 +5,11 @@ import 'package:habit_tracker/service/api_service/api_service.dart';
 import 'package:habit_tracker/service/database/shared_preference_service.dart';
 
 class SideMenuController extends GetxController {
-  SharedPreferenceService _preferenceService = SharedPreferenceService.instance;
+  SharedPreferenceService _preferenceService = SharedPreferenceService();
   var facebookUser = FacebookUserModel().obs;
   var userName = "User".obs;
   var imagePath = "".obs;
-  APIService _apiService = APIService.instance;
+  APIService _apiService = APIService();
 
   SideMenuController() {
     initUserInfo();
@@ -22,13 +22,13 @@ class SideMenuController extends GetxController {
     if (currentLoginType != null && currentLoginType.isNotEmpty) {
       switch (currentLoginType) {
         case "google":
-          userName.value = pref.getString(AppConstants.googleUserNameKey);
-          imagePath.value = pref.getString(AppConstants.googleUserPhotoURLKey);
+          userName.value = pref.getString(AppConstants.googleUserNameKey)!;
+          imagePath.value = pref.getString(AppConstants.googleUserPhotoURLKey)!;
           break;
         case "facebook":
-          userName.value = pref.getString(AppConstants.facebookUserNameKey);
+          userName.value = pref.getString(AppConstants.facebookUserNameKey)!;
           imagePath.value =
-              pref.getString(AppConstants.facebookUserPhotoURLKey);
+              pref.getString(AppConstants.facebookUserPhotoURLKey)!;
           break;
         case "apple":
           break;

@@ -17,8 +17,7 @@ class NotificationController extends GetxController {
   var challengeTodayPlanTime = "00:00".obs;
   var challengeProgressCheckUpTime = "00:00".obs;
 
-  SharedPreferenceService _sharedPreferenceService =
-      SharedPreferenceService.instance;
+  SharedPreferenceService _sharedPreferenceService = SharedPreferenceService();
 
   @override
   void onInit() {
@@ -65,13 +64,13 @@ class NotificationController extends GetxController {
     var pref = await _sharedPreferenceService.getPref();
 
     if (pref.getBool(AppConstants.morningPlanKey) != null) {
-      morningPlanSwitch.value = pref.getBool(AppConstants.morningPlanKey);
+      morningPlanSwitch.value = pref.getBool(AppConstants.morningPlanKey)!;
     }
     if (pref.getBool(AppConstants.afternoonPlanKey) != null) {
-      afternoonPlanSwitch.value = pref.getBool(AppConstants.afternoonPlanKey);
+      afternoonPlanSwitch.value = pref.getBool(AppConstants.afternoonPlanKey)!;
     }
     if (pref.getBool(AppConstants.eveningPlanKey) != null) {
-      eveningPlanSwitch.value = pref.getBool(AppConstants.eveningPlanKey);
+      eveningPlanSwitch.value = pref.getBool(AppConstants.eveningPlanKey)!;
     }
   }
 
@@ -80,12 +79,13 @@ class NotificationController extends GetxController {
     var todayPlanResult = pref.getBool(AppConstants.todayPlanSwitchKey);
 
     if (todayPlanResult != null) {
-      todayPlanSwitch.value = pref.getBool(AppConstants.todayPlanSwitchKey);
+      todayPlanSwitch.value = pref.getBool(AppConstants.todayPlanSwitchKey)!;
     }
 
     var todayResult = pref.getBool(AppConstants.todayPlanSwitchKey);
     if (todayResult != null) {
-      todayResultSwitch.value = pref.getBool(AppConstants.todayResultSwitchKey);
+      todayResultSwitch.value =
+          pref.getBool(AppConstants.todayResultSwitchKey)!;
     }
   }
 

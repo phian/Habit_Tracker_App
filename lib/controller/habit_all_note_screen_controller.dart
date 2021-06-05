@@ -8,7 +8,7 @@ class HabitAllNoteScreenController extends GetxController {
 
   var listNote = <Diary>[].obs;
 
-  DatabaseHelper databaseHelper = DatabaseHelper.instance;
+  DatabaseHelper databaseHelper = DatabaseHelper();
 
   /// [Read date data]
   Future<void> getAllNote(int habitId) async {

@@ -5,16 +5,16 @@ import 'package:habit_tracker/controller/gernaral_screen_controller.dart';
 import 'package:habit_tracker/view/general_screen/general_screen_item.dart';
 
 class GeneralScreenVariables {
-  List<Widget> generalScreenItems;
-  List<IconData> icons;
-  List<String> titles;
-  List<bool> isSwitches;
+  late List<Widget> generalScreenItems;
+  late List<IconData> icons;
+  late List<String> titles;
+  late List<bool> isSwitches;
   final GeneralScreenController controller;
-  List<String> startWeekChoices;
-  List<String> unitOfMeasureChoices;
-  List<String> notificationToneChoices;
+  late List<String> startWeekChoices;
+  late List<String> unitOfMeasureChoices;
+  late List<String> notificationToneChoices;
 
-  GeneralScreenVariables({this.controller}) {
+  GeneralScreenVariables({required this.controller}) {
     generalScreenItems = [];
     icons = [];
     titles = [];

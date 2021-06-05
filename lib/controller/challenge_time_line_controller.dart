@@ -27,7 +27,7 @@ class ChallengeTimelineScreenController extends GetxController {
         challengeList = sugarFreeChallengeInfos;
         break;
       case 4:
-        challengeList = intermittentFastingChallengeInfos;
+        challengeList = intermittentFastingChallengeInfo;
         break;
       case 5:
         challengeList = noAlcoholChallengeInfos;

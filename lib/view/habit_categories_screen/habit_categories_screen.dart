@@ -9,15 +9,15 @@ import '../habit_category_list_screen/habit_category_list_screen.dart';
 import 'create_your_own_card.dart';
 
 class HabitCategoriesScreen extends StatefulWidget {
-  HabitCategoriesScreen({Key key}) : super(key: key);
+  HabitCategoriesScreen({Key? key}) : super(key: key);
 
   @override
   _HabitCategoriesScreenState createState() => _HabitCategoriesScreenState();
 }
 
 class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
-  AnimateIconController _controller;
-  HabitCategoriesScreenController _categoriesScreenController;
+  late AnimateIconController _controller;
+  late HabitCategoriesScreenController _categoriesScreenController;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
 //====================================================================//
 
   // Appbar
-  Widget _habitCategoriesAppBar() {
+  PreferredSizeWidget _habitCategoriesAppBar() {
     return AppBar(
       leading: Container(
         transform: Matrix4.translationValues(-3.0, -3.2, 0.0),

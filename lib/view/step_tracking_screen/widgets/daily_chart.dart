@@ -6,7 +6,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 class DailyChartWidget extends StatefulWidget {
   final int totalSteps, goalSteps;
 
-  DailyChartWidget({@required this.totalSteps, @required this.goalSteps});
+  DailyChartWidget({required this.totalSteps, required this.goalSteps});
 
   @override
   _DailyChartWidgetState createState() => _DailyChartWidgetState();

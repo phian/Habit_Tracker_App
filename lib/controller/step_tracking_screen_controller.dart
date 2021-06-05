@@ -15,10 +15,10 @@ class StepTrackingScreenController extends GetxController {
   var selectedTabIndex = 0.obs;
   var _selectedIndex = 0;
 
-  SharedPreferenceService _sharedPrefService = SharedPreferenceService.instance;
+  SharedPreferenceService _sharedPrefService = SharedPreferenceService();
 
-  changeTouchedIndex(int index) {
-    if (index != touchedIndex.value) {
+  changeTouchedIndex(int? index) {
+    if (index != null && index != touchedIndex.value) {
       touchedIndex.value = index;
     }
   }
@@ -30,13 +30,13 @@ class StepTrackingScreenController extends GetxController {
   }
 
   changeTrackingData({
-    int index,
-    String currentData,
-    String timeData,
-    String caloriesData,
-    String distanceData,
-    String totalSteps,
-    int goalSteps,
+    required int index,
+    required String currentData,
+    required String timeData,
+    required String caloriesData,
+    required String distanceData,
+    required String totalSteps,
+    required int goalSteps,
   }) {
     if (_selectedIndex != index) {
       _selectedIndex = index;
@@ -46,16 +46,20 @@ class StepTrackingScreenController extends GetxController {
 
       this.timeData.value = this.timeData.value != timeData ? timeData : this.timeData.value;
 
-      this.caloriesData.value =
-          this.caloriesData.value != caloriesData ? caloriesData : this.caloriesData.value;
+      this.caloriesData.value = this.caloriesData.value != caloriesData
+          ? caloriesData
+          : this.caloriesData.value;
 
-      this.distanceData.value =
-          this.distanceData.value != distanceData ? distanceData : this.distanceData.value;
+      this.distanceData.value = this.distanceData.value != distanceData
+          ? distanceData
+          : this.distanceData.value;
 
-      this.totalSteps.value =
-          this.totalSteps.value != totalSteps ? totalSteps : this.totalSteps.value;
+      this.totalSteps.value = this.totalSteps.value != totalSteps
+          ? totalSteps
+          : this.totalSteps.value;
 
-      this.goalSteps.value = this.goalSteps.value != goalSteps ? goalSteps : this.currentData.value;
+      this.goalSteps.value =
+          this.goalSteps.value != goalSteps ? goalSteps : this.goalSteps.value;
     }
   }
 
@@ -105,25 +109,18 @@ class StepTrackingScreenController extends GetxController {
     switch (i) {
       case 0:
         return 'Monday';
-        break;
       case 1:
         return 'Tuesday';
-        break;
       case 2:
         return 'Wednesday';
-        break;
       case 3:
         return 'Thursday';
-        break;
       case 4:
         return 'Friday';
-        break;
       case 5:
         return 'Saturday';
-        break;
       default:
         return 'Sunday';
-        break;
     }
   }
 
@@ -143,14 +140,13 @@ class StepTrackingScreenController extends GetxController {
         return 'S';
       case 6:
         return 'S';
-        break;
       default:
         return '';
     }
   }
 
   /// [Chart group data]
-  BarChartGroupData initBarChartGroupDataList(int i) {
+  BarChartGroupData? initBarChartGroupDataList(int i) {
     switch (i) {
       case 0:
         return makeGroupData(0, 5, isTouched: i == touchedIndex.value);
@@ -168,7 +164,6 @@ class StepTrackingScreenController extends GetxController {
         return makeGroupData(6, 6.5, isTouched: i == touchedIndex.value);
       case 7:
         return makeGroupData(6, 6.5, isTouched: i == touchedIndex.value);
-        break;
       default:
         return null;
     }
@@ -204,7 +199,7 @@ class StepTrackingScreenController extends GetxController {
     if (barTouchResponse.spot != null &&
         barTouchResponse.touchInput is! PointerUpEvent &&
         barTouchResponse.touchInput is! PointerExitEvent) {
-      changeTouchedIndex(barTouchResponse.spot.touchedBarGroupIndex);
+      changeTouchedIndex(barTouchResponse.spot?.touchedBarGroupIndex);
     } else {
       changeTouchedIndex(-1);
     }
@@ -221,7 +216,6 @@ class StepTrackingScreenController extends GetxController {
         return 'SEP';
       default:
         return '';
-        break;
     }
   }
 
@@ -238,7 +232,7 @@ class StepTrackingScreenController extends GetxController {
     }
   }
 
-  Future<int> getStepsValue(String key) async {
+  Future<int?> getStepsValue(String key) async {
     var pref = await _sharedPrefService.getPref();
     return pref.getInt(key);
   }

@@ -5,10 +5,10 @@ import 'package:habit_tracker/service/database/database_helper.dart';
 import 'package:habit_tracker/view/habit_categories_screen/habit_category_card.dart';
 
 class HabitCategoriesScreenController extends GetxController {
-  List<Widget> habitCategoryCards;
-  List<SuggestedTopic> suggestTopicList;
+  late List<Widget> habitCategoryCards;
+  late List<SuggestedTopic> suggestTopicList;
   RxBool isLoadingCompleted = false.obs;
-  DatabaseHelper databaseHelper = DatabaseHelper.instance;
+  DatabaseHelper databaseHelper = DatabaseHelper();
 
   Future<void> initCategoriesCardInfo() async {
     suggestTopicList = await databaseHelper.getAllSuggestTopic();

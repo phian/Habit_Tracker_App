@@ -2,7 +2,8 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_images.dart';
 
 class ChallengesScreenController extends GetxController {
-  List<String> challengeTitles, challengeAmounts, imagePaths;
+  late List<String> challengeTitles, challengeAmounts, imagePaths;
+
   @override
   void onInit() {
     challengeTitles = [

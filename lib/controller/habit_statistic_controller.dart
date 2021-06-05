@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/model/habit.dart';
 
 class HabitStatisticController extends GetxController {
-  
-  var habit = Habit().obs;
+  late Rx<Habit> habit;
 
   var habitId = 1.obs;
   var habitIcon = Icons.star.obs;
@@ -23,30 +22,31 @@ class HabitStatisticController extends GetxController {
   var isResumeHabit = true.obs;
 
   backUpHabit(Habit habit) {
-    this.habit.value = habit;
+    this.habit = habit.obs;
   }
 
   updateHabitStatisticInfo({
-    int habitId,
-    IconData icon,
-    String iconColor,
-    String habitName,
-    String finishedAmount,
-    int goalAmount,
-    String goalUnitType,
-    int repeatType,
-    String remindTime,
-    String currentStreak,
-    String longestStreak,
-    String completeRate,
-    String totalTimeComplete,
+    int? habitId,
+    IconData? icon,
+    String? iconColor,
+    String? habitName,
+    String? finishedAmount,
+    int? goalAmount,
+    String? goalUnitType,
+    int? repeatType,
+    String? remindTime,
+    String? currentStreak,
+    String? longestStreak,
+    String? completeRate,
+    String? totalTimeComplete,
   }) {
     this.habitId.value = habitId == null ? this.habitId.value : habitId;
     this.habitIcon.value = icon == null ? this.habitIcon.value : icon;
     this.iconColor.value = iconColor == null ? this.iconColor.value : iconColor;
     this.habitName.value = habitName == null ? this.habitName.value : habitName;
-    this.finishedAmount.value =
-        finishedAmount == null ? this.finishedAmount.value : finishedAmount;
+    this.finishedAmount.value = finishedAmount == null
+        ? this.finishedAmount.value
+        : int.parse(finishedAmount);
     this.goalAmount.value =
         goalAmount == null ? this.goalAmount.value : goalAmount;
     this.goalUnitType.value =

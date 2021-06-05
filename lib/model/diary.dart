@@ -4,9 +4,9 @@ class Diary {
   String content;
 
   Diary({
-    this.habitId,
-    this.content,
-    this.date,
+    required this.habitId,
+    required this.content,
+    required this.date,
   });
 
   Map<String, dynamic> toMap() {

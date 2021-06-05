@@ -18,7 +18,7 @@ class _HelpScreenState extends State<HelpScreen> {
     );
   }
 
-  Widget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar() {
     return AppBar(
       title: Container(
         child: Text(
@@ -59,7 +59,7 @@ class _HelpScreenState extends State<HelpScreen> {
     );
   }
 
-  Widget _headerListWidget({String title, IconData icon}) {
+  Widget _headerListWidget({required String title, required IconData icon}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

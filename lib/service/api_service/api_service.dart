@@ -66,7 +66,7 @@ class APIService {
 
   Future<FacebookLoginStatus> signInWithFacebook() async {
     facebookLogin = FacebookLogin();
-    facebookLoginResult = await facebookLogin.expressLogin();
+    facebookLoginResult = await facebookLogin.logIn();
 
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.cancel:

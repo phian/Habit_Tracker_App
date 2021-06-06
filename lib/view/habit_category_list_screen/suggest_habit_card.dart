@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/routing/routes.dart';
 import 'package:habit_tracker/controller/habit_category_list_screen_controller.dart';
-
+import 'package:habit_tracker/routing/routes.dart';
 
 class SuggestHabitCard extends StatelessWidget {
   final int iconCode, color, index;
@@ -11,12 +10,12 @@ class SuggestHabitCard extends StatelessWidget {
   final HabitCategoryListScreenController habitCategoryListScreenController;
 
   SuggestHabitCard({
-    this.iconCode,
-    this.color,
-    this.index,
-    this.subTitle,
-    this.title,
-    this.habitCategoryListScreenController,
+    required this.iconCode,
+    required this.color,
+    required this.index,
+    required this.subTitle,
+    required this.title,
+    required this.habitCategoryListScreenController,
   });
 
   @override

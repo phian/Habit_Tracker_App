@@ -110,7 +110,7 @@ class CreateHabitScreenController extends GetxController {
   /// [==================================================================]
 
   Future<void> addHabit(String name, String amount) async {
-    await DatabaseHelper.instance.insertHabit(
+    await DatabaseHelper().insertHabit(
       Habit(
         habitName: name,
         icon: habitIcon.value.codePoint,
@@ -142,7 +142,7 @@ class CreateHabitScreenController extends GetxController {
       timesPerWeek: getWeeklyList(),
       timeOfDay: getNotiTimeChoice(),
     );
-    await DatabaseHelper.instance.updateHabit(habit);
+    await DatabaseHelper().updateHabit(habit);
 
     await mainScreenController.getAllHabit();
   }
@@ -186,7 +186,7 @@ class CreateHabitScreenController extends GetxController {
     isGetReminder.value = !isGetReminder.value;
   }
 
-  changeHabitIcon(IconData icon) {
+  changeHabitIcon(IconData? icon) {
     if (habitIcon.value != icon && icon != null) {
       habitIcon.value = icon;
     }
@@ -288,11 +288,11 @@ class CreateHabitScreenController extends GetxController {
   }
 
   int getWeeklyList() {
-    int a;
+    int temp = 0;
     for (int i = 0; i < 7; i++) {
-      if (weeklyChoiceList[i]) a = i;
+      if (weeklyChoiceList[i]) temp = i;
     }
-    return a;
+    return temp;
   }
 
   void setWeeklyList(int a) {

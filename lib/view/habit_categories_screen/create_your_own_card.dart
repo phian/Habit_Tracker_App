@@ -3,13 +3,16 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 import 'package:habit_tracker/routing/routes.dart';
 
-
 class CreateYourOwnCard extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
   final String title;
 
-  CreateYourOwnCard({this.title, this.iconColor, this.icon});
+  CreateYourOwnCard({
+    required this.title,
+    required this.iconColor,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -13,13 +13,13 @@ class Timer extends StatefulWidget {
 
 class _TimerState extends State<Timer> with TickerProviderStateMixin {
   TimerController _controller = Get.put(TimerController());
-  AnimationController _aniController;
+  late AnimationController _aniController;
 
   String get _timeValue {
-    Duration duration = _aniController.value != 0
-        ? _aniController.duration * _aniController.value
+    Duration? duration = _aniController.value != 0
+        ? _aniController.duration! * _aniController.value
         : _aniController.duration;
-    return "${duration.inHours.toString().padLeft(2, '0')}:"
+    return "${duration!.inHours.toString().padLeft(2, '0')}:"
         "${duration.inMinutes.toString().padLeft(2, '0')}:"
         "${(duration.inSeconds % 60).toString().padLeft(2, '0')}";
   }
@@ -73,7 +73,7 @@ class _TimerState extends State<Timer> with TickerProviderStateMixin {
                 children: [
                   AnimatedBuilder(
                     animation: _aniController,
-                    builder: (BuildContext context, Widget child) {
+                    builder: (_, __) {
                       return Text(
                         _timeValue,
                         style: TextStyle(

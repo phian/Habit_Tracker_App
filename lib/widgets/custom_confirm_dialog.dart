@@ -3,30 +3,30 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
 
 class CustomConfirmDialog extends StatelessWidget {
-  final Color dialogBackgroundColor;
+  final Color? dialogBackgroundColor;
   final String title;
-  final String content;
-  final String positiveButtonText;
-  final String negativeButtonText;
-  final Color titleColor;
-  final Color contentColor;
-  final Color positiveTextColor;
-  final Color negativeTextColor;
-  final Function onPositiveButtonTap;
+  final String? content;
+  final String? positiveButtonText;
+  final String? negativeButtonText;
+  final Color? titleColor;
+  final Color? contentColor;
+  final Color? positiveTextColor;
+  final Color? negativeTextColor;
+  final Function? onPositiveButtonTap;
   final Function onNegativeButtonTap;
 
   CustomConfirmDialog({
     this.dialogBackgroundColor,
-    @required this.title,
+    required this.title,
     this.content,
     this.titleColor,
     this.contentColor,
     this.positiveButtonText,
     this.positiveTextColor,
-    @required this.negativeButtonText,
+    required this.negativeButtonText,
     this.negativeTextColor,
     this.onPositiveButtonTap,
-    @required this.onNegativeButtonTap,
+    required this.onNegativeButtonTap,
   });
 
   @override
@@ -53,7 +53,7 @@ class CustomConfirmDialog extends StatelessWidget {
             ).marginOnly(bottom: 12.0),
             content != null
                 ? Text(
-                    content,
+              content!,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: contentColor ?? AppColors.cFFFF,
@@ -72,7 +72,7 @@ class CustomConfirmDialog extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          onPositiveButtonTap.call();
+                          onPositiveButtonTap?.call();
                         },
                         child: Text(
                           positiveButtonText ?? "Yes",

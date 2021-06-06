@@ -4,7 +4,12 @@ import 'package:habit_tracker/constants/app_color.dart';
 
 class HabitCateGoryCard extends StatelessWidget {
   final String title, subtitle, imagePath;
-  HabitCateGoryCard({this.title, this.subtitle, this.imagePath});
+
+  HabitCateGoryCard({
+    required this.title,
+    required this.subtitle,
+    required this.imagePath,
+  });
 
   @override
   Widget build(BuildContext context) {

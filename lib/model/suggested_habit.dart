@@ -5,21 +5,21 @@ class SuggestedHabit {
   int icon;
   String color;
   bool isSetGoal;
-  int amount;
-  String unit;
-  int repeatMode;
-  String dayOfWeek;
-  int timesPerWeek;
-  String dateOfMonth;
-  String timeOfDay;
+  int? amount;
+  String? unit;
+  int? repeatMode;
+  String? dayOfWeek;
+  int? timesPerWeek;
+  String? dateOfMonth;
+  String? timeOfDay;
 
   SuggestedHabit({
-    this.topicId,
-    this.habitName,
-    this.description,
-    this.icon,
-    this.color,
-    this.isSetGoal,
+    required this.topicId,
+    required this.habitName,
+    required this.description,
+    required this.icon,
+    required this.color,
+    this.isSetGoal = false,
     this.amount,
     this.unit,
     this.repeatMode,

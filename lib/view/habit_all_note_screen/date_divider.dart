@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 class DateDivider extends StatelessWidget {
   final String date;
-  DateDivider({this.date});
+  DateDivider({required this.date});
 
   @override
   Widget build(BuildContext context) {

@@ -3,47 +3,44 @@ import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class APIService {
-  static APIService _apiService;
+  static APIService? _apiService;
 
-  APIService._();
+  APIService._internal();
 
-  static APIService get instance {
-    if (_apiService == null) {
-      _apiService = APIService._();
-      return _apiService;
-    }
-    return _apiService;
+  factory APIService() {
+    _apiService = APIService._internal();
+    return _apiService!;
   }
 
   /// Google
   FirebaseAuth auth = FirebaseAuth.instance;
-  User currentGoogleUser;
-  GoogleSignIn googleSignIn;
-  GoogleSignInAccount googleSignInAccount;
-  UserCredential userCredential;
-  AuthCredential credential;
-  GoogleSignInAuthentication googleSignInAuthentication;
+  User? currentGoogleUser;
+  GoogleSignIn? googleSignIn;
+  GoogleSignInAccount? googleSignInAccount;
+  UserCredential? userCredential;
+  late AuthCredential credential;
+  GoogleSignInAuthentication? googleSignInAuthentication;
 
-  User get googleUser => currentGoogleUser;
+  User? get googleUser => currentGoogleUser;
 
-  Future<User> signInWithGoogle() async {
+  Future<User?> signInWithGoogle() async {
     auth = FirebaseAuth.instance;
 
     googleSignIn = GoogleSignIn();
-    googleSignInAccount = await googleSignIn.signIn();
+    googleSignInAccount = await googleSignIn?.signIn();
 
     if (googleSignInAccount != null) {
-      googleSignInAuthentication = await googleSignInAccount.authentication;
+      googleSignInAuthentication = await googleSignInAccount?.authentication;
 
       credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
+        accessToken: googleSignInAuthentication?.accessToken,
+        idToken: googleSignInAuthentication?.idToken,
       );
 
       try {
         userCredential = await auth.signInWithCredential(credential);
 
-        currentGoogleUser = userCredential.user;
+        currentGoogleUser = userCredential?.user;
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           // handle the error here
@@ -61,8 +58,8 @@ class APIService {
 
   /// Facebook
   // Create an instance of FacebookLogin
-  FacebookLogin facebookLogin;
-  FacebookLoginResult facebookLoginResult;
+  late FacebookLogin facebookLogin;
+  late FacebookLoginResult facebookLoginResult;
 
   Future<FacebookLoginStatus> signInWithFacebook() async {
     facebookLogin = FacebookLogin();
@@ -81,20 +78,20 @@ class APIService {
     }
   }
 
-  Future<String> getFacebookUserPhotoURL() async {
+  Future<String?> getFacebookUserPhotoURL() async {
     final imageUrl = await facebookLogin.getProfileImageUrl(width: 100);
     return imageUrl;
   }
 
-  Future<String> getFacebookUserProfileName() async {
+  Future<String?> getFacebookUserProfileName() async {
     // Get profile data
     final profile = await facebookLogin.getUserProfile();
-    return profile.name;
+    return profile?.name;
   }
 
   Future<void> googleSignOut() async {
     auth.signOut();
-    googleSignIn.signOut();
+    googleSignIn?.signOut();
   }
 
   Future<void> facebookSignOut() async {

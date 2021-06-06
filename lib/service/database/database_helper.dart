@@ -54,10 +54,15 @@ class DatabaseHelper {
 
   DatabaseHelper._privateConstructor();
 
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
-  static Database _database;
+  static DatabaseHelper? _instance;
+  static Database? _database;
 
-  Future<Database> get database async {
+  factory DatabaseHelper() {
+    _instance ??= DatabaseHelper._privateConstructor();
+    return _instance!;
+  }
+
+  Future<Database?> get database async {
     if (_database != null) return _database;
     _database = await _initDatabase();
     return _database;
@@ -144,7 +149,8 @@ class DatabaseHelper {
     ''');
 
     // INSERT DATA SUGGESTED TOPIC
-    await db.execute('''INSERT INTO $tableSuggestedTopic ($topicName, $description, $image) 
+    await db.execute(
+        '''INSERT INTO $tableSuggestedTopic ($topicName, $description, $image) 
         VALUES 
         ('Trending habits', 'Take a step in a right direction', '${AppImages.imgTrendingHabits}'),
         ('Staying at home', 'Use this time to do something new', '${AppImages.imgAtHome}'),
@@ -275,11 +281,11 @@ class DatabaseHelper {
     print('taodb');
   }
 
-  Future<int> insertHabit(Habit habit) async {
-    Database db = await instance.database;
-    var rs = 0;
+  Future<int?> insertHabit(Habit habit) async {
+    Database? db = await database;
+    int? rs;
     try {
-      rs = await db.insert(tableHabit, habit.toMap());
+      rs = await db?.insert(tableHabit, habit.toMap());
     } catch (e) {
       throw e;
     }
@@ -287,11 +293,11 @@ class DatabaseHelper {
   }
 
   Future<List<SuggestedTopic>> getAllSuggestTopic() async {
-    Database db = await this.database;
+    Database? db = await this.database;
     List<SuggestedTopic> listTopic = [];
     try {
-      var rs = await db.query(tableSuggestedTopic);
-      rs.forEach((element) {
+      var rs = await db?.query(tableSuggestedTopic);
+      rs?.forEach((element) {
         listTopic.add(SuggestedTopic.fromMap(element));
       });
     } catch (e) {
@@ -301,15 +307,15 @@ class DatabaseHelper {
   }
 
   Future<List<SuggestedHabit>> getSussgestHabit(int habitTopic) async {
-    Database db = await this.database;
+    Database? db = await this.database;
     List<SuggestedHabit> listSuggestedHabit = [];
     try {
-      var rs = await db.query(
+      var rs = await db?.query(
         tableSuggestedHabit,
         where: "$topicId = $habitTopic",
       );
 
-      rs.forEach((element) {
+      rs?.forEach((element) {
         listSuggestedHabit.add(SuggestedHabit.fromMap(element));
       });
     } catch (e) {
@@ -320,12 +326,12 @@ class DatabaseHelper {
 
   Future<List<Habit>> getAllHabit() async {
     List<Habit> habits = [];
-    Database db = await instance.database;
+    Database? db = await database;
 
     try {
-      var res = await db.query(tableHabit, orderBy: '$habitId DESC');
+      var res = await db?.query(tableHabit, orderBy: '$habitId DESC');
 
-      res.forEach((map) {
+      res?.forEach((map) {
         Habit habit = Habit.fromMap(map);
         habits.add(habit);
       });
@@ -335,17 +341,17 @@ class DatabaseHelper {
     return habits;
   }
 
-  Future<int> updateHabit(Habit habit) async {
-    Database db = await instance.database;
-    int rs = 0;
+  Future<int?> updateHabit(Habit habit) async {
+    Database? db = await database;
+    int? rs;
     try {
-      await db.delete(
+      await db?.delete(
         tableProcess,
         where: '$habitId = ?',
         whereArgs: [habit.habitId],
       );
 
-      rs = await db.update(
+      rs = await db?.update(
         tableHabit,
         habit.toMap(),
         where: '$habitId = ?',
@@ -357,17 +363,17 @@ class DatabaseHelper {
     return rs;
   }
 
-  Future<int> deleteHabit(int idHabit) async {
-    Database db = await instance.database;
-    int rs = 0;
+  Future<int?> deleteHabit(int idHabit) async {
+    Database? db = await database;
+    int? rs;
     try {
-      await db.delete(tableDiary, where: '$habitId = ?', whereArgs: [idHabit]);
+      await db?.delete(tableDiary, where: '$habitId = ?', whereArgs: [idHabit]);
 
       await db
-          .delete(tableProcess, where: '$habitId = ?', whereArgs: [idHabit]);
+          ?.delete(tableProcess, where: '$habitId = ?', whereArgs: [idHabit]);
 
       rs = await db
-          .delete(tableHabit, where: '$habitId = ?', whereArgs: [idHabit]);
+          ?.delete(tableHabit, where: '$habitId = ?', whereArgs: [idHabit]);
     } catch (e) {
       throw e;
     }
@@ -375,17 +381,17 @@ class DatabaseHelper {
   }
 
   Future<List<Process>> getListProcess(DateTime date) async {
-    Database db = await instance.database;
+    Database? db = await database;
     // convert Datetime sang Sting đúng format
     String formatedDate = AppConstants.dateFormatter.format(date);
     List<Process> listProcess = [];
     try {
-      var res = await db.rawQuery('''
+      var res = await db?.rawQuery('''
         SELECT * FROM $tableProcess
         WHERE ${this.date} = '$formatedDate' 
         ''');
 
-      res.forEach((element) {
+      res?.forEach((element) {
         Process process = Process.fromMap(element);
         listProcess.add(process);
       });
@@ -396,31 +402,32 @@ class DatabaseHelper {
     return listProcess;
   }
 
-  Future<int> countProcessCompleteInRange(int habitID, DateTime beginDate, DateTime endDate) async {
-    Database db = await instance.database;
+  Future<int?> countProcessCompleteInRange(
+      int habitID, DateTime beginDate, DateTime endDate) async {
+    Database? db = await database;
     String begin = AppConstants.dateFormatter.format(beginDate);
     String end = AppConstants.dateFormatter.format(endDate);
     try {
-      var rs = await db.rawQuery('''
+      var rs = await db?.rawQuery('''
       SELECT COUNT(*) FROM $tableProcess, $tableHabit
       WHERE $tableProcess.$habitId = $tableHabit.$habitId
       AND $date BETWEEN '$begin' AND '$end'
       AND $tableProcess.$habitId = $habitID
       AND $tableProcess.$result = $tableHabit.$amount
       ''');
-      return Sqflite.firstIntValue(rs);
+      return Sqflite.firstIntValue(rs ?? []);
     } catch (e) {
       throw e;
     }
   }
 
-  Future<int> createNewProcess(int idHabit, DateTime date) async {
-    Database db = await instance.database;
+  Future<int?> createNewProcess(int idHabit, DateTime date) async {
+    Database? db = await database;
     // convert Datetime sang Sting đúng format
     String formatedDate = AppConstants.dateFormatter.format(date);
-    int rs = 0;
+    int? rs;
     try {
-      rs = await db.rawInsert(
+      rs = await db?.rawInsert(
         'INSERT INTO $tableProcess ($habitId,${this.date}) VALUES (?,?)',
         [idHabit, formatedDate],
       );
@@ -430,11 +437,11 @@ class DatabaseHelper {
     return rs;
   }
 
-  Future<int> updateProcess(Process process) async {
-    Database db = await instance.database;
-    int rs = 0;
+  Future<int?> updateProcess(Process process) async {
+    Database? db = await database;
+    int? rs;
     try {
-      rs = await db.update(
+      rs = await db?.update(
         tableProcess,
         process.toMap(),
         where: '$habitId = ? and $date = ?',
@@ -447,33 +454,33 @@ class DatabaseHelper {
   }
 
   Future<List<Diary>> getNote(int idHabit, DateTime date) async {
-    Database db = await instance.database;
+    Database? db = await database;
     // convert Datetime sang Sting đúng format
-    String formatedDate = AppConstants.dateFormatter.format(date);
-    List<Diary> diarys = [];
+    String formattedDate = AppConstants.dateFormatter.format(date);
+    List<Diary> diaries = [];
     try {
-      var rs = await db.query(
+      var rs = await db?.query(
         tableDiary,
         where: '$habitId = ? and ${this.date} = ?',
-        whereArgs: [idHabit, formatedDate],
+        whereArgs: [idHabit, formattedDate],
       );
 
-      rs.forEach((element) {
-        diarys.add(Diary.fromMap(element));
+      rs?.forEach((element) {
+        diaries.add(Diary.fromMap(element));
       });
     } catch (e) {
       throw e;
     }
 
-    return diarys;
+    return diaries;
   }
 
   Future<int> insertHabitNote(Diary diary) async {
-    Database db = await this.database;
-    int result = 0;
+    Database? db = await this.database;
+    int result;
 
     try {
-      result = await db.insert(tableDiary, diary.toMap());
+      result = await db!.insert(tableDiary, diary.toMap());
     } catch (e) {
       throw e;
     }
@@ -482,11 +489,11 @@ class DatabaseHelper {
   }
 
   Future<int> updateHabitNoteData(Diary diary) async {
-    Database database = await this.database;
+    Database? database = await this.database;
     int result = 0;
 
     try {
-      result = await database.rawUpdate(
+      result = await database!.rawUpdate(
         "update $tableDiary set $content = ? where $habitId = ? and $date = ?",
         [
           diary.content,
@@ -501,10 +508,10 @@ class DatabaseHelper {
   }
 
   Future<List<Diary>> getAllNote(int idHabit) async {
-    Database db = await instance.database;
+    Database? db = await database;
     List<Diary> diaries = [];
     try {
-      var queryResult = await db
+      var queryResult = await db!
           .rawQuery("select * from $tableDiary where $habitId = '$idHabit'");
 
       queryResult.forEach((element) {
@@ -517,14 +524,14 @@ class DatabaseHelper {
   }
 
   Future<void> deleteAllHabit() async {
-    Database database = await instance.database;
+    Database? db = await database;
 
     try {
-      database.execute("Delete from $tableHabit");
-      database.close();
+      db?.execute("Delete from $tableHabit");
+      db?.close();
     } catch (e, s) {
       print("$e, $s");
-      database.close();
+      db?.close();
     }
   }
 }

@@ -5,10 +5,10 @@ class Process {
   bool isSkip;
 
   Process({
-    this.habitId,
-    this.date,
-    this.result=0,
-    this.isSkip=false,
+    required this.habitId,
+    required this.date,
+    this.result = 0,
+    this.isSkip = false,
   });
 
   Map<String, dynamic> toMap() {

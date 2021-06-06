@@ -11,8 +11,9 @@ import 'package:habit_tracker/routing/routes.dart';
 // ignore: must_be_immutable
 class SwipeHabitTile extends StatefulWidget {
   final Habit habit;
-  Process process;
-  SwipeHabitTile({@required this.habit, this.process});
+  Process? process;
+
+  SwipeHabitTile({required this.habit, this.process});
 
   @override
   _SwipeHabitTileState createState() => _SwipeHabitTileState();
@@ -21,11 +22,11 @@ class SwipeHabitTile extends StatefulWidget {
 class _SwipeHabitTileState extends State<SwipeHabitTile> {
   var controller = Get.find<MainScreenController>();
 
-  bool checkIfSkipedOrCompleted() {
+  bool checkIfSkippedOrCompleted() {
     if (widget.process != null) {
-      bool isSkiped = widget.process.isSkip;
-      bool isCompleted = widget.process.result == widget.habit.amount;
-      return isSkiped || isCompleted;
+      bool isSkipped = widget.process!.isSkip;
+      bool isCompleted = widget.process!.result == widget.habit.amount;
+      return isSkipped || isCompleted;
     }
     return false;
   }
@@ -33,10 +34,10 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
   @override
   Widget build(BuildContext context) {
     return SwipeActionCell(
-      backgroundColor: AppColors.c0000,
+        backgroundColor: AppColors.c0000,
       key: UniqueKey(),
-      leadingActions: checkIfSkipedOrCompleted()
-          ? null
+      leadingActions: checkIfSkippedOrCompleted()
+          ? []
           : [
               SwipeAction(
                 content: swipeItem('Done', AppColors.cFF4C, true),
@@ -45,8 +46,8 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
                 onTap: (CompletionHandler handler) async {
                   handler(false);
                   createProcessIfNull();
-                  widget.process.result = widget.habit.amount;
-                  controller.updateProcess(widget.process);
+                  widget.process?.result = widget.habit.amount!;
+                  controller.updateProcess(widget.process!);
                   controller.getListProcess(controller.selectedDate.value);
                   setState(() {});
                   print('done');
@@ -60,15 +61,15 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
                   onTap: (CompletionHandler handler) async {
                     handler(false);
                     createProcessIfNull();
-                    widget.process.result++;
-                    controller.updateProcess(widget.process);
+                    widget.process!.result++;
+                    controller.updateProcess(widget.process!);
                     controller.getListProcess(controller.selectedDate.value);
                     setState(() {});
                     print('+1');
                   },
                 ),
             ],
-      trailingActions: checkIfSkipedOrCompleted()
+      trailingActions: checkIfSkippedOrCompleted()
           ? [
               SwipeAction(
                 content: swipeItem('Note', AppColors.cFF9C, false),
@@ -86,9 +87,9 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
                 onTap: (CompletionHandler handler) async {
                   handler(false);
                   createProcessIfNull();
-                  widget.process.isSkip = false;
-                  widget.process.result = 0;
-                  controller.updateProcess(widget.process);
+                  widget.process!.isSkip = false;
+                  widget.process!.result = 0;
+                  controller.updateProcess(widget.process!);
                   controller.getListProcess(controller.selectedDate.value);
                   setState(() {});
                   print('undo');
@@ -103,8 +104,8 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
                 onTap: (CompletionHandler handler) async {
                   handler(false);
                   createProcessIfNull();
-                  widget.process.isSkip = true;
-                  controller.updateProcess(widget.process);
+                  widget.process!.isSkip = true;
+                  controller.updateProcess(widget.process!);
                   controller.getListProcess(controller.selectedDate.value);
                   setState(() {});
                   print('skip');
@@ -142,7 +143,7 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
         habitId: widget.habit.habitId,
         date: AppConstants.dateFormatter.format(date),
       );
-      controller.creatNewProcess(habitId: widget.habit.habitId, date: date);
+      controller.createNewProcess(habitId: widget.habit.habitId, date: date);
     }
   }
 
@@ -159,18 +160,18 @@ class _SwipeHabitTileState extends State<SwipeHabitTile> {
 
 class HabitTile extends StatelessWidget {
   final Habit habit;
-  final Process process;
-  HabitTile({@required this.habit, this.process});
+  final Process? process;
+
+  HabitTile({required this.habit, this.process});
 
   @override
   Widget build(BuildContext context) {
-    bool isSkiped = false;
+    bool isSkipped = false;
     bool isCompleted = false;
-   
 
     if (process != null) {
-      isSkiped = process.isSkip;
-      isCompleted = process.result == habit.amount;
+      isSkipped = process!.isSkip;
+      isCompleted = process!.result == habit.amount;
     }
 
     return GestureDetector(
@@ -189,7 +190,7 @@ class HabitTile extends StatelessWidget {
               child: Icon(
                 IconData(habit.icon, fontFamily: 'MaterialIcons'),
                 size: 50,
-                color: isSkiped || isCompleted
+                color: isSkipped || isCompleted
                     ? AppColors.cFF9E
                     : Color(int.parse(habit.color, radix: 16)),
               ),
@@ -212,7 +213,7 @@ class HabitTile extends StatelessWidget {
                       ),
                       maxLines: 2,
                     ),
-                    if (isSkiped)
+                    if (isSkipped)
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Row(
@@ -266,7 +267,8 @@ class HabitTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      (process == null ? '0' : '${process.result}') + '/${habit.amount}',
+                      (process == null ? '0' : '${process!.result}') +
+                          '/${habit.amount}',
                       style: TextStyle(
                         fontSize: 20,
                         color: Color(
@@ -275,7 +277,7 @@ class HabitTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      habit.unit,
+                      habit.unit ?? "",
                       style: TextStyle(fontSize: 18),
                     ),
                   ],

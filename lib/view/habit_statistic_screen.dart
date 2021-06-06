@@ -27,7 +27,8 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   void initState() {
     super.initState();
 
-    _habitStatisticController.habit.value = Get.arguments;
+    if (Get.arguments != null)
+      _habitStatisticController.habit.value = Get.arguments;
   }
 
   @override
@@ -40,7 +41,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   }
 
   /// [Appbar]
-  Widget _habitStatisticScreenAppBar() {
+  PreferredSizeWidget _habitStatisticScreenAppBar() {
     return AppBar(
       leading: Container(
         transform: Matrix4.translationValues(-3.0, -3.2, 0.0),
@@ -262,7 +263,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                         ),
                       ),
                       Text(
-                        _habitStatisticController.habit.value.unit,
+                        _habitStatisticController.habit.value.unit!,
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
@@ -278,7 +279,7 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
                 child: Obx(
                   () => FAProgressBar(
                     currentValue: 0,
-                    maxValue: _habitStatisticController.habit.value.amount,
+                    maxValue: _habitStatisticController.habit.value.amount!,
                     size: 5,
                     backgroundColor: AppColors.cFF2F,
                     progressColor: AppColors.cFFFE,
@@ -480,7 +481,10 @@ class _HabitStatisticScreenState extends State<HabitStatisticScreen> {
   }
 
   Widget _completeRateAndTotalTimesWidget(
-      {IconData icon, RxString title, String description, Color iconColor}) {
+      {required IconData icon,
+      required RxString title,
+      required String description,
+      required Color iconColor}) {
     return Obx(
       () => Container(
         padding: EdgeInsets.symmetric(horizontal: 15.0),

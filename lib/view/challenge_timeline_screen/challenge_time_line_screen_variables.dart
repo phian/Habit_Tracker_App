@@ -10,7 +10,11 @@ class ChallengeInfo {
   String description;
   Color iconColor;
 
-  ChallengeInfo({this.icon, this.title, this.description, this.iconColor});
+  ChallengeInfo(
+      {required this.icon,
+      required this.title,
+      required this.description,
+      required this.iconColor});
 }
 
 /// [Social media]
@@ -87,7 +91,7 @@ var sugarFreeChallengeInfos = [
 ];
 
 /// [Intermittent fasting]
-var intermittentFastingChallengeInfos = [
+var intermittentFastingChallengeInfo = [
   ChallengeInfo(
     icon: Icons.local_dining,
     title: "Fast for 16 hours",

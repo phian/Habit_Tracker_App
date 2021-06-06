@@ -1,5 +1,6 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
@@ -9,13 +10,15 @@ import 'package:habit_tracker/widgets/custom_confirm_dialog.dart';
 import 'package:habit_tracker/widgets/init_rate_my_app_widget.dart';
 import 'package:habit_tracker/widgets/side_menu/side_menu_controller.dart';
 import 'package:rate_my_app/rate_my_app.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class ScreenMenu extends StatefulWidget {
   final Widget child;
-  final GlobalKey menuKey;
+  final ZoomDrawerController menuController;
 
-  ScreenMenu({this.child, this.menuKey});
+  ScreenMenu({
+    required this.child,
+    required this.menuController,
+  });
 
   @override
   _ScreenMenuState createState() => _ScreenMenuState();
@@ -35,13 +38,20 @@ class _ScreenMenuState extends State<ScreenMenu> {
   Widget build(BuildContext context) {
     return InitRateMyAppWidget(
       builder: (rateMyApp) {
-        return SideMenu(
-          background: AppColors.cFF2F,
-          key: widget.menuKey,
-          inverse: false,
-          type: SideMenuType.slideNRotate,
-          menu: _buildMenu(rateMyApp),
-          child: widget.child,
+        return Scaffold(
+          backgroundColor: AppColors.cFF2F,
+          body: ZoomDrawer(
+            style: DrawerStyle.Style1,
+            controller: widget.menuController,
+            menuScreen: _buildMenu(rateMyApp),
+            mainScreen: widget.child,
+            borderRadius: 24.0,
+            showShadow: true,
+            angle: 0.0,
+            slideWidth: Get.width / 1.5,
+            duration: Duration(milliseconds: 200),
+            backgroundColor: AppColors.c3DFF,
+          ),
         );
       },
     );
@@ -56,7 +66,7 @@ class _ScreenMenuState extends State<ScreenMenu> {
         physics: AlwaysScrollableScrollPhysics(
           parent: BouncingScrollPhysics(),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 50.0),
+        padding: EdgeInsets.symmetric(vertical: 64.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,11 +164,11 @@ class _ScreenMenuState extends State<ScreenMenu> {
 
   /// [Widget cho Side menu]
   Widget _menuListTile({
-    MenuItemsType type,
-    IconData icon,
-    String title,
-    Color iconColor,
-    RateMyApp rateMyApp,
+    required MenuItemsType type,
+    required IconData icon,
+    required String title,
+    required Color iconColor,
+    RateMyApp? rateMyApp,
   }) {
     return Container(
       transform: Matrix4.translationValues(-15.0, .0, .0),
@@ -188,8 +198,8 @@ class _ScreenMenuState extends State<ScreenMenu> {
   }
 
   void _showSignInNotificationDialog({
-    String title,
-    String text,
+    required String title,
+    required String text,
   }) async {
     CoolAlert.show(
       context: context,
@@ -200,7 +210,7 @@ class _ScreenMenuState extends State<ScreenMenu> {
     );
   }
 
-  void _handleOnListTileTap(MenuItemsType type, RateMyApp rateMyApp) async {
+  void _handleOnListTileTap(MenuItemsType type, RateMyApp? rateMyApp) async {
     switch (type) {
       case MenuItemsType.notification:
         Get.toNamed(Routes.NOTIFICATION);
@@ -231,7 +241,7 @@ class _ScreenMenuState extends State<ScreenMenu> {
       case MenuItemsType.share:
         break;
       case MenuItemsType.rateApp:
-        rateMyApp.showStarRateDialog(
+        rateMyApp?.showStarRateDialog(
           context,
           title: 'Rate Our App',
           message: 'Please rate us if you like our app!',
@@ -264,10 +274,10 @@ class _ScreenMenuState extends State<ScreenMenu> {
   }
 
   List<Widget> actionsBuilder(
-          BuildContext context, double stars, RateMyApp rateMyApp) =>
+          BuildContext context, double? stars, RateMyApp? rateMyApp) =>
       stars == null
-          ? [_buildCancelButton(rateMyApp)]
-          : [_buildOkButton(stars, rateMyApp), _buildCancelButton(rateMyApp)];
+          ? [_buildCancelButton(rateMyApp!)]
+          : [_buildOkButton(stars, rateMyApp!), _buildCancelButton(rateMyApp)];
 
   Widget _buildOkButton(double stars, RateMyApp rateMyApp) => TextButton(
         child: Text('OK'),

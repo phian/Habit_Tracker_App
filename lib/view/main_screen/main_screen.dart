@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_date_picker_timeline/flutter_date_picker_timeline.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/controller/main_screen_controller.dart';
-import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/view/main_screen/widgets/habit_tile.dart';
 import 'package:habit_tracker/widgets/none_habit_display.dart';
 import 'package:habit_tracker/widgets/side_menu/side_menu.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import '../../model/habit.dart';
 
@@ -18,13 +15,14 @@ class MainScreen extends StatefulWidget {
   MainScreenState createState() => MainScreenState();
 }
 
-class MainScreenState extends State<MainScreen> implements SideMenuModel {
+class MainScreenState extends State<MainScreen> {
   final mainScreenController = Get.find<MainScreenController>();
+  final ZoomDrawerController _mainScreenController = ZoomDrawerController();
 
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: AppConstants.mainScreenKey,
+      menuController: _mainScreenController,
       child: Scaffold(
         backgroundColor: AppColors.cFF1E,
         appBar: _mainScreenAppBar(),
@@ -34,7 +32,7 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
   }
 
   /// [Appbar]
-  Widget _mainScreenAppBar() {
+  PreferredSizeWidget _mainScreenAppBar() {
     return AppBar(
       leading: Container(
         alignment: Alignment.center,
@@ -44,9 +42,9 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
             size: 30.0,
             color: AppColors.cFFFF,
           ),
-          onPressed: () => openOrCloseSideMenu(
-            AppConstants.mainScreenKey,
-          ),
+          onPressed: () {
+            _mainScreenController.toggle!();
+          },
         ),
       ),
       title: Container(
@@ -81,10 +79,12 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
               initialFocusedDate: mainScreenController.selectedDate.value,
               // initialSelectedDate: mainScreenController.selectedDay.value,
               onSelectedDateChange: (dateTime) {
-                mainScreenController.updateFlagValue(true);
-                mainScreenController.changeSelectedDay(dateTime);
-                mainScreenController.getHabitByWeekDate(dateTime.weekday);
-                mainScreenController.updateFlagValue(false);
+                if (dateTime != null) {
+                  mainScreenController.updateFlagValue(true);
+                  mainScreenController.changeSelectedDay(dateTime);
+                  mainScreenController.getHabitByWeekDate(dateTime.weekday);
+                  mainScreenController.updateFlagValue(false);
+                }
               },
               selectedItemBackgroundColor: AppColors.c3DFF,
               selectedItemTextStyle: TextStyle(
@@ -112,7 +112,8 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                       labelColor: AppColors.cFFFF,
                       unselectedLabelColor: AppColors.c3DFF,
                       indicatorColor: AppColors.c0000,
-                      physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                      physics: AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics()),
                       tabs: [
                         _mainScreenDateTimeTab('All day'),
                         _mainScreenDateTimeTab('Morning'),
@@ -128,16 +129,20 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
                           physics: BouncingScrollPhysics(),
                           children: <Widget>[
                             !mainScreenController.isLoading.value
-                                ? _listHabit(mainScreenController.listAnytimeHabit)
+                                ? _listHabit(
+                                    mainScreenController.listAnytimeHabit)
                                 : NoneHabitDisplayWidget(),
                             !mainScreenController.isLoading.value
-                                ? _listHabit(mainScreenController.listMorningHabit)
+                                ? _listHabit(
+                                    mainScreenController.listMorningHabit)
                                 : NoneHabitDisplayWidget(),
                             !mainScreenController.isLoading.value
-                                ? _listHabit(mainScreenController.listAfternoonHabit)
+                                ? _listHabit(
+                                    mainScreenController.listAfternoonHabit)
                                 : NoneHabitDisplayWidget(),
                             !mainScreenController.isLoading.value
-                                ? _listHabit(mainScreenController.listEveningHabit)
+                                ? _listHabit(
+                                    mainScreenController.listEveningHabit)
                                 : NoneHabitDisplayWidget(),
                           ],
                         ),
@@ -157,13 +162,14 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
   Widget _listHabit(List<Habit> listHabit) {
     return listHabit.length > 0
         ? ListView.separated(
-            key: UniqueKey(),
+      key: UniqueKey(),
             padding: EdgeInsets.symmetric(vertical: 16),
             itemCount: listHabit.length,
             physics: AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics(),
             ),
-            separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10),
+            separatorBuilder: (BuildContext context, int index) =>
+                SizedBox(height: 10),
             itemBuilder: (context, index) {
               int i = mainScreenController.listProcessByDay.indexWhere(
                 (e) => e.habitId == listHabit[index].habitId,
@@ -171,7 +177,8 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
 
               return SwipeHabitTile(
                 habit: listHabit[index],
-                process: i != -1 ? mainScreenController.listProcessByDay[i] : null,
+                process:
+                    i != -1 ? mainScreenController.listProcessByDay[i] : null,
               );
             },
           )
@@ -190,13 +197,5 @@ class MainScreenState extends State<MainScreen> implements SideMenuModel {
         ),
       ),
     );
-  }
-
-  @override
-  void openOrCloseSideMenu(GlobalKey<SideMenuState> key) {
-    if (key.currentState.isOpened)
-      key.currentState.closeSideMenu();
-    else
-      key.currentState.openSideMenu();
   }
 }

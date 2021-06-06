@@ -54,7 +54,7 @@ class _TimeOfDayScreenState extends State<TimeOfDayScreen> {
   }
 
   /// [App Bar]
-  Widget _timeOfDayScreenAppBar() {
+  PreferredSizeWidget _timeOfDayScreenAppBar() {
     return AppBar(
       title: Text(
         "Time of day",
@@ -70,11 +70,11 @@ class _TimeOfDayScreenState extends State<TimeOfDayScreen> {
   }
 
   Widget _buildTileWidget({
-    IconData icon,
-    String title,
-    Color icoColor,
-    RxString time,
-    TimeType type,
+    required IconData icon,
+    required String title,
+    required Color icoColor,
+    required RxString time,
+    required TimeType type,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +169,9 @@ class _TimeOfDayScreenState extends State<TimeOfDayScreen> {
             ":${value.minute.toString().padLeft(2, "0")}";
         _controller.saveTimeData(type, result);
       }
-    }).catchError((err) => print(err.toString()));
+    }).catchError((err) {
+      print(err.toString());
+    });
   }
 }
 

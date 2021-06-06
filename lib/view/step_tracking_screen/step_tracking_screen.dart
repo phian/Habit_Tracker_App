@@ -1,34 +1,33 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/constants/app_color.dart';
-import 'package:habit_tracker/constants/app_constant.dart';
 import 'package:habit_tracker/constants/app_images.dart';
 import 'package:habit_tracker/controller/step_tracking_screen_controller.dart';
-import 'package:habit_tracker/model/side_menu_model.dart';
 import 'package:habit_tracker/view/step_tracking_screen/widgets/daily_chart.dart';
 import 'package:habit_tracker/view/step_tracking_screen/widgets/monthly_chart.dart';
 import 'package:habit_tracker/view/step_tracking_screen/widgets/weekly_chart.dart';
 import 'package:habit_tracker/widgets/side_menu/side_menu.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:pedometer/pedometer.dart';
-import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class StepTackingScreen extends StatefulWidget {
   @override
   _StepTackingScreenState createState() => _StepTackingScreenState();
 }
 
-class _StepTackingScreenState extends State<StepTackingScreen>
-    implements SideMenuModel {
+class _StepTackingScreenState extends State<StepTackingScreen> {
   final _controller = Get.find<StepTrackingScreenController>();
-  WeeklyChart _weeklyChart;
-  MonthlyChart _monthlyChart;
+  late WeeklyChart _weeklyChart;
+  late MonthlyChart _monthlyChart;
 
   /// Step keys
   var _savedStepsCountKey = "saved_steps";
   var _lastDaySavedKey = "last_day_steps";
+
+  final ZoomDrawerController _stepTrackingController = ZoomDrawerController();
 
   @override
   void initState() {
@@ -41,7 +40,7 @@ class _StepTackingScreenState extends State<StepTackingScreen>
   @override
   Widget build(BuildContext context) {
     return ScreenMenu(
-      menuKey: AppConstants.stepTrackingScreenKey,
+      menuController: _stepTrackingController,
       child: Scaffold(
         appBar: _stepTrackingScreenAppBar(),
         body: _stepTrackingScreenBody(),
@@ -50,7 +49,7 @@ class _StepTackingScreenState extends State<StepTackingScreen>
   }
 
   /// [App Bar]
-  Widget _stepTrackingScreenAppBar() {
+  PreferredSizeWidget _stepTrackingScreenAppBar() {
     return AppBar(
       title: Text(
         "Step tracking",
@@ -67,9 +66,9 @@ class _StepTackingScreenState extends State<StepTackingScreen>
             size: 30.0,
             color: AppColors.cFFFF,
           ),
-          onPressed: () => openOrCloseSideMenu(
-            AppConstants.stepTrackingScreenKey,
-          ),
+          onPressed: () {
+            _stepTrackingController.toggle!();
+          },
         ),
       ),
       centerTitle: true,
@@ -292,13 +291,11 @@ class _StepTackingScreenState extends State<StepTackingScreen>
                       switch (_controller.selectedTabIndex.value) {
                         case 0:
                           return _dayChart();
-                          break;
                         case 1:
                           return BarChart(
                             _weekChart(_controller.touchedIndex.value),
                             swapAnimationDuration: Duration(milliseconds: 250),
                           );
-                          break;
                         default:
                           return Container(
                             width: Get.width,
@@ -320,7 +317,8 @@ class _StepTackingScreenState extends State<StepTackingScreen>
   }
 
   /// [Widget hiển thị các số liệu thống kê]
-  Widget _trackingValueColumn({RxString amount, String title}) {
+  Widget _trackingValueColumn(
+      {required RxString amount, required String title}) {
     return Obx(
       () => Column(
         mainAxisSize: MainAxisSize.min,
@@ -364,14 +362,6 @@ class _StepTackingScreenState extends State<StepTackingScreen>
     return _monthlyChart.monthChart();
   }
 
-  @override
-  void openOrCloseSideMenu(GlobalKey<SideMenuState> key) {
-    if (key.currentState.isOpened)
-      key.currentState.closeSideMenu();
-    else
-      key.currentState.openSideMenu();
-  }
-
   /// Step calculate
   void _startStepListening() {
     Pedometer.stepCountStream.listen(
@@ -390,11 +380,11 @@ class _StepTackingScreenState extends State<StepTackingScreen>
     _checkStepValue(stepCount.steps);
 
     print(stepCount.steps);
-    int savedStepsCount = await _controller.getStepsValue(_savedStepsCountKey);
+    int? savedStepsCount = await _controller.getStepsValue(_savedStepsCountKey);
     print("saved steps count value: $savedStepsCount");
 
     int todayDayNo = Jiffy(DateTime.now()).dayOfYear;
-    if (stepCount.steps < savedStepsCount) {
+    if (savedStepsCount != null && stepCount.steps < savedStepsCount) {
       // Upon device reboot, pedometer resets. When this happens, the saved counter must be reset as well.
       savedStepsCount = 0;
       // persist this value using a package of your choice here
@@ -402,12 +392,12 @@ class _StepTackingScreenState extends State<StepTackingScreen>
     }
 
     // load the last day saved using a package of your choice here
-    int lastDaySaved = await _controller.getStepsValue(_lastDaySavedKey);
+    int? lastDaySaved = await _controller.getStepsValue(_lastDaySavedKey);
     print("last day saved value: $lastDaySaved");
 
     // When the day changes, reset the daily steps count
     // and Update the last day saved as the day changes.
-    if (lastDaySaved < todayDayNo) {
+    if (lastDaySaved != null && lastDaySaved < todayDayNo) {
       lastDaySaved = todayDayNo;
       savedStepsCount = stepCount.steps;
 
@@ -416,15 +406,15 @@ class _StepTackingScreenState extends State<StepTackingScreen>
         ..saveStepsValue(_savedStepsCountKey, savedStepsCount);
     }
 
-    var todaySteps = stepCount.steps - savedStepsCount;
+    var todaySteps = stepCount.steps - (savedStepsCount ?? 0);
     _controller.saveStepsValue(todayDayNo, todaySteps);
     _controller.updateTotalSteps(todaySteps);
     _controller.updateGoalSteps(todaySteps);
   }
 
   void _checkStepValue(int stepCount) async {
-    int savedStepsCount = await _controller.getStepsValue(_savedStepsCountKey);
-    int lastDaySaved = await _controller.getStepsValue(_lastDaySavedKey);
+    int? savedStepsCount = await _controller.getStepsValue(_savedStepsCountKey);
+    int? lastDaySaved = await _controller.getStepsValue(_lastDaySavedKey);
 
     // Check if data is not create then create the initial value
     if (savedStepsCount == null) {

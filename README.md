@@ -1,16 +1,4 @@
 # habit_tracker
 
-A daily habit tracking app
+Graduation thesis application using _**Flutter**_, _**SQLite**_ and _**Firebase**_ that help user to build good habits, remove their own bad habits or they can build different habits by using the app’s suggested habit topics. Moreover, it can become a community bridge or a maybe habitual social network to connect people together and help them to share and build good habits.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
